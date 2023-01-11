@@ -24,7 +24,7 @@ val App = FC<Props> {
         "00700.jpg", "00800.jpg","00900.jpg","01000.jpg","01100.jpg","01200.jpg","01300.jpg","01400.jpg")
 
     var questions1: List<Question> = listOf(
-        Question(1,"Går du med i a-kassan?", true),
+        Question(1,"Går du med i a-kassan?", false),
         Question(2,"Går du med i facket och får inkomstförsäkring?", false),
         Question(3, "Tecknar du olycksfallsförsäkring?", false)
     )

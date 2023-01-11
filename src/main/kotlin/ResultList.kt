@@ -12,13 +12,13 @@ import react.dom.html.ReactHTML.td
 import react.dom.html.ReactHTML.tr
 import react.key
 
-external interface QuestionListProps : Props {
+external interface ResultListProps : Props {
     var questions: List<Question>
     var selectedQuestion: Question?
     var onSelectQuestion: (Question) -> Unit
 }
 
-val QuestionList = FC<QuestionListProps> { props ->
+val ResuktList = FC<ResultListProps> { props ->
 
     div {
         css {
