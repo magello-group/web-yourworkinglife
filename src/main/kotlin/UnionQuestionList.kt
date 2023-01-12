@@ -2,7 +2,6 @@ import csstype.*
 import emotion.react.css
 import react.FC
 import react.Props
-import react.dom.html.ReactHTML
 import react.dom.html.ReactHTML.button
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.p
@@ -23,9 +22,8 @@ val QuestionList = FC<QuestionListProps> { props ->
     div {
         css {
             display = Display.block
-            //backgroundImage = url("background.jpg")
             position = Position.absolute
-            top = 100.px
+            top = 170.px
             left = 10.px
             fontFamily = FontFamily.cursive
         }
@@ -62,7 +60,7 @@ val QuestionList = FC<QuestionListProps> { props ->
                             td {
                                 p {
                                     css {
-                                        padding = Padding(1.px, 1.px)
+                                        padding = Padding(0.px, 0.px)
                                     }
 
 
@@ -81,7 +79,7 @@ val QuestionList = FC<QuestionListProps> { props ->
                                             if (question == props.selectedQuestion) {
                                                 +"✔ "
                                             } else {
-                                                +" "
+                                                +"   "
                                             }
                                         }
                                     } else {

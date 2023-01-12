@@ -5,37 +5,41 @@ import react.FC
 import react.Props
 import react.dom.html.ReactHTML.p
 
-external interface ShowStreck1Props : Props {
+external interface ShowStreckProps : Props {
     //    var onWatchedButtonPressed: (Video) -> Unit
     var images: List<String>
-    var index: Int
-    var widthImage: Int
-    var widthFrame: Int
 }
 
-val showStreck1 = FC<ShowStreck1Props> { props ->
+val showStreck = FC<ShowStreckProps> { props ->
     p {
         val streck: AnimationName
 
         streck = keyframes {
-            from {
-                marginLeft = 25.pc
+            30.pct {
+                backgroundImage = url(props.images[0])
+                marginLeft = 0.pc
                 width = 35.pc
             }
-            to {
+            60.pct {
+                backgroundImage = url(props.images[1])
+                marginLeft = 0.pc
+                width = 35.pc
+            }
+            100.pct {
+                backgroundImage = url(props.images[2])
                 marginLeft = 0.pc
                 width = 35.pc
             }
         }
 
         css {
-            animationDuration = 1.s
+            animationDuration = 3.s
             animationName = streck
             animationFillMode = AnimationFillMode.both
             backgroundImage = url("streck002.jpg")
             display = Display.flex
             position = Position.absolute
-            top = 525.px
+            top = 533.px
             left = 1.px
             width = 50.px
             height = 30.px

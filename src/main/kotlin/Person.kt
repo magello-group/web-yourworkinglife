@@ -1,7 +1,6 @@
 
 data class Person(
-    val personIdentity: String?,
-    val personNumber: String?,
+    val personId: Int,
     var personName: String = "",
     var luck: Boolean = false,
     var magellit: Boolean = false,

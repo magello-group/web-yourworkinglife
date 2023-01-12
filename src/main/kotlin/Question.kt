@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 data class Question (
     val id: Int?,
     var questionText: String = "",
-    var questionState: Boolean = false
+    val objectText: String = ""
 ) {
 
     fun registerQuestion()
