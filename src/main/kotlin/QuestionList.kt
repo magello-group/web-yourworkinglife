@@ -14,6 +14,7 @@ import react.key
 external interface QuestionListProps : Props {
     var questions: List<Question>
     var selectedQuestion: Question?
+    var clickedQuestions: List<Question>
     var onSelectQuestion: (Question) -> Unit
 }
 
@@ -70,17 +71,32 @@ val QuestionList = FC<QuestionListProps> { props ->
                                             key = question.id.toString()
                                             css {
                                                 display = Display.block
-                                                backgroundColor = if (question == props.selectedQuestion)
-                                                    NamedColor.lightgreen else NamedColor.white
+                                                backgroundColor =
+                                                    if (question == props.selectedQuestion) {
+                                                        if (props.clickedQuestions.contains(question))
+                                                            NamedColor.lightgreen
+                                                        else
+                                                            NamedColor.white
+                                                    } else if (props.clickedQuestions.isNullOrEmpty())
+                                                        NamedColor.white
+                                                    else if (props.clickedQuestions.contains(question))
+                                                        NamedColor.lightgreen
+                                                    else NamedColor.white
                                             }
                                             onClick = {
                                                 props.onSelectQuestion(question)
                                             }
                                             if (question == props.selectedQuestion) {
-                                                +"✔ "
-                                            } else {
+                                                if (props.clickedQuestions.contains(question))
+                                                    +"✔ "
+                                                else
+                                                    +"   "
+                                            } else if (props.clickedQuestions.isNullOrEmpty())
                                                 +"   "
-                                            }
+                                            else if (props.clickedQuestions.contains(question))
+                                                +"✔ "
+                                            else
+                                                +"   "
                                         }
                                     } else {
                                         +question.questionText

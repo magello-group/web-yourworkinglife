@@ -22,57 +22,57 @@ val showStreckGubbe = FC<ShowStreckGubbeProps> { props ->
             }
             7.pct {
                 backgroundImage = url(props.images[1])
-                marginLeft = 2.pc
+                marginLeft = 1.5.pc
                 width = 9.pc
             }
             14.pct {
                 backgroundImage = url(props.images[2])
-                marginLeft = 4.pc
+                marginLeft = 3.pc
                 width = 9.5.pc
             }
             21.pct {
                 backgroundImage = url(props.images[3])
-                marginLeft = 6.pc
+                marginLeft = 4.5.pc
                 width = 8.pc
             }
             28.pct {
                 backgroundImage = url(props.images[4])
-                marginLeft = 8.pc
+                marginLeft = 6.pc
                 width = 7.pc
             }
             35.pct {
                 backgroundImage = url(props.images[5])
-                marginLeft = 10.pc
+                marginLeft = 7.5.pc
                 width = 7.pc
             }
             42.pct {
                 backgroundImage = url(props.images[6])
-                marginLeft = 12.pc
+                marginLeft = 9.pc
                 width = 8.pc
             }
             49.pct {
                 backgroundImage = url(props.images[7])
-                marginLeft = 14.pc
+                marginLeft = 10.5.pc
                 width = 10.pc
             }
             56.pct {
                 backgroundImage = url(props.images[8])
-                marginLeft = 16.pc
+                marginLeft = 12.pc
                 width = 8.pc
             }
             63.pct {
                 backgroundImage = url(props.images[9])
-                marginLeft = 18.pc
+                marginLeft = 13.5.pc
                 width = 13.pc
             }
             70.pct {
                 backgroundImage = url(props.images[10])
-                marginLeft = 20.pc
+                marginLeft = 15.pc
                 width = 9.pc
             }
             77.pct {
                 backgroundImage = url(props.images[11])
-                marginLeft = 22.pc
+                marginLeft = 17.5.pc
                 width = 6.pc
             }
             84.pct {

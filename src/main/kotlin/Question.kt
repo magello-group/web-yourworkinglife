@@ -3,7 +3,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Question (
     val id: Int?,
-    var questionText: String = "",
+    val questionText: String = "",
     val objectText: String = ""
 ) {
 
