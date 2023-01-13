@@ -99,21 +99,23 @@ val App = FC<Props> {
 
 
         div {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top = 580.px
-                left = 200.px
-                color = NamedColor.black
-                fontSize = 18.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
             if (!selectedUnionQuestions.isNullOrEmpty()) {
+                var i = 540
                 for (question in selectedUnionQuestions!!) {
                     p {
+                        css {
+                            display = Display.block
+                            position = Position.absolute
+                            top = i.px
+                            left = 200.px
+                            color = NamedColor.black
+                            fontSize = 18.px
+                            backgroundColor = NamedColor.white
+                            fontFamily = FontFamily.cursive
+                        }
                         +question.objectText
                         +" ✔"
+                        i += 30
                     }
                 }
             }

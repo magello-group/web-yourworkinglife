@@ -1,8 +1,6 @@
-[![official JetBrains project](https://jb.gg/badges/official.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
-[![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
+# Building Web Applications with React and Kotlin JS
+# Your working life
+Interaktiv spel om ditt arbetsliv.
+Spelet kommer att simulera livet efter ett yrkesval genom Stefan på strecket (Linus på linjen)
 
-# Building Web Applications with React and Kotlin JS Hands-On Lab
-
-This repository is the code corresponding to the hands-on lab Building Web Applications with React and Kotlin JS.
-
-**You can find the code of the lab after each step outlined in the tutorial in the corresponding branch.**
+![image](https://user-images.githubusercontent.com/55182535/205306364-72b2d51f-a28d-4a78-825f-c1329bb1ed1b.png)

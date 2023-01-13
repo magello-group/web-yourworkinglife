@@ -31,12 +31,13 @@ val QuestionList = FC<QuestionListProps> { props ->
 
         table {
             css {
-                width = 400.px
+                width = 600.px
                 borderSpacing = 0.px
                 borderCollapse = BorderCollapse.collapse
                 whiteSpace = WhiteSpace.nowrap
-                border = Border(1.px, LineStyle.solid, NamedColor.white)
+                border = Border(0.px, LineStyle.solid, NamedColor.white)
                 margin = Auto.auto
+
             }
 
             tbody {
@@ -62,6 +63,7 @@ val QuestionList = FC<QuestionListProps> { props ->
                                 p {
                                     css {
                                         padding = Padding(0.px, 0.px)
+                                        height = 10.px
                                     }
 
 
@@ -71,6 +73,9 @@ val QuestionList = FC<QuestionListProps> { props ->
                                             key = question.id.toString()
                                             css {
                                                 display = Display.block
+                                                border = Border(2.px, LineStyle.solid, NamedColor.black)
+                                                height = 25.px
+                                                width = 25.px
                                                 backgroundColor =
                                                     if (question == props.selectedQuestion) {
                                                         if (props.clickedQuestions.contains(question))
@@ -88,17 +93,18 @@ val QuestionList = FC<QuestionListProps> { props ->
                                             }
                                             if (question == props.selectedQuestion) {
                                                 if (props.clickedQuestions.contains(question))
-                                                    +"✔ "
+                                                    +"✔"
                                                 else
-                                                    +"   "
+                                                    +" "
                                             } else if (props.clickedQuestions.isNullOrEmpty())
-                                                +"   "
+                                                +" "
                                             else if (props.clickedQuestions.contains(question))
-                                                +"✔ "
+                                                +"✔"
                                             else
-                                                +"   "
+                                                +" "
                                         }
                                     } else {
+                                        +" "
                                         +question.questionText
                                     }
                                 }

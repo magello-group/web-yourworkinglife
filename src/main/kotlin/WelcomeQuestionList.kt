@@ -92,41 +92,43 @@ val WelcomeQuestionList = FC<WelcomeQuestionListProps> { props ->
         }
     }
 
-    p {
-        css {
-            display = Display.block
-            position = Position.absolute
-            top = 580.px
-            left = 10.px
-            color = NamedColor.black
-            fontSize = 18.px
-            backgroundColor = NamedColor.white
-            fontFamily = FontFamily.cursive
+    div {
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 540.px
+                left = 10.px
+                color = NamedColor.black
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            if (name.isNullOrEmpty()) {
+                +" "
+            } else {
+                +props.questions[0].objectText
+                +": $name "
+            }
         }
-        if (name.isNullOrEmpty()) {
-            +" "
-        } else {
-            + props.questions[0].objectText
-            + ": $name "
-        }
-    }
 
-    p {
-        css {
-            display = Display.block
-            position = Position.absolute
-            top = 610.px
-            left = 10.px
-            color = NamedColor.black
-            fontSize = 18.px
-            backgroundColor = NamedColor.white
-            fontFamily = FontFamily.cursive
-        }
-        if (age.isNullOrEmpty()) {
-            +" "
-        } else {
-            + props.questions[1].objectText
-            + ": $age "
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 570.px
+                left = 10.px
+                color = NamedColor.black
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            if (age.isNullOrEmpty()) {
+                +" "
+            } else {
+                +props.questions[1].objectText
+                +": $age "
+            }
         }
     }
 }
