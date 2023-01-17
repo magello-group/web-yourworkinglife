@@ -2,11 +2,14 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Profession(
-    var professionTypeIdentity: String?,
-    var professionType: String?,
-    var firstSalary: Double = 0.0,
+    var professionTypeIdentity: Int,
+    var professionType: String,
+    var professionText:String,
+    var salaryFixedPercentage: Double = 0.0,
+    var salaryVariablePercentage: Double = 0.0,
+    var salary: Double = 0.0,
     var pensionAge: Int = 0,
-    var typeOfGoal: String = ""
+    var objectType: String = ""
 ) {
     fun storeProfession() {
         //Insert profession in db

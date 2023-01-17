@@ -12,9 +12,9 @@ import react.dom.html.ReactHTML.tr
 import react.key
 
 external interface ActionListProps : Props {
-    var questions: List<Question>
-    var selectedQuestion: Question?
-    var onSelectQuestion: (Question) -> Unit
+    var actions: List<Question>
+    var selectedAction: Question?
+    var onSelectAction: (Question) -> Unit
 }
 
 val ActionList = FC<ActionListProps> { props ->
@@ -46,7 +46,7 @@ val ActionList = FC<ActionListProps> { props ->
                     textAlign = TextAlign.start
                 }
 
-                for (question in props.questions) {
+                for (question in props.actions) {
                     tr {
                         css {
                             fontSize = 18.px
@@ -72,22 +72,19 @@ val ActionList = FC<ActionListProps> { props ->
                                             key = question.id.toString()
                                             css {
                                                 display = Display.block
-                                                border = Border(2.px, LineStyle.solid, NamedColor.black)
+                                                border = Border(1.px, LineStyle.solid, NamedColor.black)
                                                 height = 25.px
                                                 width = 25.px
                                                 backgroundColor =
-                                                    if (question == props.selectedQuestion)
+                                                    if (question == props.selectedAction)
                                                         NamedColor.lightgreen
                                                     else
                                                         NamedColor.white
                                             }
                                             onClick = {
-                                                props.onSelectQuestion(question)
+                                                props.onSelectAction(question)
                                             }
-                                            if (question == props.selectedQuestion)
-                                                +"✔"
-                                            else
-                                                +" "
+                                            +"▶ "
                                         }
                                     } else {
                                         +" "
