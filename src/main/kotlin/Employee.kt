@@ -1,3 +1,6 @@
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Employee(
     var employeeNumber: String?,
     val employee: Person?,

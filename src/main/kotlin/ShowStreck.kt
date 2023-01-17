@@ -12,9 +12,8 @@ external interface ShowStreckProps : Props {
 
 val showStreck = FC<ShowStreckProps> { props ->
     p {
-        val streck: AnimationName
 
-        streck = keyframes {
+        val streck: AnimationName = keyframes {
             0.pct {
                 backgroundImage = url(props.images[0])
                 marginLeft = 0.pc

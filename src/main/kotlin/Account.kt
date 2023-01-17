@@ -1,4 +1,6 @@
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Account(
     var accountNumber: String?,
     var accountType: String?,

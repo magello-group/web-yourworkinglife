@@ -1,4 +1,6 @@
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Profession(
     var professionTypeIdentity: String?,
     var professionType: String?,

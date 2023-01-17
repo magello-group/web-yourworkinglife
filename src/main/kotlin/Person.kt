@@ -1,4 +1,6 @@
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Person(
     val personId: Int,
     var personName: String = "",
@@ -8,8 +10,8 @@ data class Person(
     var profession: Profession?
 ) {
 
-    val accounts = mutableListOf<Account>()
-    val insurances = mutableListOf<Insurance>()
+    var accounts = mutableListOf<Account>()
+    var insurances = mutableListOf<Insurance>()
 
     fun registerPerson()
     {

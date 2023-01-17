@@ -1,4 +1,6 @@
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Insurance(
     var insuranceNumber: String?,
     var insuranceType: String?,

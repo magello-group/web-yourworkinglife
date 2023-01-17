@@ -11,20 +11,19 @@ import react.dom.html.ReactHTML.td
 import react.dom.html.ReactHTML.tr
 import react.key
 
-external interface QuestionListProps : Props {
+external interface ActionListProps : Props {
     var questions: List<Question>
     var selectedQuestion: Question?
-    var clickedQuestions: List<Question>
     var onSelectQuestion: (Question) -> Unit
 }
 
-val QuestionList = FC<QuestionListProps> { props ->
+val ActionList = FC<ActionListProps> { props ->
 
     div {
         css {
             display = Display.block
             position = Position.absolute
-            top = 170.px
+            top = 90.px
             left = 10.px
             fontFamily = FontFamily.cursive
         }
@@ -77,28 +76,15 @@ val QuestionList = FC<QuestionListProps> { props ->
                                                 height = 25.px
                                                 width = 25.px
                                                 backgroundColor =
-                                                    if (question == props.selectedQuestion) {
-                                                        if (props.clickedQuestions.contains(question))
-                                                            NamedColor.lightgreen
-                                                        else
-                                                            NamedColor.white
-                                                    } else if (props.clickedQuestions.isNullOrEmpty())
-                                                        NamedColor.white
-                                                    else if (props.clickedQuestions.contains(question))
+                                                    if (question == props.selectedQuestion)
                                                         NamedColor.lightgreen
-                                                    else NamedColor.white
+                                                    else
+                                                        NamedColor.white
                                             }
                                             onClick = {
                                                 props.onSelectQuestion(question)
                                             }
-                                            if (question == props.selectedQuestion) {
-                                                if (props.clickedQuestions.contains(question))
-                                                    +"✔"
-                                                else
-                                                    +" "
-                                            } else if (props.clickedQuestions.isNullOrEmpty())
-                                                +" "
-                                            else if (props.clickedQuestions.contains(question))
+                                            if (question == props.selectedQuestion)
                                                 +"✔"
                                             else
                                                 +" "

@@ -12,9 +12,8 @@ external interface ShowStreckGubbeProps : Props {
 
 val showStreckGubbe = FC<ShowStreckGubbeProps> { props ->
     p {
-        val streckGubbe: AnimationName
-        val noll: String
-        streckGubbe = keyframes {
+
+        val streckGubbe: AnimationName = keyframes {
             0.pct {
                 backgroundImage = url(props.images[0])
                 marginLeft = 0.pc
