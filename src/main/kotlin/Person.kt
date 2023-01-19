@@ -1,7 +1,8 @@
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Person (val name: String) {
+data class Person (val id: Int) {
+    var name: String = ""
     var luck: Boolean = false
     var magellit: Boolean = false
     var age: Int = 0

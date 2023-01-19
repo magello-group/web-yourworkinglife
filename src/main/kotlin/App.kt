@@ -45,10 +45,9 @@ val App = FC<Props> {
 
         Profession(10, "magellit", "Wow, Du blir träffad av en magellit!",
             1.0, 0.0, 0.0,75, "chilla"),
-        Profession(11, "terapeut", "Du behöver träffa en terapeut",
+        Profession(11, "lazy", "Du behöver träffa en terapeut",
             1.0, 0.0, 0.0,75, "chilla")
     )
-
     val imagesStreckGubbe: List<String> = listOf("streckgubbe100.jpg","streckgubbe200.jpg","streckgubbe300.jpg",
         "streckgubbe400.jpg","streckgubbe500.jpg","streckgubbe600.jpg",
         "streckgubbe700.jpg", "streckgubbe800.jpg","streckgubbe900.jpg","streckgubbe1000.jpg",
@@ -58,15 +57,13 @@ val App = FC<Props> {
 
     val inputQuestions: List<Question> = listOf(
         Question(0,"Vad heter du?", "Namn", "name", 0),
-        Question(1,"I vilken ålder börjar du jobba?", "Ålder","age",0),
+        Question(1,"I vilken ålder börjar du jobba?", "Ålder","age",0)
     )
-
     val unionQuestions: List<Question> = listOf(
         Question(0,"Går du med i a-kassan?", "A-kassa", "akassa", 0),
         Question(1,"Går du med i facket och får inkomstförsäkring?", "Inkomstförsäkring", "incomeinsurance", 0),
         Question(2, "Tecknar du olycksfallsförsäkring?", "Olycksfallsförsäkring", "healthinsurance",0)
     )
-
     val goalQuestions: List<Question> = listOf(
         Question(0,"Maxa spänningen", "spänning", "adventure",1),
         Question(1, "Bilda familj med massor av barn", "familj", "family", 1),
@@ -78,22 +75,18 @@ val App = FC<Props> {
 
     val views: List<View> = listOf(
         View(0, "init", unionQuestions, "Ditt arbetsliv börjar här... gör dig redo:","Nästa steg", 1),
-        View(1, "action", goalQuestions,"Vilket mål har du med arbetslivet?", "Start arbetslivet", 1)
+        View(1, "action", goalQuestions,"Vilket mål har du med arbetslivet?", "", 2),
+        View(2, "start", goalQuestions,"Vilket mål har du med arbetslivet?", "Starta arbetslivet", 2)
     )
+
     // Initiera arbetslivet
 
-    var person: Person
-    var union = Union(0)
-    var insurance = Insurance("healthinsurance")
-    var employee = Employee(0)
-    var accountPension = Account("pension")
-    var accountSalary = Account("salary")
-    var accountDepot = Account("depot")
-    var sumDouble: Double
+    val union = Union(0)
+    val insurance = Insurance("healthinsurance")
 
     // Initiera selected items
 
-    var onSelectView: (View) -> Unit
+    val onSelectView: (View) -> Unit
 
     var name: String by useState("")
     var age: String by useState("")
@@ -102,13 +95,12 @@ val App = FC<Props> {
 
     var currentQuestion: Question? by useState(null)
     var currentAction: Question? by useState(null)
+    var currentProfession: Profession by useState(Profession(999))
 
     var unSelectedQuestions: List<Question> by useState(emptyList())
     var selectedQuestions: List<Question> by useState(emptyList())
-    var selectedProfessions: List<Profession> by useState(emptyList())
 
     var topPX: Int
-    val randomValues = List(10) { Random.nextInt(0, 100) }
 
     useEffectOnce {
         mainScope.launch {
@@ -162,7 +154,7 @@ val App = FC<Props> {
                                 top = 6.px
                                 left = 200.px
 
-                                color = NamedColor.green
+                                color = NamedColor.red
                                 borderColor = NamedColor.white
                                 fontSize = 14.px
                                 backgroundColor = NamedColor.white
@@ -268,20 +260,20 @@ val App = FC<Props> {
 
             "action" -> {
                 div {
+
                     ActionList {
                         actions = currentView.questions
                         selectedAction = currentAction
+                        allProfessions = professions
+                        workingProfession = currentProfession
+                        actionAge = age
 
                         onSelectAction = { question ->
                             currentAction = question
+                        }
 
-                            selectedProfessions = emptyList()
-                            for ((professionIndex, profession) in professions.withIndex()) {
-                                if (question.objectType == profession.objectType) {
-                                    if (randomValues[0] < 50 && professionIndex == 0 || randomValues[0] >= 50 && professionIndex == 1 )
-                                        selectedProfessions = selectedProfessions.plus(profession)
-                                }
-                            }
+                        onSelectProfession = { profession ->
+                            currentProfession = profession
                         }
                     }
                 }
@@ -379,109 +371,10 @@ val App = FC<Props> {
                 }
             }
         }
-
-        div {
-            for (profession in selectedProfessions) {
-                topPX = 540
-                person = Person(name)
-                person.age = age.toInt()
-                employee.salary = profession.salary * person.age
-                employee.salaryFixedPercentage = profession.salaryFixedPercentage
-                employee.salaryVariablePercentage = profession.salaryVariablePercentage
-/*
-                when (profession.objectType) {
-                    "adventure" -> {
-                        +"adventure"
-                    }
-
-                    "vacation" -> {
-                        +"vacation"
-                    }
-
-                    "pension" -> {
-                        +"pension"
-                    }
-
-                    "salary" -> {
-                        +"salary"
-                    }
-
-                    "family" -> {
-                        +"family"
-                    }
-
-                    "chilla" -> {
-                        +"chilla"
-                    }
-
-                }
-
- */
-                p {
-                    css {
-                        display = Display.block
-                        position = Position.absolute
-                        top = 2.px
-                        left = 10.px
-                        color = NamedColor.green
-                        fontSize = 18.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
-                    }
-                    +profession.professionText
-                    +"!"
-                }
-                p {
-                    css {
-                        display = Display.block
-                        position = Position.absolute
-                        top = topPX.px
-                        left = 500.px
-                        color = NamedColor.black
-                        fontSize = 18.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
-                    }
-                    +"Fast lön: "
-                    sumDouble = employee.salaryFixedPercentage * 100
-                    +sumDouble.toString()
-
-                    topPX += 30
-                }
-                p {
-                    css {
-                        display = Display.block
-                        position = Position.absolute
-                        top = topPX.px
-                        left = 500.px
-                        color = NamedColor.black
-                        fontSize = 18.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
-                    }
-                    +"Rörlig lön: "
-                    sumDouble = employee.salaryVariablePercentage * 100
-                    +sumDouble.toString()
-
-                    topPX += 30
-                }
-                p {
-                    css {
-                        display = Display.block
-                        position = Position.absolute
-                        top = topPX.px
-                        left = 500.px
-                        color = NamedColor.black
-                        fontSize = 18.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
-                    }
-                    +"Lön: "
-                    +employee.salary.toString()
-                }
-            }
-        }
     }
 }
+
+
+
 
 

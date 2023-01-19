@@ -6,7 +6,7 @@ data class Question (
     val questionText: String = "",
     val objectText: String = "",
     val objectType: String ="",
-    val nextViewId: Int?
+    val nextViewId: Int = 0
 ) {
 
     fun registerQuestion()
