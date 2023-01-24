@@ -24,8 +24,9 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
     // Initiera arbetslivet
 
     val person = props.selectedPerson
-    val age: Int = person.age
-    val pensionAge = props.selectedProfession.pensionAge
+    var profession = props.selectedProfession
+    var age: Int = person.age
+    val pensionAge = profession.pensionAge
     val parent = Parent(person.id)
     val employee = Employee(person.id)
     val accountPension = Account(person.id,"pension")
@@ -35,9 +36,10 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
 
     val text: String = ""
 
-    employee.firstSalary = props.selectedProfession.salary * person.age
-    employee.salaryFixedPercentage = props.selectedProfession.salaryFixedPercentage * 100
-    employee.salaryVariablePercentage = props.selectedProfession.salaryVariablePercentage * 100
+    person.professions = person.professions.plus(profession)
+    employee.firstSalary = profession.salary * person.age
+    employee.salaryFixedPercentage = profession.salaryFixedPercentage * 100
+    employee.salaryVariablePercentage = profession.salaryVariablePercentage * 100
 
     accountPension.amount = employee.firstSalary * person.pension
     accountSalary.amount = employee.firstSalary - (employee.firstSalary * person.pension)
@@ -45,8 +47,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
     val randomLifeValues = List(pensionAge) { Random.nextInt(0, 100) }
     var randomEventValues = List(1) { Random.nextInt(0, 9) }
     var randomValues = List(1) { Random.nextInt(1, 12) }
-    val event: Event = Event(0)
-    var view: View = View(0)
+    val event = Event(0)
 
     val randomEvents: List<Event> = event.getEvents()
     var eventList: List<Event> =  emptyList()
@@ -54,7 +55,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
     var messageList: List<String> =  emptyList()
     var amount: Double
 
-    for (year in age..pensionAge) {
+    for (year in person.age..profession.pensionAge) {
         //Mitt i livet
 
         /*
@@ -68,18 +69,21 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
             Event(7,"Du blir varslad", "unemployed","unemployed"),
             Event(8,"Du blir träffad av en Magellit", "maagellit","magellit"),
             Event(9,"Du får barn", "parent","parent"),
-            Event(9,"Du VAB:ar", "VAB","VAB")
+            Event(10,"Du VAB:ar", "VAB","VAB")
         */
+
+        randomEventValues = List(1) { Random.nextInt(0, 9) }
 
         when (randomEvents[randomEventValues[0]].eventType) {
             "depot" -> {
                 //Bonus
-                if ((randomLifeValues[year - 1] > 50)) {
+                if (randomLifeValues[year - 1] < 5) {
                     //Get value och financial instruments
                     randomValues = List(1) { Random.nextInt(0, 10000000) }
                     amount = randomValues[0].toDouble()
-                    messageList = messageList.plus("Du fick bonus på $amount!")
+                    messageList = messageList.plus("Du fick bonus på $amount! när du är $age år")
                     accountDepot.amount += amount
+
                     eventList = eventList.plus(randomEvents[randomEventValues[0]])
                     yearList = yearList.plus(year)
                 }
@@ -87,9 +91,10 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
 
             "sick" -> {
                 //Sjuk
-                if ((randomLifeValues[year - 1] <= 25 && year <= 30) ||
-                    (randomLifeValues[year - 1] <= 40 && year > 30 && year <= 50) ||
-                    (randomLifeValues[year - 1] <= 60 && year > 50)) {
+                employee.countSickMonth = 0
+                employee.sickSalary = 0.0
+                person.sick = false
+                if (randomLifeValues[year - 1] < 10 ) {
                     when (randomEvents[randomEventValues[0]].objectType) {
                         "burnedout" -> {
                             if (!person.luck) person.sick = true
@@ -107,45 +112,62 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                             if (!person.luck) person.sick = true
                         }
                     }
+
                     if (person.sick) {
+                        messageList = messageList.plus(randomEvents[randomEventValues[0]].eventText)
                         for (insurance in person.insurances) {
-                            //Get chance to be approved by swedish authority
-                            randomValues = List(1) { Random.nextInt(0, 100) }
                             when (insurance.insuranceType) {
                                 "healthinsurance" -> {
-                                    if (randomValues[0] < 15) {
-                                        //Din sjukskrivning blir avslagen
-                                        employee.sickSalary = 0.0
-                                    } else {
-                                        employee.sickSalary = insurance.getIncome(employee.currentSalary)
-                                    }
+
+                                    employee.sickSalary = insurance.getIncome(employee.currentSalary)
+                                    amount = employee.sickSalary
+                                    messageList = messageList.plus("Du är försäkrad och får en sjukpenning på $amount.")
                                 }
                             }
+                        }
+
+                        //Get chance to be approved by swedish authority
+                        randomValues = List(1) { Random.nextInt(0, 100) }
+                        if (randomValues[0] < 15) {
+                            //Din sjukskrivning blir avslagen
+                            employee.sickSalary = 0.0
+
+                            messageList = messageList.plus("Tyvärr blir din sjukskrivning avslagen.")
                         }
 
                         //How many months are you sick?
                         randomValues = List(1) { Random.nextInt(1, 12) }
                         employee.countSickMonth = randomValues[0]
+
+                        employee.countWorkMonth -= employee.countSickMonth
+                        accountSalary.amount += employee.sickSalary * employee.countSickMonth
+
                         eventList = eventList.plus(randomEvents[randomEventValues[0]])
                         yearList = yearList.plus(year)
+
+                        amount = employee.countSickMonth.toDouble()
+                        messageList = messageList.plus("Du är sjukskriven i $amount månader när du är $age år.")
                     }
                 }
             }
 
             "luck" -> {
                 //Lycklig
-                if ((randomLifeValues[year - 1] < 25 && year <= 50) ||
-                    (randomLifeValues[year - 1] < 60 && year > 50)) {
+                if (randomLifeValues[year - 1] < 40) {
                     person.luck = true
+
                     eventList = eventList.plus(randomEvents[randomEventValues[0]])
                     yearList = yearList.plus(year)
+                    messageList = messageList.plus("Du är lycklig när du är $age år!")
                 }
             }
 
             "unemployed" -> {
                 //Varslad
-                if ((randomLifeValues[year - 1] < 50 && year <= 25 && year >= 50) ||
-                    (randomLifeValues[year - 1] < 10 && year > 25 && year < 50)) {
+                union.countUnEmployeeMonth = 0
+                union.unEmployedSalaryAmount = 0.0
+
+                if (randomLifeValues[year - 1] < 5) {
 
                     //Chans till avgångsvederlag
                     randomValues = List(1) { Random.nextInt(0, 100) }
@@ -156,67 +178,126 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                         accountSalary.amount += amount
                     }
                     //Hur många månader är du arbetslös
-                    randomValues = List(1) { Random.nextInt(1, pensionAge*12) }
+                    randomValues = List(1) { Random.nextInt(1, pensionAge * 12) }
                     union.countUnEmployeeMonth = randomValues[0]
+                    if (employee.countWorkMonth > 12) {
+                        //För att få akassa behövs 12 månaders arbete
+                        if (union.incomeInsurance)
+                            union.setIncomeInsurance(employee.currentSalary)
+                        else if (union.akassa)
+                            union.setAkassa(employee.currentSalary)
+                        else
+                            union.setNoAkassa(employee.currentSalary)
+                    }
+
+                    //Endast 300 dagar kan man få a-kassa
+                    employee.countWorkMonth -= union.countUnEmployeeMonth
+                    accountSalary.amount += union.unEmployedSalaryAmount
+
+                    amount = union.countUnEmployeeMonth.toDouble()
+
+                    messageList = messageList.plus("Du var arbetslös i $amount när du är $age år")
+                    amount = union.unEmployedSalaryAmount
+
+                    if (union.incomeInsurance && union.extraInsurance)
+                        messageList = messageList.plus("Då du har inkomstförsäkring och tilläggsförsäkring fick du ut ca: $amount i månaden")
+                    else if (union.incomeInsurance)
+                        messageList = messageList.plus("Då du har inkomstförsäkring fick du ut ca: $amount i månaden")
+                    else if (union.akassa)
+                        messageList = messageList.plus("Då du har a-kassa fick du ut ca: $amount i månaden")
+                    else
+                        messageList = messageList.plus("Du har ingen a-kassa så du fick ut ca: $amount i månaden")
+
+                    //Nytt jobb
+                    randomValues = List(1) { Random.nextInt(0, pensionAge*11) }
+                    profession = props.selectedProfession.getProfession(randomValues[0])
+
+                    person.professions = person.professions.plus(profession)
+                    employee.currentSalary = profession.salary * person.age
+                    employee.salaryFixedPercentage = profession.salaryFixedPercentage * 100
+                    employee.salaryVariablePercentage = profession.salaryVariablePercentage * 100
+                    messageList = messageList.plus(profession.professionText)
 
                     eventList = eventList.plus(randomEvents[randomEventValues[0]])
                     yearList = yearList.plus(year)
                 }
-
             }
 
             "magellit" -> {
                 //Magellit
-                if (randomLifeValues[year - 1] > 50) {
+                if (randomLifeValues[year - 1] < 30) {
                     person.magellit = true
                     eventList = eventList.plus(randomEvents[randomEventValues[0]])
                     yearList = yearList.plus(year)
+                    messageList = messageList.plus("Du blev träffad av en Magellit när du är $age")
+
                 }
             }
 
             "parent" -> {
                 //Babies
-                if ((randomLifeValues[year - 1] < 50 && year <= 35) ||
-                    (randomLifeValues[year - 1] > 20 && year > 35 && year < 50)) {
+                parent.countFamilyMonth = 0
+                parent.familySalary = 0.0
+                if (randomLifeValues[year - 1] < 5 && age <= 45) {
                     parent.countBabies += 1
                     parent.familySalary = parent.getIncome(employee.currentSalary)
                     if (person.magellit) parent.familySalary += 5000.0
 
                     parent.countFamilyMonth += parent.familyMonth
+
+                    employee.countWorkMonth -= parent.countFamilyMonth
+                    accountSalary.amount += parent.familySalary * parent.countFamilyMonth
+
                     eventList = eventList.plus(randomEvents[randomEventValues[0]])
                     yearList = yearList.plus(year)
-                    //"Härligt att du bilda familj och fick barn! Du är föräldrarledig i $familyMonth månader. Föräldrarpenningen ligger på $familySalary kr. "
+                    amount = parent.familySalary
+                    messageList = messageList.plus("Härligt att du bilda familj och fick barn när du är $age! Du är föräldrarledig i 6 månader och föräldrarpenningen ligger på $amount kr. ")
                 }
             }
 
             "VAB" -> {
-                if ((randomLifeValues[year - 1] > 75 && parent.countBabies > 0)) {
+                if ((randomLifeValues[year - 1] < 50 && parent.countBabies > 0)) {
                     //VAB
                     if (parent.countBabies > 0) {
                         randomValues = List(1) { Random.nextInt(1, 12) }
                         parent.countFamilyMonth += randomValues[1]
                         parent.familySalary = parent.getIncome(employee.currentSalary)
+                        if (person.magellit) parent.familySalary += 5000.0
+
+                        employee.countWorkMonth -= parent.countFamilyMonth
+                        accountSalary.amount += parent.familySalary * parent.countFamilyMonth
+
                         eventList = eventList.plus(randomEvents[randomEventValues[0]])
                         yearList = yearList.plus(year)
-                        //"VAB" ->  text = "Du vabbar $countFamilyMonth månader totalt."
+
+                        amount = parent.countFamilyMonth.toDouble()
+                        messageList = messageList.plus("Härligt med barn, du vabbar $amount månader när du är $age och föräldrarpenningen ligger på $amount kr. ")
                     }
                 }
             }
         }
-        person.age += 1
-        employee.currentSalary = props.selectedProfession.salary * person.age
+        age += 1
+        employee.currentSalary = props.selectedProfession.salary * age
 
-        employee.countWorkMonth += 12 - parent.countFamilyMonth - employee.countSickMonth
-        accountSalary.amount += employee.sickSalary * employee.countSickMonth
-        accountSalary.amount += parent.familySalary * parent.countFamilyMonth
+        employee.countWorkMonth += 12
         accountSalary.amount += (employee.currentSalary - (employee.currentSalary * person.pension)) * employee.countWorkMonth
         accountPension.amount += (employee.currentSalary * person.pension) * employee.countWorkMonth
+    }
 
-        randomEventValues = List(1) { Random.nextInt(0, 9) }
-        employee.countSickMonth = 0
-        employee.sickSalary = 0.0
-        parent.countFamilyMonth = 0
-        parent.familySalary = 0.0
+    div {
+        css {
+            display = Display.block
+            position = Position.absolute
+            top = 10.px
+            left = 800.px
+            fontFamily = FontFamily.cursive
+        }
+
+        for (message in messageList) {
+            p {
+                +message
+            }
+        }
     }
 
     ShowAction {
@@ -231,11 +312,6 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
             top = 90.px
             left = 10.px
             fontFamily = FontFamily.cursive
-        }
-        p {
-            for (event in eventList) {
-                +event.eventText
-            }
         }
 
         table {

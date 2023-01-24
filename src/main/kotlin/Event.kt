@@ -20,7 +20,7 @@ data class Event (
             Event(7,"Du blir varslad", "unemployed","unemployed"),
             Event(8,"Du blir träffad av en Magellit", "maagellit","magellit"),
             Event(9,"Du får barn", "parent","parent"),
-            Event(9,"Du VAB:ar", "VAB","VAB")
+            Event(10,"Du VAB:ar", "VAB","VAB")
         )
 
         return events
