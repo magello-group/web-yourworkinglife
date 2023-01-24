@@ -1,7 +1,7 @@
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Account( val accountType: String )
+data class Account( val personId: Int, val accountType: String )
 {
     var amount: Double = 0.0
 

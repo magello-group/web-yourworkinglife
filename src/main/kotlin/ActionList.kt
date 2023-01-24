@@ -18,16 +18,17 @@ external interface ActionListProps : Props {
     var selectedAction: Question?
     var onSelectAction: (Question) -> Unit
 
-    var allProfessions: List<Profession>
     var workingProfession: Profession
     var onSelectProfession: (Profession) -> Unit
 
-    var actionAge: String
+    var workingPerson: Person
 }
 
 val ActionList = FC<ActionListProps> { props ->
     var selectedProfessions: List<Profession> = emptyList()
-    val randomValues = List(10) { Random.nextInt(0, 100) }
+    val randomValues = List(1) { Random.nextInt(0, 100) }
+    var allProfessions: List<Profession> = emptyList()
+    var profession = Profession(0)
 
     if (props.workingProfession.id == 999) {
         div {
@@ -59,14 +60,11 @@ val ActionList = FC<ActionListProps> { props ->
 
                     for (question in props.actions) {
                         if (question == props.selectedAction) {
-
-                            for ((professionIndex, profession) in props.allProfessions.withIndex()) {
-                                if (question.objectType == profession.objectType) {
-                                    if (randomValues[0] < 50 && professionIndex % 2 == 0)
-                                        selectedProfessions = selectedProfessions.plus(profession)
-                                    else if (randomValues[0] >= 50 && professionIndex % 2 != 0)
-                                        selectedProfessions = selectedProfessions.plus(profession)
-                                }
+                            allProfessions = profession.getProfessionList(question.objectType)
+                            for ((professionIndex, profession) in allProfessions.withIndex()) {
+                                if (randomValues[0] < 50 && professionIndex % 2 == 0 ||
+                                    randomValues[0] >= 50 && professionIndex % 2 != 0)
+                                    selectedProfessions = selectedProfessions.plus(profession)
                             }
                         }
 
@@ -150,13 +148,13 @@ val ActionList = FC<ActionListProps> { props ->
 
             ShowAction {
                 actualProfession = selectedProfessions[0]
-                actualAge = props.actionAge
+                actualAge = props.workingPerson.age.toString()
             }
         }
     } else {
         StartWorkingLife {
             selectedProfession = props.workingProfession
-            selectedAge = props.actionAge
+            selectedPerson = props.workingPerson
         }
     }
 }

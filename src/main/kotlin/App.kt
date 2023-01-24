@@ -16,73 +16,17 @@ import kotlin.random.Random
 val mainScope = MainScope()
 
 val App = FC<Props> {
+    var question: Question = Question(0)
+    var view: View = View(0)
 
-    val professions: List<Profession> = listOf(
-        Profession(0, "solo","Wow, du startar eget företag som systemutvecklare",
-            0.0,1.0, 2000.0,58, "salary"),
-        Profession(1, "security", "Wow, du får jobb på ett säkerhetsföretag som säkerhetsspecialist",
-            0.0, 1.0, 2500.0,58, "salary"),
-
-        Profession(2, "bank", "Du tar jobb som utvecklare på en bank",
-            1.0, 0.0, 1000.0,58, "pension"),
-        Profession(3, "insurance", "Du tar jobb på ett försäkringsbolag",
-            1.0, 0.0, 900.0,58, "pension"),
-
-        Profession(4, "secret", "Du tar jobb som utvecklare på ett hemligt uppdrag",
-            1.0, 0.0, 3000.0,50, "adventure"),
-        Profession(5, "police", "Du tar jobb hos polisen",
-            1.0, 0.0, 2000.0,50, "adventure"),
-
-        Profession(6, "authority", "Du tar jobb som utvecklare på en myndighet",
-            1.0, 0.0, 500.0,60, "vacation"),
-        Profession(7, "teacher", "Du tar jobb på en resebyrå",
-            1.0, 0.0, 900.0,60, "vacation"),
-
-        Profession(8, "family", "Du tar jobb som utvecklare på ett företag med bästa villkor för barnledig",
-            1.0, 0.0, 1000.0,65, "family"),
-        Profession(9, "school", "Du tar jobb som utvecklare på ett dagis",
-            1.0, 0.0, 800.0,65, "family"),
-
-        Profession(10, "magellit", "Wow, Du blir träffad av en magellit!",
-            1.0, 0.0, 0.0,75, "chilla"),
-        Profession(11, "lazy", "Du behöver träffa en terapeut",
-            1.0, 0.0, 0.0,75, "chilla")
-    )
-    val imagesStreckGubbe: List<String> = listOf("streckgubbe100.jpg","streckgubbe200.jpg","streckgubbe300.jpg",
-        "streckgubbe400.jpg","streckgubbe500.jpg","streckgubbe600.jpg",
-        "streckgubbe700.jpg", "streckgubbe800.jpg","streckgubbe900.jpg","streckgubbe1000.jpg",
-        "streckgubbe1100.jpg","streckgubbe1200.jpg","streckgubbe1300.jpg","streckgubbe1500.jpg")
-
-    val imagesStreck: List<String> = listOf("streck002.jpg","streck003.jpg","streck004.jpg")
-
-    val inputQuestions: List<Question> = listOf(
-        Question(0,"Vad heter du?", "Namn", "name", 0),
-        Question(1,"I vilken ålder börjar du jobba?", "Ålder","age",0)
-    )
-    val unionQuestions: List<Question> = listOf(
-        Question(0,"Går du med i a-kassan?", "A-kassa", "akassa", 0),
-        Question(1,"Går du med i facket och får inkomstförsäkring?", "Inkomstförsäkring", "incomeinsurance", 0),
-        Question(2, "Tecknar du olycksfallsförsäkring?", "Olycksfallsförsäkring", "healthinsurance",0)
-    )
-    val goalQuestions: List<Question> = listOf(
-        Question(0,"Maxa spänningen", "spänning", "adventure",1),
-        Question(1, "Bilda familj med massor av barn", "familj", "family", 1),
-        Question(2, "Maxa semesterdagarna", "semester", "vacation",1),
-        Question(3, "Chilla", "chilla", "chilla", 1),
-        Question(4,"Maxa lönen", "lön", "salary", 1),
-        Question(5, "Maxa pensionen", "pension", "pension",1),
-    )
-
-    val views: List<View> = listOf(
-        View(0, "init", unionQuestions, "Ditt arbetsliv börjar här... gör dig redo:","Nästa steg", 1),
-        View(1, "action", goalQuestions,"Vilket mål har du med arbetslivet?", "", 2),
-        View(2, "start", goalQuestions,"Vilket mål har du med arbetslivet?", "Starta arbetslivet", 2)
-    )
+    val inputQuestions: List<Question> = question.getQuestionList("input")
+    val unionQuestions: List<Question> = question.getQuestionList("union")
 
     // Initiera arbetslivet
+    val person = Person(0)
+    var insurance = Insurance(person.id, "healthinsurance")
+    person.insurances = person.insurances.plus(insurance)
 
-    val union = Union(0)
-    val insurance = Insurance("healthinsurance")
 
     // Initiera selected items
 
@@ -90,8 +34,9 @@ val App = FC<Props> {
 
     var name: String by useState("")
     var age: String by useState("")
+    var pension: String by useState("")
 
-    var currentView: View by useState(views[0])
+    var currentView: View by useState(view.getViewList("init"))
 
     var currentQuestion: Question? by useState(null)
     var currentAction: Question? by useState(null)
@@ -100,7 +45,6 @@ val App = FC<Props> {
     var unSelectedQuestions: List<Question> by useState(emptyList())
     var selectedQuestions: List<Question> by useState(emptyList())
 
-    var topPX: Int
 
     useEffectOnce {
         mainScope.launch {
@@ -117,7 +61,7 @@ val App = FC<Props> {
 
     div {
         div {
-            when (currentView.questionType) {
+            when (currentView.viewType) {
                 "init" -> {
                     p {
                         button {
@@ -138,7 +82,7 @@ val App = FC<Props> {
 
                             onClick = {
                                 if (name.isNotBlank() && age.isNotBlank()) {
-                                    onSelectView(views[currentView.nextViewId])
+                                    onSelectView(view.getViewList(currentView.nextViewType))
                                 }
                             }
                             +currentView.buttonText
@@ -182,7 +126,7 @@ val App = FC<Props> {
         }
 
         // Welcome menu
-        when (currentView.questionType) {
+        when (currentView.viewType) {
             "init" -> {
                 for (input in inputQuestions) {
                     div {
@@ -192,6 +136,8 @@ val App = FC<Props> {
                             when (input.objectType) {
                                 "name" -> top = 90.px
                                 "age" -> top = 130.px
+                                "pension" -> top = 170.px
+
                             }
                             left = 10.px
                             color = NamedColor.black
@@ -223,6 +169,14 @@ val App = FC<Props> {
                                         age = event.target.value
                                     }
                                 }
+
+                                "pension" -> {
+                                    value = pension
+                                    onChange = { event ->
+                                        pension = event.target.value
+                                    }
+                                }
+
                             }
                         }
                     }
@@ -259,14 +213,16 @@ val App = FC<Props> {
 
 
             "action" -> {
+                person.name = name
+                person.age = age.toInt()
+                person.pension = pension.toDouble() * 0.01
                 div {
 
                     ActionList {
                         actions = currentView.questions
                         selectedAction = currentAction
-                        allProfessions = professions
                         workingProfession = currentProfession
-                        actionAge = age
+                        workingPerson = person
 
                         onSelectAction = { question ->
                             currentAction = question
@@ -281,92 +237,60 @@ val App = FC<Props> {
         }
 
         div {
+            ShowStreckGubbe{}
 
-            showStreckGubbe {
-                images = imagesStreckGubbe
-            }
+            ShowStreck{}
         }
 
         div {
-            showStreck {
-                images = imagesStreck
-            }
-        }
-
-        div {
-            p {
-                css {
-                    display = Display.block
-                    position = Position.absolute
-                    top = 540.px
-                    left = 10.px
-                    color = NamedColor.black
-                    fontSize = 18.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
-                }
-                if (name.isEmpty()) {
-                    +" "
-                } else {
-                    +inputQuestions[0].objectText
-                    +": $name "
-                }
+            ShowInput {
+                actualInputQuestions = inputQuestions
+                actualName = name
+                actualAge = age
+                actualPension = pension
             }
 
-            p {
-                css {
-                    display = Display.block
-                    position = Position.absolute
-                    top = 570.px
-                    left = 10.px
-                    color = NamedColor.black
-                    fontSize = 18.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
-                }
-                if (age.isEmpty()) {
-                    +" "
-                } else {
-                    +inputQuestions[1].objectText
-                    +": $age "
-                }
-            }
-        }
+            var topPX: Int
 
-        div {
             if (selectedQuestions.isNotEmpty()) {
-                topPX = 540
-                for (question in selectedQuestions) {
-                    when (question.objectType) {
-                        "akassa" -> {
-                            union.akassa = true
-                            union.unEmployedSalaryAmount = 0.5
-                        }
+                topPX = 570
+                div {
+                    for (question in selectedQuestions) {
+                        when (question.objectType) {
+                            "akassa" -> {
+                                person.union.akassa = true
+                            }
 
-                        "incomeinsurance" -> {
-                            union.incomeInsurance = true
-                            union.unEmployedSalaryAmount = 0.8
-                        }
+                            "incomeinsurance" -> {
+                                person.union.incomeInsurance = true
+                            }
 
-                        "healthinsurance" -> {
-                            insurance.sickSalaryAmount = 30810.0
-                        }
-                    }
-                    p {
-                        css {
-                            display = Display.block
-                            position = Position.absolute
-                            top = topPX.px
-                            left = 200.px
-                            color = NamedColor.black
-                            fontSize = 18.px
-                            backgroundColor = NamedColor.white
-                            fontFamily = FontFamily.cursive
-                        }
-                        +question.objectText
-                        +" ✔"
+                            "extrainsurance" -> {
+                                person.union.extraInsurance = true
+                            }
 
-                        topPX += 30
+                            "healthinsurance" -> {
+                                if (!person.insurances.contains(insurance)) {
+                                    person.insurances = person.insurances.plus(insurance)
+                                }
+                            }
+                        }
+                        p {
+                            css {
+                                display = Display.block
+                                position = Position.absolute
+                                top = topPX.px
+                                left = 200.px
+                                color = NamedColor.black
+                                fontSize = 18.px
+                                backgroundColor = NamedColor.white
+                                fontFamily = FontFamily.cursive
+                            }
+                            +question.objectText
+                            +" ✔"
+
+                            topPX += 30
+                        }
                     }
                 }
             }
