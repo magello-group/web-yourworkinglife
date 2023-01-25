@@ -79,7 +79,7 @@ val ShowAction = FC<ShowActionProps> { props ->
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +"Lön: "
+            +"Första lön: "
             if (salary <= 0)
                 +"?"
             else

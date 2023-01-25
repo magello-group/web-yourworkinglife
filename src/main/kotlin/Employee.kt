@@ -1,8 +1,9 @@
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Employee( val personId: Int )
+data class Employee( val employeeId: Int )
 {
+    var title: String = ""
     var firstSalary: Double = 0.0
     var currentSalary: Double = 0.0
     var salaryFixedPercentage: Double = 0.0

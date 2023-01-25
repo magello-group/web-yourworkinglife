@@ -12,6 +12,7 @@ import react.dom.html.ReactHTML.tbody
 import react.dom.html.ReactHTML.td
 import react.dom.html.ReactHTML.tr
 import react.key
+import react.useState
 import kotlin.random.Random
 
 external interface StartWorkingLifeProps : Props {
@@ -28,15 +29,20 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
     var age: Int = person.age
     val pensionAge = profession.pensionAge
     val parent = Parent(person.id)
-    val employee = Employee(person.id)
-    val accountPension = Account(person.id,"pension")
-    val accountSalary = Account(person.id,"salary")
-    val accountDepot = Account(person.id,"depot")
+    var employeeId: Int = 1
+    var employee = Employee(employeeId)
+    val accountPension = Account(1)
+    accountPension.accountType = "Pension"
+    val accountSalary = Account(2)
+    accountSalary.accountType = "Lön"
+    val accountDepot = Account(3)
+    accountDepot.accountType = "Depå"
     val union = person.union
 
     val text: String = ""
 
     person.professions = person.professions.plus(profession)
+    employee.title = profession.title
     employee.firstSalary = profession.salary * person.age
     employee.salaryFixedPercentage = profession.salaryFixedPercentage * 100
     employee.salaryVariablePercentage = profession.salaryVariablePercentage * 100
@@ -72,16 +78,16 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
             Event(10,"Du VAB:ar", "VAB","VAB")
         */
 
-        randomEventValues = List(1) { Random.nextInt(0, 9) }
+        randomEventValues = List(1) { Random.nextInt(0, 10) }
 
         when (randomEvents[randomEventValues[0]].eventType) {
             "depot" -> {
                 //Bonus
-                if (randomLifeValues[year - 1] < 5) {
+                if (randomLifeValues[year - 1] < 25) {
                     //Get value och financial instruments
                     randomValues = List(1) { Random.nextInt(0, 10000000) }
                     amount = randomValues[0].toDouble()
-                    messageList = messageList.plus("Du fick bonus på $amount! när du är $age år")
+                    messageList = messageList.plus("När du är $age år får du bonus på $amount!")
                     accountDepot.amount += amount
 
                     eventList = eventList.plus(randomEvents[randomEventValues[0]])
@@ -94,13 +100,13 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                 employee.countSickMonth = 0
                 employee.sickSalary = 0.0
                 person.sick = false
-                if (randomLifeValues[year - 1] < 10 ) {
+                if (randomLifeValues[year - 1] < 8 ) {
                     when (randomEvents[randomEventValues[0]].objectType) {
                         "burnedout" -> {
-                            if (!person.luck) person.sick = true
+                            if (!person.luck && age > 30) person.sick = true
                         }
                         "heartattack" -> {
-                            if (!person.luck) person.sick = true
+                            if (!person.luck && age > 40) person.sick = true
                         }
                         "golf" -> {
                             person.sick = true
@@ -114,7 +120,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                     }
 
                     if (person.sick) {
-                        messageList = messageList.plus(randomEvents[randomEventValues[0]].eventText)
+                        messageList = messageList.plus( "När du är $age år " + randomEvents[randomEventValues[0]].eventText)
                         for (insurance in person.insurances) {
                             when (insurance.insuranceType) {
                                 "healthinsurance" -> {
@@ -146,19 +152,19 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                         yearList = yearList.plus(year)
 
                         amount = employee.countSickMonth.toDouble()
-                        messageList = messageList.plus("Du är sjukskriven i $amount månader när du är $age år.")
+                        messageList = messageList.plus("Du är sjukskriven i $amount månader.")
                     }
                 }
             }
 
             "luck" -> {
                 //Lycklig
-                if (randomLifeValues[year - 1] < 40) {
+                if (randomLifeValues[year - 1] < 25) {
                     person.luck = true
 
                     eventList = eventList.plus(randomEvents[randomEventValues[0]])
                     yearList = yearList.plus(year)
-                    messageList = messageList.plus("Du är lycklig när du är $age år!")
+                    messageList = messageList.plus("När du är $age år är du lycklig!")
                 }
             }
 
@@ -167,52 +173,72 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                 union.countUnEmployeeMonth = 0
                 union.unEmployedSalaryAmount = 0.0
 
-                if (randomLifeValues[year - 1] < 5) {
+                if (randomLifeValues[year - 1] < 25) {
 
                     //Chans till avgångsvederlag
                     randomValues = List(1) { Random.nextInt(0, 100) }
                     if (randomValues[0] < 30 && employee.countWorkMonth >= 12) {
+
                         //Avgångsvederlag! Du får lön i lika många månader som du jobbat år
                         amount = employee.currentSalary * (employee.countWorkMonth / 12)
-                        messageList = messageList.plus("Du fick avgångsvederlag på $amount!")
+                        messageList = messageList.plus("När du är $age år får du avgångsvederlag på $amount!")
                         accountSalary.amount += amount
                     }
-                    //Hur många månader är du arbetslös
-                    randomValues = List(1) { Random.nextInt(1, pensionAge * 12) }
-                    union.countUnEmployeeMonth = randomValues[0]
+
+                    //Hur många dagar är du arbetslös, 22 dagar per månad får man ersättning
+                    randomValues = List(1) { Random.nextInt(1, 300) }
+                    union.countUnEmployeeMonth = randomValues[0]/22
                     if (employee.countWorkMonth > 12) {
                         //För att få akassa behövs 12 månaders arbete
                         if (union.incomeInsurance)
-                            union.setIncomeInsurance(employee.currentSalary)
+                            union.unEmployedSalaryAmount = union.getIncomeInsurance(employee.currentSalary)
                         else if (union.akassa)
-                            union.setAkassa(employee.currentSalary)
+                            union.unEmployedSalaryAmount = union.getAkassa(employee.currentSalary)
                         else
-                            union.setNoAkassa(employee.currentSalary)
+                            union.unEmployedSalaryAmount = union.getNoAkassa(employee.currentSalary)
                     }
 
                     //Endast 300 dagar kan man få a-kassa
                     employee.countWorkMonth -= union.countUnEmployeeMonth
                     accountSalary.amount += union.unEmployedSalaryAmount
 
-                    amount = union.countUnEmployeeMonth.toDouble()
+                    amount = randomValues[0].toDouble()
+                    messageList = messageList.plus("När du är $age år är du arbetslös i $amount dagar.")
 
-                    messageList = messageList.plus("Du var arbetslös i $amount när du är $age år")
-                    amount = union.unEmployedSalaryAmount
+                    if (union.incomeInsurance && union.extraInsurance) {
+                        amount = union.unEmployedSalary200
+                        messageList = messageList.plus("Då du har inkomstförsäkring + tillägsförsäkring fick du ut ca: $amount i 200 dagar")
+                        amount = union.unEmployedSalary300
+                        messageList = messageList.plus("De sista 100 dagarna fick du ut av a-kassan ca: $amount")
 
-                    if (union.incomeInsurance && union.extraInsurance)
-                        messageList = messageList.plus("Då du har inkomstförsäkring och tilläggsförsäkring fick du ut ca: $amount i månaden")
-                    else if (union.incomeInsurance)
-                        messageList = messageList.plus("Då du har inkomstförsäkring fick du ut ca: $amount i månaden")
-                    else if (union.akassa)
-                        messageList = messageList.plus("Då du har a-kassa fick du ut ca: $amount i månaden")
-                    else
-                        messageList = messageList.plus("Du har ingen a-kassa så du fick ut ca: $amount i månaden")
+                    } else if (union.incomeInsurance) {
+                        amount = union.unEmployedSalary150
+                        messageList = messageList.plus("Då du har inkomstförsäkring fick du ut ca: $amount i 150 dagar")
+                        amount = union.unEmployedSalary300
+                        messageList = messageList.plus("De sista 150 dagarna fick du ut av a-kassan ca: $amount")
+                    } else if (union.akassa) {
+                        amount = union.unEmployedSalary100
+                        messageList = messageList.plus("Då du har a-kassa fick du ut ca: $amount i 100 dagar")
+                        amount = union.unEmployedSalary300
+                        messageList = messageList.plus("De sista 200 dagarna fick du ut av a-kassan ca: $amount")
+                    } else {
+                        amount = union.unEmployedSalary100
+                        messageList = messageList.plus("Du har ingen a-kassa så du fick ut ca: $amount i 100 dagar")
+                        amount = union.unEmployedSalary300
+                        messageList = messageList.plus("De sista 200 dagarna fick du ut av a-kassan ca: $amount")
+                    }
+
+                    //Spara tidigare jobb
+                    person.professions = person.professions.plus(profession)
+                    person.employees = person.employees.plus(employee)
 
                     //Nytt jobb
-                    randomValues = List(1) { Random.nextInt(0, pensionAge*11) }
+                    randomValues = List(1) { Random.nextInt(0, 12) }
                     profession = props.selectedProfession.getProfession(randomValues[0])
 
-                    person.professions = person.professions.plus(profession)
+                    employeeId += 1
+                    employee = Employee(employeeId)
+                    employee.title = profession.title
                     employee.currentSalary = profession.salary * person.age
                     employee.salaryFixedPercentage = profession.salaryFixedPercentage * 100
                     employee.salaryVariablePercentage = profession.salaryVariablePercentage * 100
@@ -225,11 +251,11 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
 
             "magellit" -> {
                 //Magellit
-                if (randomLifeValues[year - 1] < 30) {
+                if (randomLifeValues[year - 1] < 10) {
                     person.magellit = true
                     eventList = eventList.plus(randomEvents[randomEventValues[0]])
                     yearList = yearList.plus(year)
-                    messageList = messageList.plus("Du blev träffad av en Magellit när du är $age")
+                    messageList = messageList.plus("När du är $age år blir du träffad av en Magellit!")
 
                 }
             }
@@ -238,7 +264,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                 //Babies
                 parent.countFamilyMonth = 0
                 parent.familySalary = 0.0
-                if (randomLifeValues[year - 1] < 5 && age <= 45) {
+                if (randomLifeValues[year - 1] < 25 && age <= 45) {
                     parent.countBabies += 1
                     parent.familySalary = parent.getIncome(employee.currentSalary)
                     if (person.magellit) parent.familySalary += 5000.0
@@ -251,12 +277,13 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                     eventList = eventList.plus(randomEvents[randomEventValues[0]])
                     yearList = yearList.plus(year)
                     amount = parent.familySalary
-                    messageList = messageList.plus("Härligt att du bilda familj och fick barn när du är $age! Du är föräldrarledig i 6 månader och föräldrarpenningen ligger på $amount kr. ")
+                    messageList = messageList.plus("När du är $age år får du barn!")
+                    messageList = messageList.plus("Du får en föräldrarpenningen på $amount kr i 6 månader.")
                 }
             }
 
             "VAB" -> {
-                if ((randomLifeValues[year - 1] < 50 && parent.countBabies > 0)) {
+                if ((randomLifeValues[year - 1] < 100 && parent.countBabies > 0)) {
                     //VAB
                     if (parent.countBabies > 0) {
                         randomValues = List(1) { Random.nextInt(1, 12) }
@@ -271,7 +298,8 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                         yearList = yearList.plus(year)
 
                         amount = parent.countFamilyMonth.toDouble()
-                        messageList = messageList.plus("Härligt med barn, du vabbar $amount månader när du är $age och föräldrarpenningen ligger på $amount kr. ")
+                        messageList = messageList.plus("När du är $age år VAB:ar du $amount månader.")
+                        messageList = messageList.plus("Du får en föräldrarpenningen på $amount kr.")
                     }
                 }
             }
@@ -283,12 +311,18 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
         accountSalary.amount += (employee.currentSalary - (employee.currentSalary * person.pension)) * employee.countWorkMonth
         accountPension.amount += (employee.currentSalary * person.pension) * employee.countWorkMonth
     }
+    person.age = age
+    person.professions = person.professions.plus(profession)
+    person.employees = person.employees.plus(employee)
+    person.accounts = person.accounts.plus(accountSalary)
+    person.accounts = person.accounts.plus(accountDepot)
+    person.accounts = person.accounts.plus(accountPension)
 
     div {
         css {
             display = Display.block
             position = Position.absolute
-            top = 10.px
+            top = 100.px
             left = 800.px
             fontFamily = FontFamily.cursive
         }
@@ -300,182 +334,12 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
         }
     }
 
-    ShowAction {
+
+    ShowWorkingLife {
         actualProfession = props.selectedProfession
-        actualAge = person.age.toString()
+        actualPerson = person
     }
 
-    div {
-        css {
-            display = Display.block
-            position = Position.absolute
-            top = 90.px
-            left = 10.px
-            fontFamily = FontFamily.cursive
-        }
-
-        table {
-            css {
-                width = 700.px
-                borderSpacing = 0.px
-                borderCollapse = BorderCollapse.collapse
-                whiteSpace = WhiteSpace.nowrap
-                border = Border(0.px, LineStyle.solid, NamedColor.white)
-                margin = Auto.auto
-
-            }
-
-            tbody {
-                css {
-                    color = NamedColor.black
-                    backgroundColor = NamedColor.white
-                    textAlign = TextAlign.start
-                }
-
-                tr {
-                    css {
-                        fontSize = 18.px
-                        cursor = Cursor.pointer
-                        borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
-                        hover {
-                            backgroundColor = NamedColor.lightgray
-                        }
-                    }
-
-                    td {
-                        p {
-                            css {
-                                padding = Padding(0.px, 0.px)
-                                height = 10.px
-                                columnSpan = ColumnSpan.all
-                                wordWrap = WordWrap.breakWord
-                            }
-                            +text
-                        }
-                    }
-                }
-
-                tr {
-                    css {
-                        fontSize = 18.px
-                        cursor = Cursor.pointer
-                        borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
-                        hover {
-                            backgroundColor = NamedColor.lightgray
-                        }
-                    }
-
-                    td {
-                        p {
-                            css {
-                                padding = Padding(0.px, 0.px)
-                                height = 10.px
-                            }
-                            +"Arbetsmånader: "
-                        }
-                    }
-                    td {
-                        p {
-                            css {
-                                padding = Padding(0.px, 0.px)
-                                height = 10.px
-                            }
-                            +employee.countWorkMonth.toString()
-                        }
-                    }
-                }
-
-                tr {
-                    css {
-                        fontSize = 18.px
-                        cursor = Cursor.pointer
-                        borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
-                        hover {
-                            backgroundColor = NamedColor.lightgray
-                        }
-                    }
-                    td {
-                        p {
-                            css {
-                                padding = Padding(0.px, 0.px)
-                                height = 10.px
-                            }
-                            +" Lön: "
-                        }
-                    }
-                    td {
-                        p {
-                            css {
-                                padding = Padding(0.px, 0.px)
-                                height = 10.px
-                            }
-                            +employee.firstSalary.toString()
-                        }
-                    }
-                }
-
-                tr {
-                    css {
-                        fontSize = 18.px
-                        cursor = Cursor.pointer
-                        borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
-                        hover {
-                            backgroundColor = NamedColor.lightgray
-                        }
-                    }
-                    td {
-                        p {
-                            css {
-                                padding = Padding(0.px, 0.px)
-                                height = 10.px
-                            }
-                            +" Depå: "
-                        }
-                    }
-
-                    td {
-                        p {
-                            css {
-                                padding = Padding(0.px, 0.px)
-                                height = 10.px
-                            }
-                            +accountDepot.amount.toString()
-                        }
-                    }
-                }
-                tr {
-                    css {
-                        fontSize = 18.px
-                        cursor = Cursor.pointer
-                        borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
-                        hover {
-                            backgroundColor = NamedColor.lightgray
-                        }
-                    }
-
-                    td {
-                        p {
-                            css {
-                                padding = Padding(0.px, 0.px)
-                                height = 10.px
-                            }
-                            +" Konto: "
-                        }
-                    }
-
-                    td {
-                        p {
-                            css {
-                                padding = Padding(0.px, 0.px)
-                                height = 10.px
-                            }
-                            +accountSalary.amount.toString()
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
 
 

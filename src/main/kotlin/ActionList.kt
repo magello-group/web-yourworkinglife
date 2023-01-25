@@ -152,6 +152,30 @@ val ActionList = FC<ActionListProps> { props ->
             }
         }
     } else {
+        p {
+            button {
+
+                key = props.workingProfession.id.toString()
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = 10.px
+                    left = 10.px
+
+                    color = NamedColor.green
+                    borderColor = NamedColor.white
+                    fontSize = 18.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+
+                onClick = {
+                    props.onSelectProfession(props.workingProfession)
+                }
+                +" Start om arbetslivet"
+                +" ▶"
+            }
+        }
         StartWorkingLife {
             selectedProfession = props.workingProfession
             selectedPerson = props.workingPerson

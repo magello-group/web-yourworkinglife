@@ -7,6 +7,10 @@ data class Union( val memberNumber: Int ) {
     var incomeInsurance: Boolean = false
     var extraInsurance: Boolean = false
     var unEmployedSalaryAmount: Double = 0.0
+    var unEmployedSalary100: Double = 0.0
+    var unEmployedSalary150: Double = 0.0
+    var unEmployedSalary200: Double = 0.0
+    var unEmployedSalary300: Double = 0.0
     var countUnEmployeeMonth: Int = 0
     val akassaPercentage100 = 0.80
     val akassaPercentage300 = 0.70
@@ -24,12 +28,16 @@ data class Union( val memberNumber: Int ) {
     val linkInsurance = "https://www.unionen.se/medlemskapet/inkomstforsakring"
     val linkAkassa = "https://www.kommunalsakassa.se/om-du-blir-arbetslos/rakna-ut-din-a-kassa.html"
 
-    fun setIncomeInsurance(salary: Double) {
+    fun getIncomeInsurance(salary: Double): Double {
         var sum: Double = 0.0
-        val leftMonth = this.countUnEmployeeMonth.toDouble() - (200.0 / 22.0)
+        var month100: Double = 100.0/22.0
+        var month150: Double = 150.0/22.0
+        var month200: Double = 200.0/22.0
+        var leftMonth: Int = 0
 
         if (this.incomeInsurance && this.extraInsurance) {
-            sum = if (salary <= 30000.0)
+            //Arbetslöshetssersättning = procent av lönen
+            this.unEmployedSalary200 = if (salary <= 30000.0)
                 salary * incomeInsurance30
             else if (salary <= 40000.0)
                 salary * incomeInsurance40
@@ -46,19 +54,23 @@ data class Union( val memberNumber: Int ) {
             else
                 salary * incomeInsurance100
 
-            //200 dagar ingår
-            sum *= if (this.countUnEmployeeMonth.toDouble() > (200.0 / 22.0))
-                (200.0 / 22.0)
+            //Arbetslöshetssersättning * antal månader max 200 dagar
+            sum = if (this.countUnEmployeeMonth > month200.toInt())
+                this.unEmployedSalary200 * month200
             else
-                this.countUnEmployeeMonth.toDouble()
+                this.unEmployedSalary200 * this.countUnEmployeeMonth
 
             //Efter 200 dagar till 300 dagar ingår a-kassa
-            sum += if (leftMonth > (100.0 / 22.0))
-                this.akassaPercentage300 * salary * (100.0 / 22.0)
+            leftMonth =  this.countUnEmployeeMonth - month200.toInt()
+
+            this.unEmployedSalary300 = this.akassaPercentage300 * salary
+            sum += if (leftMonth > month100.toInt())
+                this.unEmployedSalary300 * month100
             else
-                this.akassaPercentage300 * salary * leftMonth
+                this.unEmployedSalary300 * leftMonth
 
         } else if (this.incomeInsurance) {
+            //Arbetslöshetssersättning = procent av lönen max 60000 i lön
             sum = if (salary <= 30000.0)
                 salary * incomeInsurance30
             else if (salary <= 40000.0)
@@ -68,53 +80,93 @@ data class Union( val memberNumber: Int ) {
             else
                 60000 * incomeInsurance60
 
-            //150 dagar ingår
-            sum *= if (this.countUnEmployeeMonth.toDouble() > (150.0 / 22.0))
-                (150.0 / 22.0)
+            //Arbetslöshetssersättning * antal månader max 150 dagar
+            sum = if (this.countUnEmployeeMonth > month150.toInt())
+                this.unEmployedSalary150 * month150
             else
-                this.countUnEmployeeMonth.toDouble()
+                this.unEmployedSalary150 * this.countUnEmployeeMonth.toDouble()
+
+            //Efter 150 dagar till 300 dagar ingår a-kassa
+            leftMonth =  this.countUnEmployeeMonth - month150.toInt()
+
+            this.unEmployedSalary300 = this.akassaPercentage300 * salary
+            sum += if (leftMonth > month150)
+                this.unEmployedSalary300 * month150
+            else
+                this.unEmployedSalary300 * leftMonth
         }
-        this.unEmployedSalaryAmount = sum
+
+        return sum
     }
 
-    fun setAkassa(salary: Double) {
+    fun getAkassa(salary: Double): Double {
         var sum100: Double = 0.0
         var sum200: Double = 0.0
-        var leftMonth: Double = 0.0
+        var month100: Double = 100.0/22.0
+        var month150: Double = 150.0/22.0
+        var month200: Double = 200.0/22.0
+        var leftMonth: Int = 0
 
         if (akassa) {
-            sum100 = if (salary < maxSalaryAkassa100)
-                salary * akassaPercentage100
-            else
-                maxSalaryAkassa100
+            if (this.countUnEmployeeMonth > month100.toInt()) {
+                //Arbetslöshetssersättning = procent av lönen i 100 dagar
+                this.unEmployedSalary100 = if (salary < maxSalaryAkassa100)
+                    salary * akassaPercentage100
+                else
+                    maxSalaryAkassa100
 
-            if (this.countUnEmployeeMonth.toDouble() > (100.0 / 22.0)) {
-                sum100 *= (100 / 22).toInt()
+                //Arbetslöshetssersättning * 100 dagar
+                sum100 = this.unEmployedSalary100 * month100
 
-                leftMonth = this.countUnEmployeeMonth.toDouble() - (100.0 / 22.0)
-
-                sum200 = if (salary < maxSalaryAkassa300)
+                //Arbetslöshetssersättning = procent av lönen resterande 200 dagar
+                this.unEmployedSalary300 = if (salary < maxSalaryAkassa300)
                     salary * akassaPercentage300
                 else
                     maxSalaryAkassa300
 
-                sum200 *= if (leftMonth > (200.0 / 22.0))
-                    (200.0 / 22.0)
+                leftMonth = this.countUnEmployeeMonth - month100.toInt()
+
+                sum200 = if (leftMonth > month200.toInt())
+                    this.unEmployedSalary300 * month200
                 else
-                    leftMonth
-            } else
-                sum100 *= this.countUnEmployeeMonth.toDouble()
+                    this.unEmployedSalary300 * leftMonth
+            } else {
+                //Arbetslöshetssersättning = procent av lönen i 300 dagar
+                this.unEmployedSalary100 = if (salary < maxSalaryNoAkassa)
+                    salary * akassaPercentage100
+                else
+                    maxSalaryNoAkassa
+
+                //Arbetslöshetssersättning * 100 dagar
+                sum100 = this.unEmployedSalary100 * this.countUnEmployeeMonth.toDouble()
+
+                //Arbetslöshetssersättning = procent av lönen resterande 200 dagar
+                this.unEmployedSalary300 = if (salary < maxSalaryNoAkassa)
+                    salary * akassaPercentage300
+                else
+                    maxSalaryNoAkassa
+
+                leftMonth = this.countUnEmployeeMonth - month100.toInt()
+
+                sum200 = if (leftMonth > month200.toInt())
+                    this.unEmployedSalary300 * month200
+                else
+                    this.unEmployedSalary300 * leftMonth
+            }
         }
 
-        this.unEmployedSalaryAmount = sum100 + sum200
+        return sum100 + sum200
     }
 
-    fun setNoAkassa(salary: Double) {
-
-        if (this.countUnEmployeeMonth.toDouble() > (300.0 / 22.0))
-                this.unEmployedSalaryAmount = this.maxSalaryNoAkassa * (300.0 / 22.0)
+    fun getNoAkassa(salary: Double): Double {
+        var month300: Double = 300.0/22.0
+        var sum: Double = 0.0
+        sum = if (this.countUnEmployeeMonth > month300.toInt())
+            this.maxSalaryNoAkassa * month300
         else
-            this.unEmployedSalaryAmount = this.maxSalaryNoAkassa * this.countUnEmployeeMonth.toDouble()
+            this.maxSalaryNoAkassa * this.countUnEmployeeMonth.toDouble()
+
+        return sum
     }
 }
 

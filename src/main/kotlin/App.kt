@@ -153,6 +153,12 @@ val App = FC<Props> {
                                 marginBottom = 5.pc
                                 fontSize = 18.px
                                 fontFamily = FontFamily.cursive
+                                when (input.objectType) {
+                                    "name" -> width = 400.px
+                                    "age" -> width = 25.px
+                                    "pension" -> width = 25.px
+
+                                }
                             }
                             type = InputType.text
                             when (input.objectType) {
