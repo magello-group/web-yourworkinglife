@@ -30,87 +30,86 @@ val ActionList = FC<ActionListProps> { props ->
     var allProfessions: List<Profession> = emptyList()
     var profession = Profession(0)
 
-    if (props.workingProfession.id == 999) {
-        div {
+    div {
+        css {
+            display = Display.block
+            position = Position.absolute
+            top = 90.px
+            left = 10.px
+            fontFamily = FontFamily.cursive
+        }
+
+        table {
             css {
-                display = Display.block
-                position = Position.absolute
-                top = 90.px
-                left = 10.px
-                fontFamily = FontFamily.cursive
+                width = 600.px
+                borderSpacing = 0.px
+                borderCollapse = BorderCollapse.collapse
+                whiteSpace = WhiteSpace.nowrap
+                border = Border(0.px, LineStyle.solid, NamedColor.white)
+                margin = Auto.auto
+
             }
 
-            table {
+            tbody {
                 css {
-                    width = 600.px
-                    borderSpacing = 0.px
-                    borderCollapse = BorderCollapse.collapse
-                    whiteSpace = WhiteSpace.nowrap
-                    border = Border(0.px, LineStyle.solid, NamedColor.white)
-                    margin = Auto.auto
-
+                    color = NamedColor.black
+                    backgroundColor = NamedColor.white
+                    textAlign = TextAlign.start
                 }
 
-                tbody {
-                    css {
-                        color = NamedColor.black
-                        backgroundColor = NamedColor.white
-                        textAlign = TextAlign.start
+                for (question in props.actions) {
+                    if (question == props.selectedAction) {
+                        allProfessions = profession.getProfessionList(question.objectType)
+                        for ((professionIndex, profession) in allProfessions.withIndex()) {
+                            if (randomValues[0] < 50 && professionIndex % 2 == 0 ||
+                                randomValues[0] >= 50 && professionIndex % 2 != 0
+                            )
+                                selectedProfessions = selectedProfessions.plus(profession)
+                        }
                     }
 
-                    for (question in props.actions) {
-                        if (question == props.selectedAction) {
-                            allProfessions = profession.getProfessionList(question.objectType)
-                            for ((professionIndex, profession) in allProfessions.withIndex()) {
-                                if (randomValues[0] < 50 && professionIndex % 2 == 0 ||
-                                    randomValues[0] >= 50 && professionIndex % 2 != 0)
-                                    selectedProfessions = selectedProfessions.plus(profession)
+                    tr {
+                        css {
+                            fontSize = 18.px
+                            cursor = Cursor.pointer
+                            borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
+                            hover {
+                                backgroundColor = NamedColor.lightgray
                             }
                         }
 
-                        tr {
-                            css {
-                                fontSize = 18.px
-                                cursor = Cursor.pointer
-                                borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
-                                hover {
-                                    backgroundColor = NamedColor.lightgray
-                                }
-                            }
-
-                            for (cell in 1..2) {
-                                td {
-                                    p {
-                                        css {
-                                            padding = Padding(0.px, 0.px)
-                                            height = 10.px
-                                        }
+                        for (cell in 1..2) {
+                            td {
+                                p {
+                                    css {
+                                        padding = Padding(0.px, 0.px)
+                                        height = 10.px
+                                    }
 
 
-                                        if (cell == 1) {
-                                            button {
+                                    if (cell == 1) {
+                                        button {
 
-                                                key = question.id.toString()
-                                                css {
-                                                    display = Display.block
-                                                    border = Border(1.px, LineStyle.solid, NamedColor.black)
-                                                    height = 25.px
-                                                    width = 25.px
-                                                    backgroundColor =
-                                                        if (question == props.selectedAction)
-                                                            NamedColor.lightgreen
-                                                        else
-                                                            NamedColor.white
-                                                }
-                                                onClick = {
-                                                    props.onSelectAction(question)
-                                                }
-                                                +"▶ "
+                                            key = question.id.toString()
+                                            css {
+                                                display = Display.block
+                                                border = Border(1.px, LineStyle.solid, NamedColor.black)
+                                                height = 25.px
+                                                width = 25.px
+                                                backgroundColor =
+                                                    if (question == props.selectedAction)
+                                                        NamedColor.lightgreen
+                                                    else
+                                                        NamedColor.white
                                             }
-                                        } else {
-                                            +" "
-                                            +question.questionText
+                                            onClick = {
+                                                props.onSelectAction(question)
+                                            }
+                                            +"▶ "
                                         }
+                                    } else {
+                                        +" "
+                                        +question.questionText
                                     }
                                 }
                             }
@@ -119,43 +118,13 @@ val ActionList = FC<ActionListProps> { props ->
                 }
             }
         }
+    }
 
-        if (selectedProfessions.isNotEmpty()) {
-            p {
-                button {
-
-                    key = selectedProfessions[0].id.toString()
-                    css {
-                        display = Display.block
-                        position = Position.absolute
-                        top = 10.px
-                        left = 10.px
-
-                        color = NamedColor.green
-                        borderColor = NamedColor.white
-                        fontSize = 18.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
-                    }
-
-                    onClick = {
-                        props.onSelectProfession(selectedProfessions[0])
-                    }
-                    +" Start arbetslivet"
-                    +" ▶"
-                }
-            }
-
-            ShowAction {
-                actualProfession = selectedProfessions[0]
-                actualAge = props.workingPerson.age.toString()
-            }
-        }
-    } else {
+    if (selectedProfessions.isNotEmpty()) {
         p {
             button {
 
-                key = props.workingProfession.id.toString()
+                key = selectedProfessions[0].id.toString()
                 css {
                     display = Display.block
                     position = Position.absolute
@@ -170,15 +139,16 @@ val ActionList = FC<ActionListProps> { props ->
                 }
 
                 onClick = {
-                    props.onSelectProfession(props.workingProfession)
+                    props.onSelectProfession(selectedProfessions[0])
                 }
-                +" Start om arbetslivet"
+                +" Start arbetslivet"
                 +" ▶"
             }
         }
-        StartWorkingLife {
-            selectedProfession = props.workingProfession
-            selectedPerson = props.workingPerson
+
+        ShowAction {
+            actualProfession = selectedProfessions[0]
+            actualAge = props.workingPerson.age.toString()
         }
     }
 }

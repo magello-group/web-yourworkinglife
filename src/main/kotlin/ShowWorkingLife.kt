@@ -3,6 +3,7 @@ import emotion.react.css
 import react.FC
 import react.Props
 import react.dom.html.ReactHTML
+import react.dom.html.ReactHTML.button
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.p
 import react.key
@@ -13,7 +14,6 @@ external interface ShowWorkingLifeProps : Props {
 }
 
 val ShowWorkingLife = FC<ShowWorkingLifeProps> { props ->
-
     var topPX = 570
 
     div {
@@ -45,7 +45,7 @@ val ShowWorkingLife = FC<ShowWorkingLifeProps> { props ->
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +"Ålder: "
+            +"Pensionsålder: "
             +props.actualPerson.age.toString()
         }
 

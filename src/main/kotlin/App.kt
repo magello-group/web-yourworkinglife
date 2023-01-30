@@ -16,20 +16,13 @@ import kotlin.random.Random
 val mainScope = MainScope()
 
 val App = FC<Props> {
-    var question: Question = Question(0)
-    var view: View = View(0)
+    val question: Question = Question(0)
+    val view: View = View(0)
 
     val inputQuestions: List<Question> = question.getQuestionList("input")
     val unionQuestions: List<Question> = question.getQuestionList("union")
 
-    // Initiera arbetslivet
-    val person = Person(0)
-    var insurance = Insurance(person.id, "healthinsurance")
-    person.insurances = person.insurances.plus(insurance)
-
-
     // Initiera selected items
-
     val onSelectView: (View) -> Unit
 
     var name: String by useState("")
@@ -41,10 +34,16 @@ val App = FC<Props> {
     var currentQuestion: Question? by useState(null)
     var currentAction: Question? by useState(null)
     var currentProfession: Profession by useState(Profession(999))
+    var currentMessages: List<Message> by useState(emptyList())
+    var currentPerson: Person by useState(Person(0))
 
     var unSelectedQuestions: List<Question> by useState(emptyList())
     var selectedQuestions: List<Question> by useState(emptyList())
 
+    // Initiera arbetslivet
+    val person = currentPerson
+    val insurance = Insurance(person.id, "healthinsurance")
+    person.insurances = person.insurances.plus(insurance)
 
     useEffectOnce {
         mainScope.launch {
@@ -223,19 +222,32 @@ val App = FC<Props> {
                 person.age = age.toInt()
                 person.pension = pension.toDouble() * 0.01
                 div {
+                    if (currentProfession.id == 999) {
+                        ActionList {
+                            actions = currentView.questions
+                            selectedAction = currentAction
+                            workingProfession = currentProfession
+                            workingPerson = person
 
-                    ActionList {
-                        actions = currentView.questions
-                        selectedAction = currentAction
-                        workingProfession = currentProfession
-                        workingPerson = person
+                            onSelectAction = { question ->
+                                currentAction = question
+                            }
 
-                        onSelectAction = { question ->
-                            currentAction = question
+                            onSelectProfession = { profession ->
+                                currentProfession = profession
+                            }
                         }
+                    } else {
+                        StartWorkingLife {
+                            selectedProfession = currentProfession
+                            selectedPerson = person
+                            selectedMessages = currentMessages
 
-                        onSelectProfession = { profession ->
-                            currentProfession = profession
+                            onSelectMessages = { messages, profession, person ->
+                                currentMessages = messages
+                                currentProfession = profession
+                                currentPerson = person
+                            }
                         }
                     }
                 }
