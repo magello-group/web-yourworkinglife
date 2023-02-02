@@ -81,21 +81,6 @@ val ShowWorkingLife = FC<ShowWorkingLifeProps> { props ->
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
-                +"Arbetsmånader: "
-                +employee.countWorkMonth.toString()
-            }
-            topPX += 30
-            p {
-                css {
-                    display = Display.block
-                    position = Position.absolute
-                    top = topPX.px
-                    left = 500.px
-                    color = NamedColor.green
-                    fontSize = 18.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
-                }
                 +"Första lönen: "
                 +employee.firstSalary.toString()
             }
@@ -114,58 +99,6 @@ val ShowWorkingLife = FC<ShowWorkingLifeProps> { props ->
                 +"Aktuell lön: "
                 +employee.currentSalary.toString()
             }
-            topPX += 30
-            p {
-                css {
-                    display = Display.block
-                    position = Position.absolute
-                    top = topPX.px
-                    left = 500.px
-                    color = NamedColor.green
-                    fontSize = 18.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
-                }
-                +"Fast lön %: "
-                +employee.salaryFixedPercentage.toString()
-            }
-            topPX += 30
-            p {
-                css {
-                    display = Display.block
-                    position = Position.absolute
-                    top = topPX.px
-                    left = 500.px
-                    color = NamedColor.green
-                    fontSize = 18.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
-                }
-                +"Rörlig lön %: "
-                +employee.salaryVariablePercentage.toString()
-            }
-            topPX += 40
-        }
-
-        for (account in props.actualPerson.accounts) {
-            p {
-                css {
-                    display = Display.block
-                    position = Position.absolute
-                    top = topPX.px
-                    left = 500.px
-                    color = NamedColor.green
-                    fontSize = 18.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
-                }
-                +"Kontotyp: "
-                +account.accountType
-
-                +" ,Belopp: "
-                +account.amount.toString()
-            }
-            topPX += 30
         }
     }
 }

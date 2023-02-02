@@ -49,7 +49,7 @@ data class Parent (val personId: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Du har ${ this.countBabies } barn.",
+                "Nu har du ${ this.countBabies } barn.",
                 "",
                 ""
             )

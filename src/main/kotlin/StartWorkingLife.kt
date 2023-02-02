@@ -97,6 +97,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                 messageId += 1
 
                 messageList = employee.showEmployeeSalary(age, messageList, messageId)
+                messageId = messageList.size
 
                 if (person.accommodation) {
                     messageList = person.showPersonAccomodation(messageList, messageId)
@@ -381,7 +382,15 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                             messageList = person.showPersonAccomodationSold(messageList, messageId)
                             messageId = messageList.size
 
-                            accountSalary.amount += person.house.houseAmount
+                            if (person.house.loan) {
+                                //Betala av lånet
+                                accountSalary.amount += (person.house.houseAmount - person.house.houseLoan.loanAmount)
+                                person.house.houseLoan.loanAmount = 0.0F
+                                person.house.houseLoan.loanInterest = 0.0F
+                                person.house.houseLoan.loanMonthPayment = 0.0F
+                            } else {
+                                accountSalary.amount += person.house.houseAmount
+                            }
                         }
 
                         person.accommodation = true
@@ -440,6 +449,8 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                                 person.house.houseLoan.loanAmount =
                                     person.house.houseAmount - (accountDepot.amount + accountSalary.amount)
 
+                                accountSalary.amount = 0.0F
+                                accountDepot.amount = 0.0F
                                 randomValues = List(1) { Random.nextInt(1, 4) }
                                 person.house.houseLoan.loanInterest = randomValues[0].toFloat()
                                 person.house.houseLoan.loanMonthPayment =
@@ -477,14 +488,14 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                             "home" -> {
                                 if (person.accommodation) {
 
-                                    randomValues = List(1) { Random.nextInt(50000, 300000) }
-                                    currentAmount = randomValues[0].toFloat()
+                                    randomValues = List(1) { Random.nextInt(1000, 30000) }
+                                    person.house.houseMonthPayment = randomValues[0].toFloat()
 
                                     messageList =
                                         messageList.plus(
                                             Message(
                                                 messageId,
-                                                "När du är $age år ${allCostEvents[randomCostEventValues[0]].eventText}, som kostar dig ${ randomValues[0] } SEK.",
+                                                "När du är $age år ${allCostEvents[randomCostEventValues[0]].eventText} till ${ randomValues[0].formatDecimalSeparator() } SEK.",
                                                 allCostEvents[randomCostEventValues[0]].objectType,
                                                 allCostEvents[randomCostEventValues[0]].eventType
                                             )
@@ -492,6 +503,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                                     messageId += 1
 
                                     // Betala eller ta lån?
+                                    /*
                                     if (accountSalary.amount >= currentAmount) {
                                         accountSalary.amount -= currentAmount
                                     } else if (accountDepot.amount >= currentAmount) {
@@ -513,7 +525,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                                         messageId = messageList.size
                                     }
 
-
+                                     */
                                 }
                             }
 
@@ -568,6 +580,8 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                 accountPension.amount += (employee.currentSalary * person.pension) * employee.countWorkMonth
                 employee.countWorkMonth -= 12
             }
+            messageList = accountSalary.showAccountAmount(messageList, messageId)
+            messageId = messageList.size
 
             //Dra av diverse levnadskostnader
             randomValues = List(1) { Random.nextInt(1000, 10000) }
@@ -589,6 +603,8 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                 person.blancoLoan.loanAmount -= person.blancoLoan.loanMonthPayment
             }
 
+            messageList = accountSalary.showAccountCost(messageList, messageId)
+            messageId = messageList.size
         }
 
         person.age = age
@@ -616,7 +632,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
             }
 
             for ((messageIndex, message) in messageList.withIndex()) {
-                if (messageIndex < maxMessages) {
+                if (messageIndex < maxMessages && message.objectType != "Break") {
                     p {
                         +message.messageText
                     }
@@ -668,12 +684,14 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
             }
         }
     }
-
+/*
     ShowWorkingLife {
         actualProfession = props.selectedProfession
         actualPerson = person
         newTitle = currentTitle
     }
+
+ */
 }
 
 fun Int.formatDecimalSeparator(): String {

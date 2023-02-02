@@ -24,8 +24,8 @@ data class Question (
                 questions = listOf(
                     Question(0,"Går du med i a-kassan?", "A-kassa", "akassa"),
                     Question(1,"Går du med i facket och får inkomstförsäkring?", "Inkomstförsäkring", "incomeinsurance"),
-                    Question(2,"Tecknar du tilläggsförsäkring?", "Tilläggsförsäkring", "extrainsurance"),
-                    Question(3, "Tecknar du olycksfallsförsäkring?", "Olycksfallsförsäkring", "healthinsurance")
+                    Question(2,"Tecknar du tilläggsförsäkring?", "Tilläggsförsäkring", "extrainsurance")
+                   // Question(3, "Tecknar du olycksfallsförsäkring?", "Olycksfallsförsäkring", "healthinsurance")
                 )
             }
             "goal" -> {

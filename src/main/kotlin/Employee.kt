@@ -19,7 +19,7 @@ data class Employee( val employeeId: Int )
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Nu är du $age år, som ${ this.title } tjänar du ${ this.currentSalary.toInt().formatDecimalSeparator() } SEK per månad.",
+                "Du är $age år och som ${ this.title } tjänar du ${ this.currentSalary.toInt().formatDecimalSeparator() } SEK per månad.",
                 "",
                 ""
             )

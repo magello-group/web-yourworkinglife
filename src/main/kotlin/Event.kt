@@ -30,9 +30,9 @@ data class Event (
             Event(0, "köper du ett hus.","house","home"),
             Event(1, "köper du en bostadsrätt.","department","home"),
             Event(2, "får du en hyresrätt.","hire","home"),
-            Event(3, "rasar ditt sparande i värde.","depot","accident"),
-            Event(4, "höjs hyran på ditt boende.","home","accident"),
-            Event(5, "höjs räntan på ditt lån.","loan","accident")
+            Event(3, "rasar ditt sparande i värde ","depot","accident"),
+            Event(4, "ändras hyran på ditt boende ","home","accident"),
+            Event(5, "höjs räntan på ditt lån ","loan","accident")
         )
     }
 

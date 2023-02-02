@@ -50,6 +50,21 @@ data class Account( val accountId: Int, val accountType: String) {
         return storyList
     }
 
+    fun showAccountCost(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        var storyId = messageId
+
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Kontosaldo efter avdrag av månadskostnader: ${ this.amount.toInt().formatDecimalSeparator() } SEK",
+                "",
+                ""
+            )
+        )
+        return storyList
+    }
+
     fun registerAccount() {
         //Insert account in db
     }
