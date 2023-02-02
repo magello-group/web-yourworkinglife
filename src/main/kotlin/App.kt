@@ -29,7 +29,7 @@ val App = FC<Props> {
     var age: String by useState("")
     var pension: String by useState("")
 
-    var currentView: View by useState(view.getViewList("init"))
+    var currentView: View by useState(view.getViewList()[0])
 
     var currentQuestion: Question? by useState(null)
     var currentAction: Question? by useState(null)
@@ -41,9 +41,7 @@ val App = FC<Props> {
     var selectedQuestions: List<Question> by useState(emptyList())
 
     // Initiera arbetslivet
-    val person = currentPerson
-    val insurance = Insurance(person.id, "healthinsurance")
-    person.insurances = person.insurances.plus(insurance)
+    var person: Person = currentPerson
 
     useEffectOnce {
         mainScope.launch {
@@ -52,16 +50,20 @@ val App = FC<Props> {
         }
     }
 
-    onSelectView = {
-            view -> currentView = view
+    //Initiate view
+    onSelectView = { view ->
+        currentView = view
 
         unSelectedQuestions = view.questions
     }
 
+    // Top button
     div {
         div {
             when (currentView.viewType) {
                 "init" -> {
+                    // Initiera arbetslivet
+
                     p {
                         button {
 
@@ -81,7 +83,7 @@ val App = FC<Props> {
 
                             onClick = {
                                 if (name.isNotBlank() && age.isNotBlank()) {
-                                    onSelectView(view.getViewList(currentView.nextViewType))
+                                    onSelectView(view.getNextView(currentView))
                                 }
                             }
                             +currentView.buttonText
@@ -108,7 +110,7 @@ val App = FC<Props> {
                     }
                 }
             }
-
+            //Main title
             h1 {
                 css {
                     display = Display.block
@@ -190,7 +192,7 @@ val App = FC<Props> {
                 div {
 
                     QuestionList {
-                        questions = currentView.questions
+                        selectedView = currentView
                         selectedQuestion = currentQuestion
                         clickedQuestions = selectedQuestions
 
@@ -216,50 +218,63 @@ val App = FC<Props> {
                 }
             }
 
-
             "action" -> {
+                //Store name, age and pension percentage
                 person.name = name
                 person.age = age.toInt()
-                person.pension = pension.toDouble() * 0.01
+                person.pension = pension.toFloat() * 0.01F
+
+                //Initiate lists of person profession and accounts
+                person.professions = emptyList()
+                person.accounts = emptyList()
                 div {
-                    if (currentProfession.id == 999) {
-                        ActionList {
-                            actions = currentView.questions
-                            selectedAction = currentAction
-                            workingProfession = currentProfession
-                            workingPerson = person
 
-                            onSelectAction = { question ->
-                                currentAction = question
-                            }
+                    ActionList {
+                        selectedView = currentView
+                        selectedAction = currentAction
+                        workingProfession = currentProfession
+                        workingPerson = person
 
-                            onSelectProfession = { profession ->
-                                currentProfession = profession
-                            }
+                        onSelectAction = { question ->
+                            currentAction = question
                         }
-                    } else {
-                        StartWorkingLife {
-                            selectedProfession = currentProfession
-                            selectedPerson = person
-                            selectedMessages = currentMessages
 
-                            onSelectMessages = { messages, profession, person ->
-                                currentMessages = messages
-                                currentProfession = profession
-                                currentPerson = person
-                            }
+                        onSelectProfession = { profession ->
+                            currentProfession = profession
+                            currentView = view.getNextView(currentView)
+                        }
+                    }
+                }
+            }
+
+            "start", "reload" -> {
+                div {
+
+                    StartWorkingLife {
+                        selectedView = currentView
+                        selectedProfession = currentProfession
+                        selectedPerson = person
+                        selectedMessages = currentMessages
+
+                        onSelectMessages = { view, messages, profession, person ->
+                            currentView = view
+                            currentMessages = messages
+                            currentProfession = profession
+                            currentPerson = person
                         }
                     }
                 }
             }
         }
 
+        //Show animation
         div {
             ShowStreckGubbe{}
 
             ShowStreck{}
         }
 
+        //Show notes
         div {
             ShowInput {
                 actualInputQuestions = inputQuestions
@@ -288,9 +303,7 @@ val App = FC<Props> {
                             }
 
                             "healthinsurance" -> {
-                                if (!person.insurances.contains(insurance)) {
-                                    person.insurances = person.insurances.plus(insurance)
-                                }
+                                person.healthInsurance = true
                             }
                         }
                         p {

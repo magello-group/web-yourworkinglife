@@ -11,6 +11,7 @@ import react.key
 external interface ShowWorkingLifeProps : Props {
     var actualProfession: Profession
     var actualPerson: Person
+    var newTitle: Boolean
 }
 
 val ShowWorkingLife = FC<ShowWorkingLifeProps> { props ->
@@ -30,7 +31,10 @@ val ShowWorkingLife = FC<ShowWorkingLifeProps> { props ->
                 width = 1000.px
                 height = 50.px
             }
-            +props.actualProfession.professionText
+            if (props.newTitle)
+                +"Mitt i livet"
+            else
+                +props.actualProfession.professionText
             +"!"
         }
 

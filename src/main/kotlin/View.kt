@@ -10,23 +10,35 @@ data class View(
     val nextViewType: String = "action"
 ) {
 
-    fun getViewList(viewType: String): View {
-        var view: View = View(0)
+    fun getViewList(): List<View> {
         var question: Question = Question(0)
         var unionQuestions: List<Question> = question.getQuestionList("union")
         var goalQuestions: List<Question> = question.getQuestionList("goal")
 
-        when(viewType) {
+        return listOf(
+            View(0, "init", unionQuestions, "Ditt arbetsliv börjar här... gör dig redo:","Nästa steg", "action"),
+            View(1, "action", goalQuestions,"Vilket mål har du med arbetslivet?", "Starta arbetslivet", "start"),
+            View(2, "start", emptyList(),"Ditt arbetsliv har startat!", "Gå vidare i arbetslivet", "reload"),
+            View(3, "reload", emptyList(),"Nu startar pensionen", "Starta om arbetslivet", "init"))
+    }
+    fun getNextView(currentView: View): View {
+        var view: View = View(0)
+
+        when(currentView.nextViewType) {
             "init" -> {
-                view =  View(0, "init", unionQuestions, "Ditt arbetsliv börjar här... gör dig redo:","Nästa steg", "action")
+                view = currentView.getViewList()[0]
             }
             "action" -> {
-                view = View(1, "action", goalQuestions,"Vilket mål har du med arbetslivet?", "", "start")
+                view = currentView.getViewList()[1]
             }
             "start" -> {
-                view = View(2, "start", goalQuestions,"Vilket mål har du med arbetslivet?", "Starta arbetslivet", "start")
+                view = currentView.getViewList()[2]
+            }
+            "reload" -> {
+                view = currentView.getViewList()[3]
             }
         }
+
         return view
     }
     fun registerView()

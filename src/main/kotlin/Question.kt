@@ -31,7 +31,7 @@ data class Question (
             "goal" -> {
                 questions = listOf(
                     Question(0,"Maxa spänningen", "spänning", "adventure"),
-                    Question(1, "Bilda familj med massor av barn", "familj", "family",),
+                    Question(1, "Göra samhällsnytta och skillnad", "familj", "family",),
                     Question(2, "Maxa semesterdagarna", "semester", "vacation"),
                     Question(3, "Chilla", "chilla", "chilla"),
                     Question(4,"Maxa lönen", "lön", "salary"),

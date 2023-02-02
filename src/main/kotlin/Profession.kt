@@ -6,54 +6,119 @@ data class Profession(
     var professionType: String = "",
     var title: String = "",
     var professionText:String = "",
-    var salaryFixedPercentage: Double = 0.0,
-    var salaryVariablePercentage: Double = 0.0,
-    var salary: Double = 0.0,
+    var salaryFixedPercentage: Float = 0.0F,
+    var salaryVariablePercentage: Float = 0.0F,
+    var salary: Float = 0.0F,
     var pensionAge: Int = 0,
     var objectType: String = ""
 ) {
-    fun getProfessionList(objectType: String): List<Profession> {
-        var professions: List<Profession> = emptyList()
 
-        when(objectType) {
-            "salary" -> professions = listOf(this.getProfession(0), this.getProfession(1))
-            "pension" -> professions = listOf(this.getProfession(2), this.getProfession(3))
-            "adventure" -> professions = listOf(this.getProfession(4), this.getProfession(5))
-            "vacation" -> professions = listOf(this.getProfession(6), this.getProfession(7))
-            "family" -> professions = listOf(this.getProfession(8), this.getProfession(9))
-            "chilla" -> professions = listOf(this.getProfession(10), this.getProfession(11))
+    fun getProfessionList(objectType: String): List<Profession> {
+
+        val professions: List<Profession> = getAllProfession()
+
+        var selectedProfessions: List<Profession> = emptyList()
+
+        for (profession in professions) {
+            if (profession.objectType == objectType) {
+                selectedProfessions = selectedProfessions.plus(profession)
+            }
         }
-        return professions
+
+        return selectedProfessions
     }
 
     fun getProfession(id: Int): Profession {
-        var professions: List<Profession> = listOf(
-                    Profession(0, "solo","Egenföretagare","Wow, du startar eget företag som systemutvecklare",
-                        0.0,1.0, 2000.0,58, "salary"),
-                    Profession(1, "security", "Säkerhetsspecialist","Wow, du får jobb på ett säkerhetsföretag som säkerhetsspecialist",
-                        0.0, 1.0, 2500.0,58, "salary"),
-                    Profession(2, "bank", "Banktjänsteman","Du tar jobb som utvecklare på en bank",
-                        1.0, 0.0, 1000.0,58, "pension"),
-                    Profession(3, "insurance", "Försäkringsagent","Du tar jobb på ett försäkringsbolag",
-                        1.0, 0.0, 900.0,58, "pension"),
-                    Profession(4, "secret", "Agent","Du tar jobb som utvecklare på ett hemligt uppdrag",
-                        1.0, 0.0, 3000.0,50, "adventure"),
-                    Profession(5, "police", "Polis","Du tar jobb hos polisen",
-                        1.0, 0.0, 2000.0,50, "adventure"),
-                    Profession(6, "authority", "Statsanställd","Du tar jobb som utvecklare på en myndighet",
-                        1.0, 0.0, 500.0,60, "vacation"),
-                    Profession(7, "pilot", "Reseledare","Du tar jobb på en resebyrå",
-                        1.0, 0.0, 900.0,60, "vacation"),
-                    Profession(8, "family", "Barnvakt","Du tar jobb som utvecklare på ett företag med bästa villkor för barnledig",
-                        1.0, 0.0, 1000.0,65, "family"),
-                    Profession(9, "teacher","Lärare", "Du tar jobb på en skola",
-                        1.0, 0.0, 800.0,65, "family"),
-                    Profession(10, "magellit", "Magellit","Wow, Du blir träffad av en magellit!",
-                        1.0, 0.0, 0.0,75, "chilla"),
-                    Profession(11, "lazy", "Sökande","Du behöver träffa en terapeut",
-                        1.0, 0.0, 0.0,75, "chilla"))
+
+        val professions: List<Profession> = getAllProfession()
 
         return professions[id]
+    }
+
+    fun getAllProfession(): List<Profession> {
+
+        return listOf(
+            Profession(
+                1, "solo", "egenföretagare", "Wow, du startar eget företag inom IT",
+                0.0F, 1.0F, 2000.0F, 58, "salary"
+            ),
+            Profession(
+                2, "security", "säkerhetsspecialist", "Wow, du får jobb på ett säkerhetsföretag",
+                0.0F, 1.0F, 2500.0F, 58, "salary"
+            ),
+            Profession(
+                3, "VD", "VD", "Wow, du blir VD på ett spelbolag",
+                0.0F, 1.0F, 2500.0F, 58, "salary"
+            ),
+            Profession(
+                4, "bank", "banktjänsteman", "Du tar jobb på en bank",
+                1.0F, 0.0F, 1000.0F, 58, "pension"
+            ),
+            Profession(
+                5, "insurance", "försäkringsagent", "Du tar jobb på ett försäkringsbolag",
+                1.0F, 0.0F, 900.0F, 58, "pension"
+            ),
+            Profession(
+                6, "secret", "agent", "Du tar jobb på ett hemligt uppdrag",
+                1.0F, 0.0F, 3000.0F, 50, "adventure"
+            ),
+            Profession(
+                7, "pilot", "pilot", "Du tar jobb på ett flygbolag",
+                1.0F, 0.0F, 3000.0F, 50, "adventure"
+            ),
+            Profession(
+                8, "fireman", "brandman", "Du tar jobb som brandman",
+                1.0F, 0.0F, 3000.0F, 50, "adventure"
+            ),
+            Profession(
+                9, "authority", "statsanställd", "Du tar jobb på en myndighet",
+                1.0F, 0.0F, 500.0F, 60, "vacation"
+            ),
+            Profession(
+                10, "travelagent", "reseledare", "Du tar jobb på en resebyrå ",
+                1.0F, 0.0F, 900.0F, 60, "vacation"
+            ),
+            Profession(
+                11, "builder", "snickare", "Du tar jobb på ett byggbolag",
+                1.0F, 0.0F, 900.0F, 60, "vacation"
+            ),
+            Profession(
+                12, "teacher", "förskolelärare", "Du tar jobb på en förskola",
+                1.0F, 0.0F, 800.0F, 65, "family"
+            ),
+            Profession(
+                13, "police", "polis", "Du tar jobb hos polisen",
+                1.0F, 0.0F, 2000.0F, 50, "family"
+            ),
+            Profession(
+                14, "rektor", "rektor", "Du tar jobb på en högskola",
+                1.0F, 0.0F, 1000.0F, 65, "family"
+            ),
+            Profession(
+                15, "artist", "artist", "Du blir artist!",
+                1.0F, 0.0F, 500.0F, 75, "chilla"
+            ),
+            Profession(
+                16, "lazy", "sökande", "Du behöver träffa en terapeut",
+                1.0F, 0.0F, 10.0F, 75, "chilla"
+            )
+        )
+    }
+
+    fun showNewProfession(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        var storyId = messageId
+
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Du byter jobb! ${this.professionText}",
+                "",
+                ""
+            )
+        )
+
+        return storyList
     }
 
     fun storeProfession() {

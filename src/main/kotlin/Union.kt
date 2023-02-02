@@ -1,8 +1,7 @@
-import kotlin.random.Random
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Union( val memberNumber: Int ) {
+data class Union( val personId: Int ) {
     var akassa: Boolean = false
     var incomeInsurance: Boolean = false
     var extraInsurance: Boolean = false
@@ -12,31 +11,32 @@ data class Union( val memberNumber: Int ) {
     var unEmployedSalary200: Double = 0.0
     var unEmployedSalary300: Double = 0.0
     var countUnEmployeeMonth: Int = 0
-    val akassaPercentage100 = 0.80
-    val akassaPercentage300 = 0.70
-    val maxSalaryAkassa100 = 26400.0
-    val maxSalaryAkassa300 = 22000.0
-    val maxSalaryNoAkassa = 11220.0
-    val incomeInsurance100 = 0.62
-    val incomeInsurance90 = 0.64
-    val incomeInsurance80 = 0.66
-    val incomeInsurance70 = 0.69
-    val incomeInsurance60 = 0.70
-    val incomeInsurance50 = 0.76
-    val incomeInsurance40 = 0.77
-    val incomeInsurance30 = 0.80
+    val akassaPercentage100: Double = 0.80
+    val akassaPercentage300: Double = 0.70
+    val maxSalaryAkassa100: Double = 26400.0
+    val maxSalaryAkassa300: Double = 22000.0
+    val maxSalaryNoAkassa: Double = 11220.0
+    val incomeInsurance100: Double = 0.62
+    val incomeInsurance90: Double = 0.64
+    val incomeInsurance80: Double = 0.66
+    val incomeInsurance70: Double = 0.69
+    val incomeInsurance60: Double = 0.70
+    val incomeInsurance50: Double = 0.76
+    val incomeInsurance40: Double = 0.77
+    val incomeInsurance30: Double = 0.80
     val linkInsurance = "https://www.unionen.se/medlemskapet/inkomstforsakring"
     val linkAkassa = "https://www.kommunalsakassa.se/om-du-blir-arbetslos/rakna-ut-din-a-kassa.html"
 
     fun getIncomeInsurance(salary: Double): Double {
-        var sum: Double = 0.0
-        var month100: Double = 100.0/22.0
-        var month150: Double = 150.0/22.0
-        var month200: Double = 200.0/22.0
-        var leftMonth: Int = 0
+        var sum = 0.0
+        val month100: Double = 100.0 / 22.0
+        val month150: Double = 150.0 / 22.0
+        val month200: Double = 200.0 / 22.0
+        var leftMonth = 0
 
         if (this.incomeInsurance && this.extraInsurance) {
-            //Arbetslöshetssersättning = procent av lönen
+
+            //Arbetslöshetssersättning = procent av lönen i 200 dagar
             this.unEmployedSalary200 = if (salary <= 30000.0)
                 salary * incomeInsurance30
             else if (salary <= 40000.0)
@@ -58,18 +58,23 @@ data class Union( val memberNumber: Int ) {
             sum = if (this.countUnEmployeeMonth > month200.toInt())
                 this.unEmployedSalary200 * month200
             else
-                this.unEmployedSalary200 * this.countUnEmployeeMonth
+                this.unEmployedSalary200 * this.countUnEmployeeMonth.toDouble()
 
             //Efter 200 dagar till 300 dagar ingår a-kassa
-            leftMonth =  this.countUnEmployeeMonth - month200.toInt()
+            leftMonth = this.countUnEmployeeMonth - month200.toInt()
 
-            this.unEmployedSalary300 = this.akassaPercentage300 * salary
+            if (salary >= maxSalaryAkassa300)
+                this.unEmployedSalary300 = maxSalaryAkassa300
+            else
+                this.unEmployedSalary300 = this.akassaPercentage300 * salary
+
             sum += if (leftMonth > month100.toInt())
                 this.unEmployedSalary300 * month100
             else
-                this.unEmployedSalary300 * leftMonth
+                this.unEmployedSalary300 * leftMonth.toDouble()
 
         } else if (this.incomeInsurance) {
+
             //Arbetslöshetssersättning = procent av lönen max 60000 i lön
             sum = if (salary <= 30000.0)
                 salary * incomeInsurance30
@@ -78,34 +83,90 @@ data class Union( val memberNumber: Int ) {
             else if (salary <= 50000.0)
                 salary * incomeInsurance50
             else
-                60000 * incomeInsurance60
+                60000.0 * incomeInsurance60
 
             //Arbetslöshetssersättning * antal månader max 150 dagar
-            sum = if (this.countUnEmployeeMonth > month150.toInt())
+            sum += if (this.countUnEmployeeMonth > month150.toInt())
                 this.unEmployedSalary150 * month150
             else
                 this.unEmployedSalary150 * this.countUnEmployeeMonth.toDouble()
 
             //Efter 150 dagar till 300 dagar ingår a-kassa
-            leftMonth =  this.countUnEmployeeMonth - month150.toInt()
+            leftMonth = this.countUnEmployeeMonth - month150.toInt()
 
+            if (salary >= maxSalaryAkassa300)
+                this.unEmployedSalary300 = maxSalaryAkassa300
+            else
+                this.unEmployedSalary300 = this.akassaPercentage300 * salary
             this.unEmployedSalary300 = this.akassaPercentage300 * salary
+
             sum += if (leftMonth > month150)
                 this.unEmployedSalary300 * month150
             else
-                this.unEmployedSalary300 * leftMonth
+                this.unEmployedSalary300 * leftMonth.toDouble()
         }
-
         return sum
     }
 
+    fun showIncomeInsurance(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        var storyId = messageId
+
+        if (this.incomeInsurance && this.extraInsurance) {
+
+            storyList =
+                 storyList.plus(
+                    Message(
+                        storyId,
+                        "Då du har inkomstförsäkring + tillägsförsäkring fick du ut ${this.unEmployedSalary200} i 200 dagar",
+                        "",
+                        ""
+                    )
+                )
+
+            storyId += 1
+
+            storyList =  storyList.plus(
+                Message(
+                    storyId,
+                    "De sista 100 dagarna fick du ut av a-kassan ${this.unEmployedSalary300}",
+                    "",
+                    ""
+                )
+            )
+
+        } else if (this.incomeInsurance) {
+
+            storyList =
+                storyList.plus(
+                    Message(
+                        storyId,
+                        "Då du har inkomstförsäkring fick du ut ${this.unEmployedSalary150} i 150 dagar",
+                        "",
+                        ""
+                    )
+                )
+            storyId += 1
+
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "De sista 150 dagarna fick du ut av a-kassan ${this.unEmployedSalary300}",
+                    "",
+                    ""
+                )
+            )
+        }
+
+        return storyList
+    }
+
     fun getAkassa(salary: Double): Double {
-        var sum100: Double = 0.0
-        var sum200: Double = 0.0
-        var month100: Double = 100.0/22.0
-        var month150: Double = 150.0/22.0
-        var month200: Double = 200.0/22.0
-        var leftMonth: Int = 0
+        var sum100 = 0.0
+        var sum200 = 0.0
+        val month100: Double = 100.0 / 22.0
+        val month200: Double = 200.0 / 22.0
+        var leftMonth = 0
 
         if (akassa) {
             if (this.countUnEmployeeMonth > month100.toInt()) {
@@ -129,7 +190,7 @@ data class Union( val memberNumber: Int ) {
                 sum200 = if (leftMonth > month200.toInt())
                     this.unEmployedSalary300 * month200
                 else
-                    this.unEmployedSalary300 * leftMonth
+                    this.unEmployedSalary300 * leftMonth.toDouble()
             } else {
                 //Arbetslöshetssersättning = procent av lönen i 300 dagar
                 this.unEmployedSalary100 = if (salary < maxSalaryNoAkassa)
@@ -151,22 +212,91 @@ data class Union( val memberNumber: Int ) {
                 sum200 = if (leftMonth > month200.toInt())
                     this.unEmployedSalary300 * month200
                 else
-                    this.unEmployedSalary300 * leftMonth
+                    this.unEmployedSalary300 * leftMonth.toDouble()
             }
         }
 
         return sum100 + sum200
     }
 
+    fun showAkassa(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        var storyId = messageId
+
+        storyList = storyList.plus(
+            Message(
+                 storyId,
+                "Då du har a-kassa fick du ut ${this.unEmployedSalary100} i 100 dagar",
+                "",
+                ""
+            )
+        )
+        storyId += 1
+
+        storyList = storyList.plus(
+            Message(
+                 storyId,
+                "De sista 200 dagarna fick du ut av a-kassan ${this.unEmployedSalary300}",
+                "",
+                ""
+            )
+        )
+
+        return storyList
+    }
+
     fun getNoAkassa(salary: Double): Double {
-        var month300: Double = 300.0/22.0
-        var sum: Double = 0.0
-        sum = if (this.countUnEmployeeMonth > month300.toInt())
-            this.maxSalaryNoAkassa * month300
+        var sum = 0.0
+        val month300: Double = 300.0 / 22.0
+
+        if (countUnEmployeeMonth > month300.toInt())
+            sum = maxSalaryNoAkassa * month300
         else
-            this.maxSalaryNoAkassa * this.countUnEmployeeMonth.toDouble()
+            sum = maxSalaryNoAkassa * countUnEmployeeMonth.toDouble()
 
         return sum
+    }
+
+    fun showNoAkassa(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        var storyId = messageId
+
+        storyList = storyList.plus(
+            Message(
+                 storyId,
+                "Du har ingen a-kassa så du fick ut ${this.unEmployedSalary100} i 100 dagar",
+                "",
+                ""
+            )
+        )
+        storyId += 1
+
+        storyList = storyList.plus(
+            Message(
+                 storyId,
+                "De sista 200 dagarna fick du ut av a-kassan ${this.unEmployedSalary300}",
+                "",
+                ""
+            )
+        )
+
+        return storyList
+    }
+
+    fun showCountUnEmployeeMonth(age: Int, messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        var storyId = messageId
+
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "När du är $age år är du arbetslös i ${ this.countUnEmployeeMonth * 22} dagar.",
+                "",
+                ""
+            )
+        )
+
+        return storyList
     }
 }
 

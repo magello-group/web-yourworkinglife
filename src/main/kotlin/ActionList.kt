@@ -14,7 +14,7 @@ import react.useState
 import kotlin.random.Random
 
 external interface ActionListProps : Props {
-    var actions: List<Question>
+    var selectedView: View
     var selectedAction: Question?
     var onSelectAction: (Question) -> Unit
 
@@ -25,10 +25,11 @@ external interface ActionListProps : Props {
 }
 
 val ActionList = FC<ActionListProps> { props ->
+    val actions: List<Question> = props.selectedView.questions
     var selectedProfessions: List<Profession> = emptyList()
-    val randomValues = List(1) { Random.nextInt(0, 100) }
-    var allProfessions: List<Profession> = emptyList()
-    var profession = Profession(0)
+    var randomValues = List(1) { Random.nextInt(0, 100) }
+    var allProfessions: List<Profession>
+    val profession = Profession(0)
 
     div {
         css {
@@ -57,15 +58,12 @@ val ActionList = FC<ActionListProps> { props ->
                     textAlign = TextAlign.start
                 }
 
-                for (question in props.actions) {
+                for (question in actions) {
                     if (question == props.selectedAction) {
                         allProfessions = profession.getProfessionList(question.objectType)
-                        for ((professionIndex, profession) in allProfessions.withIndex()) {
-                            if (randomValues[0] < 50 && professionIndex % 2 == 0 ||
-                                randomValues[0] >= 50 && professionIndex % 2 != 0
-                            )
-                                selectedProfessions = selectedProfessions.plus(profession)
-                        }
+                        randomValues = List(1) { Random.nextInt(0, allProfessions.size-1) }
+
+                        selectedProfessions = selectedProfessions.plus(allProfessions[randomValues[0]])
                     }
 
                     tr {
@@ -141,7 +139,7 @@ val ActionList = FC<ActionListProps> { props ->
                 onClick = {
                     props.onSelectProfession(selectedProfessions[0])
                 }
-                +" Start arbetslivet"
+                +props.selectedView.buttonText
                 +" ▶"
             }
         }

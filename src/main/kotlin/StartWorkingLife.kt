@@ -13,164 +13,212 @@ import react.dom.html.ReactHTML.td
 import react.dom.html.ReactHTML.tr
 import react.key
 import react.useState
+import kotlin.Float
 import kotlin.random.Random
+import kotlin.collections.List
 
 external interface StartWorkingLifeProps : Props {
+    var selectedView: View
     var selectedProfession: Profession
     var selectedPerson: Person
     var selectedMessages: List<Message>
 
-    var onSelectMessages: (List<Message>, Profession, Person) -> Unit
+    var onSelectMessages: (View, List<Message>, Profession, Person) -> Unit
 }
 
 val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
 
-    // Initiera arbetslivet
+    // Init person
 
+    val reloadView: View = props.selectedView.getNextView(props.selectedView)
     val person = props.selectedPerson
     var profession = props.selectedProfession
+    val allProfessions = profession.getAllProfession()
     var age: Int = person.age
     val pensionAge = profession.pensionAge
     val parent = Parent(person.id)
     var employeeId: Int = 1
     var employee = Employee(employeeId)
-    val accountPension = Account(1)
-    accountPension.accountType = "Pension"
-    val accountSalary = Account(2)
-    accountSalary.accountType = "Lön"
-    val accountDepot = Account(3)
-    accountDepot.accountType = "Depå"
+    val accountPension = Account(1, "Pension")
+    val accountSalary = Account(2, "Lön")
+    val accountDepot = Account(3, "Depå")
     val union = person.union
-
-    val text: String = ""
 
     person.professions = person.professions.plus(profession)
     employee.title = profession.title
     employee.firstSalary = profession.salary * person.age
+    employee.currentSalary = profession.salary * person.age
     employee.salaryFixedPercentage = profession.salaryFixedPercentage * 100
     employee.salaryVariablePercentage = profession.salaryVariablePercentage * 100
 
-    accountPension.amount = employee.firstSalary * person.pension
-    accountSalary.amount = employee.firstSalary - (employee.firstSalary * person.pension)
-
+    //Init random worklife values to pensionage
     val randomLifeValues = List(pensionAge) { Random.nextInt(0, 100) }
-    var randomEventValues = List(1) { Random.nextInt(0, 10) }
     var randomValues = List(1) { Random.nextInt(1, 12) }
     val event = Event(0)
 
-    val randomEvents: List<Event> = event.getEvents()
-    var eventList: List<Event> =  emptyList()
-    var yearList: List<Int> =  emptyList()
-    var amount: Double
+    //Init life events
+    val allEvents: List<Event> = event.getEvents()
+    var randomEventValues = List(1) { Random.nextInt(0, 10) }
+    val allCostEvents: List<Event> = event.getCostEvents()
+    var randomCostEventValues = List(1) { Random.nextInt(0, 5) }
 
+    //Init story
     var messageList: List<Message> = props.selectedMessages
     var leftMessages: List<Message> = emptyList()
-    var messageId: Int = 0
+    var messageId = 0
+    val maxMessages = 7
+    val yearMessage: List<Int> = listOf(30, 35, 40, 45, 55, 50, 65, 75)
+    var currentTitle = true
+    var currentAmount:Float = 0.0F
 
     if (messageList.isEmpty()) {
+
+        // starting your workingstory
+        messageList = employee.showEmployeeSalary(age, messageList, messageId)
+        messageId = messageList.size
+
+        currentTitle = false
+
+        //Loop all working years----------------------------------------------------
         for (year in person.age..profession.pensionAge) {
-            //Mitt i livet
 
-            /*
-            Event(0,"Du får bonus i form av värdepapper", "depot", "depot"),
-            Event(1,"Du blir utbränd", "burnedout","sick"),
-            Event(2,"Du får en hjärtattack", "heartattack","sick"),
-            Event(3,"Du får en golfboll i huvudet", "golf","sick"),
-            Event(4,"Du blir skjuten", "shot","sick"),
-            Event(5,"Du blir deprimerad", "depressed","sick"),
-            Event(6,"Du blir lycklig", "luck","luck"),
-            Event(7,"Du blir varslad", "unemployed","unemployed"),
-            Event(8,"Du blir träffad av en Magellit", "magellit","magellit"),
-            Event(9,"Du får barn", "parent","parent"),
-            Event(10,"Du VAB:ar", "VAB","VAB")
-        */
 
-            randomEventValues = List(1) { Random.nextInt(0, 10) }
+            if (yearMessage.contains(year)) {
+                //Mitt i livet store story
+                messageList =
+                    messageList.plus(
+                        Message(
+                            messageId,
+                            "Nu har det gått ${year - person.age} år.",
+                            "",
+                            ""
+                        )
+                    )
+                messageId += 1
 
-            when (randomEvents[randomEventValues[0]].eventType) {
+                messageList = employee.showEmployeeSalary(age, messageList, messageId)
+
+                if (person.accommodation) {
+                    messageList = person.showPersonAccomodation(messageList, messageId)
+                    messageId = messageList.size
+
+                    if (person.house.loan) {
+                        messageList = person.showPersonHouseLoan(messageList, messageId)
+                        messageId = messageList.size
+                    }
+                }
+            }
+
+            //Init count month
+            parent.countFamilyMonth = 0
+            parent.familySalary = 0.0F
+            employee.countSickMonth = 0
+            employee.sickSalary = 0.0F
+            person.sick = false
+
+            //Get event in life
+            randomEventValues = List(1) { Random.nextInt(0, allEvents.size-1) }
+
+            when (allEvents[randomEventValues[0]].eventType) {
                 "depot" -> {
                     //Bonus
-                    if (randomLifeValues[year - 1] < 10) {
+                    if (randomLifeValues[year - 1] < 10 && person.countWorkMonth >= 12 && employee.currentSalary > 0.0) {
+
                         //Get value och financial instruments
                         randomValues = List(1) { Random.nextInt(0, 10000000) }
-                        amount = randomValues[0].toDouble()
-                        messageList = messageList.plus(Message(messageId,"När du är $age år får du bonus på $amount!",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                        messageId += 1
-                        accountDepot.amount += amount
+                        accountDepot.amount += randomValues[0].toFloat()
 
-                        eventList = eventList.plus(randomEvents[randomEventValues[0]])
-                        yearList = yearList.plus(year)
+                        messageList = accountDepot.showDepotAmount(age,messageList,messageId)
+                        messageId = messageList.size
+
                     }
                 }
 
                 "sick" -> {
                     //Sjuk
-                    employee.countSickMonth = 0
-                    employee.sickSalary = 0.0
-                    person.sick = false
-                    if (randomLifeValues[year - 1] < 8) {
-                        when (randomEvents[randomEventValues[0]].objectType) {
+                    if (randomLifeValues[year - 1] < 10) {
+
+                        when (allEvents[randomEventValues[0]].objectType) {
                             "burnedout" -> {
-                                if (!person.luck && age > 30) person.sick = true
+                                if (!person.luck) {
+                                    person.sick = true
+
+                                    //How many months are you sick?
+                                    randomValues = List(1) { Random.nextInt(12, 36) }
+                                    employee.countSickMonth = randomValues[0]
+                                }
                             }
 
                             "heartattack" -> {
-                                if (!person.luck && age > 40) person.sick = true
+                                if (!person.luck) {
+                                    person.sick = true
+
+                                    //How many months are you sick?
+                                    randomValues = List(1) { Random.nextInt(1, 12) }
+                                    employee.countSickMonth = randomValues[0]
+                                }
                             }
 
                             "golf" -> {
                                 person.sick = true
+
+                                //How many months are you sick?
+                                randomValues = List(1) { Random.nextInt(1, 12) }
+                                employee.countSickMonth = randomValues[0]
                             }
 
                             "shot" -> {
                                 person.sick = true
+
+                                //How many months are you sick?
+                                randomValues = List(1) { Random.nextInt(1, 12) }
+                                employee.countSickMonth = randomValues[0]
                             }
 
                             "depressed" -> {
-                                if (!person.luck) person.sick = true
+                                if (!person.luck) {
+                                    person.sick = true
+
+                                    //How many months are you sick?
+                                    randomValues = List(1) { Random.nextInt(12, 24) }
+                                    employee.countSickMonth = randomValues[0]
+                                }
                             }
                         }
 
                         if (person.sick) {
+                            //Save event in story
                             messageList =
-                                messageList.plus(Message(messageId,"När du är $age år " + randomEvents[randomEventValues[0]].eventText,randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
+                                messageList.plus(
+                                    Message(
+                                        messageId,
+                                        "När du är $age år " + allEvents[randomEventValues[0]].eventText,
+                                        allEvents[randomEventValues[0]].objectType,
+                                        allEvents[randomEventValues[0]].eventType
+                                    )
+                                )
                             messageId += 1
-                            for (insurance in person.insurances) {
-                                when (insurance.insuranceType) {
-                                    "healthinsurance" -> {
 
-                                        employee.sickSalary = insurance.getIncome(employee.currentSalary)
-                                        amount = employee.sickSalary
-                                        messageList =
-                                            messageList.plus(Message(messageId,"Du är försäkrad och får en sjukpenning på $amount.",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                                        messageId += 1
-                                    }
-                                }
-                            }
+                            employee.sickSalary = person.insurance.getIncome(employee.currentSalary)
+
+                            messageList = employee.showEmployeeSickSalary(messageList,messageId)
+                            messageId = messageList.size
 
                             //Get chance to be approved by swedish authority
                             randomValues = List(1) { Random.nextInt(0, 100) }
                             if (randomValues[0] < 15) {
                                 //Din sjukskrivning blir avslagen
-                                employee.sickSalary = 0.0
+                                employee.sickSalary = 0.0F
 
-                                messageList = messageList.plus(Message(messageId,"Tyvärr blir din sjukskrivning avslagen.",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                                messageId += 1
+                                messageList = employee.showEmployeeNoSickSalary(messageList, messageId)
+                                messageId = messageList.size
                             }
 
-                            //How many months are you sick?
-                            randomValues = List(1) { Random.nextInt(1, 12) }
-                            employee.countSickMonth = randomValues[0]
+                            //employee.countWorkMonth -= employee.countSickMonth
+                            //accountSalary.amount += employee.sickSalary * employee.countSickMonth
 
-                            employee.countWorkMonth -= employee.countSickMonth
-                            accountSalary.amount += employee.sickSalary * employee.countSickMonth
-
-                            eventList = eventList.plus(randomEvents[randomEventValues[0]])
-                            yearList = yearList.plus(year)
-
-                            amount = employee.countSickMonth.toDouble()
-                            messageList = messageList.plus(Message(messageId,"Du är sjukskriven i $amount månader.",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                            messageId += 1
+                            messageList = employee.showEmployeeCountSickMonth(messageList,messageId)
+                            messageId = messageList.size
                         }
                     }
                 }
@@ -179,110 +227,87 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                     //Lycklig
                     if (randomLifeValues[year - 1] < 25) {
                         person.luck = true
-
-                        eventList = eventList.plus(randomEvents[randomEventValues[0]])
-                        yearList = yearList.plus(year)
-                        messageList = messageList.plus(Message(messageId,"När du är $age år är du lycklig!",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                        messageId += 1
+                        
+                        messageList = person.showPersonLuck(age,messageList,messageId)
+                        messageId = messageList.size
                     }
                 }
 
                 "unemployed" -> {
-                    //Varslad
-                    union.countUnEmployeeMonth = 0
-                    union.unEmployedSalaryAmount = 0.0
+                    if (randomLifeValues[year - 1] < 40) {
 
-                    if (randomLifeValues[year - 1] < 25) {
+                        if (allEvents[randomEventValues[0]].objectType == "unemployed") {
+                            //Varslad
+                            union.countUnEmployeeMonth = 0
+                            union.unEmployedSalaryAmount = 0.0
 
-                        //Chans till avgångsvederlag
-                        randomValues = List(1) { Random.nextInt(0, 100) }
-                        if (randomValues[0] < 30 && employee.countWorkMonth >= 12) {
+                            //Chans till avgångsvederlag om du jobbat mer än 12 månader
+                            randomValues = List(1) { Random.nextInt(0, 100) }
+                            if (randomValues[0] < 30 && person.countWorkMonth >= 12) {
 
-                            //Avgångsvederlag! Du får lön i lika många månader som du jobbat år
-                            amount = employee.currentSalary * (employee.countWorkMonth / 12)
-                            messageList = messageList.plus(Message(messageId,"När du är $age år får du avgångsvederlag på $amount!",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                            messageId += 1
+                                //Avgångsvederlag! Du får lön i lika många månader som du jobbat år
+                                accountSalary.amount = employee.currentSalary * (person.countWorkMonth / 12).toFloat()
 
-                            accountSalary.amount += amount
-                        }
+                                messageList = accountSalary.showSeverancePay(age,messageList,messageId)
+                                messageId = messageList.size
+                            }
 
-                        //Hur många dagar är du arbetslös, 22 dagar per månad får man ersättning
-                        randomValues = List(1) { Random.nextInt(1, 300) }
-                        union.countUnEmployeeMonth = randomValues[0] / 22
-                        if (employee.countWorkMonth > 12) {
+                            //Hur många dagar är du arbetslös, 22 dagar per månad får man ersättning
+                            randomValues = List(1) { Random.nextInt(1, 300) }
+                            union.countUnEmployeeMonth = randomValues[0] / 22
+
+                            //Endast 300 dagar kan man få a-kassa
+                            //employee.countWorkMonth -= union.countUnEmployeeMonth
+
+                            messageList = union.showCountUnEmployeeMonth(age,messageList,messageId)
+                            messageId = messageList.size
+
                             //För att få akassa behövs 12 månaders arbete
-                            if (union.incomeInsurance)
-                                union.unEmployedSalaryAmount = union.getIncomeInsurance(employee.currentSalary)
-                            else if (union.akassa)
-                                union.unEmployedSalaryAmount = union.getAkassa(employee.currentSalary)
-                            else
-                                union.unEmployedSalaryAmount = union.getNoAkassa(employee.currentSalary)
+                            if (union.incomeInsurance && person.countWorkMonth >= 12) {
+
+                                union.unEmployedSalaryAmount =
+                                    union.getIncomeInsurance(employee.currentSalary.toDouble())
+                                messageList = union.showIncomeInsurance(messageList, messageId)
+                                messageId = messageList.size
+
+                            } else if (union.akassa && person.countWorkMonth >= 12) {
+
+                                union.unEmployedSalaryAmount = union.getAkassa(employee.currentSalary.toDouble())
+                                messageList = union.showAkassa(messageList, messageId)
+                                messageId = messageList.size
+
+                            } else {
+                                union.unEmployedSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
+                                messageList = union.showNoAkassa(messageList, messageId)
+                                messageId = messageList.size
+
+                            }
+
+                            //accountSalary.amount += union.unEmployedSalaryAmount.toFloat()
                         }
 
-                        //Endast 300 dagar kan man få a-kassa
-                        employee.countWorkMonth -= union.countUnEmployeeMonth
-                        accountSalary.amount += union.unEmployedSalaryAmount
-
-                        amount = randomValues[0].toDouble()
-                        messageList = messageList.plus(Message(messageId,"När du är $age år är du arbetslös i $amount dagar.",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                        messageId += 1
-
-                        if (union.incomeInsurance && union.extraInsurance) {
-                            amount = union.unEmployedSalary200
-                            messageList =
-                                messageList.plus(Message(messageId,"Då du har inkomstförsäkring + tillägsförsäkring fick du ut ca: $amount i 200 dagar",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                            messageId += 1
-
-                            amount = union.unEmployedSalary300
-                            messageList = messageList.plus(Message(messageId,"De sista 100 dagarna fick du ut av a-kassan ca: $amount",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                            messageId += 1
-
-                        } else if (union.incomeInsurance) {
-                            amount = union.unEmployedSalary150
-                            messageList =
-                                messageList.plus(Message(messageId,"Då du har inkomstförsäkring fick du ut ca: $amount i 150 dagar",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                            messageId += 1
-
-                            amount = union.unEmployedSalary300
-                            messageList = messageList.plus(Message(messageId,"De sista 150 dagarna fick du ut av a-kassan ca: $amount",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                            messageId += 1
-                        } else if (union.akassa) {
-                            amount = union.unEmployedSalary100
-                            messageList = messageList.plus(Message(messageId,"Då du har a-kassa fick du ut ca: $amount i 100 dagar",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                            messageId += 1
-
-                            amount = union.unEmployedSalary300
-                            messageList = messageList.plus(Message(messageId,"De sista 200 dagarna fick du ut av a-kassan ca: $amount",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                            messageId += 1
-                        } else {
-                            amount = union.unEmployedSalary100
-                            messageList = messageList.plus(Message(messageId,"Du har ingen a-kassa så du fick ut ca: $amount i 100 dagar",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                            messageId += 1
-
-                            amount = union.unEmployedSalary300
-                            messageList = messageList.plus(Message(messageId,"De sista 200 dagarna fick du ut av a-kassan ca: $amount",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                            messageId += 1
-                        }
-
-                        //Spara tidigare jobb
+                        //Dags att byta jobb och spara tidigare jobb
                         person.professions = person.professions.plus(profession)
                         person.employees = person.employees.plus(employee)
 
                         //Nytt jobb
-                        randomValues = List(1) { Random.nextInt(0, 12) }
-                        profession = props.selectedProfession.getProfession(randomValues[0])
+                        randomValues = List(1) { Random.nextInt(0, allProfessions.size - 1) }
+                        profession = allProfessions[randomValues[0]]
 
                         employeeId += 1
                         employee = Employee(employeeId)
                         employee.title = profession.title
+                        employee.firstSalary = profession.salary * person.age
                         employee.currentSalary = profession.salary * person.age
-                        employee.salaryFixedPercentage = profession.salaryFixedPercentage * 100
-                        employee.salaryVariablePercentage = profession.salaryVariablePercentage * 100
-                        messageList = messageList.plus(Message(messageId, profession.professionText,randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                        messageId += 1
+                        employee.salaryFixedPercentage = profession.salaryFixedPercentage * 100.0F
+                        employee.salaryVariablePercentage = profession.salaryVariablePercentage * 100.0F
+                        employee.countWorkMonth = 0
 
-                        eventList = eventList.plus(randomEvents[randomEventValues[0]])
-                        yearList = yearList.plus(year)
+                        messageList = profession.showNewProfession(messageList, messageId)
+                        messageId = messageList.size
+
+                        messageList = employee.showEmployeeSalary(age, messageList, messageId)
+                        messageId = messageList.size
                     }
                 }
 
@@ -290,74 +315,282 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                     //Magellit
                     if (randomLifeValues[year - 1] < 10) {
                         person.magellit = true
-                        eventList = eventList.plus(randomEvents[randomEventValues[0]])
-                        yearList = yearList.plus(year)
-                        messageList = messageList.plus(Message(messageId,"När du är $age år blir du träffad av en Magellit!",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                        messageId += 1
+
+                        messageList = person.showPersonMagellit(age, messageList, messageId)
+                        messageId = messageList.size
                     }
                 }
 
                 "parent" -> {
-                    //Babies
-                    parent.countFamilyMonth = 0
-                    parent.familySalary = 0.0
-                    if (randomLifeValues[year - 1] < 25 && age <= 45) {
+                    if (randomLifeValues[year - 1] < 35 && age <= 50) {
+                        //Babies
                         parent.countBabies += 1
                         parent.familySalary = parent.getIncome(employee.currentSalary)
-                        if (person.magellit) parent.familySalary += 5000.0
+                        if (person.magellit) parent.familySalary += 5000.0F
 
                         parent.countFamilyMonth += parent.familyMonth
 
-                        employee.countWorkMonth -= parent.countFamilyMonth
-                        accountSalary.amount += parent.familySalary * parent.countFamilyMonth
+                        //employee.countWorkMonth -= parent.countFamilyMonth
+                        //accountSalary.amount += parent.familySalary * parent.countFamilyMonth
 
-                        eventList = eventList.plus(randomEvents[randomEventValues[0]])
-                        yearList = yearList.plus(year)
-                        messageList = messageList.plus(Message(messageId,"När du är $age år får du barn!",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                        messageId += 1
-
-                        amount = parent.countBabies.toDouble()
-                        messageList = messageList.plus(Message(messageId,"Du har $amount barn.",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                        messageId += 1
-
-                        amount = parent.familySalary
-                        messageList = messageList.plus(Message(messageId,"Du får en föräldrarpenningen på $amount kr i 6 månader.",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                        messageId += 1
+                        messageList = parent.showParent(age, messageList, messageId)
+                        messageId = messageList.size
                     }
                 }
 
-                "VAB" -> {
-                    if ((randomLifeValues[year - 1] < 100 && parent.countBabies > 0)) {
+                "vab" -> {
+                    if (randomLifeValues[year - 1] < 100 && parent.countBabies > 0) {
                         //VAB
 
                         randomValues = List(1) { Random.nextInt(1, 12) }
                         parent.countFamilyMonth += randomValues[1]
                         parent.familySalary = parent.getIncome(employee.currentSalary)
-                        if (person.magellit) parent.familySalary += 5000.0
 
-                        employee.countWorkMonth -= parent.countFamilyMonth
-                        accountSalary.amount += parent.familySalary * parent.countFamilyMonth
+                        if (person.magellit)
+                            parent.familySalary += 5000.0F
 
-                        eventList = eventList.plus(randomEvents[randomEventValues[0]])
-                        yearList = yearList.plus(year)
+                        //employee.countWorkMonth -= parent.countFamilyMonth
+                        //accountSalary.amount += parent.familySalary * parent.countFamilyMonth.toFloat()
 
-                        amount = parent.countFamilyMonth.toDouble()
-                        messageList = messageList.plus(Message(messageId,"När du är $age år VAB:ar du $amount månader.",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                        messageId += 1
-
-                        messageList = messageList.plus(Message(messageId,"Du får en föräldrarpenningen på $amount kr.",randomEvents[randomEventValues[0]].objectType,randomEvents[randomEventValues[0]].eventType))
-                        messageId += 1
-
+                        messageList = parent.showVAB(age, messageList, messageId)
+                        messageId = messageList.size
                     }
                 }
             }
-            age += 1
-            employee.currentSalary = props.selectedProfession.salary * age
 
+            //Get cost event in life
+            randomCostEventValues = List(1) { Random.nextInt(0, allCostEvents.size-1) }
+
+            when (allCostEvents[randomCostEventValues[0]].eventType) {
+                "home" -> {
+                    if (randomLifeValues[year - 1] < 10 || (age > 30 && !person.accommodation)) {
+
+                        messageList =
+                            messageList.plus(
+                                Message(
+                                    messageId,
+                                    "När du är $age år " + allCostEvents[randomCostEventValues[0]].eventText,
+                                    allCostEvents[randomCostEventValues[0]].objectType,
+                                    allCostEvents[randomCostEventValues[0]].eventType
+                                )
+                            )
+                        messageId += 1
+
+                        if (person.accommodation && person.house.houseAmount > 0.0F) {
+                            // Säljer det boendet du har
+                            messageList = person.showPersonAccomodationSold(messageList, messageId)
+                            messageId = messageList.size
+
+                            accountSalary.amount += person.house.houseAmount
+                        }
+
+                        person.accommodation = true
+                        when (allCostEvents[randomCostEventValues[0]].objectType) {
+                            "house" -> {
+                                person.house = House(0, "hus")
+
+                                randomValues = List(1) { Random.nextInt(2000000, 10000000) }
+                                person.house.houseAmount = randomValues[0].toFloat()
+
+                                randomValues = List(1) { Random.nextInt(2000, 5000) }
+                                person.house.houseMonthPayment = randomValues[0].toFloat()
+
+                                messageList = person.showPersonHouseBought(messageList, messageId)
+                                messageId = messageList.size
+                            }
+
+                            "department" -> {
+                                person.house = House(0, "bostadsrätt")
+
+                                randomValues = List(1) { Random.nextInt(1000000, 10000000) }
+                                person.house.houseAmount = randomValues[0].toFloat()
+
+                                randomValues = List(1) { Random.nextInt(1000, 7000) }
+                                person.house.houseMonthPayment = randomValues[0].toFloat()
+
+                                messageList = person.showPersonDepartmentBought(messageList, messageId)
+                                messageId = messageList.size
+                            }
+
+                            "hire" -> {
+                                person.house = House(0, "hyreslägenhet")
+                                person.house.houseAmount = 0.0F
+
+                                randomValues = List(1) { Random.nextInt(5000, 30000) }
+                                person.house.houseMonthPayment = randomValues[0].toFloat()
+
+                                messageList = person.showPersonAccomodationHire(messageList, messageId)
+                                messageId = messageList.size
+                            }
+                        }
+
+                        person.house.loan = false
+                        if (person.house.houseAmount > 0.0F) {
+
+                            // Betala eller ta lån?
+                            if (accountSalary.amount >= person.house.houseAmount) {
+                                accountSalary.amount -= person.house.houseAmount
+                            } else if (accountDepot.amount >= person.house.houseAmount) {
+                                accountDepot.amount -= person.house.houseAmount
+                            } else if ((accountDepot.amount + accountSalary.amount) >= person.house.houseAmount) {
+                                accountDepot.amount -= (person.house.houseAmount - accountSalary.amount)
+                                accountSalary.amount = 0.0F
+                            } else {
+                                person.house.loan = true
+                                person.house.houseLoan.loanAmount =
+                                    person.house.houseAmount - (accountDepot.amount + accountSalary.amount)
+
+                                randomValues = List(1) { Random.nextInt(1, 4) }
+                                person.house.houseLoan.loanInterest = randomValues[0].toFloat()
+                                person.house.houseLoan.loanMonthPayment =
+                                    person.house.houseLoan.loanAmount / ((profession.pensionAge - age)*12)
+
+                                messageList = person.showPersonGetHouseLoan(messageList, messageId)
+                                messageId = messageList.size
+                            }
+                        }
+                    }
+                }
+                "accident" -> {
+                    if (randomLifeValues[year - 1] < 10) {
+
+                        when (allCostEvents[randomCostEventValues[0]].objectType) {
+                            "depot" -> {
+                                if (accountDepot.amount > 0.0F) {
+
+                                    randomValues = List(1) { Random.nextInt(1, 50) }
+                                    accountDepot.amount -= accountDepot.amount * randomValues[0].toFloat()/100.0F
+
+                                    messageList =
+                                        messageList.plus(
+                                            Message(
+                                                messageId,
+                                                "När du är $age år ${allCostEvents[randomCostEventValues[0]].eventText} med ${ randomValues[0] }%.",
+                                                allCostEvents[randomCostEventValues[0]].objectType,
+                                                allCostEvents[randomCostEventValues[0]].eventType
+                                            )
+                                        )
+                                    messageId += 1
+                                }
+                            }
+
+                            "home" -> {
+                                if (person.accommodation) {
+
+                                    randomValues = List(1) { Random.nextInt(50000, 300000) }
+                                    currentAmount = randomValues[0].toFloat()
+
+                                    messageList =
+                                        messageList.plus(
+                                            Message(
+                                                messageId,
+                                                "När du är $age år ${allCostEvents[randomCostEventValues[0]].eventText}, som kostar dig ${ randomValues[0] } SEK.",
+                                                allCostEvents[randomCostEventValues[0]].objectType,
+                                                allCostEvents[randomCostEventValues[0]].eventType
+                                            )
+                                        )
+                                    messageId += 1
+
+                                    // Betala eller ta lån?
+                                    if (accountSalary.amount >= currentAmount) {
+                                        accountSalary.amount -= currentAmount
+                                    } else if (accountDepot.amount >= currentAmount) {
+                                        accountDepot.amount -= currentAmount
+                                    } else if ((accountDepot.amount + accountSalary.amount) >= currentAmount) {
+                                        accountDepot.amount -= (currentAmount - accountSalary.amount)
+                                        accountSalary.amount = 0.0F
+                                    } else {
+                                        person.loan = true
+                                        person.blancoLoan.loanAmount =
+                                            currentAmount - (accountDepot.amount + accountSalary.amount)
+
+                                        randomValues = List(1) { Random.nextInt(1, 4) }
+                                        person.blancoLoan.loanInterest = randomValues[0].toFloat()
+                                        person.blancoLoan.loanMonthPayment =
+                                            person.blancoLoan.loanAmount / ((profession.pensionAge - age) * 12)
+
+                                        messageList = person.showPersonGetBlancoLoan(messageList, messageId)
+                                        messageId = messageList.size
+                                    }
+
+
+                                }
+                            }
+
+                            "loan" -> {
+                                if (person.house.loan) {
+                                    randomValues = List(1) { Random.nextInt(1, 7) }
+                                    person.house.houseLoan.loanInterest = randomValues[0].toFloat()/100.0F
+
+                                    messageList =
+                                        messageList.plus(
+                                            Message(
+                                                messageId,
+                                                "När du är $age år ${allCostEvents[randomCostEventValues[0]].eventText} med ${ randomValues[0] }%.",
+                                                allCostEvents[randomCostEventValues[0]].objectType,
+                                                allCostEvents[randomCostEventValues[0]].eventType
+                                            )
+                                        )
+                                    messageId += 1
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            //Löneökning
+            randomValues = List(1) { Random.nextInt(0, 5) }
+            profession.salary += (profession.salary * (randomValues[0].toFloat()/100.0F))
+            employee.currentSalary = profession.salary * person.age
+
+            person.countWorkMonth += 12
             employee.countWorkMonth += 12
-            accountSalary.amount += (employee.currentSalary - (employee.currentSalary * person.pension)) * employee.countWorkMonth
-            accountPension.amount += (employee.currentSalary * person.pension) * employee.countWorkMonth
+
+            //sick
+            employee.countWorkMonth -= employee.countSickMonth
+            accountSalary.amount += employee.sickSalary * employee.countSickMonth
+
+            //varslad
+            employee.countWorkMonth -= union.countUnEmployeeMonth
+            accountSalary.amount += union.unEmployedSalaryAmount.toFloat()
+
+            //parent
+            employee.countWorkMonth -= parent.countFamilyMonth
+            accountSalary.amount += parent.familySalary * parent.countFamilyMonth
+
+            //Du fyller år
+            age += 1
+
+            //Lägg på inkomst
+            if (employee.countWorkMonth > 0) {
+                accountSalary.amount += (employee.currentSalary - (employee.currentSalary * person.pension)) * employee.countWorkMonth
+                accountPension.amount += (employee.currentSalary * person.pension) * employee.countWorkMonth
+                employee.countWorkMonth -= 12
+            }
+
+            //Dra av diverse levnadskostnader
+            randomValues = List(1) { Random.nextInt(1000, 10000) }
+            accountSalary.amount -= randomValues[0].toFloat() * 12
+
+            //Dra av kostnad för boendet
+            if (person.accommodation) {
+                accountSalary.amount -= person.house.houseMonthPayment
+                if (person.house.loan) {
+                    accountSalary.amount -= (person.house.houseLoan.loanAmount * (person.house.houseLoan.loanInterest/100.0F)) / ((profession.pensionAge - age) * 12).toFloat()
+                    accountSalary.amount -= person.house.houseLoan.loanMonthPayment
+                    person.house.houseLoan.loanAmount -= person.house.houseLoan.loanMonthPayment
+                }
+            }
+
+            if (person.loan) {
+                accountSalary.amount -= (person.blancoLoan.loanAmount * (person.blancoLoan.loanInterest / 100.0F)) / ((profession.pensionAge - age) * 12).toFloat()
+                accountSalary.amount -= person.blancoLoan.loanMonthPayment
+                person.blancoLoan.loanAmount -= person.blancoLoan.loanMonthPayment
+            }
+
         }
+
         person.age = age
         person.professions = person.professions.plus(profession)
         person.employees = person.employees.plus(employee)
@@ -382,8 +615,8 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                 fontFamily = FontFamily.cursive
             }
 
-            for ((messageIndex,message) in messageList.withIndex()) {
-                if (messageIndex < 5) {
+            for ((messageIndex, message) in messageList.withIndex()) {
+                if (messageIndex < maxMessages) {
                     p {
                         +message.messageText
                     }
@@ -410,16 +643,26 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                     fontFamily = FontFamily.cursive
                 }
 
-                if (leftMessages.isNotEmpty()) {
+                if (leftMessages.size >= maxMessages ) {
                     onClick = {
-                        props.onSelectMessages(leftMessages, props.selectedProfession, person)
+                        props.onSelectMessages(
+                            props.selectedView,
+                            leftMessages,
+                            props.selectedProfession,
+                            person
+                        )
                     }
-                    +" Gå vidare i livet"
+                    +props.selectedView.buttonText
                 } else {
                     onClick = {
-                        props.onSelectMessages(leftMessages, Profession(999), props.selectedPerson)
+                        props.onSelectMessages(
+                            reloadView.getNextView(reloadView),
+                            leftMessages,
+                            props.selectedProfession,
+                            person
+                        )
                     }
-                    +" Start om livet"
+                    +reloadView.buttonText
                 }
                 +" ▶"
             }
@@ -429,7 +672,24 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
     ShowWorkingLife {
         actualProfession = props.selectedProfession
         actualPerson = person
+        newTitle = currentTitle
     }
 }
+
+fun Int.formatDecimalSeparator(): String {
+    return toString()
+        .reversed()
+        .chunked(3)
+        .joinToString(" ")
+        .reversed()
+}
+
+
+
+
+
+
+
+
 
 

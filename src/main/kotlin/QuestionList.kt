@@ -12,13 +12,14 @@ import react.dom.html.ReactHTML.tr
 import react.key
 
 external interface QuestionListProps : Props {
-    var questions: List<Question>
+    var selectedView: View
     var selectedQuestion: Question?
     var clickedQuestions: List<Question>
     var onSelectQuestion: (Question) -> Unit
 }
 
 val QuestionList = FC<QuestionListProps> { props ->
+    val questions: List<Question> = props.selectedView.questions
 
     div {
         css {
@@ -47,7 +48,7 @@ val QuestionList = FC<QuestionListProps> { props ->
                     textAlign = TextAlign.start
                 }
 
-                for (question in props.questions) {
+                for (question in questions) {
                     tr {
                         css {
                             fontSize = 18.px
