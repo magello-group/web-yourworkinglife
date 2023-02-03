@@ -118,8 +118,8 @@ data class Union( val personId: Int ) {
                  storyList.plus(
                     Message(
                         storyId,
-                        "Då du har inkomstförsäkring + tillägsförsäkring fick du ut ${this.unEmployedSalary200.toInt().formatDecimalSeparator()} SEK i 200 dagar",
-                        "",
+                        "Grattis! då du har inkomstförsäkring + tillägsförsäkring får ut ${this.unEmployedSalary200.toInt().formatDecimalSeparator()} SEK i 200 dagar.",
+                        "hotpink",
                         ""
                     )
                 )
@@ -129,8 +129,8 @@ data class Union( val personId: Int ) {
             storyList =  storyList.plus(
                 Message(
                     storyId,
-                    "De sista 100 dagarna fick du ut av a-kassan ${this.unEmployedSalary300.toInt().formatDecimalSeparator()} SEK",
-                    "",
+                    "De sista 100 dagarna får du ut av a-kassan ${this.unEmployedSalary300.toInt().formatDecimalSeparator()} SEK",
+                    "hotpink",
                     ""
                 )
             )
@@ -141,8 +141,8 @@ data class Union( val personId: Int ) {
                 storyList.plus(
                     Message(
                         storyId,
-                        "Då du har inkomstförsäkring fick du ut ${this.unEmployedSalary150.toInt().formatDecimalSeparator()} SEK i 150 dagar",
-                        "",
+                        "Grattis! du har inkomstförsäkring och får ut ${this.unEmployedSalary150.toInt().formatDecimalSeparator()} SEK i 150 dagar.",
+                        "hotpink",
                         ""
                     )
                 )
@@ -151,8 +151,8 @@ data class Union( val personId: Int ) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "De sista 150 dagarna fick du ut av a-kassan ${this.unEmployedSalary300.toInt().formatDecimalSeparator()} SEK",
-                    "",
+                    "De sista 150 dagarna får du ut av a-kassan ${this.unEmployedSalary300.toInt().formatDecimalSeparator()} SEK.",
+                    "hotpink",
                     ""
                 )
             )
@@ -226,8 +226,8 @@ data class Union( val personId: Int ) {
         storyList = storyList.plus(
             Message(
                  storyId,
-                "Då du har a-kassa fick du ut ${this.unEmployedSalary100.toInt().formatDecimalSeparator()} SEK i 100 dagar",
-                "",
+                "Grattis! då du har a-kassa fick du ut ${this.unEmployedSalary100.toInt().formatDecimalSeparator()} SEK i 100 dagar.",
+                "hotpink",
                 ""
             )
         )
@@ -236,8 +236,19 @@ data class Union( val personId: Int ) {
         storyList = storyList.plus(
             Message(
                  storyId,
-                "De sista 200 dagarna fick du ut av a-kassan ${this.unEmployedSalary300.toInt().formatDecimalSeparator()} SEK",
-                "",
+                "De sista 200 dagarna fick du ut av a-kassan ${this.unEmployedSalary300.toInt().formatDecimalSeparator()} SEK.",
+                "hotpink",
+                ""
+            )
+        )
+
+        storyId += 1
+
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Vill du få ut mer ifall du blir arbetslös kolla in detta: ${this.linkInsurance}",
+                "hotpink",
                 ""
             )
         )
@@ -264,8 +275,8 @@ data class Union( val personId: Int ) {
         storyList = storyList.plus(
             Message(
                  storyId,
-                "Du har ingen a-kassa så du fick ut ${this.unEmployedSalary100.toInt().formatDecimalSeparator()} SEK i 100 dagar",
-                "",
+                "Oj! du har ingen a-kassa så du fick ut ${this.unEmployedSalary100.toInt().formatDecimalSeparator()} SEK i 100 dagar.",
+                "orange",
                 ""
             )
         )
@@ -274,8 +285,30 @@ data class Union( val personId: Int ) {
         storyList = storyList.plus(
             Message(
                  storyId,
-                "De sista 200 dagarna fick du ut av a-kassan ${this.unEmployedSalary300.toInt().formatDecimalSeparator()} SEK",
-                "",
+                "De sista 200 dagarna fick du ut av a-kassan ${this.unEmployedSalary300.toInt().formatDecimalSeparator()} SEK.",
+                "orange",
+                ""
+            )
+        )
+
+        storyId += 1
+
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Är du nyfiken på a-kassa: ${this.linkAkassa}",
+                "hotpink",
+                ""
+            )
+        )
+
+        storyId += 1
+
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Är du nyfiken på inkomstförsäkring: ${this.linkInsurance}",
+                "hotpink",
                 ""
             )
         )
@@ -290,8 +323,8 @@ data class Union( val personId: Int ) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "När du är $age år är du arbetslös i ${ this.countUnEmployeeMonth * 22} dagar.",
-                "",
+                "Åh nej :( du är arbetslös i ${ this.countUnEmployeeMonth * 22} dagar.",
+                "orange",
                 ""
             )
         )

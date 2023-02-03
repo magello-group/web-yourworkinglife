@@ -30,8 +30,8 @@ data class Parent (val personId: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "När du är $age år får du barn!",
-                    "",
+                    "Stort grattis!! du har fått barn!",
+                    "hotpink",
                     ""
                 )
             )
@@ -39,30 +39,34 @@ data class Parent (val personId: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "När du är $age år får du ännu fler barn!",
-                    "",
+                    "Stort grattis!! du har fått ett till barn och du har nu ${ this.countBabies } barn!",
+                    "hotpink",
                     ""
                 )
             )
         }
-        storyId += 1
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Nu har du ${ this.countBabies } barn.",
-                "",
-                ""
-            )
-        )
+
         storyId += 1
         storyList = storyList.plus(
             Message(
                 storyId,
                 "Du får en föräldrarpenningen på ${ this.familySalary.toInt().formatDecimalSeparator() } kr i 6 månader.",
-                "",
+                "hotpink",
                 ""
             )
         )
+
+        storyId += 1
+
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Genomsnittskostnad för barn är 2500 SEK per månad.",
+                "hotpink",
+                ""
+            )
+        )
+
         return storyList
     }
 
@@ -73,8 +77,8 @@ data class Parent (val personId: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "När du är $age år VAB:ar du ${ this.countFamilyMonth } månader.",
-                "",
+                "Oj! ditt barn är sjukt och du VAB:ar ${ this.countFamilyMonth } månader.",
+                "orange",
                 ""
             )
         )
@@ -84,7 +88,7 @@ data class Parent (val personId: Int) {
             Message(
                 storyId,
                 "Du får en föräldrarpenningen på ${ this.familySalary.toInt().formatDecimalSeparator() } SEK.",
-                "",
+                "hotpink",
                 ""
             )
         )

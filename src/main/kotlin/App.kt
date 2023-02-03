@@ -97,9 +97,9 @@ val App = FC<Props> {
                                 display = Display.block
                                 position = Position.absolute
                                 top = 6.px
-                                left = 200.px
+                                left = 160.px
 
-                                color = NamedColor.red
+                                color = NamedColor.hotpink
                                 borderColor = NamedColor.white
                                 fontSize = 14.px
                                 backgroundColor = NamedColor.white
@@ -135,9 +135,9 @@ val App = FC<Props> {
                             display = Display.block
                             position = Position.absolute
                             when (input.objectType) {
-                                "name" -> top = 90.px
-                                "age" -> top = 130.px
-                                "pension" -> top = 170.px
+                                "name" -> top = 100.px
+                                "age" -> top = 140.px
+                                "pension" -> top = 180.px
 
                             }
                             left = 10.px

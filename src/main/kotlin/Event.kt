@@ -10,29 +10,29 @@ data class Event (
 {
     fun getEvents(): List<Event> {
         return listOf(
-            Event(0, "får du bonus i form av värdepapper.", "depot", "depot"),
-            Event(1, "blir du utbränd.", "burnedout", "sick"),
-            Event(2, "får du en hjärtattack.", "heartattack", "sick"),
-            Event(3, "får du en golfboll i huvudet.", "golf", "sick"),
-            Event(4, "blir du skjuten.", "shot", "sick"),
-            Event(5, "blir du deprimerad.", "depressed", "sick"),
-            Event(6, "blir du lycklig.", "luck", "luck"),
-            Event(7, "blir du varslad.", "unemployed", "unemployed"),
+            Event(0, "du får bonus i form av värdepapper.", "depot", "depot"),
+            Event(1, "du blir utbränd.", "burnedout", "sick"),
+            Event(2, "du får en hjärtattack.", "heartattack", "sick"),
+            Event(3, "du får en golfboll i huvudet.", "golf", "sick"),
+            Event(4, "du blir skjuten.", "shot", "sick"),
+            Event(5, "du blir deprimerad.", "depressed", "sick"),
+            Event(6, "du blir lycklig.", "luck", "luck"),
+            Event(7, "du blir varslad.", "unemployed", "unemployed"),
             Event(8, "du byter jobb.", "employed", "unemployed"),
-            Event(9, "blir du träffad av en Magellit.", "magellit", "magellit"),
-            Event(10, "får du barn.", "parent", "parent"),
-            Event(11, "VAB:ar du.", "vab", "vab")
+            Event(9, "du blir träffad av en Magellit.", "magellit", "magellit"),
+            Event(10, "du får barn.", "parent", "parent"),
+            Event(11, "du VAB:ar.", "vab", "vab")
         )
     }
 
     fun getCostEvents(): List<Event> {
         return listOf(
-            Event(0, "köper du ett hus.","house","home"),
-            Event(1, "köper du en bostadsrätt.","department","home"),
-            Event(2, "får du en hyresrätt.","hire","home"),
-            Event(3, "rasar ditt sparande i värde ","depot","accident"),
-            Event(4, "ändras hyran på ditt boende ","home","accident"),
-            Event(5, "höjs räntan på ditt lån ","loan","accident")
+            Event(0, "Kul! du köper ett hus.","house","home"),
+            Event(1, "Kul! du köper en bostadsrätt.","department","home"),
+            Event(2, "Kul! du skaffar dig en hyresrätt.","hire","home"),
+            Event(3, "Åh nej! ditt sparande rasar i värde ","depot","accident"),
+            Event(4, "Åh nej! din hyra höjs på ditt boende ","home","accident"),
+            Event(5, "Åh nej! din räntan höjs på ditt lån ","loan","accident")
         )
     }
 

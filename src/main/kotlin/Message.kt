@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 data class Message (
     val id: Int,
     val messageText: String = "",
-    val objectType: String = "",
-    val eventType: String =""
+    val color: String = "",
+    val animation: String =""
 )

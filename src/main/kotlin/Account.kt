@@ -4,6 +4,11 @@ import kotlin.random.Random
 @Serializable
 data class Account( val accountId: Int, val accountType: String) {
     var amount: Float = 0.0F
+    var messageMilgon1: Boolean = true
+    var messageMilgon5: Boolean = true
+    var messageMilgon10: Boolean = true
+    var messageMilgon20: Boolean = true
+
 
     fun showDepotAmount(age: Int, messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
@@ -12,9 +17,9 @@ data class Account( val accountId: Int, val accountType: String) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "När du är $age år får du bonus på ${ this.amount.toInt().formatDecimalSeparator() } SEK!",
+                "Härligt! du får bonus på ${ this.amount.toInt().formatDecimalSeparator() } SEK!",
                 "",
-                ""
+                "blinking"
             )
         )
         return storyList
@@ -27,26 +32,69 @@ data class Account( val accountId: Int, val accountType: String) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "När du är $age år får du avgångsvederlag på ${this.amount.toInt().formatDecimalSeparator()}!",
+                "Oj, du får avgångsvederlag på ${this.amount.toInt().formatDecimalSeparator()}!",
                 "",
-                ""
+                "blinking"
             )
         )
         return storyList
     }
 
-    fun showAccountAmount(messageList: List<Message>, messageId: Int): List<Message> {
+    fun showAccountAmount(year: Int, messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
 
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Kontosaldo för ${this.accountType}: ${ this.amount.toInt().formatDecimalSeparator() } SEK",
-                "",
-                ""
+        if (this.amount.toInt() > 1000000 && this.messageMilgon1) {
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "★ Wow!, du har tjänat ihop över 1 miljon SEK på ${year.formatDecimalSeparator()} år!",
+                    "",
+                    "blinking"
+                )
             )
-        )
+            this.messageMilgon1 = false
+        } else if (this.amount.toInt() > 5000000 && this.messageMilgon5) {
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "★ Wow!, du har tjänat ihop över 5 miljoner SEK på ${year.formatDecimalSeparator()} år!",
+                    "",
+                    "blinking"
+                )
+            )
+            this.messageMilgon5 = false
+        } else if (this.amount.toInt() > 10000000 && this.messageMilgon10) {
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "★ Galet!, du har tjänat ihop över 10 miljoner SEK på ${year.formatDecimalSeparator()} år!!!",
+                    "",
+                    "blinking"
+                )
+            )
+            this.messageMilgon10 = false
+        } else if (this.amount.toInt() > 20000000 && this.messageMilgon20) {
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "★ Sjukt galet!, vad ska du göra med 20 miljoner???",
+                    "",
+                    "blinking"
+                )
+            )
+            this.messageMilgon20 = false
+        } else {
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Du har tjänat ihop ${this.accountType}: ${this.amount.toInt().formatDecimalSeparator()} SEK",
+                    "",
+                    ""
+                )
+            )
+        }
+
         return storyList
     }
 
@@ -57,7 +105,7 @@ data class Account( val accountId: Int, val accountType: String) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Kontosaldo efter avdrag av månadskostnader: ${ this.amount.toInt().formatDecimalSeparator() } SEK",
+                "efter avdrag av månadskostnader: ${ this.amount.toInt().formatDecimalSeparator() } SEK",
                 "",
                 ""
             )

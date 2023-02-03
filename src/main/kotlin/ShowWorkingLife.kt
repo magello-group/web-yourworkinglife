@@ -15,7 +15,7 @@ external interface ShowWorkingLifeProps : Props {
 }
 
 val ShowWorkingLife = FC<ShowWorkingLifeProps> { props ->
-    var topPX = 570
+    var topPX = 580
 
     div {
         p {

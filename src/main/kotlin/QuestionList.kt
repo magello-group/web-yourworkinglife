@@ -25,7 +25,7 @@ val QuestionList = FC<QuestionListProps> { props ->
         css {
             display = Display.block
             position = Position.absolute
-            top = 210.px
+            top = 220.px
             left = 10.px
             fontFamily = FontFamily.cursive
         }

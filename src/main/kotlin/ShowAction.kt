@@ -12,7 +12,7 @@ external interface ShowActionProps : Props {
 
 val ShowAction = FC<ShowActionProps> { props ->
 
-    var topPX = 570
+    var topPX = 580
     val salary =props.actualProfession.salary * props.actualAge.toInt()
     val salaryFixedPercentage = props.actualProfession.salaryFixedPercentage * 100
     val salaryVariablePercentage = props.actualProfession.salaryVariablePercentage * 100

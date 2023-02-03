@@ -1,6 +1,8 @@
 import csstype.*
+import emotion.css.keyframes
 import emotion.css.merge
 import emotion.react.css
+import kotlinx.js.n
 import react.FC
 import react.Props
 import react.dom.html.ReactHTML
@@ -16,6 +18,7 @@ import react.useState
 import kotlin.Float
 import kotlin.random.Random
 import kotlin.collections.List
+import kotlin.math.absoluteValue
 
 external interface StartWorkingLifeProps : Props {
     var selectedView: View
@@ -39,17 +42,15 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
     val parent = Parent(person.id)
     var employeeId: Int = 1
     var employee = Employee(employeeId)
-    val accountPension = Account(1, "Pension")
-    val accountSalary = Account(2, "Lön")
-    val accountDepot = Account(3, "Depå")
+    val accountPension = Account(1, "pensionskonto")
+    val accountSalary = Account(2, "lönekonto")
+    val accountDepot = Account(3, "depå")
     val union = person.union
 
     person.professions = person.professions.plus(profession)
     employee.title = profession.title
     employee.firstSalary = profession.salary * person.age
     employee.currentSalary = profession.salary * person.age
-    employee.salaryFixedPercentage = profession.salaryFixedPercentage * 100
-    employee.salaryVariablePercentage = profession.salaryVariablePercentage * 100
 
     //Init random worklife values to pensionage
     val randomLifeValues = List(pensionAge) { Random.nextInt(0, 100) }
@@ -66,7 +67,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
     var messageList: List<Message> = props.selectedMessages
     var leftMessages: List<Message> = emptyList()
     var messageId = 0
-    val maxMessages = 7
+    val maxMessages = 6
     val yearMessage: List<Int> = listOf(30, 35, 40, 45, 55, 50, 65, 75)
     var currentTitle = true
     var currentAmount:Float = 0.0F
@@ -82,40 +83,16 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
         //Loop all working years----------------------------------------------------
         for (year in person.age..profession.pensionAge) {
 
-
-            if (yearMessage.contains(year)) {
-                //Mitt i livet store story
-                messageList =
-                    messageList.plus(
-                        Message(
-                            messageId,
-                            "Nu har det gått ${year - person.age} år.",
-                            "",
-                            ""
-                        )
-                    )
-                messageId += 1
-
-                messageList = employee.showEmployeeSalary(age, messageList, messageId)
-                messageId = messageList.size
-
-                if (person.accommodation) {
-                    messageList = person.showPersonAccomodation(messageList, messageId)
-                    messageId = messageList.size
-
-                    if (person.house.loan) {
-                        messageList = person.showPersonHouseLoan(messageList, messageId)
-                        messageId = messageList.size
-                    }
-                }
-            }
-
             //Init count month
             parent.countFamilyMonth = 0
             parent.familySalary = 0.0F
             employee.countSickMonth = 0
             employee.sickSalary = 0.0F
+            union.countUnEmployeeMonth = 0
             person.sick = false
+
+            //Försörjningsstöd
+            if (employee.currentSalary == 0.0F) employee.currentSalary = 4180.0F
 
             //Get event in life
             randomEventValues = List(1) { Random.nextInt(0, allEvents.size-1) }
@@ -126,7 +103,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                     if (randomLifeValues[year - 1] < 10 && person.countWorkMonth >= 12 && employee.currentSalary > 0.0) {
 
                         //Get value och financial instruments
-                        randomValues = List(1) { Random.nextInt(0, 10000000) }
+                        randomValues = List(1) { Random.nextInt(10000, 50000) }
                         accountDepot.amount += randomValues[0].toFloat()
 
                         messageList = accountDepot.showDepotAmount(age,messageList,messageId)
@@ -193,9 +170,9 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                                 messageList.plus(
                                     Message(
                                         messageId,
-                                        "När du är $age år " + allEvents[randomEventValues[0]].eventText,
-                                        allEvents[randomEventValues[0]].objectType,
-                                        allEvents[randomEventValues[0]].eventType
+                                        "Åh nej! " + allEvents[randomEventValues[0]].eventText,
+                                        "orange",
+                                        ""
                                     )
                                 )
                             messageId += 1
@@ -226,7 +203,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
 
                 "luck" -> {
                     //Lycklig
-                    if (randomLifeValues[year - 1] < 25) {
+                    if (randomLifeValues[year - 1] < 10) {
                         person.luck = true
                         
                         messageList = person.showPersonLuck(age,messageList,messageId)
@@ -235,7 +212,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                 }
 
                 "unemployed" -> {
-                    if (randomLifeValues[year - 1] < 40) {
+                    if (randomLifeValues[year - 1] < 25 && !person.magellit) {
 
                         if (allEvents[randomEventValues[0]].objectType == "unemployed") {
                             //Varslad
@@ -300,8 +277,6 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                         employee.title = profession.title
                         employee.firstSalary = profession.salary * person.age
                         employee.currentSalary = profession.salary * person.age
-                        employee.salaryFixedPercentage = profession.salaryFixedPercentage * 100.0F
-                        employee.salaryVariablePercentage = profession.salaryVariablePercentage * 100.0F
                         employee.countWorkMonth = 0
 
                         messageList = profession.showNewProfession(messageList, messageId)
@@ -364,15 +339,15 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
 
             when (allCostEvents[randomCostEventValues[0]].eventType) {
                 "home" -> {
-                    if (randomLifeValues[year - 1] < 10 || (age > 30 && !person.accommodation)) {
+                    if (randomLifeValues[year - 1] < 10 || (age > 25 && !person.accommodation)) {
 
                         messageList =
                             messageList.plus(
                                 Message(
                                     messageId,
-                                    "När du är $age år " + allCostEvents[randomCostEventValues[0]].eventText,
-                                    allCostEvents[randomCostEventValues[0]].objectType,
-                                    allCostEvents[randomCostEventValues[0]].eventType
+                                    "${allCostEvents[randomCostEventValues[0]].eventText}",
+                                    "lavender",
+                                    ""
                                 )
                             )
                         messageId += 1
@@ -391,6 +366,9 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                             } else {
                                 accountSalary.amount += person.house.houseAmount
                             }
+                        } else if (person.accommodation && person.house.houseType == "hire") {
+                            messageList = person.showPersonAccomodationShift(messageList, messageId)
+                            messageId = messageList.size
                         }
 
                         person.accommodation = true
@@ -476,9 +454,9 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                                         messageList.plus(
                                             Message(
                                                 messageId,
-                                                "När du är $age år ${allCostEvents[randomCostEventValues[0]].eventText} med ${ randomValues[0] }%.",
-                                                allCostEvents[randomCostEventValues[0]].objectType,
-                                                allCostEvents[randomCostEventValues[0]].eventType
+                                                "${allCostEvents[randomCostEventValues[0]].eventText} med ${ randomValues[0] }%.",
+                                                "orange",
+                                                ""
                                             )
                                         )
                                     messageId += 1
@@ -495,9 +473,9 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                                         messageList.plus(
                                             Message(
                                                 messageId,
-                                                "När du är $age år ${allCostEvents[randomCostEventValues[0]].eventText} till ${ randomValues[0].formatDecimalSeparator() } SEK.",
-                                                allCostEvents[randomCostEventValues[0]].objectType,
-                                                allCostEvents[randomCostEventValues[0]].eventType
+                                                "${allCostEvents[randomCostEventValues[0]].eventText} till ${ randomValues[0].formatDecimalSeparator() } SEK.",
+                                                "orange",
+                                                ""
                                             )
                                         )
                                     messageId += 1
@@ -538,9 +516,9 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                                         messageList.plus(
                                             Message(
                                                 messageId,
-                                                "När du är $age år ${allCostEvents[randomCostEventValues[0]].eventText} med ${ randomValues[0] }%.",
-                                                allCostEvents[randomCostEventValues[0]].objectType,
-                                                allCostEvents[randomCostEventValues[0]].eventType
+                                                "${allCostEvents[randomCostEventValues[0]].eventText} med ${ randomValues[0] }%.",
+                                                "orange",
+                                                ""
                                             )
                                         )
                                     messageId += 1
@@ -551,12 +529,27 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                 }
             }
 
-            //Löneökning
-            randomValues = List(1) { Random.nextInt(0, 5) }
-            profession.salary += (profession.salary * (randomValues[0].toFloat()/100.0F))
-            employee.currentSalary = profession.salary * person.age
 
+            // Nu har det gått ett år
+            // Du fyller år
+            age += 1
             person.countWorkMonth += 12
+
+            messageId += 1
+            messageList = person.showWorkingLife(year, messageList, messageId)
+            messageId = messageList.size
+
+            //Löneökning
+            if (employee.currentSalary != 4180.0F) {
+                randomValues = List(1) { Random.nextInt(5, 98) }
+                profession.salary += (profession.salary * (randomValues[0].toFloat() / 1000.0F))
+                employee.currentSalary = profession.salary * person.age
+            }
+
+            messageList = employee.showEmployeeSalary(age, messageList, messageId)
+            messageId = messageList.size
+
+            //12 arbetsmånader har gått men har du jobbat
             employee.countWorkMonth += 12
 
             //sick
@@ -571,40 +564,61 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
             employee.countWorkMonth -= parent.countFamilyMonth
             accountSalary.amount += parent.familySalary * parent.countFamilyMonth
 
-            //Du fyller år
-            age += 1
-
             //Lägg på inkomst
             if (employee.countWorkMonth > 0) {
                 accountSalary.amount += (employee.currentSalary - (employee.currentSalary * person.pension)) * employee.countWorkMonth
                 accountPension.amount += (employee.currentSalary * person.pension) * employee.countWorkMonth
-                employee.countWorkMonth -= 12
+
+                messageList = employee.showEmployeeCountWorkMonth(messageList, messageId)
+                messageId = messageList.size
+
+                employee.countWorkMonth = 0
+            } else {
+                messageList = employee.showEmployeeCountWorkMonth(messageList, messageId)
+                messageId = messageList.size
             }
-            messageList = accountSalary.showAccountAmount(messageList, messageId)
+
+            messageList = accountSalary.showAccountAmount((year-person.age+1), messageList, messageId)
             messageId = messageList.size
 
-            //Dra av diverse levnadskostnader
-            randomValues = List(1) { Random.nextInt(1000, 10000) }
+
+            //Dra av diverse levnadskostnader för mat är 3000 genomsnittet
+            randomValues = List(1) { Random.nextInt(5000, 10000) }
             accountSalary.amount -= randomValues[0].toFloat() * 12
+
+            //Barn kostar pengar
+            for (baby in 1..parent.countBabies) {
+                accountSalary.amount -= 2500 * 12 //Enligt SEB
+            }
 
             //Dra av kostnad för boendet
             if (person.accommodation) {
                 accountSalary.amount -= person.house.houseMonthPayment
                 if (person.house.loan) {
-                    accountSalary.amount -= (person.house.houseLoan.loanAmount * (person.house.houseLoan.loanInterest/100.0F)) / ((profession.pensionAge - age) * 12).toFloat()
-                    accountSalary.amount -= person.house.houseLoan.loanMonthPayment
-                    person.house.houseLoan.loanAmount -= person.house.houseLoan.loanMonthPayment
+                    accountSalary.amount -= ((person.house.houseLoan.loanAmount * (person.house.houseLoan.loanInterest/100.0F)) / ((profession.pensionAge - age) * 12).toFloat()) * 12
+                    accountSalary.amount -= (person.house.houseLoan.loanMonthPayment * 12)
+                    person.house.houseLoan.loanAmount -= person.house.houseLoan.loanMonthPayment * 12
                 }
             }
 
             if (person.loan) {
-                accountSalary.amount -= (person.blancoLoan.loanAmount * (person.blancoLoan.loanInterest / 100.0F)) / ((profession.pensionAge - age) * 12).toFloat()
-                accountSalary.amount -= person.blancoLoan.loanMonthPayment
-                person.blancoLoan.loanAmount -= person.blancoLoan.loanMonthPayment
+                accountSalary.amount -= ((person.blancoLoan.loanAmount * (person.blancoLoan.loanInterest / 100.0F)) / ((profession.pensionAge - age) * 12).toFloat()) * 12
+                accountSalary.amount -= person.blancoLoan.loanMonthPayment * 12
+                person.blancoLoan.loanAmount -= person.blancoLoan.loanMonthPayment * 12
             }
 
             messageList = accountSalary.showAccountCost(messageList, messageId)
             messageId = messageList.size
+
+            if (person.accommodation) {
+                messageList = person.showPersonAccomodation(messageList, messageId)
+                messageId = messageList.size
+
+                if (person.house.loan) {
+                    messageList = person.showPersonHouseLoan(messageList, messageId)
+                    messageId = messageList.size
+                }
+            }
         }
 
         person.age = age
@@ -618,6 +632,41 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
     if (messageList.isNotEmpty()) {
 
         div {
+            val blinking: AnimationName = keyframes {
+                0.pct {
+                    color = NamedColor.darkgoldenrod
+                }
+                10.pct {
+                    color = NamedColor.lightgoldenrodyellow
+                }
+                20.pct {
+                    color = NamedColor.darkgoldenrod
+                }
+                30.pct {
+                    color = NamedColor.lightgoldenrodyellow
+                }
+                40.pct {
+                    color = NamedColor.darkgoldenrod
+                }
+                50.pct {
+                    color = NamedColor.lightgoldenrodyellow
+                }
+                60.pct {
+                    color = NamedColor.darkgoldenrod
+                }
+                70.pct {
+                    color = NamedColor.lightgoldenrodyellow
+                }
+                80.pct {
+                    color = NamedColor.darkgoldenrod
+                }
+                90.pct {
+                    color = NamedColor.lightgoldenrodyellow
+                }
+                100.pct {
+                    color = NamedColor.darkgoldenrod
+                }
+            }
             css {
                 display = Display.block
                 position = Position.absolute
@@ -632,9 +681,68 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
             }
 
             for ((messageIndex, message) in messageList.withIndex()) {
-                if (messageIndex < maxMessages && message.objectType != "Break") {
-                    p {
-                        +message.messageText
+                if (messageIndex == maxMessages && message.messageText.contains("Det har gått")) {
+                    leftMessages = leftMessages.plus(message)
+                } else if (messageIndex <= maxMessages) {
+
+                    if (message.animation != "") {
+                        when (message.animation) {
+                            "blinking" -> {
+                                p {
+
+                                    css {
+                                        animationDuration = 3.s
+                                        animationName = blinking
+                                        animationFillMode = AnimationFillMode.both
+                                        color = NamedColor.gold
+                                    }
+                                    +message.messageText
+                                }
+                            }
+                        }
+                    } else {
+                        when (message.color) {
+                            "deepskyblue" -> {
+                                p {
+                                    css {
+                                        color = NamedColor.deepskyblue
+                                    }
+                                    +message.messageText
+                                }
+                            }
+                            "lavender" -> {
+                                p {
+                                    css {
+                                        color = NamedColor.blueviolet
+                                    }
+                                    +message.messageText
+                                }
+                            }
+                            "hotpink" -> {
+                                p {
+                                    css {
+                                        color = NamedColor.hotpink
+                                    }
+                                    +message.messageText
+                                }
+                            }
+                            "orange" -> {
+                                p {
+                                    css {
+                                        color = NamedColor.orange
+                                    }
+                                    +message.messageText
+                                }
+                            }
+                            "" -> {
+                                p {
+                                    css {
+                                        color = NamedColor.green
+                                    }
+                                    +message.messageText
+                                }
+                            }
+                        }
                     }
                 } else {
                     leftMessages = leftMessages.plus(message)

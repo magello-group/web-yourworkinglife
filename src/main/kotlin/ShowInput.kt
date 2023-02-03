@@ -20,7 +20,7 @@ val ShowInput = FC<ShowInputProps> { props ->
             css {
                 display = Display.block
                 position = Position.absolute
-                top = 570.px
+                top = 580.px
                 left = 10.px
                 color = NamedColor.black
                 fontSize = 18.px
@@ -39,7 +39,7 @@ val ShowInput = FC<ShowInputProps> { props ->
             css {
                 display = Display.block
                 position = Position.absolute
-                top = 600.px
+                top = 610.px
                 left = 10.px
                 color = NamedColor.black
                 fontSize = 18.px
@@ -57,7 +57,7 @@ val ShowInput = FC<ShowInputProps> { props ->
             css {
                 display = Display.block
                 position = Position.absolute
-                top = 630.px
+                top = 640.px
                 left = 10.px
                 color = NamedColor.black
                 fontSize = 18.px
