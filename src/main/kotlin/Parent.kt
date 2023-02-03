@@ -31,8 +31,8 @@ data class Parent (val personId: Int) {
                 Message(
                     storyId,
                     "Stort grattis!! du har fått barn!",
-                    "hotpink",
-                    ""
+                    "",
+                    "blinking"
                 )
             )
         } else {
@@ -40,8 +40,8 @@ data class Parent (val personId: Int) {
                 Message(
                     storyId,
                     "Stort grattis!! du har fått ett till barn och du har nu ${ this.countBabies } barn!",
-                    "hotpink",
-                    ""
+                    "",
+                    "blinking"
                 )
             )
         }

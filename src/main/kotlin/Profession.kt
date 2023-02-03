@@ -114,7 +114,7 @@ data class Profession(
                 storyId,
                 "Du byter jobb! ${this.professionText}.",
                 "",
-                "animation"
+                "blinking"
             )
         )
 
