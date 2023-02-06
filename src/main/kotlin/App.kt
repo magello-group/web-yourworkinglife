@@ -216,6 +216,12 @@ val App = FC<Props> {
                         }
                     }
                 }
+                //Show animation
+                div {
+                    ShowStreckGubbe {}
+
+                    ShowStreck {}
+                }
             }
 
             "action" -> {
@@ -245,6 +251,12 @@ val App = FC<Props> {
                         }
                     }
                 }
+                //Show animation
+                div {
+                    ShowSparkcykel {}
+
+                    ShowStreck {}
+                }
             }
 
             "start", "reload" -> {
@@ -265,13 +277,6 @@ val App = FC<Props> {
                     }
                 }
             }
-        }
-
-        //Show animation
-        div {
-            ShowStreckGubbe{}
-
-            ShowStreck{}
         }
 
         //Show notes

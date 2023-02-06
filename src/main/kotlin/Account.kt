@@ -17,7 +17,7 @@ data class Account( val accountId: Int, val accountType: String) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Härligt! du får bonus på ${ this.amount.toInt().formatDecimalSeparator() } SEK!",
+                "🤑 Härligt! du får bonus på ${ this.amount.toInt().formatDecimalSeparator() } SEK!",
                 "",
                 "blinking"
             )
@@ -32,7 +32,7 @@ data class Account( val accountId: Int, val accountType: String) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Oj, du får avgångsvederlag på ${this.amount.toInt().formatDecimalSeparator()}!",
+                "🤑 Oj, du får avgångsvederlag på ${this.amount.toInt().formatDecimalSeparator()}!",
                 "",
                 "blinking"
             )
@@ -86,20 +86,40 @@ data class Account( val accountId: Int, val accountType: String) {
                 )
                 this.messageMilgon1 = false
             } else {
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Du har tjänat ihop ${this.accountType}: ${this.amount.toInt().formatDecimalSeparator()} SEK",
-                        "",
-                        ""
+                if (this.amount.toInt() < 0.0F) {
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "😒 Lönekonto: ${this.amount.toInt().formatDecimalSeparator()} SEK",
+                            "",
+                            ""
+                        )
                     )
-                )
+                } else {
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "😀 Lönekonto: ${this.amount.toInt().formatDecimalSeparator()} SEK",
+                            "",
+                            ""
+                        )
+                    )
+                }
             }
+        } else if (this.accountType == "depå") {
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Depå: ${this.amount.toInt().formatDecimalSeparator()} SEK",
+                    "",
+                    ""
+                )
+            )
         } else if (this.accountType == "pensionskonto") {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Pensionsparandet är på: ${this.amount.toInt().formatDecimalSeparator()} SEK",
+                    "Pensionskonto: ${this.amount.toInt().formatDecimalSeparator()} SEK",
                     "",
                     ""
                 )
@@ -108,7 +128,7 @@ data class Account( val accountId: Int, val accountType: String) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Du har bidragit med en skatt på: ${this.amount.toInt().formatDecimalSeparator()} SEK",
+                    "Betald skatt: ${this.amount.toInt().formatDecimalSeparator()} SEK",
                     "",
                     ""
                 )
@@ -126,7 +146,7 @@ data class Account( val accountId: Int, val accountType: String) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Oj efter avdrag av månadskostnader ligger du back ${this.accountType}: ${this.amount.toInt().formatDecimalSeparator()} SEK",
+                    "😒 Lönekonto: ${this.amount.toInt().formatDecimalSeparator()} SEK (efter kostnadsavdrag) ",
                     "",
                     "blinking"
                 )
@@ -135,7 +155,7 @@ data class Account( val accountId: Int, val accountType: String) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "efter avdrag av månadskostnader: ${this.amount.toInt().formatDecimalSeparator()} SEK",
+                    "😅 Lönekonto: ${this.amount.toInt().formatDecimalSeparator()} SEK (efter kostnadsavdrag) ",
                     "",
                     ""
                 )

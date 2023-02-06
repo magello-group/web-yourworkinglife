@@ -24,20 +24,21 @@ data class Person (val id: Int) {
         var storyList = messageList
         var storyId = messageId
 
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Ditt boendet är värt ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
-                "",
-                ""
+        if (this.house.houseAmount.toInt() > 0) {
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Värde boende: ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
+                    "",
+                    ""
+                )
             )
-        )
-
+        }
         storyId += 1
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Ditt boendet kostar i månaden ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+                "😅 Månadskostnad boende: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
                 "",
                 ""
             )
@@ -53,7 +54,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Du har ett lån på ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK med ränta ${this.house.houseLoan.loanInterest.toInt().formatDecimalSeparator()}%",
+                "Lån: ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK.",
                 "",
                 ""
             )
@@ -63,7 +64,18 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Du betalar av lånet med ${this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()} SEK i månaden.",
+                "Låneränta: ${this.house.houseLoan.loanInterest.toInt().formatDecimalSeparator()}%",
+                "",
+                ""
+            )
+        )
+
+        storyId += 1
+
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "😅 Avbetalning lån: ${this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()} SEK.",
                 "",
                 ""
             )
@@ -79,7 +91,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Du behöver ta ett lån på ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK med ränta ${this.house.houseLoan.loanInterest.toInt().formatDecimalSeparator()}%",
+                "😅 Du behöver ta ett lån på ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK.",
                 "",
                 "blinking"
             )
@@ -89,7 +101,16 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Varje månad avbetalar du ${this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()} SEK i månaden.",
+                "Låneränta: ${this.house.houseLoan.loanInterest.toInt().formatDecimalSeparator()}%",
+                "",
+                "hotpink"
+            )
+        )
+        storyId += 1
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "😅 Avbetalning lån: ${this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()}SEK.",
                 "hotpink",
                 ""
             )
@@ -105,7 +126,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Du tar ett blancolån på ${this.blancoLoan.loanAmount.toInt().formatDecimalSeparator()} SEK med ränta ${this.blancoLoan.loanInterest.toInt().formatDecimalSeparator()}%",
+                "😅 Du tar ett blancolån på ${this.blancoLoan.loanAmount.toInt().formatDecimalSeparator()} SEK.",
                 "lavender",
                 ""
             )
@@ -115,7 +136,17 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Du betalar av blancolånet med ${this.blancoLoan.loanMonthPayment.toInt().formatDecimalSeparator()} SEK i månaden.",
+                "Låneränta: ${this.blancoLoan.loanInterest.toInt().formatDecimalSeparator()}%",
+                "lavender",
+                ""
+            )
+        )
+        storyId += 1
+
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "😅 Avbetalning lån: ${this.blancoLoan.loanMonthPayment.toInt().formatDecimalSeparator()} SEK.",
                 "lavender",
                 ""
             )
@@ -131,7 +162,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Grattis du känner dig lycklig!",
+                "😊 Grattis du känner dig lycklig!",
                 "",
                 "blinking"
             )
@@ -141,7 +172,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Njut av dom små stunderna och glöm sorger och besvär.",
+                "😇 Njut av dom små stunderna och glöm sorger och besvär.",
                 "",
                 "blinking"
             )
@@ -151,7 +182,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Så håller du dig frisk!.",
+                "🍀 Så håller du dig frisk!.",
                 "",
                 "blinking"
             )
@@ -167,7 +198,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Wow!! Du är träffad av en magellit! då finns det liten chans att bli varslad.",
+                "Wow!! Du är träffad av en magellit 🚀 då blir du inte varslad.",
                 "",
                 "blinking"
             )
@@ -197,7 +228,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Huset kostar ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
+                "Huset kostar: ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
             )
@@ -208,7 +239,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Huset kostar i månaden ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+                "Månadskostnad hus ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
             )
@@ -234,7 +265,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Hyran är på ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} i månaden.",
+                "😅 Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
             )
@@ -249,7 +280,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Hyran är på ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK i månaden.",
+                "😅 Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
             )
@@ -293,7 +324,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "--------------------------- Det går ${age - this.age + 1} år ----------------------------",
+                "----------------------- Det går ${age - this.age + 1} år ------------------------",
                 "deepskyblue",
                 ""
             )
@@ -305,7 +336,7 @@ data class Person (val id: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Genomsnittskostnad för mat är ca 3000 SEK per månad (slump 5000 - 10000).",
+                    "Programmet använder genomsnittskostnader, ",
                     "",
                     ""
                 )
@@ -315,7 +346,17 @@ data class Person (val id: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Löneökning är i genomsnitt 4.9% (slump 0.5% - 9,8%).",
+                    "för mat är ca 5000 - 10000, skatt 30% och",
+                    "",
+                    ""
+                )
+            )
+            storyId += 1
+
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "för löneökning används ca 0.5% - 9,8% ",
                     "",
                     ""
                 )

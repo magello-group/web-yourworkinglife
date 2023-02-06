@@ -14,8 +14,6 @@ val ShowAction = FC<ShowActionProps> { props ->
 
     var topPX = 580
     val salary =props.actualProfession.salary * props.actualAge.toInt()
-    val salaryFixedPercentage = props.actualProfession.salaryFixedPercentage * 100
-    val salaryVariablePercentage = props.actualProfession.salaryVariablePercentage * 100
 
     div {
 
@@ -36,38 +34,6 @@ val ShowAction = FC<ShowActionProps> { props ->
             +"!"
         }
 
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top = topPX.px
-                left = 500.px
-                color = NamedColor.green
-                fontSize = 18.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-            +"Fast lön: "
-            +salaryFixedPercentage.toString()
-
-            topPX += 30
-        }
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top = topPX.px
-                left = 500.px
-                color = NamedColor.green
-                fontSize = 18.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-            +"Rörlig lön: "
-            +salaryVariablePercentage.toString()
-
-            topPX += 30
-        }
         p {
             css {
                 display = Display.block

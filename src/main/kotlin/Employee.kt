@@ -12,7 +12,7 @@ data class Employee( val employeeId: Int )
     var sickSalary: Float = 0.0F
     var countSickMonth: Int = 0
 
-    fun showEmployeeSalary(age: Int, messageList: List<Message>, messageId: Int): List<Message> {
+    fun showEmployeeSalary(age: Int, salaryincrease: Float, messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
 
@@ -26,10 +26,35 @@ data class Employee( val employeeId: Int )
                 )
             )
         } else {
+
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Du är $age år och tjänar som ${this.title} ${
+                    "Du är $age år och jobbar som ${this.title}.",
+                    "",
+                    ""
+                )
+            )
+
+            if (salaryincrease > 0.0F) {
+                storyId += 1
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "💪 Du har fått löneökning på ${
+                            salaryincrease.toInt().formatDecimalSeparator()
+                        }%.",
+                        "",
+                        ""
+                    )
+                )
+            }
+
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Lön: ${
                         this.currentSalary.toInt().formatDecimalSeparator()
                     } SEK per månad.",
                     "",

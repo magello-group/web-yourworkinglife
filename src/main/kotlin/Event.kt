@@ -30,9 +30,12 @@ data class Event (
             Event(0, "Kul! du köper ett hus.","house","home"),
             Event(1, "Kul! du köper en bostadsrätt.","department","home"),
             Event(2, "Kul! du skaffar dig en hyresrätt.","hire","home"),
-            Event(3, "Åh nej! ditt sparande rasar i värde ","depot","accident"),
-            Event(4, "Åh nej! din hyra höjs på ditt boende ","home","accident"),
-            Event(5, "Åh nej! din räntan höjs på ditt lån ","loan","accident")
+            Event(3, "Lågkonjuktur! ditt sparande rasar i värde ","depot","accident"),
+            Event(4, "Lågkonjuktur! din hyra höjs på ditt boende ","home","accident"),
+            Event(5, "Lågkonjuktur! din räntan höjs på ditt lån ","loan","accident"),
+            Event(6, "Högkonjuktur! ditt sparande ökar i värde ","depot","happening"),
+            Event(7, "Högkonjuktur! värdet på din bostad höjs ","home","happening"),
+            Event(8, "Högkonjuktur! räntan sänks på ditt lån ","loan","happening")
         )
     }
 

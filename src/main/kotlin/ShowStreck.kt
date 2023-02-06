@@ -15,72 +15,72 @@ val ShowStreck = FC<ShowStreckProps> { props ->
             0.pct {
                 backgroundImage = url("streck002.jpg")
                 marginLeft = 0.pc
-                width = 7.pct
+                width = 0.pc
             }
             7.pct {
                 backgroundImage = url("streck002.jpg")
                 marginLeft = 0.pc
-                width = 14.pct
+                width = 4.pc
             }
             14.pct {
                 backgroundImage = url("streck002.jpg")
                 marginLeft = 0.pc
-                width = 21.pct
+                width = 8.pc
             }
             21.pct {
                 backgroundImage = url("streck002.jpg")
                 marginLeft = 0.pc
-                width = 25.pct
+                width = 12.pc
             }
             28.pct {
                 backgroundImage = url("streck002.jpg")
                 marginLeft = 0.pc
-                width = 28.pct
+                width = 16.pc
             }
             35.pct {
                 backgroundImage = url("streck003.jpg")
                 marginLeft = 0.pc
-                width = 35.pct
+                width = 20.pc
             }
             42.pct {
                 backgroundImage = url("streck003.jpg")
                 marginLeft = 0.pc
-                width = 42.pct
+                width = 24.pc
             }
             49.pct {
                 backgroundImage = url("streck003.jpg")
                 marginLeft = 0.pc
-                width = 49.pct
+                width = 28.pc
             }
             56.pct {
                 backgroundImage = url("streck003.jpg")
                 marginLeft = 0.pc
-                width = 56.pct
+                width = 32.pc
             }
             63.pct {
                 backgroundImage = url("streck003.jpg")
                 marginLeft = 0.pc
-                width = 63.pct
+                width = 36.pc
             }
             70.pct {
                 backgroundImage = url("streck004.jpg")
                 marginLeft = 0.pc
-                width = 70.pct
+                width = 40.pc
             }
             77.pct {
                 backgroundImage = url("streck004.jpg")
                 marginLeft = 0.pc
-                width = 77.pct
+                width = 44.pc
             }
             84.pct {
                 backgroundImage = url("streck004.jpg")
                 marginLeft = 0.pc
-                width = 84.pct
+                width = 48.pc
             }
             100.pct {
                 backgroundImage = url("streck004.jpg")
                 marginLeft = 0.pc
-                width = 100.pct
+                width = 52.pc
             }
         }
 

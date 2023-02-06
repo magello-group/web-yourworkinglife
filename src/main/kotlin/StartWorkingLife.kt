@@ -76,7 +76,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
     if (messageList.isEmpty()) {
 
         // starting your workingstory
-        messageList = employee.showEmployeeSalary(age, messageList, messageId)
+        messageList = employee.showEmployeeSalary(age, 0.0F,messageList, messageId)
         messageId = messageList.size
 
         currentTitle = false
@@ -213,7 +213,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                 }
 
                 "unemployed" -> {
-                    if (randomLifeValues[year - 1] < 25 && !person.magellit) {
+                    if (randomLifeValues[year - 1] < 35 && !person.magellit) {
 
                         if (allEvents[randomEventValues[0]].objectType == "unemployed") {
                             //Varslad
@@ -283,7 +283,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                         messageList = profession.showNewProfession(messageList, messageId)
                         messageId = messageList.size
 
-                        messageList = employee.showEmployeeSalary(age, messageList, messageId)
+                        messageList = employee.showEmployeeSalary(age, 0.0F, messageList, messageId)
                         messageId = messageList.size
                     }
                 }
@@ -511,7 +511,94 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                             "loan" -> {
                                 if (person.house.loan) {
                                     randomValues = List(1) { Random.nextInt(1, 7) }
-                                    person.house.houseLoan.loanInterest = randomValues[0].toFloat()/100.0F
+                                    person.house.houseLoan.loanInterest += randomValues[0].toFloat()/100.0F
+
+                                    messageList =
+                                        messageList.plus(
+                                            Message(
+                                                messageId,
+                                                "${allCostEvents[randomCostEventValues[0]].eventText} med ${ randomValues[0] }%.",
+                                                "",
+                                                "blinking"
+                                            )
+                                        )
+                                    messageId += 1
+                                }
+                            }
+                        }
+                    }
+                }
+                "happening" -> {
+                    if (randomLifeValues[year - 1] < 10) {
+
+                        when (allCostEvents[randomCostEventValues[0]].objectType) {
+                            "depot" -> {
+                                if (accountDepot.amount > 0.0F) {
+
+                                    randomValues = List(1) { Random.nextInt(1, 50) }
+                                    accountDepot.amount += accountDepot.amount * randomValues[0].toFloat()/100.0F
+
+                                    messageList =
+                                        messageList.plus(
+                                            Message(
+                                                messageId,
+                                                "${allCostEvents[randomCostEventValues[0]].eventText} med ${ randomValues[0] }%.",
+                                                "",
+                                                "blinking"
+                                            )
+                                        )
+                                    messageId += 1
+                                }
+                            }
+
+                            "home" -> {
+                                if (person.accommodation) {
+
+                                    randomValues = List(1) { Random.nextInt(1, 7) }
+                                    person.house.houseMonthPayment -= person.house.houseMonthPayment * (randomValues[0].toFloat()/100.0F)
+
+                                    messageList =
+                                        messageList.plus(
+                                            Message(
+                                                messageId,
+                                                "${allCostEvents[randomCostEventValues[0]].eventText} med ${ randomValues[0].formatDecimalSeparator() }%.",
+                                                "",
+                                                "blinking"
+                                            )
+                                        )
+                                    messageId += 1
+
+                                    // Betala eller ta lån?
+                                    /*
+                                    if (accountSalary.amount >= currentAmount) {
+                                        accountSalary.amount -= currentAmount
+                                    } else if (accountDepot.amount >= currentAmount) {
+                                        accountDepot.amount -= currentAmount
+                                    } else if ((accountDepot.amount + accountSalary.amount) >= currentAmount) {
+                                        accountDepot.amount -= (currentAmount - accountSalary.amount)
+                                        accountSalary.amount = 0.0F
+                                    } else {
+                                        person.loan = true
+                                        person.blancoLoan.loanAmount =
+                                            currentAmount - (accountDepot.amount + accountSalary.amount)
+
+                                        randomValues = List(1) { Random.nextInt(1, 4) }
+                                        person.blancoLoan.loanInterest = randomValues[0].toFloat()
+                                        person.blancoLoan.loanMonthPayment =
+                                            person.blancoLoan.loanAmount / ((profession.pensionAge - age) * 12)
+
+                                        messageList = person.showPersonGetBlancoLoan(messageList, messageId)
+                                        messageId = messageList.size
+                                    }
+
+                                     */
+                                }
+                            }
+
+                            "loan" -> {
+                                if (person.house.loan) {
+                                    randomValues = List(1) { Random.nextInt(1, 2) }
+                                    person.house.houseLoan.loanInterest -= randomValues[0].toFloat()/100.0F
 
                                     messageList =
                                         messageList.plus(
@@ -546,7 +633,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                 employee.currentSalary += (employee.currentSalary * (randomValues[0].toFloat() / 1000.0F))
             }
 
-            messageList = employee.showEmployeeSalary(age, messageList, messageId)
+            messageList = employee.showEmployeeSalary(age,(randomValues[0].toFloat() / 10.0F), messageList, messageId)
             messageId = messageList.size
 
             //12 arbetsmånader har gått men har du jobbat
@@ -764,6 +851,13 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
             }
         }
 
+        //Show animation
+        div {
+            ShowStreckPilot {}
+
+            ShowStreck {}
+        }
+
         p {
             button {
 
@@ -806,6 +900,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
             }
         }
     }
+
 /*
     ShowWorkingLife {
         actualProfession = props.selectedProfession

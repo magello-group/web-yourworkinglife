@@ -118,7 +118,7 @@ data class Union( val personId: Int ) {
                  storyList.plus(
                     Message(
                         storyId,
-                        "Grattis! då du har inkomstförsäkring + tillägsförsäkring får ut ${this.unEmployedSalary200.toInt().formatDecimalSeparator()} SEK i 200 dagar.",
+                        "Grattis! med inkomst- och tilläggsförsäkring får du i 200 dagar",
                         "hotpink",
                         ""
                     )
@@ -126,14 +126,30 @@ data class Union( val personId: Int ) {
 
             storyId += 1
 
-            storyList =  storyList.plus(
-                Message(
-                    storyId,
-                    "De sista 100 dagarna får du ut av a-kassan ${this.unEmployedSalary300.toInt().formatDecimalSeparator()} SEK",
-                    "hotpink",
-                    ""
+            storyList =
+                storyList.plus(
+                    Message(
+                        storyId,
+                        "per månad: ${this.unEmployedSalary200.toInt().formatDecimalSeparator()} SEK.",
+                        "hotpink",
+                        ""
+                    )
                 )
-            )
+
+            if (this.countUnEmployeeMonth > 200) {
+                storyId += 1
+
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "De sista 100 dagarna får du ut av a-kassan ${
+                            this.unEmployedSalary300.toInt().formatDecimalSeparator()
+                        } SEK",
+                        "hotpink",
+                        ""
+                    )
+                )
+            }
 
         } else if (this.incomeInsurance) {
 
@@ -141,21 +157,36 @@ data class Union( val personId: Int ) {
                 storyList.plus(
                     Message(
                         storyId,
-                        "Grattis! du har inkomstförsäkring och får ut ${this.unEmployedSalary150.toInt().formatDecimalSeparator()} SEK i 150 dagar.",
+                        "Grattis! med inkomstförsäkring får du i 150 dagar",
                         "hotpink",
                         ""
                     )
                 )
-            storyId += 1
 
-            storyList = storyList.plus(
-                Message(
-                    storyId,
-                    "De sista 150 dagarna får du ut av a-kassan ${this.unEmployedSalary300.toInt().formatDecimalSeparator()} SEK.",
-                    "hotpink",
-                    ""
+            storyList =
+                storyList.plus(
+                    Message(
+                        storyId,
+                        "per månad: ${this.unEmployedSalary150.toInt().formatDecimalSeparator()} SEK.",
+                        "hotpink",
+                        ""
+                    )
                 )
-            )
+
+            if (this.countUnEmployeeMonth > 150) {
+                storyId += 1
+
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "De sista 150 dagarna får du ut av a-kassan ${
+                            this.unEmployedSalary300.toInt().formatDecimalSeparator()
+                        } SEK.",
+                        "hotpink",
+                        ""
+                    )
+                )
+            }
         }
 
         return storyList
@@ -226,32 +257,35 @@ data class Union( val personId: Int ) {
         storyList = storyList.plus(
             Message(
                  storyId,
-                "Grattis! då du har a-kassa fick du ut ${this.unEmployedSalary100.toInt().formatDecimalSeparator()} SEK i 100 dagar.",
+                "Grattis! från a-kassan får du i 100 dagar",
                 "hotpink",
                 ""
             )
         )
         storyId += 1
-
-        storyList = storyList.plus(
-            Message(
-                 storyId,
-                "De sista 200 dagarna fick du ut av a-kassan ${this.unEmployedSalary300.toInt().formatDecimalSeparator()} SEK.",
-                "hotpink",
-                ""
-            )
-        )
-
-        storyId += 1
-
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Vill du få ut mer ifall du blir arbetslös kolla in detta: ${this.linkInsurance}",
+                "per månad: ${this.unEmployedSalary100.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
             )
         )
+
+        if (this.countUnEmployeeMonth > 200) {
+            storyId += 1
+
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "De sista 200 dagarna fick du ut av a-kassan ${
+                        this.unEmployedSalary300.toInt().formatDecimalSeparator()
+                    } SEK.",
+                    "hotpink",
+                    ""
+                )
+            )
+        }
 
         return storyList
     }
@@ -275,43 +309,35 @@ data class Union( val personId: Int ) {
         storyList = storyList.plus(
             Message(
                  storyId,
-                "Oj! du har ingen a-kassa så du fick ut ${this.unEmployedSalary100.toInt().formatDecimalSeparator()} SEK i 100 dagar.",
-                "orange",
-                ""
-            )
-        )
-        storyId += 1
-
-        storyList = storyList.plus(
-            Message(
-                 storyId,
-                "De sista 200 dagarna fick du ut av a-kassan ${this.unEmployedSalary300.toInt().formatDecimalSeparator()} SEK.",
+                "Oj! ingen a-kassa, du får ut i 100 dagar",
                 "orange",
                 ""
             )
         )
 
         storyId += 1
-
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Är du nyfiken på a-kassa: ${this.linkAkassa}",
-                "hotpink",
+                "per månad: ${this.unEmployedSalary100.toInt().formatDecimalSeparator()} SEK.",
+                "orange",
                 ""
             )
         )
+        if (this.countUnEmployeeMonth > 200) {
+            storyId += 1
 
-        storyId += 1
-
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Är du nyfiken på inkomstförsäkring: ${this.linkInsurance}",
-                "hotpink",
-                ""
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "De sista 200 dagarna fick du ut av a-kassan ${
+                        this.unEmployedSalary300.toInt().formatDecimalSeparator()
+                    } SEK.",
+                    "orange",
+                    ""
+                )
             )
-        )
+        }
 
         return storyList
     }
