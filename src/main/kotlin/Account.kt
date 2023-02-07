@@ -17,7 +17,7 @@ data class Account( val accountId: Int, val accountType: String) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "🤑 Härligt! du får bonus på ${ this.amount.toInt().formatDecimalSeparator() } SEK!",
+                "Härligt! du får värdepapper med ett värde på ${ this.amount.toInt().formatDecimalSeparator() } SEK 🤑" ,
                 "",
                 "blinking"
             )
@@ -32,7 +32,7 @@ data class Account( val accountId: Int, val accountType: String) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "🤑 Oj, du får avgångsvederlag på ${this.amount.toInt().formatDecimalSeparator()}!",
+                "Oj, du får avgångsvederlag på ${this.amount.toInt().formatDecimalSeparator()} 🤑",
                 "",
                 "blinking"
             )
@@ -86,11 +86,20 @@ data class Account( val accountId: Int, val accountType: String) {
                 )
                 this.messageMilgon1 = false
             } else {
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "----------------------- Summa konton ------------------------",
+                        "deepskyblue",
+                        ""
+                    )
+                )
+
                 if (this.amount.toInt() < 0.0F) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "😒 Lönekonto: ${this.amount.toInt().formatDecimalSeparator()} SEK",
+                            "Lönekonto: ${this.amount.toInt().formatDecimalSeparator()} SEK 😒",
                             "",
                             ""
                         )
@@ -99,7 +108,7 @@ data class Account( val accountId: Int, val accountType: String) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "😀 Lönekonto: ${this.amount.toInt().formatDecimalSeparator()} SEK",
+                            "Lönekonto: ${this.amount.toInt().formatDecimalSeparator()} SEK 😀",
                             "",
                             ""
                         )
@@ -146,16 +155,16 @@ data class Account( val accountId: Int, val accountType: String) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "😒 Lönekonto: ${this.amount.toInt().formatDecimalSeparator()} SEK (efter kostnadsavdrag) ",
+                    "Lönekonto: ${this.amount.toInt().formatDecimalSeparator()} SEK (efter kostnadsavdrag) 😒",
                     "",
-                    "blinking"
+                    "blinkingRed"
                 )
             )
         } else {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "😅 Lönekonto: ${this.amount.toInt().formatDecimalSeparator()} SEK (efter kostnadsavdrag) ",
+                    "Lönekonto: ${this.amount.toInt().formatDecimalSeparator()} SEK (efter kostnadsavdrag) 😅",
                     "",
                     ""
                 )

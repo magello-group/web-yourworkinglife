@@ -3,23 +3,23 @@ import emotion.css.keyframes
 import emotion.react.css
 import react.FC
 import react.Props
-import react.dom.html.ReactHTML.img
 import react.dom.html.ReactHTML.p
 
-external interface ShowStreckPilotProps : Props {
+external interface ShowStreckImageProps : Props {
+    var selectedImage: String
 }
 
-val ShowStreckPilot = FC<ShowStreckPilotProps> { props ->
+val ShowStreckImage = FC<ShowStreckImageProps> { props ->
     p {
 
-        val streckPilot: AnimationName = keyframes {
+        val streckImage: AnimationName = keyframes {
             0.pct {
-                backgroundImage = url("streckpilot1300.jpg")
+                backgroundImage = url(props.selectedImage)
                 marginLeft = 0.pc
                 width = 10.pc
             }
             100.pct {
-                backgroundImage = url("streckpilot1300.jpg")
+                backgroundImage = url(props.selectedImage)
                 marginLeft = 26.pc
                 width = 10.pc
             }
@@ -27,7 +27,7 @@ val ShowStreckPilot = FC<ShowStreckPilotProps> { props ->
 
         css {
             animationDuration = 3.s
-            animationName = streckPilot
+            animationName = streckImage
             animationFillMode = AnimationFillMode.both
             display = Display.flex
             position = Position.absolute

@@ -24,62 +24,87 @@ data class Person (val id: Int) {
         var storyList = messageList
         var storyId = messageId
 
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "----------------------- Årlig summering boende ------------------------",
+                "deepskyblue",
+                ""
+            )
+        )
+        storyId += 1
+
         if (this.house.houseAmount.toInt() > 0) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Värde boende: ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
+                    "Värde: ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
                     "",
                     ""
                 )
             )
+
+            storyId += 1
         }
-        storyId += 1
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "😅 Månadskostnad boende: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
-                "",
-                ""
+
+        if (this.house.loan) {
+
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Lån: ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK.",
+                    "",
+                    ""
+                )
             )
-        )
+            storyId += 1
 
-        return storyList
-    }
-
-    fun showPersonHouseLoan(messageList: List<Message>, messageId: Int): List<Message> {
-        var storyList = messageList
-        var storyId = messageId
-
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Lån: ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK.",
-                "",
-                ""
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Låneränta: ${this.house.houseLoan.loanInterest.toInt().formatDecimalSeparator()}%",
+                    "",
+                    ""
+                )
             )
-        )
-        storyId += 1
 
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Låneränta: ${this.house.houseLoan.loanInterest.toInt().formatDecimalSeparator()}%",
-                "",
-                ""
+            storyId += 1
+
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Avbetalning lån: ${this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+                    "",
+                    ""
+                )
             )
-        )
+            storyId += 1
+        }
 
-        storyId += 1
+        if (this.house.houseType == "hyresrätt") {
 
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "😅 Avbetalning lån: ${this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()} SEK.",
-                "",
-                ""
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+                    "",
+                    ""
+                )
             )
-        )
+            storyId += 1
+        } else {
+
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Månadskostnad: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+                    "",
+                    ""
+                )
+            )
+            storyId += 1
+        }
 
         return storyList
     }
@@ -91,9 +116,9 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "😅 Du behöver ta ett lån på ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK.",
+                "Du behöver ta ett lån på ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK 😅",
                 "",
-                "blinking"
+                "hotpink"
             )
         )
         storyId += 1
@@ -110,7 +135,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "😅 Avbetalning lån: ${this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()}SEK.",
+                "Avbetalning lån: ${this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()}SEK.",
                 "hotpink",
                 ""
             )
@@ -126,7 +151,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "😅 Du tar ett blancolån på ${this.blancoLoan.loanAmount.toInt().formatDecimalSeparator()} SEK.",
+                "Du tar ett blancolån på ${this.blancoLoan.loanAmount.toInt().formatDecimalSeparator()} SEK 😅",
                 "lavender",
                 ""
             )
@@ -146,7 +171,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "😅 Avbetalning lån: ${this.blancoLoan.loanMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+                "Avbetalning lån: ${this.blancoLoan.loanMonthPayment.toInt().formatDecimalSeparator()} SEK.",
                 "lavender",
                 ""
             )
@@ -162,7 +187,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "😊 Grattis du känner dig lycklig!",
+                "Grattis du känner dig lycklig 😊",
                 "",
                 "blinking"
             )
@@ -172,7 +197,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "😇 Njut av dom små stunderna och glöm sorger och besvär.",
+                "Njut av dom små stunderna och glöm sorger och besvär 😇",
                 "",
                 "blinking"
             )
@@ -182,7 +207,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "🍀 Så håller du dig frisk!.",
+                "Så håller du dig frisk! 🍀",
                 "",
                 "blinking"
             )
@@ -265,7 +290,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "😅 Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+                "Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
             )
@@ -280,7 +305,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "😅 Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+                "Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
             )
@@ -308,27 +333,16 @@ data class Person (val id: Int) {
     fun showWorkingLife(age: Int, messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
-/*
+
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Ny rad",
-                "Break",
-                ""
-            )
-        )
-
-        storyId += 1
-
- */
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "----------------------- Det går ${age - this.age + 1} år ------------------------",
+                "----------------------- Du är ${age} år ------------------------",
                 "deepskyblue",
                 ""
             )
         )
+        //${age - this.age + 1}
         storyId += 1
 
         if (age == this.age) {

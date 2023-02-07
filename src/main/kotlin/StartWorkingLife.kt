@@ -72,6 +72,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
     val yearMessage: List<Int> = listOf(30, 35, 40, 45, 55, 50, 65, 75)
     var currentTitle = true
     var currentAmount:Float = 0.0F
+    var debugIsOn = false
 
     if (messageList.isEmpty()) {
 
@@ -81,8 +82,34 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
 
         currentTitle = false
 
+        if (debugIsOn) {
+
+            messageList = messageList.plus(
+                Message(
+                    messageId,
+                    "Ålder: ${person.age}, Pensionsålder:  ${profession.pensionAge} ",
+                    "orange",
+                    ""
+                )
+            )
+            messageId += 1
+        }
+
         //Loop all working years----------------------------------------------------
         for (year in person.age..profession.pensionAge) {
+
+            if (debugIsOn) {
+
+                messageList = messageList.plus(
+                    Message(
+                        messageId,
+                        "Event: ${allEvents[randomEventValues[0]].eventType}, Object:  ${allEvents[randomEventValues[0]].objectType} ",
+                        "orange",
+                        ""
+                    )
+                )
+                messageId += 1
+            }
 
             //Init count month
             parent.countFamilyMonth = 0
@@ -96,7 +123,20 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
             if (employee.currentSalary == 0.0F) employee.currentSalary = 4180.0F
 
             //Get event in life
-            randomEventValues = List(1) { Random.nextInt(0, allEvents.size-1) }
+            randomEventValues = List(1) { Random.nextInt(0, allEvents.size) }
+
+            if (debugIsOn) {
+
+                messageList = messageList.plus(
+                    Message(
+                        messageId,
+                        "Event: ${allEvents[randomEventValues[0]].eventType}, Object:  ${allEvents[randomEventValues[0]].objectType} ",
+                        "orange",
+                        ""
+                    )
+                )
+                messageId += 1
+            }
 
             when (allEvents[randomEventValues[0]].eventType) {
                 "depot" -> {
@@ -115,7 +155,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
 
                 "sick" -> {
                     //Sjuk
-                    if (randomLifeValues[year - 1] < 10) {
+                    if (randomLifeValues[year - 1] < 20) {
 
                         when (allEvents[randomEventValues[0]].objectType) {
                             "burnedout" -> {
@@ -213,7 +253,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                 }
 
                 "unemployed" -> {
-                    if (randomLifeValues[year - 1] < 35 && !person.magellit) {
+                    if (randomLifeValues[year - 1] < 40 && !person.magellit) {
 
                         if (allEvents[randomEventValues[0]].objectType == "unemployed") {
                             //Varslad
@@ -299,7 +339,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                 }
 
                 "parent" -> {
-                    if (randomLifeValues[year - 1] < 35 && age <= 50) {
+                    if (randomLifeValues[year - 1] < 50 && age <= 50) {
                         //Babies
                         parent.countBabies += 1
                         parent.familySalary = parent.getIncome(employee.currentSalary)
@@ -316,11 +356,11 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                 }
 
                 "vab" -> {
-                    if (randomLifeValues[year - 1] < 100 && parent.countBabies > 0) {
+                    if (parent.countBabies > 0) {
                         //VAB
 
                         randomValues = List(1) { Random.nextInt(1, 12) }
-                        parent.countFamilyMonth += randomValues[1]
+                        parent.countFamilyMonth += randomValues[0]
                         parent.familySalary = parent.getIncome(employee.currentSalary)
 
                         if (person.magellit)
@@ -336,11 +376,11 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
             }
 
             //Get cost event in life
-            randomCostEventValues = List(1) { Random.nextInt(0, allCostEvents.size-1) }
+            randomCostEventValues = List(1) { Random.nextInt(0, allCostEvents.size) }
 
             when (allCostEvents[randomCostEventValues[0]].eventType) {
                 "home" -> {
-                    if (randomLifeValues[year - 1] < 10 || !person.accommodation) {
+                    if (randomLifeValues[year - 1] > 85 || !person.accommodation) {
 
                         messageList =
                             messageList.plus(
@@ -401,7 +441,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                             }
 
                             "hire" -> {
-                                person.house = House(0, "hyreslägenhet")
+                                person.house = House(0, "hyresrätt")
                                 person.house.houseAmount = 0.0F
 
                                 randomValues = List(1) { Random.nextInt(5000, 30000) }
@@ -442,7 +482,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                     }
                 }
                 "accident" -> {
-                    if (randomLifeValues[year - 1] < 10) {
+                    if (randomLifeValues[year - 1] > 85) {
 
                         when (allCostEvents[randomCostEventValues[0]].objectType) {
                             "depot" -> {
@@ -529,7 +569,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                     }
                 }
                 "happening" -> {
-                    if (randomLifeValues[year - 1] < 10) {
+                    if (randomLifeValues[year - 1] > 85) {
 
                         when (allCostEvents[randomCostEventValues[0]].objectType) {
                             "depot" -> {
@@ -628,13 +668,19 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
             messageId = messageList.size
 
             //Löneökning
-            if (employee.currentSalary != 4180.0F) {
+            if (employee.currentSalary != 4180.0F &&
+                (employee.countSickMonth + union.countUnEmployeeMonth + parent.countFamilyMonth == 0)) {
                 randomValues = List(1) { Random.nextInt(5, 98) }
                 employee.currentSalary += (employee.currentSalary * (randomValues[0].toFloat() / 1000.0F))
-            }
 
-            messageList = employee.showEmployeeSalary(age,(randomValues[0].toFloat() / 10.0F), messageList, messageId)
-            messageId = messageList.size
+                messageList =
+                    employee.showEmployeeSalary(age, (randomValues[0].toFloat() / 10.0F), messageList, messageId)
+                messageId = messageList.size
+            } else {
+                messageList =
+                    employee.showEmployeeSalary(age, 0.0F, messageList, messageId)
+                messageId = messageList.size
+            }
 
             //12 arbetsmånader har gått men har du jobbat
             employee.countWorkMonth += 12
@@ -714,11 +760,6 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
             if (person.accommodation) {
                 messageList = person.showPersonAccomodation(messageList, messageId)
                 messageId = messageList.size
-
-                if (person.house.loan) {
-                    messageList = person.showPersonHouseLoan(messageList, messageId)
-                    messageId = messageList.size
-                }
             }
         }
 
@@ -768,6 +809,41 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                     color = NamedColor.darkgoldenrod
                 }
             }
+            val blinkingRed: AnimationName = keyframes {
+                0.pct {
+                    color = NamedColor.hotpink
+                }
+                10.pct {
+                    color = NamedColor.lightpink
+                }
+                20.pct {
+                    color = NamedColor.hotpink
+                }
+                30.pct {
+                    color = NamedColor.lightpink
+                }
+                40.pct {
+                    color = NamedColor.hotpink
+                }
+                50.pct {
+                    color = NamedColor.lightpink
+                }
+                60.pct {
+                    color = NamedColor.hotpink
+                }
+                70.pct {
+                    color = NamedColor.lightpink
+                }
+                80.pct {
+                    color = NamedColor.hotpink
+                }
+                90.pct {
+                    color = NamedColor.lightpink
+                }
+                100.pct {
+                    color = NamedColor.hotpink
+                }
+            }
             css {
                 display = Display.block
                 position = Position.absolute
@@ -796,6 +872,18 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                                         animationName = blinking
                                         animationFillMode = AnimationFillMode.both
                                         color = NamedColor.gold
+                                    }
+                                    +message.messageText
+                                }
+                            }
+                            "blinkingRed" -> {
+                                p {
+
+                                    css {
+                                        animationDuration = 3.s
+                                        animationName = blinkingRed
+                                        animationFillMode = AnimationFillMode.both
+                                        color = NamedColor.red
                                     }
                                     +message.messageText
                                 }
@@ -853,9 +941,24 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
 
         //Show animation
         div {
-            ShowStreckPilot {}
+            when (props.selectedProfession.professionType) {
+                "pilote" -> {
+                    ShowStreckImage {selectedImage ="streckpilot1400.jpg"}
+                    ShowCloud {
+                        selectedImage ="moln.PNG"
+                    }
+                }
+                "agent" -> {
+                    ShowStreckImage {selectedImage ="streckagent1300.jpg"}
+                    ShowStreck {}
+                }
+                "police" -> {
+                    ShowStreckImage {selectedImage ="streckpolis1300.jpg"}
+                    ShowStreck {}
+                }
+            }
 
-            ShowStreck {}
+
         }
 
         p {
@@ -899,6 +1002,13 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                 +" ▶"
             }
         }
+    }
+
+    p {
+        css {
+            color = NamedColor.orange
+        }
+        +"Slut"
     }
 
 /*

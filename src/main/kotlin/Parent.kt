@@ -26,7 +26,7 @@ data class Parent (val personId: Int) {
         var storyList = messageList
         var storyId = messageId
 
-        if (this.countBabies > 0) {
+        if (this.countBabies == 1) {
             storyList = storyList.plus(
                 Message(
                     storyId,

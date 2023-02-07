@@ -16,6 +16,8 @@ data class Employee( val employeeId: Int )
         var storyList = messageList
         var storyId = messageId
 
+        storyId += 1
+
         if (this.currentSalary == 4180.0F) {
             storyList = storyList.plus(
                 Message(
@@ -25,25 +27,29 @@ data class Employee( val employeeId: Int )
                     ""
                 )
             )
+
+            storyId += 1
+
         } else {
 
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Du är $age år och jobbar som ${this.title}.",
+                    "Du jobbar som ${this.title}.",
                     "",
                     ""
                 )
             )
 
+            storyId += 1
+
             if (salaryincrease > 0.0F) {
-                storyId += 1
                 storyList = storyList.plus(
                     Message(
                         storyId,
-                        "💪 Du har fått löneökning på ${
+                        "Du har fått löneökning på ${
                             salaryincrease.toInt().formatDecimalSeparator()
-                        }%.",
+                        }% 💪",
                         "",
                         ""
                     )
@@ -51,6 +57,7 @@ data class Employee( val employeeId: Int )
             }
 
             storyId += 1
+
             storyList = storyList.plus(
                 Message(
                     storyId,
@@ -61,7 +68,10 @@ data class Employee( val employeeId: Int )
                     ""
                 )
             )
+
+            storyId += 1
         }
+
         return storyList
     }
 
@@ -140,7 +150,7 @@ data class Employee( val employeeId: Int )
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Härligt! du jobbade heltid ${
+                    "Du jobbade heltid ${
                         this.countWorkMonth.toInt().formatDecimalSeparator()
                     } månader.",
                     "hotpink",

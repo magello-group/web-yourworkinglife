@@ -59,11 +59,11 @@ data class Profession(
                 0.0F, 0.0F, 1200.0F, 58, "pension"
             ),
             Profession(
-                6, "secret", "agent", "Du tar jobb på ett hemligt uppdrag",
+                6, "agent", "agent", "Du tar jobb på ett hemligt uppdrag",
                 0.0F, 0.0F, 3000.0F, 50, "adventure"
             ),
             Profession(
-                7, "pilot", "pilot", "Du tar jobb på ett flygbolag",
+                7, "pilote", "pilot", "Du tar jobb på ett flygbolag",
                 0.0F, 0.0F, 3000.0F, 50, "adventure"
             ),
             Profession(

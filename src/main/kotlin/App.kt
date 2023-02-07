@@ -268,11 +268,11 @@ val App = FC<Props> {
                         selectedPerson = person
                         selectedMessages = currentMessages
 
-                        onSelectMessages = { view, messages, profession, person ->
-                            currentView = view
-                            currentMessages = messages
-                            currentProfession = profession
-                            currentPerson = person
+                        onSelectMessages = { newView, newMessages, newProfession, newPerson ->
+                            currentView = newView
+                            currentMessages = newMessages
+                            currentProfession = newProfession
+                            currentPerson = newPerson
                         }
                     }
                 }
