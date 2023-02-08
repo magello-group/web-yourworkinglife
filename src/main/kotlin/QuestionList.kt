@@ -48,7 +48,7 @@ val QuestionList = FC<QuestionListProps> { props ->
                     textAlign = TextAlign.start
                 }
 
-                for (question in questions) {
+                for (newQuestion in questions) {
                     tr {
                         css {
                             fontSize = 18.px
@@ -71,42 +71,42 @@ val QuestionList = FC<QuestionListProps> { props ->
                                     if (cell == 1) {
                                         button {
 
-                                            key = question.id.toString()
+                                            key = newQuestion.id.toString()
                                             css {
                                                 display = Display.block
                                                 border = Border(2.px, LineStyle.solid, NamedColor.black)
                                                 height = 25.px
                                                 width = 25.px
                                                 backgroundColor =
-                                                    if (question == props.selectedQuestion) {
-                                                        if (props.clickedQuestions.contains(question))
+                                                    if (newQuestion == props.selectedQuestion) {
+                                                        if (props.clickedQuestions.contains(newQuestion))
                                                             NamedColor.lightgreen
                                                         else
                                                             NamedColor.white
-                                                    } else if (props.clickedQuestions.isNullOrEmpty())
+                                                    } else if (props.clickedQuestions.isEmpty())
                                                         NamedColor.white
-                                                    else if (props.clickedQuestions.contains(question))
+                                                    else if (props.clickedQuestions.contains(newQuestion))
                                                         NamedColor.lightgreen
                                                     else NamedColor.white
                                             }
                                             onClick = {
-                                                props.onSelectQuestion(question)
+                                                props.onSelectQuestion(newQuestion)
                                             }
-                                            if (question == props.selectedQuestion) {
-                                                if (props.clickedQuestions.contains(question))
+                                            if (newQuestion == props.selectedQuestion) {
+                                                if (props.clickedQuestions.contains(newQuestion))
                                                     +"✔"
                                                 else
                                                     +" "
-                                            } else if (props.clickedQuestions.isNullOrEmpty())
+                                            } else if (props.clickedQuestions.isEmpty())
                                                 +" "
-                                            else if (props.clickedQuestions.contains(question))
+                                            else if (props.clickedQuestions.contains(newQuestion))
                                                 +"✔"
                                             else
                                                 +" "
                                         }
                                     } else {
                                         +" "
-                                        +question.questionText
+                                        +newQuestion.questionText
                                     }
                                 }
                             }

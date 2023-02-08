@@ -8,8 +8,7 @@ data class Insurance( val personId: Int, val insuranceType: String )
     val maxIncome: Float = 33480.0F
 
     fun getIncome(salary: Float): Float {
-        var sum: Float = 0.0F
-        sum = if (salary < maxSalary)
+        val sum: Float = if (salary < maxSalary)
             salary * incomePercentage
         else
             maxIncome

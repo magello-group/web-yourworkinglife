@@ -10,7 +10,6 @@ import react.dom.html.ReactHTML.tbody
 import react.dom.html.ReactHTML.td
 import react.dom.html.ReactHTML.tr
 import react.key
-import react.useState
 import kotlin.random.Random
 
 external interface ActionListProps : Props {
@@ -27,7 +26,7 @@ external interface ActionListProps : Props {
 val ActionList = FC<ActionListProps> { props ->
     val actions: List<Question> = props.selectedView.questions
     var selectedProfessions: List<Profession> = emptyList()
-    var randomValues = List(1) { Random.nextInt(0, 100) }
+    var randomValues: List<Int>
     var allProfessions: List<Profession>
     val profession = Profession(0)
 
@@ -61,7 +60,7 @@ val ActionList = FC<ActionListProps> { props ->
                 for (question in actions) {
                     if (question == props.selectedAction) {
                         allProfessions = profession.getProfessionList(question.objectType)
-                        randomValues = List(1) { Random.nextInt(0, allProfessions.size-1) }
+                        randomValues = List(1) { Random.nextInt(0, allProfessions.size) }
 
                         selectedProfessions = selectedProfessions.plus(allProfessions[randomValues[0]])
                     }

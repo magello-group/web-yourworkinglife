@@ -1,5 +1,4 @@
 import kotlinx.serialization.Serializable
-import kotlin.random.Random
 
 @Serializable
 data class Loan( val personId: Int, val loanType: String) {

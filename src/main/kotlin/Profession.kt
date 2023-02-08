@@ -28,13 +28,6 @@ data class Profession(
         return selectedProfessions
     }
 
-    fun getProfession(id: Int): Profession {
-
-        val professions: List<Profession> = getAllProfession()
-
-        return professions[id]
-    }
-
     fun getAllProfession(): List<Profession> {
 
         return listOf(
@@ -99,7 +92,7 @@ data class Profession(
                 0.0F, 0.0F, 1400.0F, 75, "chilla"
             ),
             Profession(
-                16, "lazy", "sökande", "Du behöver träffa en terapeut",
+                16, "lazy", "sökande", "Du blir konstnär",
                 0.0F, 0.0F, 0.0F, 75, "chilla"
             )
         )
@@ -107,7 +100,7 @@ data class Profession(
 
     fun showNewProfession(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId
+        val storyId = messageId
 
         storyList = storyList.plus(
             Message(

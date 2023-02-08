@@ -6,24 +6,25 @@ data class Union( val personId: Int ) {
     var incomeInsurance: Boolean = false
     var extraInsurance: Boolean = false
     var unEmployedSalaryAmount: Double = 0.0
-    var unEmployedSalary100: Double = 0.0
-    var unEmployedSalary150: Double = 0.0
-    var unEmployedSalary200: Double = 0.0
-    var unEmployedSalary300: Double = 0.0
+    var noAkassaSalaryAmount: Double = 0.0
+    private var unEmployedSalary100: Double = 0.0
+    private var unEmployedSalary150: Double = 0.0
+    private var unEmployedSalary200: Double = 0.0
+    private var unEmployedSalary300: Double = 0.0
     var countUnEmployeeMonth: Int = 0
-    val akassaPercentage100: Double = 0.80
-    val akassaPercentage300: Double = 0.70
-    val maxSalaryAkassa100: Double = 26400.0
-    val maxSalaryAkassa300: Double = 22000.0
-    val maxSalaryNoAkassa: Double = 11220.0
-    val incomeInsurance100: Double = 0.62
-    val incomeInsurance90: Double = 0.64
-    val incomeInsurance80: Double = 0.66
-    val incomeInsurance70: Double = 0.69
-    val incomeInsurance60: Double = 0.70
-    val incomeInsurance50: Double = 0.76
-    val incomeInsurance40: Double = 0.77
-    val incomeInsurance30: Double = 0.80
+    private val akassaPercentage100: Double = 0.80
+    private val akassaPercentage300: Double = 0.70
+    private val maxSalaryAkassa100: Double = 26400.0
+    private val maxSalaryAkassa300: Double = 22000.0
+    private val maxSalaryNoAkassa: Double = 11220.0
+    private val incomeInsurance100: Double = 0.62
+    private val incomeInsurance90: Double = 0.64
+    private val incomeInsurance80: Double = 0.66
+    private val incomeInsurance70: Double = 0.69
+    private val incomeInsurance60: Double = 0.70
+    private val incomeInsurance50: Double = 0.76
+    private val incomeInsurance40: Double = 0.77
+    private val incomeInsurance30: Double = 0.80
     val linkInsurance = "https://www.unionen.se/medlemskapet/inkomstforsakring"
     val linkAkassa = "https://www.kommunalsakassa.se/om-du-blir-arbetslos/rakna-ut-din-a-kassa.html"
 
@@ -32,7 +33,7 @@ data class Union( val personId: Int ) {
         val month100: Double = 100.0 / 22.0
         val month150: Double = 150.0 / 22.0
         val month200: Double = 200.0 / 22.0
-        var leftMonth = 0
+        val leftMonth: Int
 
         if (this.incomeInsurance && this.extraInsurance) {
 
@@ -197,7 +198,7 @@ data class Union( val personId: Int ) {
         var sum200 = 0.0
         val month100: Double = 100.0 / 22.0
         val month200: Double = 200.0 / 22.0
-        var leftMonth = 0
+        val leftMonth: Int
 
         if (akassa) {
             if (this.countUnEmployeeMonth > month100.toInt()) {
@@ -290,14 +291,14 @@ data class Union( val personId: Int ) {
         return storyList
     }
 
-    fun getNoAkassa(salary: Double): Double {
-        var sum = 0.0
+    fun getNoAkassa(): Double {
+        val sum: Double
         val month300: Double = 300.0 / 22.0
 
-        if (countUnEmployeeMonth > month300.toInt())
-            sum = maxSalaryNoAkassa * month300
+        sum = if (countUnEmployeeMonth > month300.toInt())
+            maxSalaryNoAkassa * month300
         else
-            sum = maxSalaryNoAkassa * countUnEmployeeMonth.toDouble()
+            maxSalaryNoAkassa * countUnEmployeeMonth.toDouble()
 
         return sum
     }
@@ -342,14 +343,13 @@ data class Union( val personId: Int ) {
         return storyList
     }
 
-    fun showCountUnEmployeeMonth(age: Int, messageList: List<Message>, messageId: Int): List<Message> {
+    fun showCountUnEmployeeMonth(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId
 
         storyList = storyList.plus(
             Message(
-                storyId,
-                "Åh nej :( du är arbetslös i ${ this.countUnEmployeeMonth * 22} dagar.",
+                messageId,
+                "Åh nej :( du är arbetslös i ${this.countUnEmployeeMonth * 22} dagar.",
                 "orange",
                 ""
             )

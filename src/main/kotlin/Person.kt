@@ -118,7 +118,7 @@ data class Person (val id: Int) {
                 storyId,
                 "Du behöver ta ett lån på ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK 😅",
                 "",
-                "hotpink"
+                "blinkingRed"
             )
         )
         storyId += 1
@@ -127,8 +127,8 @@ data class Person (val id: Int) {
             Message(
                 storyId,
                 "Låneränta: ${this.house.houseLoan.loanInterest.toInt().formatDecimalSeparator()}%",
-                "",
-                "hotpink"
+                "hotpink",
+                ""
             )
         )
         storyId += 1
@@ -180,7 +180,7 @@ data class Person (val id: Int) {
         return storyList
     }
 
-    fun showPersonLuck(age: Int, messageList: List<Message>, messageId: Int): List<Message> {
+    fun showPersonLuck(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
 
@@ -216,9 +216,9 @@ data class Person (val id: Int) {
         return storyList
     }
 
-    fun showPersonMagellit(age: Int, messageList: List<Message>, messageId: Int): List<Message> {
+    fun showPersonMagellit(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId
+        val storyId = messageId
 
         storyList = storyList.plus(
             Message(
@@ -233,7 +233,7 @@ data class Person (val id: Int) {
 
     fun showPersonAccomodationSold(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId
+        val storyId = messageId
 
         storyList = storyList.plus(
             Message(
@@ -300,7 +300,7 @@ data class Person (val id: Int) {
 
     fun showPersonAccomodationHire(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId
+        val storyId = messageId
 
         storyList = storyList.plus(
             Message(
@@ -316,7 +316,7 @@ data class Person (val id: Int) {
 
     fun showPersonAccomodationShift(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId
+        val storyId = messageId
 
         storyList = storyList.plus(
             Message(

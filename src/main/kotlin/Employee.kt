@@ -6,13 +6,11 @@ data class Employee( val employeeId: Int )
     var title: String = ""
     var firstSalary: Float = 0.0F
     var currentSalary: Float = 0.0F
-    var maxSalary: Float = 0.0F
-    var medianSalary: Float = 0.0F
     var countWorkMonth: Int = 0
     var sickSalary: Float = 0.0F
     var countSickMonth: Int = 0
 
-    fun showEmployeeSalary(age: Int, salaryincrease: Float, messageList: List<Message>, messageId: Int): List<Message> {
+    fun showEmployeeSalary(salaryincrease: Float, messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
 
@@ -77,7 +75,7 @@ data class Employee( val employeeId: Int )
 
     fun showEmployeeSickSalary(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId
+        val storyId = messageId
 
         storyList = storyList.plus(
             Message(
@@ -92,7 +90,7 @@ data class Employee( val employeeId: Int )
 
     fun showEmployeeNoSickSalary(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId
+        val storyId = messageId
 
         storyList = storyList.plus(
             Message(
@@ -107,7 +105,7 @@ data class Employee( val employeeId: Int )
 
     fun showEmployeeCountSickMonth(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId
+        val storyId = messageId
 
         storyList = storyList.plus(
             Message(
@@ -122,14 +120,14 @@ data class Employee( val employeeId: Int )
 
     fun showEmployeeCountWorkMonth(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId
+        val storyId = messageId
 
         if (this.countWorkMonth < 0) {
             storyList = storyList.plus(
                 Message(
                     storyId,
                     "Tråkigt du kunde inte jobba alls detta år, kvar är ${
-                        this.countWorkMonth.toInt().formatDecimalSeparator()
+                        this.countWorkMonth.formatDecimalSeparator()
                     } månader.",
                     "orange",
                     ""
@@ -140,7 +138,7 @@ data class Employee( val employeeId: Int )
                     Message(
                         storyId,
                         "Tråkigt du kunde bara jobba ${
-                            this.countWorkMonth.toInt().formatDecimalSeparator()
+                            this.countWorkMonth.formatDecimalSeparator()
                         } månader.",
                         "orange",
                         ""
@@ -151,7 +149,7 @@ data class Employee( val employeeId: Int )
                 Message(
                     storyId,
                     "Du jobbade heltid ${
-                        this.countWorkMonth.toInt().formatDecimalSeparator()
+                        this.countWorkMonth.formatDecimalSeparator()
                     } månader.",
                     "hotpink",
                     ""

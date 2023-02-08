@@ -3,7 +3,6 @@ import emotion.css.keyframes
 import emotion.react.css
 import react.FC
 import react.Props
-import react.dom.html.ReactHTML.img
 import react.dom.html.ReactHTML.p
 
 external interface ShowStreckGubbeProps : Props {
@@ -12,7 +11,7 @@ external interface ShowStreckGubbeProps : Props {
 val ShowStreckGubbe = FC<ShowStreckGubbeProps> { props ->
     p {
 
-        val streckGubbe: AnimationName = keyframes {
+        val streckGubbe = keyframes {
             0.pct {
                 backgroundImage = url("streckgubbe100.jpg")
                 marginLeft = 0.pc

@@ -3,8 +3,6 @@ import emotion.css.keyframes
 import emotion.react.css
 import react.FC
 import react.Props
-import react.dom.html.ReactHTML
-import react.dom.html.ReactHTML.img
 import react.dom.html.ReactHTML.p
 
 external interface ShowEventsProps : Props {
@@ -13,8 +11,8 @@ external interface ShowEventsProps : Props {
 
 val ShowEvents = FC<ShowEventsProps> { props ->
     val procent: Int = 100 / props.actualEventList.size
-    var actualPCT: Int = 0
-    var actualMargin: Int = 0
+    var actualPCT = 0
+    var actualMargin = 0
     p {
         val events: AnimationName = keyframes {
             for (index in 0 until props.actualEventList.size) {

@@ -4,20 +4,17 @@ import react.*
 import kotlinx.coroutines.*
 import emotion.react.css
 import react.dom.html.InputType
-import react.dom.html.ReactHTML
 import react.dom.html.ReactHTML.button
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.h1
 import react.dom.html.ReactHTML.input
 import react.dom.html.ReactHTML.p
-import react.dom.html.ReactHTML.select
-import kotlin.random.Random
 
 val mainScope = MainScope()
 
 val App = FC<Props> {
-    val question: Question = Question(0)
-    val view: View = View(0)
+    val question = Question(0)
+    val view = View(0)
 
     val inputQuestions: List<Question> = question.getQuestionList("input")
     val unionQuestions: List<Question> = question.getQuestionList("union")
@@ -41,7 +38,7 @@ val App = FC<Props> {
     var selectedQuestions: List<Question> by useState(emptyList())
 
     // Initiera arbetslivet
-    var person: Person = currentPerson
+    val person: Person = currentPerson
 
     useEffectOnce {
         mainScope.launch {
@@ -51,10 +48,10 @@ val App = FC<Props> {
     }
 
     //Initiate view
-    onSelectView = { view ->
-        currentView = view
+    onSelectView = { newView ->
+        currentView = newView
 
-        unSelectedQuestions = view.questions
+        unSelectedQuestions = newView.questions
     }
 
     // Top button
@@ -188,7 +185,7 @@ val App = FC<Props> {
                         }
                     }
                 }
-
+/*
                 div {
 
                     QuestionList {
@@ -216,11 +213,23 @@ val App = FC<Props> {
                         }
                     }
                 }
+
+ */
                 //Show animation
                 div {
                     ShowStreckGubbe {}
 
-                    ShowStreck {}
+                    ShowStreck {
+                        selectedImage01 = "streck002.jpg"
+                        selectedImage02 = "streck003.jpg"
+                        selectedImage03 = "streck004.jpg"
+                    }
+
+                    ShowCloud {
+                        selectedImage ="sol.png"
+                        marginLeftFrom = 26
+                        marginLeftTo = 0
+                    }
                 }
             }
 
@@ -254,8 +263,17 @@ val App = FC<Props> {
                 //Show animation
                 div {
                     ShowSparkcykel {}
+                    ShowStreck {
+                        selectedImage01 = "streck002.jpg"
+                        selectedImage02 = "streck003.jpg"
+                        selectedImage03 = "streck004.jpg"
+                    }
 
-                    ShowStreck {}
+                    ShowCloud {
+                        selectedImage ="sol.png"
+                        marginLeftFrom = 0
+                        marginLeftTo = 26
+                    }
                 }
             }
 
@@ -288,13 +306,19 @@ val App = FC<Props> {
                 actualPension = pension
             }
 
+            person.union.akassa = true
+            person.union.incomeInsurance = true
+            person.union.extraInsurance = true
+            person.healthInsurance = true
+
+        /*
             var topPX: Int
 
             if (selectedQuestions.isNotEmpty()) {
                 topPX = 570
                 div {
-                    for (question in selectedQuestions) {
-                        when (question.objectType) {
+                    for (newQuestion: Question in selectedQuestions) {
+                        when (newQuestion.objectType) {
                             "akassa" -> {
                                 person.union.akassa = true
                             }
@@ -322,7 +346,7 @@ val App = FC<Props> {
                                 backgroundColor = NamedColor.white
                                 fontFamily = FontFamily.cursive
                             }
-                            +question.objectText
+                            +newQuestion.objectText
                             +" ✔"
 
                             topPX += 30
@@ -330,6 +354,7 @@ val App = FC<Props> {
                     }
                 }
             }
+            */
         }
     }
 }

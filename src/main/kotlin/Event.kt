@@ -33,9 +33,10 @@ data class Event (
             Event(3, "Lågkonjuktur! ditt sparande rasar i värde ","depot","accident"),
             Event(4, "Lågkonjuktur! din hyra höjs på ditt boende ","home","accident"),
             Event(5, "Lågkonjuktur! din räntan höjs på ditt lån ","loan","accident"),
-            Event(6, "Högkonjuktur! ditt sparande ökar i värde ","depot","happening"),
-            Event(7, "Högkonjuktur! värdet på din bostad höjs ","home","happening"),
-            Event(8, "Högkonjuktur! räntan sänks på ditt lån ","loan","happening")
+            Event(6, "Pandemi! risk att du blir sjuk","sick","accident"),
+            Event(7, "Högkonjuktur! ditt sparande ökar i värde ","depot","happening"),
+            Event(8, "Högkonjuktur! värdet på din bostad höjs ","home","happening"),
+            Event(9, "Högkonjuktur! räntan sänks på ditt lån ","loan","happening")
         )
     }
 

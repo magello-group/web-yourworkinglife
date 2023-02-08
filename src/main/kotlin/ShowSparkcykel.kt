@@ -4,7 +4,6 @@ import emotion.css.keyframes
 import emotion.react.css
 import react.FC
 import react.Props
-import react.dom.html.ReactHTML.img
 import react.dom.html.ReactHTML.p
 
 external interface ShowSparkcykelProps : Props {
@@ -27,7 +26,7 @@ val ShowSparkcykel = FC<ShowSparkcykelProps> { props ->
         }
 
         css {
-            animationDuration = 3.s
+            animationDuration = 4.s
             animationName = sparkCykel
             animationFillMode = AnimationFillMode.both
             display = Display.flex

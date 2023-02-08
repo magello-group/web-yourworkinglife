@@ -12,7 +12,7 @@ external interface ShowStreckImageProps : Props {
 val ShowStreckImage = FC<ShowStreckImageProps> { props ->
     p {
 
-        val streckImage: AnimationName = keyframes {
+        val streckImage = keyframes {
             0.pct {
                 backgroundImage = url(props.selectedImage)
                 marginLeft = 0.pc
@@ -20,13 +20,13 @@ val ShowStreckImage = FC<ShowStreckImageProps> { props ->
             }
             100.pct {
                 backgroundImage = url(props.selectedImage)
-                marginLeft = 26.pc
+                marginLeft = 30.pc
                 width = 10.pc
             }
         }
 
         css {
-            animationDuration = 3.s
+            animationDuration = 4.s
             animationName = streckImage
             animationFillMode = AnimationFillMode.both
             display = Display.flex

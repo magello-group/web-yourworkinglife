@@ -1,9 +1,8 @@
 import kotlinx.serialization.Serializable
-import kotlin.math.max
 
 @Serializable
 data class Parent (val personId: Int) {
-    val link: String = "https://www.forsakringskassan.se/privatperson/foralder/vard-av-barn-vab"
+    val link = "https://www.forsakringskassan.se/privatperson/foralder/vard-av-barn-vab"
     val incomePercentage: Float = 0.765F
     val maxSalary: Float = 43750.0F
     val maxIncome: Float = 33480.0F
@@ -13,8 +12,7 @@ data class Parent (val personId: Int) {
     var countFamilyMonth = 0
 
     fun getIncome(salary: Float): Float {
-        var sum: Float = 0.0F
-        sum = if (salary < maxSalary)
+        val sum = if (salary < maxSalary)
             salary * incomePercentage
         else
             maxIncome
@@ -22,7 +20,7 @@ data class Parent (val personId: Int) {
         return sum
     }
 
-    fun showParent(age: Int, messageList: List<Message>, messageId: Int): List<Message> {
+    fun showParent(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
 
@@ -70,7 +68,7 @@ data class Parent (val personId: Int) {
         return storyList
     }
 
-    fun showVAB(age: Int, messageList: List<Message>, messageId: Int): List<Message> {
+    fun showVAB(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
 
