@@ -32,6 +32,7 @@ val App = FC<Props> {
     var currentAction: Question? by useState(null)
     var currentProfession: Profession by useState(Profession(999))
     var currentMessages: List<Message> by useState(emptyList())
+    var historyMessages: List<Message> by useState(emptyList())
     var currentPerson: Person by useState(Person(0))
 
     var unSelectedQuestions: List<Question> by useState(emptyList())
@@ -285,13 +286,26 @@ val App = FC<Props> {
                         selectedProfession = currentProfession
                         selectedPerson = person
                         selectedMessages = currentMessages
+                        selectedHistory = historyMessages
 
-                        onSelectMessages = { newView, newMessages, newProfession, newPerson ->
+                        onSelectMessages = { newView, newMessages, newProfession, newPerson, newHistory ->
                             currentView = newView
                             currentMessages = newMessages
                             currentProfession = newProfession
                             currentPerson = newPerson
+                            historyMessages = newHistory
+                            age = newPerson.age.toString()
                         }
+                    }
+                }
+            }
+            "pension" -> {
+                div {
+
+                    StartPensionLife {
+                        selectedView = currentView
+                        selectedPerson = person
+                        selectedMessages = historyMessages
                     }
                 }
             }
@@ -304,6 +318,13 @@ val App = FC<Props> {
                 actualName = name
                 actualAge = age
                 actualPension = pension
+                actualSalary
+                actualSalaryAmount
+                actualDepotAmount
+                actualPensionAmount
+                actualHireAmount
+                actualHouseAmount
+                actualLoanAmount
             }
 
             person.union.akassa = true

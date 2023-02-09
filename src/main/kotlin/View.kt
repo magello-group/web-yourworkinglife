@@ -19,7 +19,7 @@ data class View(
             View(0, "init", unionQuestions, "Ditt arbetsliv börjar här... gör dig redo:","Nästa steg", "action"),
             View(1, "action", goalQuestions,"Vilket mål har du med arbetslivet?", "Starta arbetslivet", "start"),
             View(2, "start", emptyList(),"Ditt arbetsliv har startat!", "Gå vidare i arbetslivet", "reload"),
-            View(3, "reload", emptyList(),"Nu startar pensionen", "Starta om arbetslivet", "init"))
+            View(3, "reload", emptyList(),"Nu startar pensionen", "Pensionär", "pension"))
     }
     fun getNextView(currentView: View): View {
         var view: View = View(0)

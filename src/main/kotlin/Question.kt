@@ -36,6 +36,7 @@ data class Question (
                     Question(3, "Chilla", "chilla", "chilla"),
                     Question(4,"Maxa lönen", "lön", "salary"),
                     Question(5, "Maxa pensionen", "pension", "pension"),
+                    Question(6, "Bara ha kul", "kul", "fun")
                 )
             }
         }

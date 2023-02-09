@@ -12,15 +12,15 @@ data class Account( val accountId: Int, val accountType: String) {
     fun showDepotAmount(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         val storyId = messageId
-
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Härligt! du får värdepapper med ett värde på ${ this.amount.toInt().formatDecimalSeparator() } SEK 🤑" ,
-                "",
-                "blinking"
-            )
+        val message = Message(
+            storyId,
+            "Härligt! du får värdepapper med ett värde på ${ this.amount.toInt().formatDecimalSeparator() } SEK 🤑" ,
+            "",
+            "blinking"
         )
+        message.actualDepotAmount = this.amount.toInt().formatDecimalSeparator()
+        storyList = storyList.plus(message)
+
         return storyList
     }
 
@@ -42,6 +42,7 @@ data class Account( val accountId: Int, val accountType: String) {
     fun showAccountAmount(year: Int, messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         val storyId = messageId
+        val message: Message
 
         when (this.accountType) {
             "lönekonto" -> {
@@ -96,47 +97,48 @@ data class Account( val accountId: Int, val accountType: String) {
                     )
 
                     if (this.amount.toInt() < 0.0F) {
-                        storyList = storyList.plus(
-                            Message(
-                                storyId,
-                                "Lönekonto: ${this.amount.toInt().formatDecimalSeparator()} SEK 😒",
-                                "",
-                                ""
-                            )
+                        message = Message(
+                            storyId,
+                            "Lönekonto: ${this.amount.toInt().formatDecimalSeparator()} SEK 😒",
+                            "",
+                            ""
                         )
+                        message.actualSalaryAmount = this.amount.toInt().formatDecimalSeparator()
+                        storyList = storyList.plus(message)
+
                     } else {
-                        storyList = storyList.plus(
-                            Message(
-                                storyId,
-                                "Lönekonto: ${this.amount.toInt().formatDecimalSeparator()} SEK 😀",
-                                "",
-                                ""
-                            )
+                        message = Message(
+                            storyId,
+                            "Lönekonto: ${this.amount.toInt().formatDecimalSeparator()} SEK 😀",
+                            "",
+                            ""
                         )
+                        message.actualSalaryAmount = this.amount.toInt().formatDecimalSeparator()
+                        storyList = storyList.plus(message)
                     }
                 }
             }
 
             "depå" -> {
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Depå: ${this.amount.toInt().formatDecimalSeparator()} SEK",
-                        "",
-                        ""
-                    )
+                message = Message(
+                    storyId,
+                    "Depå: ${this.amount.toInt().formatDecimalSeparator()} SEK",
+                    "",
+                    ""
                 )
+                message.actualDepotAmount = this.amount.toInt().formatDecimalSeparator()
+                storyList = storyList.plus(message)
             }
 
             "pensionskonto" -> {
-                storyList = storyList.plus(
-                    Message(
+                message = Message(
                         storyId,
                         "Pensionskonto: ${this.amount.toInt().formatDecimalSeparator()} SEK",
                         "",
                         ""
                     )
-                )
+                message.actualPension = this.amount.toInt().formatDecimalSeparator()
+                storyList = storyList.plus(message)
             }
 
             "skatt" -> {
@@ -212,6 +214,21 @@ data class Account( val accountId: Int, val accountType: String) {
             }
         }
 
+        return storyList
+    }
+
+    fun showSkuldsanering(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        val storyId = messageId
+
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Du måste skuldsanera och säljer dina värdepapper och får: ${this.amount.toInt().formatDecimalSeparator()} SEK.",
+                "hotpink",
+                ""
+            )
+        )
         return storyList
     }
 

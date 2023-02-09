@@ -96,8 +96,8 @@ data class Employee( val employeeId: Int )
             Message(
                 storyId,
                 "Tyvärr!! din sjukskrivning godkänns inte och du får ingen sjukpenning.",
-                "orange",
-                ""
+                "",
+                "blinking"
             )
         )
         return storyList

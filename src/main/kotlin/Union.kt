@@ -291,14 +291,19 @@ data class Union( val personId: Int ) {
         return storyList
     }
 
-    fun getNoAkassa(): Double {
+    fun getNoAkassa(salary: Double): Double {
         val sum: Double
         val month300: Double = 300.0 / 22.0
 
-        sum = if (countUnEmployeeMonth > month300.toInt())
-            maxSalaryNoAkassa * month300
+        this.unEmployedSalary300 = if (salary < maxSalaryNoAkassa)
+            salary * akassaPercentage300
         else
-            maxSalaryNoAkassa * countUnEmployeeMonth.toDouble()
+            maxSalaryNoAkassa
+
+        sum = if (countUnEmployeeMonth > month300.toInt())
+            this.unEmployedSalary300 * month300
+        else
+            this.unEmployedSalary300 * countUnEmployeeMonth.toDouble()
 
         return sum
     }

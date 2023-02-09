@@ -10,18 +10,21 @@ data class Event (
 {
     fun getEvents(): List<Event> {
         return listOf(
-            Event(0, "du får bonus i form av värdepapper.", "depot", "depot"),
-            Event(1, "du blir utbränd.", "burnedout", "sick"),
-            Event(2, "du får en hjärtattack.", "heartattack", "sick"),
-            Event(3, "du får en golfboll i huvudet.", "golf", "sick"),
-            Event(4, "du blir skjuten.", "shot", "sick"),
+            Event(0, "du får bonus i form av värdepapper 🤑", "depot", "depot"),
+            Event(1, "du blir utbränd 😔", "burnedout", "sick"),
+            Event(2, "du får en hjärtattack 😬", "heartattack", "sick"),
+            Event(3, "du får en golfboll i huvudet 😨", "golf", "sick"),
+            Event(4, "du blir skjuten 😱", "shot", "sick"),
             Event(5, "du blir deprimerad.", "depressed", "sick"),
-            Event(6, "du blir lycklig.", "luck", "luck"),
-            Event(7, "du blir varslad.", "unemployed", "unemployed"),
-            Event(8, "du byter jobb.", "employed", "unemployed"),
-            Event(9, "du blir träffad av en Magellit.", "magellit", "magellit"),
-            Event(10, "du får barn.", "parent", "parent"),
-            Event(11, "du VAB:ar.", "vab", "vab")
+            Event(6, "du skaffar katt och livet känns härligt 🐱😍", "luck", "luck"),
+            Event(7, "du börjar träna och du känner dig stark 🤸", "luck", "luck"),
+            Event(8, "du finner en vän att prata med och livet vänder 🤗", "luck", "luck"),
+            Event(9, "du skaffar hund och du känner dig både lycklig och stark 🦖", "luck", "luck"),
+            Event(10, "du blir varslad 😢", "unemployed", "unemployed"),
+            Event(11, "du byter jobb.", "employed", "unemployed"),
+            Event(12, "du blir träffad av en Magellit.", "magellit", "magellit"),
+            Event(13, "du får barn 👶", "parent", "parent"),
+            Event(14, "du VAB:ar.", "vab", "vab")
         )
     }
 
@@ -38,6 +41,21 @@ data class Event (
             Event(8, "Högkonjuktur! värdet på din bostad höjs ","home","happening"),
             Event(9, "Högkonjuktur! räntan sänks på ditt lån ","loan","happening")
         )
+    }
+
+    fun showEvent(messageList: List<Message>, messageId: Int, messageStart: String, messageEnd: String): List<Message> {
+        var storyList = messageList
+
+        storyList = storyList.plus(
+            Message(
+                messageId,
+                messageStart + this.eventText + messageEnd,
+                "",
+                "blinking"
+            )
+        )
+
+        return storyList
     }
 
 }

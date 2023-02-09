@@ -88,13 +88,22 @@ data class Profession(
                 0.0F, 0.0F, 1000.0F, 65, "family"
             ),
             Profession(
-                15, "artist", "artist", "Du blir artist!",
-                0.0F, 0.0F, 1400.0F, 75, "chilla"
+                15, "writer", "författare", "Du blir författare!",
+                0.0F, 0.0F, 0.0F, 75, "chilla"
             ),
             Profession(
-                16, "lazy", "sökande", "Du blir konstnär",
+                16, "painter", "sökande", "Du blir konstnär",
                 0.0F, 0.0F, 0.0F, 75, "chilla"
+            ),
+            Profession(
+                16, "artist", "artist", "Du blir artist!",
+                0.0F, 0.0F, 0.0F, 75, "fun"
+            ),
+            Profession(
+                17, "comedian", "komiker", "Du blir komiker",
+                0.0F, 0.0F, 0.0F, 75, "fun"
             )
+
         )
     }
 

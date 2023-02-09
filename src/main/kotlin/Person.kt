@@ -23,6 +23,7 @@ data class Person (val id: Int) {
     fun showPersonAccomodation(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
+        var message: Message
 
         storyList = storyList.plus(
             Message(
@@ -35,28 +36,28 @@ data class Person (val id: Int) {
         storyId += 1
 
         if (this.house.houseAmount.toInt() > 0) {
-            storyList = storyList.plus(
-                Message(
-                    storyId,
-                    "Värde: ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
-                    "",
-                    ""
-                )
+            message = Message(
+                storyId,
+                "Värde: ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
+                "",
+                ""
             )
+            message.actualHouseAmount = this.house.houseAmount.toInt().formatDecimalSeparator()
+            storyList = storyList.plus(message)
 
             storyId += 1
         }
 
         if (this.house.loan) {
-
-            storyList = storyList.plus(
-                Message(
-                    storyId,
-                    "Lån: ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK.",
-                    "",
-                    ""
-                )
+            message = Message(
+                storyId,
+                "Lån: ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK.",
+                "",
+                ""
             )
+            message.actualLoanAmount = this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()
+            storyList = storyList.plus(message)
+
             storyId += 1
 
             storyList = storyList.plus(
@@ -82,27 +83,26 @@ data class Person (val id: Int) {
         }
 
         if (this.house.houseType == "hyresrätt") {
-
-            storyList = storyList.plus(
-                Message(
-                    storyId,
-                    "Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
-                    "",
-                    ""
-                )
+            message = Message(
+                storyId,
+                "Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+                "",
+                ""
             )
+            message.actualHireAmount = this.house.houseMonthPayment.toInt().formatDecimalSeparator()
+            storyList = storyList.plus(message)
+
             storyId += 1
         } else {
-
-            storyId += 1
-            storyList = storyList.plus(
-                Message(
-                    storyId,
-                    "Månadskostnad: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
-                    "",
-                    ""
-                )
+            message = Message(
+                storyId,
+                "Månadskostnad: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+                "",
+                ""
             )
+            message.actualHireAmount = this.house.houseMonthPayment.toInt().formatDecimalSeparator()
+            storyList = storyList.plus(message)
+
             storyId += 1
         }
 
@@ -143,6 +143,20 @@ data class Person (val id: Int) {
 
         return storyList
     }
+    fun showPersonLoanReady(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        val storyId = messageId
+
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Wow!! Du har betalt av ditt lån.",
+                "",
+                "blinking"
+            )
+        )
+        return storyList
+    }
 
     fun showPersonGetBlancoLoan(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
@@ -180,14 +194,14 @@ data class Person (val id: Int) {
         return storyList
     }
 
-    fun showPersonLuck(messageList: List<Message>, messageId: Int): List<Message> {
+    fun showPersonLuck(messageList: List<Message>, messageId: Int, eventText: String): List<Message> {
         var storyList = messageList
         var storyId = messageId
 
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Grattis du känner dig lycklig 😊",
+                "Härligt! " + eventText,
                 "",
                 "blinking"
             )
@@ -239,6 +253,21 @@ data class Person (val id: Int) {
             Message(
                 storyId,
                 "Dags att sälja det gamla boendet! du får ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
+                "hotpink",
+                ""
+            )
+        )
+        return storyList
+    }
+
+    fun showSkuldsanering(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        val storyId = messageId
+
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Du måste skuldsanera och säljer ditt boende! du får ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
             )
@@ -333,16 +362,15 @@ data class Person (val id: Int) {
     fun showWorkingLife(age: Int, messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
-
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "----------------------- Du är ${age} år ------------------------",
-                "deepskyblue",
-                ""
-            )
+        val message = Message(
+            storyId,
+            "----------------------- Du är ${age} år ------------------------",
+            "deepskyblue",
+            ""
         )
-        //${age - this.age + 1}
+        message.age = age
+        storyList = storyList.plus(message)
+
         storyId += 1
 
         if (age == this.age) {
