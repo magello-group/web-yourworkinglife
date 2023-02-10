@@ -17,8 +17,9 @@ external interface StartWorkingLifeProps : Props {
     var selectedPerson: Person
     var selectedMessages: List<Message>
     var selectedHistory: List<Message>
+    var selectedStatus: Status
 
-    var onSelectMessages: (View, List<Message>, Profession, Person, List<Message>) -> Unit
+    var onSelectMessages: (View, List<Message>, Profession, Person, List<Message>, Status) -> Unit
 }
 
 val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
@@ -62,6 +63,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
     var leftMessages: List<Message> = emptyList()
     var historyMessages = props.selectedHistory
     var backupMessages: List<Message> = emptyList()
+    var actualStatus = props.selectedStatus
     var messageId = 0
     val maxMessages = 6
     var currentAmount: Float
@@ -831,11 +833,16 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                 if (messageIndex == maxMessages && message.messageText.contains("Det har gått")) {
                     leftMessages = leftMessages.plus(message)
                 } else if (messageIndex <= maxMessages) {
-                    //Update age
-                    if (message.age > 0) person.age = message.age
-                    if (message.actualSalary != "") employee.currentSalary = message.actualSalary.toFloat()
-                    if (message.actualSalaryAmount != "") employee.currentSalary = message.actualSalary.toFloat()
-//TODO
+                    //Update status row
+                    if (message.status.age != "") actualStatus.age = message.status.age
+                    if (message.status.profession != "") actualStatus.profession = message.status.profession
+                    if (message.status.employeeSalary != "") actualStatus.employeeSalary = message.status.employeeSalary
+                    if (message.status.accountSalaryAmount != "") actualStatus.accountSalaryAmount = message.status.accountSalaryAmount
+                    if (message.status.accountDepotAmount != "") actualStatus.accountDepotAmount = message.status.accountDepotAmount
+                    if (message.status.accountPensionAmount != "") actualStatus.accountPensionAmount = message.status.accountPensionAmount
+                    if (message.status.houseAmount != "") actualStatus.houseAmount = message.status.houseAmount
+                    if (message.status.houseHireAmount != "") actualStatus.houseHireAmount = message.status.houseHireAmount
+                    if (message.status.houseLoanAmount != "") actualStatus.houseLoanAmount = message.status.houseLoanAmount
 
                     if (message.animation != "") {
                         when (message.animation) {
@@ -952,7 +959,8 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                             leftMessages,
                             props.selectedProfession,
                             person,
-                            historyMessages
+                            historyMessages,
+                            actualStatus
                         )
                     }
                     +props.selectedView.buttonText
@@ -963,7 +971,8 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                             leftMessages,
                             props.selectedProfession,
                             person,
-                            historyMessages
+                            historyMessages,
+                            actualStatus
                         )
                     }
                     +reloadView.buttonText
@@ -1004,7 +1013,8 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                                 backupMessages,
                                 props.selectedProfession,
                                 person,
-                                props.selectedHistory
+                                props.selectedHistory,
+                                actualStatus
                             )
                         }
                         +"◀ "
@@ -1015,13 +1025,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
     }
 }
 
-fun Int.formatDecimalSeparator(): String {
-    return toString()
-        .reversed()
-        .chunked(3)
-        .joinToString(" ")
-        .reversed()
-}
+
 
 
 

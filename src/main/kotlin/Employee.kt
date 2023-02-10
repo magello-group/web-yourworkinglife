@@ -13,6 +13,16 @@ data class Employee( val employeeId: Int )
     fun showEmployeeSalary(salaryincrease: Float, messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
+        var message: Message
+
+        message = Message(
+            storyId,
+            "Du jobbar som ${this.title}.",
+            "",
+            ""
+        )
+        message.status.profession = this.title
+        storyList = storyList.plus(message)
 
         storyId += 1
 
@@ -30,17 +40,6 @@ data class Employee( val employeeId: Int )
 
         } else {
 
-            storyList = storyList.plus(
-                Message(
-                    storyId,
-                    "Du jobbar som ${this.title}.",
-                    "",
-                    ""
-                )
-            )
-
-            storyId += 1
-
             if (salaryincrease > 0.0F) {
                 storyList = storyList.plus(
                     Message(
@@ -56,16 +55,16 @@ data class Employee( val employeeId: Int )
 
             storyId += 1
 
-            storyList = storyList.plus(
-                Message(
-                    storyId,
-                    "Lön: ${
-                        this.currentSalary.toInt().formatDecimalSeparator()
-                    } SEK per månad.",
-                    "",
-                    ""
-                )
+            message = Message(
+                storyId,
+                "Lön: ${
+                    this.currentSalary.toInt().formatDecimalSeparator()
+                } SEK per månad.",
+                "",
+                ""
             )
+            message.status.employeeSalary = this.currentSalary.toInt().formatDecimalSeparator()
+            storyList = storyList.plus(message)
 
             storyId += 1
         }
@@ -75,11 +74,10 @@ data class Employee( val employeeId: Int )
 
     fun showEmployeeSickSalary(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId
 
         storyList = storyList.plus(
             Message(
-                storyId,
+                messageId,
                 "Du får en sjukpenning på ${this.sickSalary.toInt().formatDecimalSeparator()} SEK.",
                 "orange",
                 ""
@@ -90,11 +88,10 @@ data class Employee( val employeeId: Int )
 
     fun showEmployeeNoSickSalary(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId
 
         storyList = storyList.plus(
             Message(
-                storyId,
+                messageId,
                 "Tyvärr!! din sjukskrivning godkänns inte och du får ingen sjukpenning.",
                 "",
                 "blinking"
@@ -105,11 +102,10 @@ data class Employee( val employeeId: Int )
 
     fun showEmployeeCountSickMonth(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId
 
         storyList = storyList.plus(
             Message(
-                storyId,
+                messageId,
                 "Du är sjukskriven i ${this.countSickMonth} månader.",
                 "orange",
                 ""
@@ -120,12 +116,11 @@ data class Employee( val employeeId: Int )
 
     fun showEmployeeCountWorkMonth(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId
 
         if (this.countWorkMonth < 0) {
             storyList = storyList.plus(
                 Message(
-                    storyId,
+                    messageId,
                     "Tråkigt du kunde inte jobba alls detta år, kvar är ${
                         this.countWorkMonth.formatDecimalSeparator()
                     } månader.",
@@ -136,7 +131,7 @@ data class Employee( val employeeId: Int )
         } else if (this.countWorkMonth < 12) {
                 storyList = storyList.plus(
                     Message(
-                        storyId,
+                        messageId,
                         "Tråkigt du kunde bara jobba ${
                             this.countWorkMonth.formatDecimalSeparator()
                         } månader.",
@@ -147,7 +142,7 @@ data class Employee( val employeeId: Int )
         } else {
             storyList = storyList.plus(
                 Message(
-                    storyId,
+                    messageId,
                     "Du jobbade heltid ${
                         this.countWorkMonth.formatDecimalSeparator()
                     } månader.",

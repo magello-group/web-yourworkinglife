@@ -34,6 +34,7 @@ val App = FC<Props> {
     var currentMessages: List<Message> by useState(emptyList())
     var historyMessages: List<Message> by useState(emptyList())
     var currentPerson: Person by useState(Person(0))
+    var currentStatus: Status by useState(Status(0))
 
     var unSelectedQuestions: List<Question> by useState(emptyList())
     var selectedQuestions: List<Question> by useState(emptyList())
@@ -287,16 +288,38 @@ val App = FC<Props> {
                         selectedPerson = person
                         selectedMessages = currentMessages
                         selectedHistory = historyMessages
+                        selectedStatus = currentStatus
 
-                        onSelectMessages = { newView, newMessages, newProfession, newPerson, newHistory ->
+                        onSelectMessages = { newView, newMessages, newProfession, newPerson, newHistory, newStatus ->
                             currentView = newView
                             currentMessages = newMessages
                             currentProfession = newProfession
                             currentPerson = newPerson
                             historyMessages = newHistory
-                            age = newPerson.age.toString()
+                            age = newStatus.age
+                            currentStatus = newStatus
                         }
                     }
+                }
+
+                ShowAction {
+                    actualProfession = currentProfession
+                    actualAge = age
+                }
+
+                ShowStatus {
+                    actualInputQuestions = inputQuestions
+                    actualName = name
+                    actualAge = age
+                    actualPension = pension
+                    actualSalary = currentStatus.employeeSalary
+                    actualSalaryAmount = currentStatus.accountSalaryAmount
+                    actualDepotAmount = currentStatus.accountDepotAmount
+                    actualPensionAmount = currentStatus.accountPensionAmount
+                    actualHireAmount = currentStatus.houseHireAmount
+                    actualHouseAmount = currentStatus.houseAmount
+                    actualLoanAmount = currentStatus.houseLoanAmount
+                    actualProfession = currentStatus.profession
                 }
             }
             "pension" -> {
@@ -318,13 +341,6 @@ val App = FC<Props> {
                 actualName = name
                 actualAge = age
                 actualPension = pension
-                actualSalary
-                actualSalaryAmount
-                actualDepotAmount
-                actualPensionAmount
-                actualHireAmount
-                actualHouseAmount
-                actualLoanAmount
             }
 
             person.union.akassa = true
@@ -378,6 +394,14 @@ val App = FC<Props> {
             */
         }
     }
+}
+
+fun Int.formatDecimalSeparator(): String {
+    return toString()
+        .reversed()
+        .chunked(3)
+        .joinToString(" ")
+        .reversed()
 }
 
 

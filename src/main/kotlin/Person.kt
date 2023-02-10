@@ -42,7 +42,7 @@ data class Person (val id: Int) {
                 "",
                 ""
             )
-            message.actualHouseAmount = this.house.houseAmount.toInt().formatDecimalSeparator()
+            message.status.houseAmount = this.house.houseAmount.toInt().formatDecimalSeparator()
             storyList = storyList.plus(message)
 
             storyId += 1
@@ -55,7 +55,7 @@ data class Person (val id: Int) {
                 "",
                 ""
             )
-            message.actualLoanAmount = this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()
+            message.status.houseLoanAmount = this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()
             storyList = storyList.plus(message)
 
             storyId += 1
@@ -89,7 +89,7 @@ data class Person (val id: Int) {
                 "",
                 ""
             )
-            message.actualHireAmount = this.house.houseMonthPayment.toInt().formatDecimalSeparator()
+            message.status.houseHireAmount = this.house.houseMonthPayment.toInt().formatDecimalSeparator()
             storyList = storyList.plus(message)
 
             storyId += 1
@@ -100,7 +100,7 @@ data class Person (val id: Int) {
                 "",
                 ""
             )
-            message.actualHireAmount = this.house.houseMonthPayment.toInt().formatDecimalSeparator()
+            message.status.houseHireAmount = this.house.houseMonthPayment.toInt().formatDecimalSeparator()
             storyList = storyList.plus(message)
 
             storyId += 1
@@ -368,7 +368,7 @@ data class Person (val id: Int) {
             "deepskyblue",
             ""
         )
-        message.age = age
+        message.status.age = age.toString()
         storyList = storyList.plus(message)
 
         storyId += 1

@@ -12,7 +12,6 @@ external interface ShowActionProps : Props {
 
 val ShowAction = FC<ShowActionProps> { props ->
 
-    val topPX = 580
     val salary =props.actualProfession.salary * props.actualAge.toInt()
 
     div {
@@ -38,9 +37,9 @@ val ShowAction = FC<ShowActionProps> { props ->
             css {
                 display = Display.block
                 position = Position.absolute
-                top = topPX.px
-                left = 500.px
-                color = NamedColor.green
+                top = 670.px
+                left = 10.px
+                color = NamedColor.black
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive

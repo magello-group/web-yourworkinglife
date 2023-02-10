@@ -7,14 +7,5 @@ data class Message (
     val color: String = "",
     val animation: String =""
 ) {
-    var age: Int = 0
-    var event: String = ""
-    var actualPension: String = ""
-    var actualSalary: String = ""
-    var actualSalaryAmount: String = ""
-    var actualDepotAmount: String = ""
-    var actualPensionAmount: String = ""
-    var actualHireAmount: String = ""
-    var actualHouseAmount: String = ""
-    var actualLoanAmount: String = ""
+    var status: Status = Status(id)
 }

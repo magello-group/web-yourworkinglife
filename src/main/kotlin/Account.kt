@@ -18,7 +18,7 @@ data class Account( val accountId: Int, val accountType: String) {
             "",
             "blinking"
         )
-        message.actualDepotAmount = this.amount.toInt().formatDecimalSeparator()
+        message.status.accountDepotAmount = this.amount.toInt().formatDecimalSeparator()
         storyList = storyList.plus(message)
 
         return storyList
@@ -103,7 +103,7 @@ data class Account( val accountId: Int, val accountType: String) {
                             "",
                             ""
                         )
-                        message.actualSalaryAmount = this.amount.toInt().formatDecimalSeparator()
+                        message.status.accountSalaryAmount = this.amount.toInt().formatDecimalSeparator()
                         storyList = storyList.plus(message)
 
                     } else {
@@ -113,7 +113,7 @@ data class Account( val accountId: Int, val accountType: String) {
                             "",
                             ""
                         )
-                        message.actualSalaryAmount = this.amount.toInt().formatDecimalSeparator()
+                        message.status.accountSalaryAmount = this.amount.toInt().formatDecimalSeparator()
                         storyList = storyList.plus(message)
                     }
                 }
@@ -126,7 +126,7 @@ data class Account( val accountId: Int, val accountType: String) {
                     "",
                     ""
                 )
-                message.actualDepotAmount = this.amount.toInt().formatDecimalSeparator()
+                message.status.accountDepotAmount = this.amount.toInt().formatDecimalSeparator()
                 storyList = storyList.plus(message)
             }
 
@@ -137,7 +137,7 @@ data class Account( val accountId: Int, val accountType: String) {
                         "",
                         ""
                     )
-                message.actualPension = this.amount.toInt().formatDecimalSeparator()
+                message.status.accountPensionAmount = this.amount.toInt().formatDecimalSeparator()
                 storyList = storyList.plus(message)
             }
 
