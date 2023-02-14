@@ -67,7 +67,7 @@ val ShowInput = FC<ShowInputProps> { props ->
                 +" "
             } else {
                 +props.actualInputQuestions[2].objectText
-                +": ${props.actualPension}% "
+                +": ${props.actualPension}%"
             }
         }
     }

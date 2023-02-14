@@ -5,8 +5,7 @@ import react.Props
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.p
 
-external interface ShowStatusProps : Props {
-    var actualInputQuestions: List<Question>
+external interface ShowStatusRowProps : Props {
     var actualName: String
     var actualAge: String
     var actualPension: String
@@ -20,7 +19,7 @@ external interface ShowStatusProps : Props {
     var actualProfession: String
 }
 
-val ShowStatus = FC<ShowStatusProps> { props ->
+val ShowStatusRow = FC<ShowStatusRowProps> { props ->
 
     div {
         p {
@@ -34,11 +33,11 @@ val ShowStatus = FC<ShowStatusProps> { props ->
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +props.actualInputQuestions[0].objectText
-            if (props.actualName.isNotBlank()) {
-                +": ${props.actualName} "
-            }
+            +"Namn: "
+            +props.actualName
+
         }
+
 
         p {
             css {
@@ -51,11 +50,10 @@ val ShowStatus = FC<ShowStatusProps> { props ->
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +props.actualInputQuestions[1].objectText
-            if (props.actualAge.isNotBlank()) {
-                +": ${props.actualAge} "
-            }
+            +"Ålder: "
+            +props.actualAge
         }
+
         p {
             css {
                 display = Display.block
@@ -67,13 +65,12 @@ val ShowStatus = FC<ShowStatusProps> { props ->
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +props.actualInputQuestions[2].objectText
-            if (props.actualPension.isNotBlank()) {
-                +": ${props.actualPension}% "
-            }
+            +"Pension: "
+            +"${props.actualPension}%"
         }
     }
 
+
     div {
         p {
             css {
@@ -86,11 +83,10 @@ val ShowStatus = FC<ShowStatusProps> { props ->
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +"Yrke:"
-            if (props.actualProfession.isNotBlank()) {
-                +": ${props.actualProfession} "
-            }
+            +"Yrke: "
+            +props.actualProfession
         }
+
         p {
             css {
                 display = Display.block
@@ -102,10 +98,9 @@ val ShowStatus = FC<ShowStatusProps> { props ->
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +"Lön:"
-            if (props.actualSalary.isNotBlank()) {
-                +": ${props.actualSalary} "
-            }
+            +"Lön: "
+            if (props.actualSalary != "")
+                +props.actualSalary
         }
 
         p {
@@ -119,10 +114,9 @@ val ShowStatus = FC<ShowStatusProps> { props ->
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +"Lönekonto:"
-            if (props.actualSalaryAmount.isNotBlank()) {
-                +": ${props.actualSalaryAmount} "
-            }
+            +"Lönekonto: "
+            if (props.actualSalaryAmount != "")
+                +props.actualSalaryAmount
         }
 
         p {
@@ -136,11 +130,12 @@ val ShowStatus = FC<ShowStatusProps> { props ->
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +"Depå:"
-            if (props.actualDepotAmount.isNotBlank()) {
-                +": ${props.actualDepotAmount} "
-            }
+            +"Depå: "
+            if (props.actualDepotAmount != "")
+                +props.actualDepotAmount
         }
+
+
 
         p {
             css {
@@ -153,10 +148,9 @@ val ShowStatus = FC<ShowStatusProps> { props ->
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +"Pensionskonto:"
-            if (props.actualPensionAmount.isNotBlank()) {
-                +": ${props.actualPensionAmount} "
-            }
+            +"Pensionskonto: "
+            if (props.actualPensionAmount != "")
+                +props.actualPensionAmount
         }
     }
 
@@ -172,10 +166,9 @@ val ShowStatus = FC<ShowStatusProps> { props ->
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +"Hyra:"
-            if (props.actualHireAmount.isNotBlank()) {
-                +": ${props.actualHireAmount} "
-            }
+            +"Hyra: "
+            if (props.actualHireAmount != "")
+                +props.actualHireAmount
         }
 
         p {
@@ -189,10 +182,9 @@ val ShowStatus = FC<ShowStatusProps> { props ->
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +"Värde hus:"
-            if (props.actualHouseAmount.isNotBlank()) {
-                +": ${props.actualHouseAmount} "
-            }
+            +"Värde hus: "
+            if (props.actualHouseAmount != "")
+                +props.actualHouseAmount
         }
 
         p {
@@ -206,10 +198,9 @@ val ShowStatus = FC<ShowStatusProps> { props ->
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +"Lån:"
-            if (props.actualLoanAmount.isNotBlank()) {
-                +": ${props.actualLoanAmount} "
-            }
+            +"Lån: "
+            if (props.actualLoanAmount != "")
+                +props.actualLoanAmount
         }
     }
 }

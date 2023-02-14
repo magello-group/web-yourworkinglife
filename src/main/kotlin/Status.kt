@@ -6,7 +6,6 @@ data class Status (
 ) {
     var age: String = ""
     var event: String = ""
-    var pension: String = ""
     var employeeSalary: String = ""
     var accountSalaryAmount: String = ""
     var accountDepotAmount: String = ""
@@ -15,4 +14,5 @@ data class Status (
     var houseAmount: String = ""
     var houseLoanAmount: String = ""
     var profession: String = ""
+    //var profession: Profession = Profession(0)
 }

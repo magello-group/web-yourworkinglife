@@ -145,7 +145,7 @@ val ActionList = FC<ActionListProps> { props ->
 
         ShowAction {
             actualProfession = selectedProfessions[0]
-            actualAge = props.workingPerson.age.toString()
+            actualAge = props.workingPerson.startWorkingAge.toString()
         }
     }
 }

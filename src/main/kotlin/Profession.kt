@@ -32,76 +32,76 @@ data class Profession(
 
         return listOf(
             Profession(
-                1, "solo", "egenföretagare", "Wow, du startar eget företag inom IT",
+                1, "solo", "Egenföretagare", "Du jobbar på eget företag inom IT",
                 0.0F, 0.0F, 2000.0F, 58, "salary"
             ),
             Profession(
-                2, "security", "säkerhetsspecialist", "Wow, du får jobb på ett säkerhetsföretag",
+                2, "security", "Säkerhetsspecialist", "Du jobbar på ett säkerhetsföretag",
                 0.0F, 52600.0F, 2500.0F, 58, "salary"
             ),
             Profession(
-                3, "VD", "VD", "Wow, du blir VD på ett spelbolag",
+                3, "VD", "VD", "Du jobbar som VD på ett spelbolag",
                 0.0F, 0.0F, 3000.0F, 58, "salary"
             ),
             Profession(
-                4, "bank", "banktjänsteman", "Du tar jobb på en bank",
+                4, "bank", "Banktjänsteman", "Du jobbar på en bank",
                 0.0F, 0.0F, 1200.0F, 58, "pension"
             ),
             Profession(
-                5, "insurance", "försäkringsagent", "Du tar jobb på ett försäkringsbolag",
+                5, "insurance", "Försäkringsagent", "Du jobbar på ett försäkringsbolag",
                 0.0F, 0.0F, 1200.0F, 58, "pension"
             ),
             Profession(
-                6, "agent", "agent", "Du tar jobb på ett hemligt uppdrag",
+                6, "agent", "Hemlig agent", "Du jobbar på ett hemligt uppdrag",
                 0.0F, 0.0F, 3000.0F, 50, "adventure"
             ),
             Profession(
-                7, "pilote", "pilot", "Du tar jobb på ett flygbolag",
+                7, "pilote", "Pilot", "Du jobbar på ett flygbolag",
                 0.0F, 0.0F, 3000.0F, 50, "adventure"
             ),
             Profession(
-                8, "fireman", "brandman", "Du tar jobb som brandman",
+                8, "fireman", "Brandman", "Du jobbar som brandman",
                 0.0F, 40500.0F, 1190.0F, 50, "adventure"
             ),
             Profession(
-                9, "authority", "statsanställd", "Du tar jobb på en myndighet",
+                9, "authority", "Statsanställd", "Du jobbar på en myndighet",
                 0.0F, 0.0F, 1000.0F, 60, "vacation"
             ),
             Profession(
-                10, "travelagent", "reseledare", "Du tar jobb på en resebyrå ",
+                10, "travelagent", "Reseledare", "Du jobbar på en resebyrå ",
                 0.0F, 0.0F, 1200.0F, 60, "vacation"
             ),
             Profession(
-                11, "builder", "snickare", "Du tar jobb på ett byggbolag",
+                11, "builder", "Snickare", "Du jobbar på ett byggbolag",
                 0.0F, 0.0F, 1500.0F, 60, "vacation"
             ),
             Profession(
-                12, "teacher", "förskolelärare", "Du tar jobb på en förskola",
+                12, "teacher", "Förskolelärare", "Du jobbar på en förskola",
                 0.0F, 0.0F, 1385.0F, 65, "family"
             ),
             Profession(
-                13, "police", "polis", "Du tar jobb hos polisen",
+                13, "police", "Polis", "Du jobbar hos polisen",
                 0.0F, 0.0F, 1190.0F, 50, "family"
             ),
             Profession(
-                14, "rektor", "rektor", "Du tar jobb på en högskola",
+                14, "rektor", "Rektor", "Du jobbar på en högskola",
                 0.0F, 0.0F, 1000.0F, 65, "family"
             ),
             Profession(
-                15, "writer", "författare", "Du blir författare!",
-                0.0F, 0.0F, 0.0F, 75, "chilla"
+                15, "writer", "Trädgårdsmästare", "Du jobbar som trädgårdsmästare!",
+                0.0F, 0.0F, 800.0F, 75, "chilla"
             ),
             Profession(
-                16, "painter", "sökande", "Du blir konstnär",
-                0.0F, 0.0F, 0.0F, 75, "chilla"
+                16, "painter", "Yogainstruktör", "Du jobbar som yogainstruktör",
+                0.0F, 0.0F, 800.0F, 75, "chilla"
             ),
             Profession(
-                16, "artist", "artist", "Du blir artist!",
-                0.0F, 0.0F, 0.0F, 75, "fun"
+                16, "artist", "Cirkusprinsessa", "Du jobbar som artist!",
+                0.0F, 0.0F, 500.0F, 75, "fun"
             ),
             Profession(
-                17, "comedian", "komiker", "Du blir komiker",
-                0.0F, 0.0F, 0.0F, 75, "fun"
+                17, "comedian", "Komiker", "Du jobbar som komiker",
+                0.0F, 0.0F, 500.0F, 75, "fun"
             )
 
         )
@@ -109,16 +109,15 @@ data class Profession(
 
     fun showNewProfession(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId
 
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Du byter jobb! ${this.professionText}.",
-                "",
-                "blinking"
-            )
+        val message: Message = Message(
+            messageId,
+            "Du byter jobb! ${this.professionText}.",
+            "",
+            "blinking"
         )
+        message.status.profession = this.title
+        storyList = storyList.plus(message)
 
         return storyList
     }

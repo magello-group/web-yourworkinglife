@@ -233,12 +233,73 @@ val App = FC<Props> {
                         marginLeftTo = 0
                     }
                 }
+
+                //Show notes
+                div {
+                    ShowInput {
+                        actualInputQuestions = inputQuestions
+                        actualName = name
+                        actualAge = age
+                        actualPension = pension
+                    }
+
+                    person.union.akassa = true
+                    person.union.incomeInsurance = true
+                    person.union.extraInsurance = true
+                    person.healthInsurance = true
+
+                    /*
+                        var topPX: Int
+
+                        if (selectedQuestions.isNotEmpty()) {
+                            topPX = 570
+                            div {
+                                for (newQuestion: Question in selectedQuestions) {
+                                    when (newQuestion.objectType) {
+                                        "akassa" -> {
+                                            person.union.akassa = true
+                                        }
+
+                                        "incomeinsurance" -> {
+                                            person.union.incomeInsurance = true
+                                        }
+
+                                        "extrainsurance" -> {
+                                            person.union.extraInsurance = true
+                                        }
+
+                                        "healthinsurance" -> {
+                                            person.healthInsurance = true
+                                        }
+                                    }
+                                    p {
+                                        css {
+                                            display = Display.block
+                                            position = Position.absolute
+                                            top = topPX.px
+                                            left = 200.px
+                                            color = NamedColor.black
+                                            fontSize = 18.px
+                                            backgroundColor = NamedColor.white
+                                            fontFamily = FontFamily.cursive
+                                        }
+                                        +newQuestion.objectText
+                                        +" ✔"
+
+                                        topPX += 30
+                                    }
+                                }
+                            }
+                        }
+                        */
+                }
             }
 
             "action" -> {
                 //Store name, age and pension percentage
                 person.name = name
                 person.age = age.toInt()
+                person.startWorkingAge = age.toInt()
                 person.pension = pension.toFloat() * 0.01F
 
                 //Initiate lists of person profession and accounts
@@ -277,10 +338,20 @@ val App = FC<Props> {
                         marginLeftTo = 26
                     }
                 }
+
+                ShowInput {
+                    actualInputQuestions = inputQuestions
+                    actualName = name
+                    actualAge = age
+                    actualPension = pension
+                }
             }
 
             "start", "reload" -> {
                 div {
+                    person.name = name
+                    person.age = age.toInt()
+                    person.pension = pension.toFloat() * 0.01F
 
                     StartWorkingLife {
                         selectedView = currentView
@@ -304,22 +375,12 @@ val App = FC<Props> {
 
                 ShowAction {
                     actualProfession = currentProfession
-                    actualAge = age
+                    actualAge = currentPerson.startWorkingAge.toString()
                 }
 
-                ShowStatus {
-                    actualInputQuestions = inputQuestions
-                    actualName = name
-                    actualAge = age
-                    actualPension = pension
-                    actualSalary = currentStatus.employeeSalary
-                    actualSalaryAmount = currentStatus.accountSalaryAmount
-                    actualDepotAmount = currentStatus.accountDepotAmount
-                    actualPensionAmount = currentStatus.accountPensionAmount
-                    actualHireAmount = currentStatus.houseHireAmount
-                    actualHouseAmount = currentStatus.houseAmount
-                    actualLoanAmount = currentStatus.houseLoanAmount
-                    actualProfession = currentStatus.profession
+                //Show animation
+                ShowProfessionAnimation {
+                    actualProfession = currentProfession
                 }
             }
             "pension" -> {
@@ -332,66 +393,6 @@ val App = FC<Props> {
                     }
                 }
             }
-        }
-
-        //Show notes
-        div {
-            ShowInput {
-                actualInputQuestions = inputQuestions
-                actualName = name
-                actualAge = age
-                actualPension = pension
-            }
-
-            person.union.akassa = true
-            person.union.incomeInsurance = true
-            person.union.extraInsurance = true
-            person.healthInsurance = true
-
-        /*
-            var topPX: Int
-
-            if (selectedQuestions.isNotEmpty()) {
-                topPX = 570
-                div {
-                    for (newQuestion: Question in selectedQuestions) {
-                        when (newQuestion.objectType) {
-                            "akassa" -> {
-                                person.union.akassa = true
-                            }
-
-                            "incomeinsurance" -> {
-                                person.union.incomeInsurance = true
-                            }
-
-                            "extrainsurance" -> {
-                                person.union.extraInsurance = true
-                            }
-
-                            "healthinsurance" -> {
-                                person.healthInsurance = true
-                            }
-                        }
-                        p {
-                            css {
-                                display = Display.block
-                                position = Position.absolute
-                                top = topPX.px
-                                left = 200.px
-                                color = NamedColor.black
-                                fontSize = 18.px
-                                backgroundColor = NamedColor.white
-                                fontFamily = FontFamily.cursive
-                            }
-                            +newQuestion.objectText
-                            +" ✔"
-
-                            topPX += 30
-                        }
-                    }
-                }
-            }
-            */
         }
     }
 }

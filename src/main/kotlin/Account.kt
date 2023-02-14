@@ -3,17 +3,16 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Account( val accountId: Int, val accountType: String) {
     var amount: Float = 0.0F
-    var messageMilgon1: Boolean = true
-    var messageMilgon5: Boolean = true
-    var messageMilgon10: Boolean = true
-    var messageMilgon20: Boolean = true
+    var messageMiljon1: Boolean = true
+    var messageMiljon5: Boolean = true
+    var messageMiljon10: Boolean = true
+    var messageMiljon20: Boolean = true
 
 
     fun showDepotAmount(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId
         val message = Message(
-            storyId,
+            messageId,
             "Härligt! du får värdepapper med ett värde på ${ this.amount.toInt().formatDecimalSeparator() } SEK 🤑" ,
             "",
             "blinking"
@@ -26,11 +25,10 @@ data class Account( val accountId: Int, val accountType: String) {
 
     fun showSeverancePay(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId
 
         storyList = storyList.plus(
             Message(
-                storyId,
+                messageId,
                 "Oj, du får avgångsvederlag på ${this.amount.toInt().formatDecimalSeparator()} 🤑",
                 "",
                 "blinking"
@@ -41,12 +39,12 @@ data class Account( val accountId: Int, val accountType: String) {
 
     fun showAccountAmount(year: Int, messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId
+        var storyId = messageId
         val message: Message
 
         when (this.accountType) {
             "lönekonto" -> {
-                if (this.amount.toInt() > 20000000.0F && this.messageMilgon20) {
+                if (this.amount.toInt() > 20000000.0F && this.messageMiljon20) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
@@ -55,8 +53,10 @@ data class Account( val accountId: Int, val accountType: String) {
                             "blinking"
                         )
                     )
-                    this.messageMilgon20 = false
-                } else if (this.amount.toInt() > 10000000.0F && this.messageMilgon10) {
+                    this.messageMiljon20 = false
+
+                    storyId += 1
+                } else if (this.amount.toInt() > 10000000.0F && this.messageMiljon10) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
@@ -65,8 +65,10 @@ data class Account( val accountId: Int, val accountType: String) {
                             "blinking"
                         )
                     )
-                    this.messageMilgon10 = false
-                } else if (this.amount.toInt() > 5000000.0F && this.messageMilgon5) {
+                    this.messageMiljon10 = false
+
+                    storyId += 1
+                } else if (this.amount.toInt() > 5000000.0F && this.messageMiljon5) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
@@ -75,8 +77,10 @@ data class Account( val accountId: Int, val accountType: String) {
                             "blinking"
                         )
                     )
-                    this.messageMilgon5 = false
-                } else if (this.amount.toInt() > 1000000.0F && this.messageMilgon1) {
+                    this.messageMiljon5 = false
+
+                    storyId += 1
+                } else if (this.amount.toInt() > 1000000.0F && this.messageMiljon1) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
@@ -85,7 +89,8 @@ data class Account( val accountId: Int, val accountType: String) {
                             "blinking"
                         )
                     )
-                    this.messageMilgon1 = false
+
+                    storyId += 1
                 } else {
                     storyList = storyList.plus(
                         Message(
@@ -95,6 +100,8 @@ data class Account( val accountId: Int, val accountType: String) {
                             ""
                         )
                     )
+
+                    storyId += 1
 
                     if (this.amount.toInt() < 0.0F) {
                         message = Message(
@@ -106,6 +113,8 @@ data class Account( val accountId: Int, val accountType: String) {
                         message.status.accountSalaryAmount = this.amount.toInt().formatDecimalSeparator()
                         storyList = storyList.plus(message)
 
+                        storyId += 1
+
                     } else {
                         message = Message(
                             storyId,
@@ -115,6 +124,8 @@ data class Account( val accountId: Int, val accountType: String) {
                         )
                         message.status.accountSalaryAmount = this.amount.toInt().formatDecimalSeparator()
                         storyList = storyList.plus(message)
+
+                        storyId += 1
                     }
                 }
             }
@@ -128,6 +139,8 @@ data class Account( val accountId: Int, val accountType: String) {
                 )
                 message.status.accountDepotAmount = this.amount.toInt().formatDecimalSeparator()
                 storyList = storyList.plus(message)
+
+                storyId += 1
             }
 
             "pensionskonto" -> {
@@ -139,6 +152,8 @@ data class Account( val accountId: Int, val accountType: String) {
                     )
                 message.status.accountPensionAmount = this.amount.toInt().formatDecimalSeparator()
                 storyList = storyList.plus(message)
+
+                storyId += 1
             }
 
             "skatt" -> {
@@ -150,6 +165,8 @@ data class Account( val accountId: Int, val accountType: String) {
                         ""
                     )
                 )
+
+                storyId += 1
             }
         }
 
@@ -158,7 +175,7 @@ data class Account( val accountId: Int, val accountType: String) {
 
     fun showAccountCost(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId
+        var storyId = messageId
 
         when (this.accountType) {
             "lönekonto" -> {
@@ -173,6 +190,8 @@ data class Account( val accountId: Int, val accountType: String) {
                             "blinkingRed"
                         )
                     )
+
+                    storyId += 1
                 } else {
                     storyList = storyList.plus(
                         Message(
@@ -184,6 +203,8 @@ data class Account( val accountId: Int, val accountType: String) {
                             ""
                         )
                     )
+
+                    storyId += 1
                 }
             }
 
@@ -199,6 +220,8 @@ data class Account( val accountId: Int, val accountType: String) {
                             ""
                         )
                     )
+
+                    storyId += 1
                 } else {
                     storyList = storyList.plus(
                         Message(
@@ -210,6 +233,7 @@ data class Account( val accountId: Int, val accountType: String) {
                             ""
                         )
                     )
+                    storyId += 1
                 }
             }
         }
@@ -219,11 +243,10 @@ data class Account( val accountId: Int, val accountType: String) {
 
     fun showSkuldsanering(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId
 
         storyList = storyList.plus(
             Message(
-                storyId,
+                messageId,
                 "Du måste skuldsanera och säljer dina värdepapper och får: ${this.amount.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""

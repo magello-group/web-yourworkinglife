@@ -61,9 +61,9 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
     //Init story
     var messageList = props.selectedMessages
     var leftMessages: List<Message> = emptyList()
-    var historyMessages = props.selectedHistory
+    var historyMessages: List<Message> = emptyList()
     var backupMessages: List<Message> = emptyList()
-    var actualStatus = props.selectedStatus
+    var currentStatus = props.selectedStatus
     var messageId = 0
     val maxMessages = 6
     var currentAmount: Float
@@ -78,21 +78,15 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
         messageList = employee.showEmployeeSalary(0.0F,messageList, messageId)
         messageId = messageList.size
 
+        messageList = person.showWorkingLife(age, messageList, messageId)
+        messageId = messageList.size
 
         //Loop all working years----------------------------------------------------
         for (year in person.age..profession.pensionAge) {
 
             if (debugIsOn) {
-
-                messageList = messageList.plus(
-                    Message(
-                        messageId,
-                        "Event: ${allEvents[randomEventValues[0]].eventType}, Object:  ${allEvents[randomEventValues[0]].objectType} ",
-                        "grey",
-                        ""
-                    )
-                )
-                messageId += 1
+                messageList = allEvents[randomEventValues[0]].showEvent(messageList, messageId, ", Event: ${allEvents[randomEventValues[0]].eventType}", ", Object:  ${allEvents[randomEventValues[0]].objectType}")
+                messageId = messageList.size
             }
 
             //Init count month
@@ -251,6 +245,8 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                                 messageId = messageList.size
 
                                 union.noAkassaSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
+                                messageList = union.showNoAkassa(messageList, messageId)
+                                messageId = messageList.size
 
                             } else if (union.akassa && person.countWorkMonth >= 12) {
 
@@ -542,8 +538,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
             age += 1
             person.countWorkMonth += 12
 
-            messageId += 1
-            messageList = person.showWorkingLife(year, messageList, messageId)
+            messageList = person.showWorkingLife(age, messageList, messageId)
             messageId = messageList.size
 
             //Löneökning
@@ -743,79 +738,10 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
         }
     }
 
+    //Show story
     if (messageList.isNotEmpty()) {
 
         div {
-            val blinking: AnimationName = keyframes {
-                0.pct {
-                    color = NamedColor.darkgoldenrod
-                }
-                10.pct {
-                    color = NamedColor.lightgoldenrodyellow
-                }
-                20.pct {
-                    color = NamedColor.darkgoldenrod
-                }
-                30.pct {
-                    color = NamedColor.lightgoldenrodyellow
-                }
-                40.pct {
-                    color = NamedColor.darkgoldenrod
-                }
-                50.pct {
-                    color = NamedColor.lightgoldenrodyellow
-                }
-                60.pct {
-                    color = NamedColor.darkgoldenrod
-                }
-                70.pct {
-                    color = NamedColor.lightgoldenrodyellow
-                }
-                80.pct {
-                    color = NamedColor.darkgoldenrod
-                }
-                90.pct {
-                    color = NamedColor.lightgoldenrodyellow
-                }
-                100.pct {
-                    color = NamedColor.darkgoldenrod
-                }
-            }
-            val blinkingRed: AnimationName = keyframes {
-                0.pct {
-                    color = NamedColor.hotpink
-                }
-                10.pct {
-                    color = NamedColor.lightpink
-                }
-                20.pct {
-                    color = NamedColor.hotpink
-                }
-                30.pct {
-                    color = NamedColor.lightpink
-                }
-                40.pct {
-                    color = NamedColor.hotpink
-                }
-                50.pct {
-                    color = NamedColor.lightpink
-                }
-                60.pct {
-                    color = NamedColor.hotpink
-                }
-                70.pct {
-                    color = NamedColor.lightpink
-                }
-                80.pct {
-                    color = NamedColor.hotpink
-                }
-                90.pct {
-                    color = NamedColor.lightpink
-                }
-                100.pct {
-                    color = NamedColor.hotpink
-                }
-            }
             css {
                 display = Display.block
                 position = Position.absolute
@@ -834,105 +760,30 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                     leftMessages = leftMessages.plus(message)
                 } else if (messageIndex <= maxMessages) {
                     //Update status row
-                    if (message.status.age != "") actualStatus.age = message.status.age
-                    if (message.status.profession != "") actualStatus.profession = message.status.profession
-                    if (message.status.employeeSalary != "") actualStatus.employeeSalary = message.status.employeeSalary
-                    if (message.status.accountSalaryAmount != "") actualStatus.accountSalaryAmount = message.status.accountSalaryAmount
-                    if (message.status.accountDepotAmount != "") actualStatus.accountDepotAmount = message.status.accountDepotAmount
-                    if (message.status.accountPensionAmount != "") actualStatus.accountPensionAmount = message.status.accountPensionAmount
-                    if (message.status.houseAmount != "") actualStatus.houseAmount = message.status.houseAmount
-                    if (message.status.houseHireAmount != "") actualStatus.houseHireAmount = message.status.houseHireAmount
-                    if (message.status.houseLoanAmount != "") actualStatus.houseLoanAmount = message.status.houseLoanAmount
+                    if (message.status.age != "") currentStatus.age = message.status.age
+                    if (message.status.employeeSalary != "") currentStatus.employeeSalary =
+                        message.status.employeeSalary
+                    if (message.status.accountSalaryAmount != "") currentStatus.accountSalaryAmount =
+                        message.status.accountSalaryAmount
+                    if (message.status.accountDepotAmount != "") currentStatus.accountDepotAmount =
+                        message.status.accountDepotAmount
+                    if (message.status.accountPensionAmount != "") currentStatus.accountPensionAmount =
+                        message.status.accountPensionAmount
+                    if (message.status.houseAmount != "") currentStatus.houseAmount = message.status.houseAmount
+                    if (message.status.houseHireAmount != "") currentStatus.houseHireAmount =
+                        message.status.houseHireAmount
+                    if (message.status.houseLoanAmount != "") currentStatus.houseLoanAmount =
+                        message.status.houseLoanAmount
+                    if (message.status.profession != "") currentStatus.profession = message.status.profession
 
-                    if (message.animation != "") {
-                        when (message.animation) {
-                            "blinking" -> {
-                                p {
-
-                                    css {
-                                        animationDuration = 3.s
-                                        animationName = blinking
-                                        animationFillMode = AnimationFillMode.both
-                                        color = NamedColor.gold
-                                    }
-                                    +message.messageText
-                                }
-                            }
-                            "blinkingRed" -> {
-                                p {
-
-                                    css {
-                                        animationDuration = 3.s
-                                        animationName = blinkingRed
-                                        animationFillMode = AnimationFillMode.both
-                                        color = NamedColor.red
-                                    }
-                                    +message.messageText
-                                }
-                            }
-                        }
-                    } else {
-                        when (message.color) {
-                            "deepskyblue" -> {
-                                p {
-                                    css {
-                                        color = NamedColor.deepskyblue
-                                    }
-                                    +message.messageText
-                                }
-                            }
-                            "lavender" -> {
-                                p {
-                                    css {
-                                        color = NamedColor.blueviolet
-                                    }
-                                    +message.messageText
-                                }
-                            }
-                            "grey" -> {
-                                p {
-                                    css {
-                                        color = NamedColor.yellowgreen
-                                    }
-                                    +message.messageText
-                                }
-                            }
-                            "hotpink" -> {
-                                p {
-                                    css {
-                                        color = NamedColor.hotpink
-                                    }
-                                    +message.messageText
-                                }
-                            }
-                            "orange" -> {
-                                p {
-                                    css {
-                                        color = NamedColor.orange
-                                    }
-                                    +message.messageText
-                                }
-                            }
-                            "" -> {
-                                p {
-                                    css {
-                                        color = NamedColor.green
-                                    }
-                                    +message.messageText
-                                }
-                            }
-                        }
+                    ShowMessage {
+                        selectedMessage = message
                     }
+
                 } else {
                     leftMessages = leftMessages.plus(message)
                 }
             }
-        }
-
-        //Show animation
-
-        ShowProfessionAnimation {
-            actualProfession = props.selectedProfession
         }
 
         p {
@@ -952,7 +803,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                     fontFamily = FontFamily.cursive
                 }
 
-                if (leftMessages.size >= maxMessages ) {
+                if (leftMessages.size >= maxMessages) {
                     onClick = {
                         props.onSelectMessages(
                             props.selectedView,
@@ -960,7 +811,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                             props.selectedProfession,
                             person,
                             historyMessages,
-                            actualStatus
+                            currentStatus
                         )
                     }
                     +props.selectedView.buttonText
@@ -972,7 +823,7 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                             props.selectedProfession,
                             person,
                             historyMessages,
-                            actualStatus
+                            currentStatus
                         )
                     }
                     +reloadView.buttonText
@@ -980,47 +831,66 @@ val StartWorkingLife = FC<StartWorkingLifeProps> { props ->
                 +" ▶"
             }
 
-            if (props.selectedHistory.isNotEmpty() && messageList.isNotEmpty()) {
-                messageId = messageList[0].id - maxMessages
+            if (messageList.isNotEmpty()) {
+                if (props.selectedHistory.isNotEmpty()) {
+                    messageId = messageList[0].id - (maxMessages+1)
 
-                for (mess in props.selectedHistory) {
-
-                    if (mess.id > messageId) {
-                        backupMessages = backupMessages.plus(mess)
+                    for ((messageIndex, message) in props.selectedHistory.withIndex()) {
+                        if (messageIndex >= messageId) {
+                            backupMessages = backupMessages.plus(message)
+                        }
                     }
-                }
-                if (messageId > 1) {
-                    button {
 
-                        key = messageList[0].id.toString()
-                        css {
-                            display = Display.block
-                            position = Position.absolute
-                            top = 10.px
-                            left = 10.px
+                    if (backupMessages.isNotEmpty()) {
+                        button {
 
-                            color = NamedColor.green
-                            borderColor = NamedColor.white
-                            fontSize = 18.px
-                            backgroundColor = NamedColor.white
-                            fontFamily = FontFamily.cursive
+                            key = backupMessages[0].id.toString()
+                            css {
+                                display = Display.block
+                                position = Position.absolute
+                                top = 10.px
+                                left = 10.px
+
+                                color = NamedColor.green
+                                borderColor = NamedColor.white
+                                fontSize = 18.px
+                                backgroundColor = NamedColor.white
+                                fontFamily = FontFamily.cursive
+                            }
+
+
+                            onClick = {
+                                props.onSelectMessages(
+                                    props.selectedView,
+                                    backupMessages,
+                                    props.selectedProfession,
+                                    person,
+                                    historyMessages,
+                                    currentStatus
+                                )
+                            }
+
+                            +"◀ "
                         }
-
-
-                        onClick = {
-                            props.onSelectMessages(
-                                props.selectedView,
-                                backupMessages,
-                                props.selectedProfession,
-                                person,
-                                props.selectedHistory,
-                                actualStatus
-                            )
-                        }
-                        +"◀ "
                     }
                 }
             }
+        }
+
+        if (currentStatus.age == "") currentStatus.age = person.age.toString()
+        if (currentStatus.profession == "") currentStatus.profession = props.selectedProfession.title
+        ShowStatusRow {
+            actualAge = currentStatus.age
+            actualName = person.name
+            actualPension = (person.pension * 100).toString()
+            actualProfession = currentStatus.profession
+            actualSalary = currentStatus.employeeSalary
+            actualSalaryAmount = currentStatus.accountSalaryAmount
+            actualDepotAmount = currentStatus.accountDepotAmount
+            actualPensionAmount = currentStatus.accountPensionAmount
+            actualHireAmount = currentStatus.houseHireAmount
+            actualHouseAmount = currentStatus.houseAmount
+            actualLoanAmount = currentStatus.houseLoanAmount
         }
     }
 }

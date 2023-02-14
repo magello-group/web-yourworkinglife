@@ -39,21 +39,21 @@ data class Union( val personId: Int ) {
 
             //Arbetslöshetssersättning = procent av lönen i 200 dagar
             this.unEmployedSalary200 = if (salary <= 30000.0)
-                salary * incomeInsurance30
+                salary * this.incomeInsurance30
             else if (salary <= 40000.0)
-                salary * incomeInsurance40
+                salary * this.incomeInsurance40
             else if (salary <= 50000.0)
-                salary * incomeInsurance50
+                salary * this.incomeInsurance50
             else if (salary <= 60000.0)
-                salary * incomeInsurance60
+                salary * this.incomeInsurance60
             else if (salary <= 70000.0)
-                salary * incomeInsurance70
+                salary * this.incomeInsurance70
             else if (salary <= 80000.0)
-                salary * incomeInsurance80
+                salary * this.incomeInsurance80
             else if (salary <= 90000.0)
-                salary * incomeInsurance90
+                salary * this.incomeInsurance90
             else
-                salary * incomeInsurance100
+                salary * this.incomeInsurance100
 
             //Arbetslöshetssersättning * antal månader max 200 dagar
             sum = if (this.countUnEmployeeMonth > month200.toInt())
@@ -64,8 +64,8 @@ data class Union( val personId: Int ) {
             //Efter 200 dagar till 300 dagar ingår a-kassa
             leftMonth = this.countUnEmployeeMonth - month200.toInt()
 
-            if (salary >= maxSalaryAkassa300)
-                this.unEmployedSalary300 = maxSalaryAkassa300
+            if (salary >= this.maxSalaryAkassa300)
+                this.unEmployedSalary300 = this.maxSalaryAkassa300
             else
                 this.unEmployedSalary300 = this.akassaPercentage300 * salary
 
@@ -78,13 +78,13 @@ data class Union( val personId: Int ) {
 
             //Arbetslöshetssersättning = procent av lönen max 60000 i lön
             sum = if (salary <= 30000.0)
-                salary * incomeInsurance30
+                salary * this.incomeInsurance30
             else if (salary <= 40000.0)
-                salary * incomeInsurance40
+                salary * this.incomeInsurance40
             else if (salary <= 50000.0)
-                salary * incomeInsurance50
+                salary * this.incomeInsurance50
             else
-                60000.0 * incomeInsurance60
+                60000.0 * this.incomeInsurance60
 
             //Arbetslöshetssersättning * antal månader max 150 dagar
             sum += if (this.countUnEmployeeMonth > month150.toInt())
@@ -95,8 +95,8 @@ data class Union( val personId: Int ) {
             //Efter 150 dagar till 300 dagar ingår a-kassa
             leftMonth = this.countUnEmployeeMonth - month150.toInt()
 
-            if (salary >= maxSalaryAkassa300)
-                this.unEmployedSalary300 = maxSalaryAkassa300
+            if (salary >= this.maxSalaryAkassa300)
+                this.unEmployedSalary300 = this.maxSalaryAkassa300
             else
                 this.unEmployedSalary300 = this.akassaPercentage300 * salary
             this.unEmployedSalary300 = this.akassaPercentage300 * salary
@@ -137,8 +137,9 @@ data class Union( val personId: Int ) {
                     )
                 )
 
+            storyId += 1
+
             if (this.countUnEmployeeMonth > 200) {
-                storyId += 1
 
                 storyList = storyList.plus(
                     Message(
@@ -150,6 +151,8 @@ data class Union( val personId: Int ) {
                         ""
                     )
                 )
+
+                storyId += 1
             }
 
         } else if (this.incomeInsurance) {
@@ -164,6 +167,8 @@ data class Union( val personId: Int ) {
                     )
                 )
 
+            storyId += 1
+
             storyList =
                 storyList.plus(
                     Message(
@@ -174,8 +179,9 @@ data class Union( val personId: Int ) {
                     )
                 )
 
+            storyId += 1
+
             if (this.countUnEmployeeMonth > 150) {
-                storyId += 1
 
                 storyList = storyList.plus(
                     Message(
@@ -187,6 +193,8 @@ data class Union( val personId: Int ) {
                         ""
                     )
                 )
+
+                storyId += 1
             }
         }
 
@@ -200,22 +208,22 @@ data class Union( val personId: Int ) {
         val month200: Double = 200.0 / 22.0
         val leftMonth: Int
 
-        if (akassa) {
+        if (this.akassa) {
             if (this.countUnEmployeeMonth > month100.toInt()) {
                 //Arbetslöshetssersättning = procent av lönen i 100 dagar
-                this.unEmployedSalary100 = if (salary < maxSalaryAkassa100)
-                    salary * akassaPercentage100
+                this.unEmployedSalary100 = if (salary < this.maxSalaryAkassa100)
+                    salary * this.akassaPercentage100
                 else
-                    maxSalaryAkassa100
+                    this.maxSalaryAkassa100
 
                 //Arbetslöshetssersättning * 100 dagar
                 sum100 = this.unEmployedSalary100 * month100
 
                 //Arbetslöshetssersättning = procent av lönen resterande 200 dagar
-                this.unEmployedSalary300 = if (salary < maxSalaryAkassa300)
-                    salary * akassaPercentage300
+                this.unEmployedSalary300 = if (salary < this.maxSalaryAkassa300)
+                    salary * this.akassaPercentage300
                 else
-                    maxSalaryAkassa300
+                    this.maxSalaryAkassa300
 
                 leftMonth = this.countUnEmployeeMonth - month100.toInt()
 
@@ -225,19 +233,19 @@ data class Union( val personId: Int ) {
                     this.unEmployedSalary300 * leftMonth.toDouble()
             } else {
                 //Arbetslöshetssersättning = procent av lönen i 300 dagar
-                this.unEmployedSalary100 = if (salary < maxSalaryNoAkassa)
-                    salary * akassaPercentage100
+                this.unEmployedSalary100 = if (salary < this.maxSalaryNoAkassa)
+                    salary * this.akassaPercentage100
                 else
-                    maxSalaryNoAkassa
+                    this.maxSalaryNoAkassa
 
                 //Arbetslöshetssersättning * 100 dagar
                 sum100 = this.unEmployedSalary100 * this.countUnEmployeeMonth.toDouble()
 
                 //Arbetslöshetssersättning = procent av lönen resterande 200 dagar
-                this.unEmployedSalary300 = if (salary < maxSalaryNoAkassa)
-                    salary * akassaPercentage300
+                this.unEmployedSalary300 = if (salary < this.maxSalaryNoAkassa)
+                    salary * this.akassaPercentage300
                 else
-                    maxSalaryNoAkassa
+                    this.maxSalaryNoAkassa
 
                 leftMonth = this.countUnEmployeeMonth - month100.toInt()
 
@@ -263,7 +271,9 @@ data class Union( val personId: Int ) {
                 ""
             )
         )
+
         storyId += 1
+
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -273,8 +283,9 @@ data class Union( val personId: Int ) {
             )
         )
 
+        storyId += 1
+
         if (this.countUnEmployeeMonth > 200) {
-            storyId += 1
 
             storyList = storyList.plus(
                 Message(
@@ -286,6 +297,7 @@ data class Union( val personId: Int ) {
                     ""
                 )
             )
+            storyId += 1
         }
 
         return storyList
@@ -295,15 +307,15 @@ data class Union( val personId: Int ) {
         val sum: Double
         val month300: Double = 300.0 / 22.0
 
-        this.unEmployedSalary300 = if (salary < maxSalaryNoAkassa)
-            salary * akassaPercentage300
+        this.unEmployedSalary300 = if (salary < this.maxSalaryNoAkassa)
+            salary * this.akassaPercentage300
         else
-            maxSalaryNoAkassa
+            this.maxSalaryNoAkassa
 
-        sum = if (countUnEmployeeMonth > month300.toInt())
+        sum = if (this.countUnEmployeeMonth > month300.toInt())
             this.unEmployedSalary300 * month300
         else
-            this.unEmployedSalary300 * countUnEmployeeMonth.toDouble()
+            this.unEmployedSalary300 * this.countUnEmployeeMonth.toDouble()
 
         return sum
     }
@@ -322,6 +334,7 @@ data class Union( val personId: Int ) {
         )
 
         storyId += 1
+
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -330,9 +343,8 @@ data class Union( val personId: Int ) {
                 ""
             )
         )
+        storyId += 1
         if (this.countUnEmployeeMonth > 200) {
-            storyId += 1
-
             storyList = storyList.plus(
                 Message(
                     storyId,
@@ -343,6 +355,7 @@ data class Union( val personId: Int ) {
                     ""
                 )
             )
+            storyId += 1
         }
 
         return storyList

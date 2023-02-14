@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 data class Person (val id: Int) {
     var name: String = ""
     var age: Int = 0
+    var startWorkingAge: Int = 0
     var pension: Float = 0.0F
     var luck: Boolean = false
     var magellit: Boolean = false
@@ -132,6 +133,7 @@ data class Person (val id: Int) {
             )
         )
         storyId += 1
+
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -170,6 +172,7 @@ data class Person (val id: Int) {
                 ""
             )
         )
+
         storyId += 1
 
         storyList = storyList.plus(
@@ -180,6 +183,7 @@ data class Person (val id: Int) {
                 ""
             )
         )
+
         storyId += 1
 
         storyList = storyList.plus(
@@ -208,6 +212,7 @@ data class Person (val id: Int) {
         )
 
         storyId += 1
+
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -218,6 +223,7 @@ data class Person (val id: Int) {
         )
 
         storyId += 1
+
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -232,11 +238,10 @@ data class Person (val id: Int) {
 
     fun showPersonMagellit(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId
 
         storyList = storyList.plus(
             Message(
-                storyId,
+                messageId,
                 "Wow!! Du är träffad av en magellit 🚀 då blir du inte varslad.",
                 "",
                 "blinking"
@@ -247,11 +252,10 @@ data class Person (val id: Int) {
 
     fun showPersonAccomodationSold(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId
 
         storyList = storyList.plus(
             Message(
-                storyId,
+                messageId,
                 "Dags att sälja det gamla boendet! du får ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
@@ -262,11 +266,10 @@ data class Person (val id: Int) {
 
     fun showSkuldsanering(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId
 
         storyList = storyList.plus(
             Message(
-                storyId,
+                messageId,
                 "Du måste skuldsanera och säljer ditt boende! du får ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
@@ -329,11 +332,10 @@ data class Person (val id: Int) {
 
     fun showPersonAccomodationHire(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId
 
         storyList = storyList.plus(
             Message(
-                storyId,
+                messageId,
                 "Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
@@ -345,11 +347,10 @@ data class Person (val id: Int) {
 
     fun showPersonAccomodationShift(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId
 
         storyList = storyList.plus(
             Message(
-                storyId,
+                messageId,
                 "Du byter hyresrätt.",
                 "",
                 "blinking"
@@ -362,6 +363,7 @@ data class Person (val id: Int) {
     fun showWorkingLife(age: Int, messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
+
         val message = Message(
             storyId,
             "----------------------- Du är ${age} år ------------------------",

@@ -51,9 +51,9 @@ data class Employee( val employeeId: Int )
                         ""
                     )
                 )
-            }
 
-            storyId += 1
+                storyId += 1
+            }
 
             message = Message(
                 storyId,

@@ -45,6 +45,7 @@ data class Parent (val personId: Int) {
         }
 
         storyId += 1
+
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -82,6 +83,7 @@ data class Parent (val personId: Int) {
         )
 
         storyId += 1
+
         storyList = storyList.plus(
             Message(
                 storyId,
