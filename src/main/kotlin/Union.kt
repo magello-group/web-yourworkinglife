@@ -2,9 +2,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Union( val personId: Int ) {
-    var akassa: Boolean = false
-    var incomeInsurance: Boolean = false
-    var extraInsurance: Boolean = false
+    var isAkassa: Boolean = false
+    var isIncomeInsurance: Boolean = false
+    var isExtraInsurance: Boolean = false
     var unEmployedSalaryAmount: Double = 0.0
     var noAkassaSalaryAmount: Double = 0.0
     private var unEmployedSalary100: Double = 0.0
@@ -35,7 +35,7 @@ data class Union( val personId: Int ) {
         val month200: Double = 200.0 / 22.0
         val leftMonth: Int
 
-        if (this.incomeInsurance && this.extraInsurance) {
+        if (this.isIncomeInsurance && this.isExtraInsurance) {
 
             //Arbetslöshetssersättning = procent av lönen i 200 dagar
             this.unEmployedSalary200 = if (salary <= 30000.0)
@@ -74,7 +74,7 @@ data class Union( val personId: Int ) {
             else
                 this.unEmployedSalary300 * leftMonth.toDouble()
 
-        } else if (this.incomeInsurance) {
+        } else if (this.isIncomeInsurance) {
 
             //Arbetslöshetssersättning = procent av lönen max 60000 i lön
             sum = if (salary <= 30000.0)
@@ -113,7 +113,7 @@ data class Union( val personId: Int ) {
         var storyList = messageList
         var storyId = messageId
 
-        if (this.incomeInsurance && this.extraInsurance) {
+        if (this.isIncomeInsurance && this.isExtraInsurance) {
 
             storyList =
                  storyList.plus(
@@ -155,7 +155,7 @@ data class Union( val personId: Int ) {
                 storyId += 1
             }
 
-        } else if (this.incomeInsurance) {
+        } else if (this.isIncomeInsurance) {
 
             storyList =
                 storyList.plus(
@@ -208,7 +208,7 @@ data class Union( val personId: Int ) {
         val month200: Double = 200.0 / 22.0
         val leftMonth: Int
 
-        if (this.akassa) {
+        if (this.isAkassa) {
             if (this.countUnEmployeeMonth > month100.toInt()) {
                 //Arbetslöshetssersättning = procent av lönen i 100 dagar
                 this.unEmployedSalary100 = if (salary < this.maxSalaryAkassa100)

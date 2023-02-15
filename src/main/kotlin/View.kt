@@ -11,31 +11,59 @@ data class View(
 ) {
 
     fun getViewList(): List<View> {
-        var question: Question = Question(0)
-        var unionQuestions: List<Question> = question.getQuestionList("union")
-        var goalQuestions: List<Question> = question.getQuestionList("goal")
+        val question: Question = Question(0)
+        val unionQuestions: List<Question> = question.getQuestionList("union")
+        val goalQuestions: List<Question> = question.getQuestionList("goal")
 
         return listOf(
             View(0, "init", unionQuestions, "Ditt arbetsliv börjar här... gör dig redo:","Nästa steg", "action"),
             View(1, "action", goalQuestions,"Vilket mål har du med arbetslivet?", "Starta arbetslivet", "start"),
-            View(2, "start", emptyList(),"Ditt arbetsliv har startat!", "Gå vidare i arbetslivet", "reload"),
-            View(3, "reload", emptyList(),"Nu startar pensionen", "Pensionär", "pension"))
+            View(2, "start", unionQuestions,"Ditt arbetsliv har startat!", "Gå vidare i arbetslivet", "reload"),
+            View(3, "reload", emptyList(),"Nu startar pensionen", "Pensionär", "pension"),
+            View(4, "question", goalQuestions,"I mitten av livet", "Gör ditt val", "start"))
     }
-    fun getNextView(currentView: View): View {
+    fun getNextView(): View {
         var view: View = View(0)
 
-        when(currentView.nextViewType) {
+        when(this.nextViewType) {
             "init" -> {
-                view = currentView.getViewList()[0]
+                view = this.getViewList()[0]
             }
             "action" -> {
-                view = currentView.getViewList()[1]
+                view = this.getViewList()[1]
             }
             "start" -> {
-                view = currentView.getViewList()[2]
+                view = this.getViewList()[2]
+            }
+            "question" -> {
+                view = this.getViewList()[4]
             }
             "reload" -> {
-                view = currentView.getViewList()[3]
+                view = this.getViewList()[3]
+            }
+        }
+
+        return view
+    }
+
+    fun getNewView(viewType: String): View {
+        var view: View = View(0)
+
+        when(viewType) {
+            "init" -> {
+                view = this.getViewList()[0]
+            }
+            "action" -> {
+                view = this.getViewList()[1]
+            }
+            "start" -> {
+                view = this.getViewList()[2]
+            }
+            "question" -> {
+                view = this.getViewList()[4]
+            }
+            "reload" -> {
+                view = this.getViewList()[3]
             }
         }
 

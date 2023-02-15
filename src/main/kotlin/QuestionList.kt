@@ -15,6 +15,7 @@ external interface QuestionListProps : Props {
     var selectedView: View
     var selectedQuestion: Question?
     var clickedQuestions: List<Question>
+
     var onSelectQuestion: (Question) -> Unit
 }
 

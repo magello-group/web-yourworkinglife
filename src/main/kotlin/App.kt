@@ -34,6 +34,7 @@ val App = FC<Props> {
     var currentMessages: List<Message> by useState(emptyList())
     var historyMessages: List<Message> by useState(emptyList())
     var currentPerson: Person by useState(Person(0))
+    var currentLife: Life by useState(Life(0))
     var currentStatus: Status by useState(Status(0))
 
     var unSelectedQuestions: List<Question> by useState(emptyList())
@@ -82,7 +83,7 @@ val App = FC<Props> {
 
                             onClick = {
                                 if (name.isNotBlank() && age.isNotBlank()) {
-                                    onSelectView(view.getNextView(currentView))
+                                    onSelectView(view.getNextView())
                                 }
                             }
                             +currentView.buttonText
@@ -243,10 +244,10 @@ val App = FC<Props> {
                         actualPension = pension
                     }
 
-                    person.union.akassa = true
-                    person.union.incomeInsurance = true
-                    person.union.extraInsurance = true
-                    person.healthInsurance = true
+                    person.union.isAkassa = true
+                    person.union.isIncomeInsurance = true
+                    person.union.isExtraInsurance = true
+                    person.isHealthInsurance = true
 
                     /*
                         var topPX: Int
@@ -319,7 +320,7 @@ val App = FC<Props> {
 
                         onSelectProfession = { profession ->
                             currentProfession = profession
-                            currentView = view.getNextView(currentView)
+                            currentView = view.getNewView("start")
                         }
                     }
                 }
@@ -352,7 +353,7 @@ val App = FC<Props> {
                     person.name = name
                     person.age = age.toInt()
                     person.pension = pension.toFloat() * 0.01F
-
+/*
                     StartWorkingLife {
                         selectedView = currentView
                         selectedProfession = currentProfession
@@ -371,6 +372,31 @@ val App = FC<Props> {
                             currentStatus = newStatus
                         }
                     }
+
+
+ */
+
+                    StartMiddleOfLife {
+                        selectedView = currentView
+                        selectedProfession = currentProfession
+                        selectedPerson = person
+                        selectedMessages = currentMessages
+                        selectedHistory = historyMessages
+                        selectedStatus = currentStatus
+                        selectedLife = currentLife
+
+                        onSelectMessages = { newView, newMessages, newProfession, newPerson, newHistory, newStatus, newLife ->
+                            currentView = newView
+                            currentMessages = newMessages
+                            currentProfession = newProfession
+                            currentPerson = newPerson
+                            historyMessages = newHistory
+                            age = newStatus.age
+                            currentStatus = newStatus
+                            currentLife = newLife
+                        }
+                    }
+
                 }
 
                 ShowAction {
@@ -381,6 +407,49 @@ val App = FC<Props> {
                 //Show animation
                 ShowProfessionAnimation {
                     actualProfession = currentProfession
+                }
+            }
+            "question" -> {
+
+                div {
+
+                    ActionList {
+                        selectedView = currentView
+                        selectedAction = currentAction
+                        workingProfession = currentProfession
+                        workingPerson = currentPerson
+
+                        onSelectAction = { question ->
+                            currentAction = question
+                        }
+
+                        onSelectProfession = { profession ->
+                            currentProfession = profession
+                            currentView = view.getNextView()
+                        }
+                    }
+                }
+                //Show animation
+                div {
+                    ShowSparkcykel {}
+                    ShowStreck {
+                        selectedImage01 = "streck002.jpg"
+                        selectedImage02 = "streck003.jpg"
+                        selectedImage03 = "streck004.jpg"
+                    }
+
+                    ShowCloud {
+                        selectedImage ="sol.png"
+                        marginLeftFrom = 0
+                        marginLeftTo = 26
+                    }
+                }
+
+                ShowInput {
+                    actualInputQuestions = inputQuestions
+                    actualName = name
+                    actualAge = age
+                    actualPension = pension
                 }
             }
             "pension" -> {

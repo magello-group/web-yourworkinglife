@@ -3,10 +3,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Account( val accountId: Int, val accountType: String) {
     var amount: Float = 0.0F
-    var messageMiljon1: Boolean = true
-    var messageMiljon5: Boolean = true
-    var messageMiljon10: Boolean = true
-    var messageMiljon20: Boolean = true
+    var isMessageMiljon1: Boolean = true
+    var isMessageMiljon5: Boolean = true
+    var isMessageMiljon10: Boolean = true
+    var isMessageMiljon20: Boolean = true
 
 
     fun showDepotAmount(messageList: List<Message>, messageId: Int): List<Message> {
@@ -44,7 +44,7 @@ data class Account( val accountId: Int, val accountType: String) {
 
         when (this.accountType) {
             "lönekonto" -> {
-                if (this.amount.toInt() > 20000000.0F && this.messageMiljon20) {
+                if (this.amount.toInt() > 20000000.0F && this.isMessageMiljon20) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
@@ -53,10 +53,10 @@ data class Account( val accountId: Int, val accountType: String) {
                             "blinking"
                         )
                     )
-                    this.messageMiljon20 = false
+                    this.isMessageMiljon20 = false
 
                     storyId += 1
-                } else if (this.amount.toInt() > 10000000.0F && this.messageMiljon10) {
+                } else if (this.amount.toInt() > 10000000.0F && this.isMessageMiljon10) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
@@ -65,10 +65,10 @@ data class Account( val accountId: Int, val accountType: String) {
                             "blinking"
                         )
                     )
-                    this.messageMiljon10 = false
+                    this.isMessageMiljon10 = false
 
                     storyId += 1
-                } else if (this.amount.toInt() > 5000000.0F && this.messageMiljon5) {
+                } else if (this.amount.toInt() > 5000000.0F && this.isMessageMiljon5) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
@@ -77,10 +77,10 @@ data class Account( val accountId: Int, val accountType: String) {
                             "blinking"
                         )
                     )
-                    this.messageMiljon5 = false
+                    this.isMessageMiljon5 = false
 
                     storyId += 1
-                } else if (this.amount.toInt() > 1000000.0F && this.messageMiljon1) {
+                } else if (this.amount.toInt() > 1000000.0F && this.isMessageMiljon1) {
                     storyList = storyList.plus(
                         Message(
                             storyId,

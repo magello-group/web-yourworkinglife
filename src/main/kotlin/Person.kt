@@ -6,11 +6,6 @@ data class Person (val id: Int) {
     var age: Int = 0
     var startWorkingAge: Int = 0
     var pension: Float = 0.0F
-    var luck: Boolean = false
-    var magellit: Boolean = false
-    var sick: Boolean = false
-    var healthInsurance: Boolean = false
-    var accommodation: Boolean = false
     var union: Union = Union(id)
     var insurance: Insurance = Insurance(id,"Olycksfallsförsäkring")
     var house: House = House(id, "")
@@ -18,8 +13,14 @@ data class Person (val id: Int) {
     var employees: List<Employee> = emptyList()
     var accounts: List<Account> = emptyList()
     var countWorkMonth: Int = 0
-    var loan: Boolean = false
     var blancoLoan: Loan = Loan(id, "Blanco")
+    var isMortgage: Boolean = false
+    var isHappy: Boolean = false
+    var isMagellit: Boolean = false
+    var isSick: Boolean = false
+    var isHealthInsurance: Boolean = false
+    var isAccommodation: Boolean = false
+    var isDepressed: Boolean = false
 
     fun showPersonAccomodation(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
@@ -49,7 +50,7 @@ data class Person (val id: Int) {
             storyId += 1
         }
 
-        if (this.house.loan) {
+        if (this.house.isMortgage) {
             message = Message(
                 storyId,
                 "Lån: ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK.",
