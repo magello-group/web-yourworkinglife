@@ -23,7 +23,7 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
 
     // Init person
 
-    val reloadView: View = props.selectedView.getNextView(props.selectedView)
+    val reloadView: View = props.selectedView.getNextView()
     val person = props.selectedPerson
 
     //Init story
@@ -285,7 +285,7 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
                 } else {
                     onClick = {
                         props.onSelectPension(
-                            reloadView.getNextView(reloadView),
+                            reloadView.getNextView(),
                             leftMessages,
                             person
                         )

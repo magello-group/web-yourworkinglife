@@ -28,6 +28,7 @@ data class Question (
                    // Question(3, "Tecknar du olycksfallsförsäkring?", "Olycksfallsförsäkring", "healthinsurance")
                 )
             }
+
             "goal" -> {
                 questions = listOf(
                     Question(0,"Maxa spänningen", "spänning", "adventure"),
@@ -37,6 +38,17 @@ data class Question (
                     Question(4,"Maxa lönen", "lön", "salary"),
                     Question(5, "Maxa pensionen", "pension", "pension"),
                     Question(6, "Bara ha kul", "kul", "fun")
+                )
+            }
+
+            "depressed" -> {
+                questions = listOf(
+                    Question(0,"Katter🐱😍", "cat", "luck"),
+                    Question(1, "Träning 🤸", "strong", "luck",),
+                    Question(2, "Vänner 🤗", "friend", "luck"),
+                    Question(3, "Hundar 🦖", "dog", "luck"),
+                    Question(4,"Vandring 🚶", "alone", "luck"),
+                    Question(5,"Att fiska 🐬", "fish", "luck")
                 )
             }
         }

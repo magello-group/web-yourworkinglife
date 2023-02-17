@@ -14,13 +14,14 @@ data class View(
         val question: Question = Question(0)
         val unionQuestions: List<Question> = question.getQuestionList("union")
         val goalQuestions: List<Question> = question.getQuestionList("goal")
+        val depressedQuestions: List<Question> = question.getQuestionList("depressed")
 
         return listOf(
             View(0, "init", unionQuestions, "Ditt arbetsliv börjar här... gör dig redo:","Nästa steg", "action"),
             View(1, "action", goalQuestions,"Vilket mål har du med arbetslivet?", "Starta arbetslivet", "start"),
             View(2, "start", unionQuestions,"Ditt arbetsliv har startat!", "Gå vidare i arbetslivet", "reload"),
             View(3, "reload", emptyList(),"Nu startar pensionen", "Pensionär", "pension"),
-            View(4, "question", goalQuestions,"I mitten av livet", "Gör ditt val", "start"))
+            View(4, "question", depressedQuestions,"Du svarar:", "Gå vidare i arbetslivet", "start"))
     }
     fun getNextView(): View {
         var view: View = View(0)

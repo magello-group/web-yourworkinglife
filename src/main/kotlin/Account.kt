@@ -89,6 +89,7 @@ data class Account( val accountId: Int, val accountType: String) {
                             "blinking"
                         )
                     )
+                    this.isMessageMiljon1 = false
 
                     storyId += 1
                 } else {

@@ -15,8 +15,7 @@ data class Profession(
 
     fun getProfessionList(objectType: String): List<Profession> {
 
-        val professions: List<Profession> = getAllProfession()
-
+        val professions: List<Profession> = this.getAllProfession()
         var selectedProfessions: List<Profession> = emptyList()
 
         for (profession in professions) {

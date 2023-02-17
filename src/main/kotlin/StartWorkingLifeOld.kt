@@ -1,5 +1,4 @@
 import csstype.*
-import emotion.css.keyframes
 import emotion.react.css
 import react.FC
 import react.Props

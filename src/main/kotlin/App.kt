@@ -29,8 +29,11 @@ val App = FC<Props> {
     var currentView: View by useState(view.getViewList()[0])
 
     var currentQuestion: Question? by useState(null)
+    var currentEvent: Event by useState(Event(999))
+
     var currentAction: Question? by useState(null)
     var currentProfession: Profession by useState(Profession(999))
+
     var currentMessages: List<Message> by useState(emptyList())
     var historyMessages: List<Message> by useState(emptyList())
     var currentPerson: Person by useState(Person(0))
@@ -188,36 +191,7 @@ val App = FC<Props> {
                         }
                     }
                 }
-/*
-                div {
 
-                    QuestionList {
-                        selectedView = currentView
-                        selectedQuestion = currentQuestion
-                        clickedQuestions = selectedQuestions
-
-                        onSelectQuestion = { question ->
-                            currentQuestion = question
-
-                            if (unSelectedQuestions.isNotEmpty()) {
-                                if (unSelectedQuestions.contains(question)) {
-                                    unSelectedQuestions = unSelectedQuestions.minus(question)
-                                    selectedQuestions = selectedQuestions.plus(question)
-                                    clickedQuestions = selectedQuestions
-                                }
-                            }
-                            if (selectedQuestions.isNotEmpty()) {
-                                if (selectedQuestions.contains(question)) {
-                                    selectedQuestions = selectedQuestions.minus(question)
-                                    unSelectedQuestions = unSelectedQuestions.plus(question)
-                                    clickedQuestions = selectedQuestions
-                                }
-                            }
-                        }
-                    }
-                }
-
- */
                 //Show animation
                 div {
                     ShowStreckGubbe {}
@@ -248,51 +222,6 @@ val App = FC<Props> {
                     person.union.isIncomeInsurance = true
                     person.union.isExtraInsurance = true
                     person.isHealthInsurance = true
-
-                    /*
-                        var topPX: Int
-
-                        if (selectedQuestions.isNotEmpty()) {
-                            topPX = 570
-                            div {
-                                for (newQuestion: Question in selectedQuestions) {
-                                    when (newQuestion.objectType) {
-                                        "akassa" -> {
-                                            person.union.akassa = true
-                                        }
-
-                                        "incomeinsurance" -> {
-                                            person.union.incomeInsurance = true
-                                        }
-
-                                        "extrainsurance" -> {
-                                            person.union.extraInsurance = true
-                                        }
-
-                                        "healthinsurance" -> {
-                                            person.healthInsurance = true
-                                        }
-                                    }
-                                    p {
-                                        css {
-                                            display = Display.block
-                                            position = Position.absolute
-                                            top = topPX.px
-                                            left = 200.px
-                                            color = NamedColor.black
-                                            fontSize = 18.px
-                                            backgroundColor = NamedColor.white
-                                            fontFamily = FontFamily.cursive
-                                        }
-                                        +newQuestion.objectText
-                                        +" ✔"
-
-                                        topPX += 30
-                                    }
-                                }
-                            }
-                        }
-                        */
                 }
             }
 
@@ -311,7 +240,7 @@ val App = FC<Props> {
                     ActionList {
                         selectedView = currentView
                         selectedAction = currentAction
-                        workingProfession = currentProfession
+                        //workingProfession = currentProfession
                         workingPerson = person
 
                         onSelectAction = { question ->
@@ -353,28 +282,6 @@ val App = FC<Props> {
                     person.name = name
                     person.age = age.toInt()
                     person.pension = pension.toFloat() * 0.01F
-/*
-                    StartWorkingLife {
-                        selectedView = currentView
-                        selectedProfession = currentProfession
-                        selectedPerson = person
-                        selectedMessages = currentMessages
-                        selectedHistory = historyMessages
-                        selectedStatus = currentStatus
-
-                        onSelectMessages = { newView, newMessages, newProfession, newPerson, newHistory, newStatus ->
-                            currentView = newView
-                            currentMessages = newMessages
-                            currentProfession = newProfession
-                            currentPerson = newPerson
-                            historyMessages = newHistory
-                            age = newStatus.age
-                            currentStatus = newStatus
-                        }
-                    }
-
-
- */
 
                     StartMiddleOfLife {
                         selectedView = currentView
@@ -384,19 +291,20 @@ val App = FC<Props> {
                         selectedHistory = historyMessages
                         selectedStatus = currentStatus
                         selectedLife = currentLife
+                        selectedEvent = currentEvent
 
-                        onSelectMessages = { newView, newMessages, newProfession, newPerson, newHistory, newStatus, newLife ->
-                            currentView = newView
-                            currentMessages = newMessages
-                            currentProfession = newProfession
-                            currentPerson = newPerson
-                            historyMessages = newHistory
-                            age = newStatus.age
-                            currentStatus = newStatus
-                            currentLife = newLife
-                        }
+                        onSelectMessages =
+                            { newView, newMessages, newProfession, newPerson, newHistory, newStatus, newLife ->
+                                currentView = newView
+                                currentMessages = newMessages
+                                currentProfession = newProfession
+                                currentPerson = newPerson
+                                historyMessages = newHistory
+                                age = newStatus.age
+                                currentStatus = newStatus
+                                currentLife = newLife
+                            }
                     }
-
                 }
 
                 ShowAction {
@@ -413,19 +321,27 @@ val App = FC<Props> {
 
                 div {
 
-                    ActionList {
+                    QuestionEventList {
                         selectedView = currentView
-                        selectedAction = currentAction
-                        workingProfession = currentProfession
-                        workingPerson = currentPerson
+                        selectedQuestion = currentQuestion
 
-                        onSelectAction = { question ->
-                            currentAction = question
+                        onSelectQuestion = { question ->
+                            currentQuestion = question
                         }
 
-                        onSelectProfession = { profession ->
-                            currentProfession = profession
-                            currentView = view.getNextView()
+                        selectedProfession = currentProfession
+                        selectedPerson = person
+                        selectedMessages = currentMessages
+                        selectedLife = currentLife
+
+                        onSelectEvent = { newEvent, newView, newMessages, newProfession, newPerson, newLife ->
+                            currentEvent = newEvent
+                            currentView = newView
+                            currentMessages = newMessages
+                            currentProfession = newProfession
+                            currentPerson = newPerson
+                            age = newPerson.age.toString()
+                            currentLife = newLife
                         }
                     }
                 }
@@ -447,9 +363,9 @@ val App = FC<Props> {
 
                 ShowInput {
                     actualInputQuestions = inputQuestions
-                    actualName = name
-                    actualAge = age
-                    actualPension = pension
+                    actualName = currentPerson.name
+                    actualAge = currentPerson.age.toString()
+                    actualPension = currentPerson.pension.toString()
                 }
             }
             "pension" -> {
