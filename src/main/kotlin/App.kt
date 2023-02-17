@@ -374,7 +374,37 @@ val App = FC<Props> {
                     StartPensionLife {
                         selectedView = currentView
                         selectedPerson = person
-                        selectedMessages = historyMessages
+                        selectedMessages = currentMessages
+                        selectedHistory = historyMessages
+                        selectedStatus = currentStatus
+                        selectedLife = currentLife
+
+                        onSelectPension =
+                            { newView, newMessages, newPerson, newHistory, newStatus, newLife ->
+                                currentView = newView
+                                currentMessages = newMessages
+                                currentPerson = newPerson
+                                historyMessages = newHistory
+                                age = newStatus.age
+                                currentStatus = newStatus
+                                currentLife = newLife
+                            }
+                    }
+                }
+
+                //Show animation
+                div {
+                    ShowSparkcykel {}
+                    ShowStreck {
+                        selectedImage01 = "streck002.jpg"
+                        selectedImage02 = "streck003.jpg"
+                        selectedImage03 = "streck004.jpg"
+                    }
+
+                    ShowCloud {
+                        selectedImage ="sol.png"
+                        marginLeftFrom = 0
+                        marginLeftTo = 26
                     }
                 }
             }

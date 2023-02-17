@@ -2,12 +2,9 @@ import csstype.*
 import emotion.react.css
 import react.FC
 import react.Props
-import react.dom.html.ReactHTML
 import react.dom.html.ReactHTML.button
 import react.dom.html.ReactHTML.div
-import react.dom.html.ReactHTML.h1
 import react.dom.html.ReactHTML.p
-import react.dom.html.ReactHTML.select
 import react.key
 import kotlin.Float
 import kotlin.random.Random
@@ -29,9 +26,9 @@ external interface StartMiddleOfLifeProps : Props {
 val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
 
     // Init person life
-    var currentLife = props.selectedLife
     var life: Life = props.selectedLife
-    var person: Person = props.selectedPerson
+    var currentLife: Life
+    val person: Person = props.selectedPerson
     var profession: Profession = props.selectedProfession
 
     //Init story
@@ -44,14 +41,10 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
     val maxMessages = 6
     val isDebugOn = true
 
-    //Pension view
-    var reloadView: View = props.selectedView.getNextView()
-
-    if (life.year == 0) {
+    if (life.age == 0) {
         // starting your workingstory
 
         life.age = person.age
-        life.year = person.age
         person.professions = person.professions.plus(profession)
         life.employee.title = profession.title
         life.employee.firstSalary = profession.salary * person.age.toFloat()
@@ -64,22 +57,24 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
         messageId = messageList.size
     }
 
-    if (life.year >= person.age && life.year <= profession.pensionAge) {
-        //Loop all working years until a question
+    if (life.age >= person.age && life.age <= profession.pensionAge) {
 
+        //Init life
         life.person = person
         life.professionId = profession.id
         life.messageList = messageList
 
+        //Loop middleOfLife until question
         currentLife = middleOfLife(life, props.selectedEvent)
 
+        //Get what happened in your life
         life = currentLife
-        person = currentLife.person
         profession = getProfession(currentLife.professionId)
         messageList = currentLife.messageList
         messageId = messageList.size
 
-        if (currentLife.isQuestion) {
+        if (life.isQuestion) {
+            life.isQuestion = false
             div {
 
                 p {
@@ -118,10 +113,10 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                                 props.selectedView.getNewView("question"),
                                 messageList,
                                 profession,
-                                currentLife.person,
+                                life.person,
                                 historyMessages,
                                 currentStatus,
-                                currentLife
+                                life
                             )
                         }
                         +"Vad svarar du?"
@@ -131,9 +126,9 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
             }
 
             ShowStatusRow {
-                actualAge = currentLife.person.age.toString()
-                actualName = currentLife.person.name
-                actualPension = (currentLife.person.pension * 100).toString()
+                actualAge = life.person.age.toString()
+                actualName = life.person.name
+                actualPension = (life.person.pension * 100).toString()
                 actualProfession = props.selectedProfession.title
                 actualSalary = ""
                 actualSalaryAmount = ""
@@ -146,13 +141,12 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
         }
     }
 
-
     if (isDebugOn) {
         div {
             css {
                 display = Display.block
                 position = Position.absolute
-                top = 700.px
+                top = 800.px
                 left = 50.px
                 color = NamedColor.black
                 fontSize = 18.px
@@ -163,7 +157,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
             ShowMessage {
                 selectedMessage = Message(
                     5,
-                    "Nu startar vi steg 5 year: ${life.year} life.age: ${life.age} pension: ${profession.pensionAge} ",
+                    "Nu startar vi steg 5 life.age: ${life.age} pension: ${profession.pensionAge} ",
                     "",
                     ""
                 )
@@ -171,14 +165,15 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
         }
     }
 
-    if (life.year >= profession.pensionAge) {
+    if (life.age >= profession.pensionAge) {
+        life.person.pensionAge = life.age
 
         if (isDebugOn) {
             div {
                 css {
                     display = Display.block
                     position = Position.absolute
-                    top = 720.px
+                    top = 850.px
                     left = 50.px
                     color = NamedColor.black
                     fontSize = 18.px
@@ -189,7 +184,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                 ShowMessage {
                     selectedMessage = Message(
                         5,
-                        "Nu startar vi steg 6 year: ${life.year} life.age: ${life.age} pension: ${profession.pensionAge} ",
+                        "Nu startar vi steg 6 age life.age: ${life.age} pension: ${life.person.pensionAge} ",
                         "",
                         ""
                     )
@@ -206,6 +201,29 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
 
         //Show story
         if (messageList.isNotEmpty()) {
+            if (isDebugOn) {
+                div {
+                    css {
+                        display = Display.block
+                        position = Position.absolute
+                        top = 900.px
+                        left = 50.px
+                        color = NamedColor.black
+                        fontSize = 18.px
+                        backgroundColor = NamedColor.white
+                        fontFamily = FontFamily.cursive
+                    }
+
+                    ShowMessage {
+                        selectedMessage = Message(
+                            5,
+                            "Nu startar vi steg 7 message: ${messageList[0].messageText} ",
+                            "",
+                            ""
+                        )
+                    }
+                }
+            }
 
             div {
                 css {
@@ -269,44 +287,44 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                         fontFamily = FontFamily.cursive
                     }
 
-                    //if (leftMessages.size >= maxMessages) {
-                    if (life.year <= profession.pensionAge) {
+                    if (leftMessages.size >= maxMessages) {
+                    //if (life.year <= profession.pensionAge) {
                         onClick = {
                             props.onSelectMessages(
-                                props.selectedView,
+                                props.selectedView.getNewView("reload"),
                                 leftMessages,
                                 props.selectedProfession,
-                                currentLife.person,
+                                life.person,
                                 historyMessages,
                                 currentStatus,
-                                currentLife
+                                life
                             )
                         }
-                        +props.selectedView.buttonText
+                        +props.selectedView.getNewView("reload").buttonText
 
 
                     } else {
                         //Pension life
-                        currentLife.person.age = life.age
-                        currentLife.person.professions = currentLife.person.professions.plus(profession)
-                        currentLife.person.employees = currentLife.person.employees.plus(currentLife.employee)
-                        currentLife.person.accounts = currentLife.person.accounts.plus(currentLife.accountSalary)
-                        currentLife.person.accounts = currentLife.person.accounts.plus(currentLife.accountNoAkassa)
-                        currentLife.person.accounts = currentLife.person.accounts.plus(currentLife.accountDepot)
-                        currentLife.person.accounts = currentLife.person.accounts.plus(currentLife.accountPension)
+                        life.person.age = life.age
+                        life.person.professions = life.person.professions.plus(profession)
+                        life.person.employees = life.person.employees.plus(life.employee)
+                        life.person.accounts = life.person.accounts.plus(life.accountSalary)
+                        life.person.accounts = life.person.accounts.plus(life.accountNoAkassa)
+                        life.person.accounts = life.person.accounts.plus(life.accountDepot)
+                        life.person.accounts = life.person.accounts.plus(life.accountPension)
 
                         onClick = {
                             props.onSelectMessages(
-                                reloadView.getNextView(),
+                                props.selectedView.getNewView("pension"),
                                 leftMessages,
                                 props.selectedProfession,
-                                currentLife.person,
+                                life.person,
                                 historyMessages,
                                 currentStatus,
-                                currentLife
+                                life
                             )
                         }
-                        +reloadView.buttonText
+                        +props.selectedView.getNewView("pension").buttonText
                     }
                     +" ▶"
                 }
@@ -342,13 +360,12 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                                     props.selectedView,
                                     backupMessages,
                                     props.selectedProfession,
-                                    currentLife.person,
+                                    life.person,
                                     historyMessages,
                                     currentStatus,
-                                    currentLife
+                                    life
                                 )
                             }
-
                             +"◀ "
                         }
 
@@ -356,12 +373,12 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                 }
             }
 
-            if (currentStatus.age == "") currentStatus.age = currentLife.person.age.toString()
+            if (currentStatus.age == "") currentStatus.age = life.person.age.toString()
             if (currentStatus.profession == "") currentStatus.profession = props.selectedProfession.title
             ShowStatusRow {
                 actualAge = currentStatus.age
-                actualName = currentLife.person.name
-                actualPension = (currentLife.person.pension * 100).toString()
+                actualName = life.person.name
+                actualPension = (life.person.pension * 100).toString()
                 actualProfession = currentStatus.profession
                 actualSalary = currentStatus.employeeSalary
                 actualSalaryAmount = currentStatus.accountSalaryAmount
@@ -395,7 +412,6 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
     var profession = getProfession(life.professionId)
     val allProfessions = profession.getAllProfession()
     var age = life.age
-    var year = life.year
     val parent = life.parent
     var employee = life.employee
     var employeeId = employee.employeeId
@@ -416,6 +432,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
     //Init life events
 
     //Init random chance to happen percentage
+    var lifeChance: Int
     val randomLifeValues: List<Int> = List(100) { Random.nextInt(0, 100) }
     var randomValues: List<Int>
 
@@ -432,7 +449,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
     var currentAmount: Float
     currentLife.isQuestion = false
 
-    while (year < profession.pensionAge && !currentLife.isQuestion) {
+    while (age < profession.pensionAge && !currentLife.isQuestion) {
         //Init count month
         parent.countFamilyMonth = 0
         parent.familySalary = 0.0F
@@ -440,6 +457,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         employee.sickSalary = 0.0F
         person.union.countUnEmployeeMonth = 0
         person.isSick = false
+        lifeChance = randomLifeValues[age - 1]
 
         //Försörjningsstöd
         if (employee.currentSalary == 0.0F) employee.currentSalary = 4180.0F
@@ -453,7 +471,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         when (event.eventType) {
             "depot" -> {
                 //Bonus
-                if (randomLifeValues[year - 1] < 10 && person.countWorkMonth >= 12 && employee.currentSalary > 0.0) {
+                if (lifeChance < 10 && person.countWorkMonth >= 12 && employee.currentSalary > 0.0) {
 
                     //Get value och financial instruments
                     randomValues = List(1) { Random.nextInt(10000, 50000) }
@@ -467,7 +485,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
             "sick" -> {
                 //Sjuk
-                if (randomLifeValues[year - 1] < 20 ||
+                if (lifeChance < 20 ||
                     (isPandemi && event.objectType == "pandemi")) {
 
                     when (event.objectType) {
@@ -560,7 +578,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
             "luck" -> {
                 //Lycklig
-                if (randomLifeValues[year - 1] < 10 || event.isSelected) {
+                if (lifeChance < 10 || event.isSelected) {
                     person.isHappy = true
 
                     messageList = person.showPersonLuck(messageList, messageId, event.eventText)
@@ -569,7 +587,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
             }
 
             "unemployed" -> {
-                if ((randomLifeValues[year - 1] < 40 && !person.isMagellit) || isRecession) {
+                if ((lifeChance < 40 && !person.isMagellit) || isRecession) {
                     union.countUnEmployeeMonth = 0
                     union.unEmployedSalaryAmount = 0.0
                     union.noAkassaSalaryAmount = 0.0
@@ -653,7 +671,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
             "magellit" -> {
                 //Magellit
-                if (randomLifeValues[year - 1] < 10) {
+                if (lifeChance < 10) {
                     person.isMagellit = true
 
                     messageList = person.showPersonMagellit(messageList, messageId)
@@ -662,7 +680,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
             }
 
             "parent" -> {
-                if (randomLifeValues[year - 1] < 50 && age <= 50) {
+                if (lifeChance < 50 && age <= 50) {
                     //Babies
                     parent.countBabies += 1
                     parent.familySalary = parent.getIncome(employee.currentSalary)
@@ -698,7 +716,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
         when (costevent.eventType) {
             "home" -> {
-                if (randomLifeValues[year - 1] > 85 || !person.isAccommodation) {
+                if (lifeChance > 85 || !person.isAccommodation) {
                     messageList = costevent.showEvent(messageList, messageId, "", "")
                     messageId = messageList.size
 
@@ -788,7 +806,6 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             accountNoAkassa.amount = 0.0F
                             accountDepot.amount = 0.0F
 
-                            randomValues = List(1) { Random.nextInt(1, 4) } //Ränta
                             person.house.houseLoan = person.house.houseLoan.calculateLoan((profession.pensionAge - age))
 
                             messageList = person.showPersonGetHouseLoan(messageList, messageId)
@@ -799,7 +816,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
             }
 
             "accident" -> {
-                if (randomLifeValues[year - 1] > 85) {
+                if (lifeChance > 85) {
                     person.isMagellit = false
                     when (costevent.objectType) {
                         "depot" -> {
@@ -865,7 +882,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
             }
 
             "happening" -> {
-                if (randomLifeValues[year - 1] > 85) {
+                if (lifeChance > 85) {
                     isPandemi = false
                     isBoom = true
 
@@ -990,7 +1007,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
             messageId = messageList.size
         }
 
-        messageList = accountSalary.showAccountAmount((year - person.age + 1), messageList, messageId)
+        messageList = accountSalary.showAccountAmount((age - person.age + 1), messageList, messageId)
         messageId = messageList.size
 
         if (accountDepot.amount > 0.0F) {
@@ -1001,15 +1018,15 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                 accountSalary.amount += accountDepot.amount
                 accountDepot.amount = 0.0F
             }
-            messageList = accountDepot.showAccountAmount((year - person.age + 1), messageList, messageId)
+            messageList = accountDepot.showAccountAmount((age - person.age + 1), messageList, messageId)
             messageId = messageList.size
         }
 
         if (age >= 50) {
-            messageList = accountPension.showAccountAmount((year - person.age + 1), messageList, messageId)
+            messageList = accountPension.showAccountAmount((age - person.age + 1), messageList, messageId)
             messageId = messageList.size
 
-            messageList = accountTax.showAccountAmount((year - person.age + 1), messageList, messageId)
+            messageList = accountTax.showAccountAmount((age - person.age + 1), messageList, messageId)
             messageId = messageList.size
         }
 
@@ -1036,29 +1053,26 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                         //Ränta
                         accountSalary.amount -= (
                                 (person.house.houseLoan.loanAmount * (person.house.houseLoan.loanInterest / 100.0F))
-                                        / person.house.houseLoan.ageWhenPayed.toFloat())
+                                        / (person.house.houseLoan.ageWhenPayed.toFloat() * 12.0F)
+                                )
                         //Avbetalning
                         accountSalary.amount -= person.house.houseLoan.loanMonthPayment
 
+                        //No A-kassa example
                         accountNoAkassa.amount -= (
                                 (person.house.houseLoan.loanAmount * (person.house.houseLoan.loanInterest / 100.0F))
-                                / person.house.houseLoan.ageWhenPayed.toFloat())
+                                        / (person.house.houseLoan.ageWhenPayed.toFloat() * 12.0F)
+                                )
+
                         accountNoAkassa.amount -= person.house.houseLoan.loanMonthPayment
 
                         person.house.houseLoan.loanAmount -= person.house.houseLoan.loanMonthPayment
                     } else {
-                        accountSalary.amount -= (
-                                (person.house.houseLoan.loanAmount * (person.house.houseLoan.loanInterest / 100.0F))
-                                        / person.house.houseLoan.ageWhenPayed.toFloat()
-                                )
-                        //Avbetalning
-                        accountSalary.amount -= person.house.houseLoan.loanMonthPayment
 
-                        accountNoAkassa.amount -= (
-                                (person.house.houseLoan.loanAmount * (person.house.houseLoan.loanInterest / 100.0F))
-                                / person.house.houseLoan.ageWhenPayed.toFloat()
-                                )
-                        accountNoAkassa.amount -= person.house.houseLoan.loanMonthPayment
+                        //Avbetalning
+                        accountSalary.amount -= person.house.houseLoan.loanAmount
+
+                        accountNoAkassa.amount -= person.house.houseLoan.loanAmount
 
                         person.house.houseLoan.loanAmount = 0.0F
                     }
@@ -1077,15 +1091,35 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         }
 
         if (person.isMortgage) {
-            accountSalary.amount -= ((person.blancoLoan.loanAmount * (person.blancoLoan.loanInterest / 100.0F))
-                    / ((profession.pensionAge - age) * 12).toFloat()) * 12.0F
-            accountSalary.amount -= person.blancoLoan.loanMonthPayment * 12.0F
+            for (month in 1..12) {
+                if (person.blancoLoan.loanAmount >= person.blancoLoan.loanMonthPayment) {
+                    accountSalary.amount -= (
+                            (person.blancoLoan.loanAmount * (person.blancoLoan.loanInterest / 100.0F))
+                                    / (person.blancoLoan.ageWhenPayed.toFloat() * 12.0F)
+                            )
 
-            accountNoAkassa.amount -= ((person.blancoLoan.loanAmount * (person.blancoLoan.loanInterest / 100.0F))
-                    / ((profession.pensionAge - age) * 12).toFloat()) * 12.0F
-            accountNoAkassa.amount -= person.blancoLoan.loanMonthPayment * 12.0F
+                    accountSalary.amount -= person.blancoLoan.loanMonthPayment
 
-            person.blancoLoan.loanAmount -= person.blancoLoan.loanMonthPayment * 12.0F
+                    accountNoAkassa.amount -= (
+                            (person.blancoLoan.loanAmount * (person.blancoLoan.loanInterest / 100.0F))
+                                    / (person.blancoLoan.ageWhenPayed.toFloat() * 12.0F)
+                            )
+
+                    accountNoAkassa.amount -= person.blancoLoan.loanMonthPayment
+
+                    person.blancoLoan.loanAmount -= person.blancoLoan.loanMonthPayment
+
+                } else {
+
+                    //Avbetalning
+                    accountSalary.amount -= person.blancoLoan.loanAmount
+
+                    accountNoAkassa.amount -= person.blancoLoan.loanAmount
+
+                    person.blancoLoan.loanAmount = 0.0F
+
+                }
+            }
         }
 
         messageList = accountSalary.showAccountCost(messageList, messageId)
@@ -1130,11 +1164,9 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                 messageList = person.showPersonAccomodationHire(messageList, messageId)
             }
         }
-        year += 1
     }
 
     //Store story
-    currentLife.year = year
     currentLife.age = age
     currentLife.person = person
     currentLife.professionId = profession.id

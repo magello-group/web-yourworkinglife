@@ -5,6 +5,7 @@ data class Person (val id: Int) {
     var name: String = ""
     var age: Int = 0
     var startWorkingAge: Int = 0
+    var pensionAge: Int = 0
     var pension: Float = 0.0F
     var union: Union = Union(id)
     var insurance: Insurance = Insurance(id,"Olycksfallsförsäkring")

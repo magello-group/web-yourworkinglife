@@ -141,7 +141,7 @@ val QuestionEventList = FC<QuestionEventListProps> { props ->
                     selectedEvents[0].isSelected = true
                     props.onSelectEvent(
                         selectedEvents[0],
-                        props.selectedView.getNewView("start"),
+                        props.selectedView.getNewView("reload"),
                         props.selectedMessages,
                         props.selectedProfession,
                         props.selectedPerson,

@@ -4,7 +4,6 @@ import kotlinx.serialization.Serializable
 data class Life ( val personId: Int) {
     var person = Person(personId)
     var age = 0
-    var year = 0
     var parent = Parent(personId)
     var employee = Employee(1)
     var professionId: Int = 0

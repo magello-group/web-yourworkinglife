@@ -17,11 +17,13 @@ data class View(
         val depressedQuestions: List<Question> = question.getQuestionList("depressed")
 
         return listOf(
-            View(0, "init", unionQuestions, "Ditt arbetsliv börjar här... gör dig redo:","Nästa steg", "action"),
+            View(0, "init", emptyList(), "Ditt arbetsliv börjar här... gör dig redo:","Nästa steg", "action"),
             View(1, "action", goalQuestions,"Vilket mål har du med arbetslivet?", "Starta arbetslivet", "start"),
-            View(2, "start", unionQuestions,"Ditt arbetsliv har startat!", "Gå vidare i arbetslivet", "reload"),
-            View(3, "reload", emptyList(),"Nu startar pensionen", "Pensionär", "pension"),
-            View(4, "question", depressedQuestions,"Du svarar:", "Gå vidare i arbetslivet", "start"))
+            View(2, "start", emptyList(),"Ditt arbetsliv har startat!", "Gå vidare i arbetslivet", "reload"),
+            View(3, "question", depressedQuestions,"Du svarar:", "Gå vidare i arbetslivet", "reload"),
+            View(4, "reload", emptyList(),"Mitt i livet", "Traska på", "pension"),
+            View(5, "pension", emptyList(),"Nu startar pensionen", "Pensionär", "slut")
+        )
     }
     fun getNextView(): View {
         var view: View = View(0)
@@ -37,10 +39,13 @@ data class View(
                 view = this.getViewList()[2]
             }
             "question" -> {
-                view = this.getViewList()[4]
+                view = this.getViewList()[3]
             }
             "reload" -> {
-                view = this.getViewList()[3]
+                view = this.getViewList()[4]
+            }
+            "pension" -> {
+                view = this.getViewList()[5]
             }
         }
 
@@ -61,10 +66,13 @@ data class View(
                 view = this.getViewList()[2]
             }
             "question" -> {
-                view = this.getViewList()[4]
+                view = this.getViewList()[3]
             }
             "reload" -> {
-                view = this.getViewList()[3]
+                view = this.getViewList()[4]
+            }
+            "pension" -> {
+                view = this.getViewList()[5]
             }
         }
 
