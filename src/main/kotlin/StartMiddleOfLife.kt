@@ -39,7 +39,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
     val currentStatus: Status = props.selectedStatus
     var messageId = 0
     val maxMessages = 6
-    val isDebugOn = true
+    val isDebugOn = false
 
     if (life.age == 0) {
         // starting your workingstory
@@ -259,6 +259,18 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                         if (message.status.houseLoanAmount != "") currentStatus.houseLoanAmount =
                             message.status.houseLoanAmount
                         if (message.status.profession != "") currentStatus.profession = message.status.profession
+                        if (message.status.countCats != "") currentStatus.countCats = message.status.countCats
+                        if (message.status.countDogs != "") currentStatus.countDogs = message.status.countDogs
+                        if (message.status.countHorses != "") currentStatus.countHorses = message.status.countHorses
+                        if (message.status.countCars != "") currentStatus.countCars = message.status.countCars
+                        if (message.status.countBikes != "") currentStatus.countBikes = message.status.countBikes
+                        if (message.status.countParties != "") currentStatus.countParties = message.status.countParties
+                        if (message.status.countAlone != "") currentStatus.countAlone = message.status.countAlone
+                        if (message.status.countFishes != "") currentStatus.countFishes = message.status.countFishes
+                        if (message.status.countFriends != "") currentStatus.countFriends = message.status.countFriends
+                        if (message.status.countBabies != "") currentStatus.countBabies = message.status.countBabies
+                        if (message.status.countMoney != "") currentStatus.countMoney = message.status.countMoney
+                        if (message.status.countStrong != "") currentStatus.countStrong = message.status.countStrong
 
                         ShowMessage {
                             selectedMessage = message
@@ -387,6 +399,18 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                 actualHireAmount = currentStatus.houseHireAmount
                 actualHouseAmount = currentStatus.houseAmount
                 actualLoanAmount = currentStatus.houseLoanAmount
+                actualCats = currentStatus.countCats
+                actualDogs = currentStatus.countDogs
+                actualHorses = currentStatus.countHorses
+                actualCars = currentStatus.countCars
+                actualBabies = currentStatus.countBabies
+                actualBikes = currentStatus.countBikes
+                actualParties = currentStatus.countParties
+                actualAlone = currentStatus.countAlone
+                actualFishes = currentStatus.countFishes
+                actualFriends = currentStatus.countFriends
+                actualMoney = currentStatus.countMoney
+                actualStrong = currentStatus.countStrong
             }
         }
     }
@@ -580,8 +604,21 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                 //Lycklig
                 if (lifeChance < 10 || event.isSelected) {
                     person.isHappy = true
+                    when (event.objectType) {
+                        "cat" -> { person.countCats += 1}
+                        "strong" -> {person.countStrong += 1}
+                        "friend" -> { person.countFriends += 1}
+                        "alone" -> {person.countAlone += 1}
+                        "dog" -> {person.countDogs += 1}
+                        "fish" -> {person.countFishes += 1}
+                        "party" -> {person.countParties += 1}
+                        "horse"  -> {person.countHorses += 1}
+                        "money"  -> {person.countMoney += 1}
+                        "car"  -> {person.countCars += 1}
+                        "bike"  -> {person.countBikes += 1}
+                    }
 
-                    messageList = person.showPersonLuck(messageList, messageId, event.eventText)
+                    messageList = person.showPersonLuck(messageList, messageId, event)
                     messageId = messageList.size
                 }
             }
@@ -600,10 +637,11 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                         if (randomValues[0] < 30 && person.countWorkMonth >= 12) {
 
                             //Avgångsvederlag! Du får lön i lika många månader som du jobbat år
-                            accountSalary.amount += employee.currentSalary * (person.countWorkMonth / 12).toFloat()
-                            accountNoAkassa.amount += employee.currentSalary * (person.countWorkMonth / 12).toFloat()
+                            currentAmount = employee.currentSalary * (person.countWorkMonth / 12).toFloat()
+                            accountSalary.amount += currentAmount
+                            accountNoAkassa.amount += currentAmount
 
-                            messageList = accountSalary.showSeverancePay(messageList, messageId)
+                            messageList = employee.showSeverancePay(currentAmount, messageList, messageId)
                             messageId = messageList.size
                         }
 
@@ -625,6 +663,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             messageId = messageList.size
 
                             union.noAkassaSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
+                            messageList = union.showNoAkassa(messageList, messageId)
+                            messageId = messageList.size
 
                         } else if (union.isAkassa && person.countWorkMonth >= 12) {
 
@@ -798,18 +838,39 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             accountNoAkassa.amount = 0.0F
 
                         } else {
+                            // Ta lån?
                             person.house.isMortgage = true
                             person.house.houseLoan.loanAmount =
                                 person.house.houseAmount - (accountDepot.amount + accountSalary.amount)
 
-                            accountSalary.amount = 0.0F
-                            accountNoAkassa.amount = 0.0F
-                            accountDepot.amount = 0.0F
+                            randomValues = List(1) { Random.nextInt(1, 4) } //Ränta
+                            person.house.houseLoan.loanInterest = randomValues[0].toFloat()
+                            person.house.houseLoan.ageWhenPayed = profession.pensionAge - age
+                            person.house.houseLoan.loanMonthPayment = person.house.houseLoan.loanAmount /
+                                    ( person.house.houseLoan.ageWhenPayed.toFloat() * 12.0F )
 
-                            person.house.houseLoan = person.house.houseLoan.calculateLoan((profession.pensionAge - age))
+                            if ((employee.currentSalary - 5000.0F) < person.house.houseLoan.loanMonthPayment) {
+                                //No loan
+                                person.house.isMortgage = false
+                                person.house.houseLoan.loanAmount = 0.0F
+                                person.house.houseLoan.loanMonthPayment = 0.0F
+                                person.house.houseLoan.loanInterest  = 0.0F
 
-                            messageList = person.showPersonGetHouseLoan(messageList, messageId)
-                            messageId = messageList.size
+                                person.isAccommodation = false
+                                person.house.houseAmount = 0.0F
+                                person.house.houseMonthPayment = 0.0F
+
+                                messageList = person.showPersonNoHouseLoan(messageList, messageId)
+                                messageId = messageList.size
+                            } else {
+                                // loan
+                                accountSalary.amount = 0.0F
+                                accountNoAkassa.amount = 0.0F
+                                accountDepot.amount = 0.0F
+
+                                messageList = person.showPersonGetHouseLoan(messageList, messageId)
+                                messageId = messageList.size
+                            }
                         }
                     }
                 }
@@ -1036,10 +1097,12 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         accountNoAkassa.amount -= randomValues[0].toFloat() * 12.0F
 
         //Barn kostar pengar
-        for (baby in 1..parent.countBabies) {
-            accountSalary.amount -= 2500.0F * 12.0F
-            accountNoAkassa.amount -= 2500.0F * 12.0F
-        }
+        accountSalary.amount -= parent.costBabies()
+        accountNoAkassa.amount  -= parent.costBabies()
+
+        //Hobbies kostar pengar
+        accountSalary.amount -= person.costHobbies()
+        accountNoAkassa.amount  -= person.costHobbies()
 
         //Dra av kostnad för boendet
         if (person.isAccommodation) {
@@ -1051,29 +1114,19 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                 for (month in 1..12) {
                     if (person.house.houseLoan.loanAmount >= person.house.houseLoan.loanMonthPayment) {
                         //Ränta
-                        accountSalary.amount -= (
-                                (person.house.houseLoan.loanAmount * (person.house.houseLoan.loanInterest / 100.0F))
-                                        / (person.house.houseLoan.ageWhenPayed.toFloat() * 12.0F)
-                                )
+                        accountSalary.amount -= person.house.houseLoan.calculateInterest()
                         //Avbetalning
                         accountSalary.amount -= person.house.houseLoan.loanMonthPayment
 
                         //No A-kassa example
-                        accountNoAkassa.amount -= (
-                                (person.house.houseLoan.loanAmount * (person.house.houseLoan.loanInterest / 100.0F))
-                                        / (person.house.houseLoan.ageWhenPayed.toFloat() * 12.0F)
-                                )
-
+                        accountNoAkassa.amount -= person.house.houseLoan.calculateInterest()
                         accountNoAkassa.amount -= person.house.houseLoan.loanMonthPayment
 
                         person.house.houseLoan.loanAmount -= person.house.houseLoan.loanMonthPayment
                     } else {
-
                         //Avbetalning
                         accountSalary.amount -= person.house.houseLoan.loanAmount
-
                         accountNoAkassa.amount -= person.house.houseLoan.loanAmount
-
                         person.house.houseLoan.loanAmount = 0.0F
                     }
                 }
@@ -1086,36 +1139,25 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
             }
 
             //Årlig höjning av hyran
-            randomValues = List(1) { Random.nextInt(1, 4) }
-            person.house.houseMonthPayment -= person.house.houseMonthPayment * (randomValues[0].toFloat() / 100.0F)
+            person.house.houseMonthPayment += person.house.raiseTheRent()
         }
 
+        //Blancolån används ej ännu
         if (person.isMortgage) {
             for (month in 1..12) {
                 if (person.blancoLoan.loanAmount >= person.blancoLoan.loanMonthPayment) {
-                    accountSalary.amount -= (
-                            (person.blancoLoan.loanAmount * (person.blancoLoan.loanInterest / 100.0F))
-                                    / (person.blancoLoan.ageWhenPayed.toFloat() * 12.0F)
-                            )
-
+                    accountSalary.amount -= person.blancoLoan.calculateInterest()
                     accountSalary.amount -= person.blancoLoan.loanMonthPayment
 
-                    accountNoAkassa.amount -= (
-                            (person.blancoLoan.loanAmount * (person.blancoLoan.loanInterest / 100.0F))
-                                    / (person.blancoLoan.ageWhenPayed.toFloat() * 12.0F)
-                            )
-
+                    accountNoAkassa.amount -= person.blancoLoan.calculateInterest()
                     accountNoAkassa.amount -= person.blancoLoan.loanMonthPayment
 
                     person.blancoLoan.loanAmount -= person.blancoLoan.loanMonthPayment
 
                 } else {
-
                     //Avbetalning
                     accountSalary.amount -= person.blancoLoan.loanAmount
-
                     accountNoAkassa.amount -= person.blancoLoan.loanAmount
-
                     person.blancoLoan.loanAmount = 0.0F
 
                 }

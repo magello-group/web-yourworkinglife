@@ -23,6 +23,41 @@ data class Person (val id: Int) {
     var isAccommodation: Boolean = false
     var isDepressed: Boolean = false
 
+    var countCats: Int = 0
+    var countStrong: Int = 0
+    var countFriends: Int = 0
+    var countAlone: Int = 0
+    var countDogs: Int = 0
+    var countFishes: Int = 0
+    var countParties: Int = 0
+    var countHorses: Int = 0
+    var countMoney: Int = 0
+    var countCars: Int = 0
+    var countBikes: Int = 0
+
+    fun costHobbies(): Float {
+        var cost: Float = 0.0F
+
+        for (hobby in 1..this.countCats) {
+             cost += 1000.0F * 12.0F
+        }
+        for (hobby in 1..this.countDogs) {
+            cost += 2000.0F * 12.0F
+        }
+        for (hobby in 1..this.countParties) {
+            cost += 3000.0F * 12.0F
+        }
+        for (hobby in 1..this.countHorses) {
+            cost += 6000.0F * 12.0F
+        }
+        for (hobby in 1..this.countCars) {
+            cost += 5000.0F * 12.0F
+        }
+        for (hobby in 1..this.countBikes) {
+            cost += 3000.0F * 12.0F
+        }
+        return cost
+    }
     fun showPersonAccomodation(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
@@ -147,6 +182,23 @@ data class Person (val id: Int) {
 
         return storyList
     }
+
+    fun showPersonNoHouseLoan(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        var storyId = messageId
+
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Ditt lån blev avslaget så det blev inget boende 🤥",
+                "",
+                "blinkingRed"
+            )
+        )
+
+        return storyList
+    }
+
     fun showPersonLoanReady(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         val storyId = messageId
@@ -200,18 +252,32 @@ data class Person (val id: Int) {
         return storyList
     }
 
-    fun showPersonLuck(messageList: List<Message>, messageId: Int, eventText: String): List<Message> {
+    fun showPersonLuck(messageList: List<Message>, messageId: Int, event: Event): List<Message> {
         var storyList = messageList
         var storyId = messageId
 
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Härligt! " + eventText,
-                "",
-                "blinking"
-            )
+        val message = Message(
+            storyId,
+            "Härligt! " + event.eventText,
+            "",
+            "blinking"
         )
+        when (event.objectType) {
+            "cat" -> { message.status.countCats = this.countCats.toString() }
+            "dog" -> { message.status.countDogs = this.countDogs.toString() }
+            "horse"  -> { message.status.countHorses = this.countHorses.toString() }
+            "car"  -> { message.status.countCars = this.countCars.toString() }
+            "bike"  -> { message.status.countBikes = this.countBikes.toString() }
+            "strong"  -> { message.status.countStrong = this.countStrong.toString() }
+            "alone"  -> { message.status.countAlone = this.countAlone.toString() }
+            "money"  -> { message.status.countMoney = this.countMoney.toString() }
+            "party"  -> { message.status.countParties = this.countParties.toString() }
+            "friend"  -> { message.status.countFriends = this.countFriends.toString() }
+            "fish"  -> { message.status.countFishes = this.countFishes.toString() }
+
+        }
+
+        storyList = storyList.plus(message)
 
         storyId += 1
 

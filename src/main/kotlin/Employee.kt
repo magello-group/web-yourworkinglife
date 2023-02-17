@@ -1,4 +1,5 @@
 import kotlinx.serialization.Serializable
+import kotlin.random.Random
 
 @Serializable
 data class Employee( val employeeId: Int )
@@ -69,6 +70,20 @@ data class Employee( val employeeId: Int )
             storyId += 1
         }
 
+        return storyList
+    }
+
+    fun showSeverancePay(amount: Float, messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+
+        storyList = storyList.plus(
+            Message(
+                messageId,
+                "Oj, du får avgångsvederlag på ${amount.toInt().formatDecimalSeparator()} 🤑",
+                "",
+                "blinking"
+            )
+        )
         return storyList
     }
 

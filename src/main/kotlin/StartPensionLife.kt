@@ -71,6 +71,13 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
                     if (message.status.houseLoanAmount != "") currentStatus.houseLoanAmount =
                         message.status.houseLoanAmount
                     if (message.status.profession != "") currentStatus.profession = message.status.profession
+                    if (message.status.countCats != "") currentStatus.countCats = message.status.countCats
+                    if (message.status.countDogs != "") currentStatus.countDogs = message.status.countDogs
+                    if (message.status.countHorses != "") currentStatus.countHorses = message.status.countHorses
+                    if (message.status.countCars != "") currentStatus.countCars = message.status.countCars
+                    if (message.status.countBikes != "") currentStatus.countBikes = message.status.countBikes
+                    if (message.status.countBabies != "") currentStatus.countBabies = message.status.countBabies
+
 
                     ShowMessage {
                         selectedMessage = message
@@ -127,6 +134,27 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
                 }
                 +" ▶"
             }
+        }
+
+        if (currentStatus.age == "") currentStatus.age = life.person.age.toString()
+        ShowStatusRow {
+            actualAge = currentStatus.age
+            actualName = life.person.name
+            actualPension = (life.person.pension * 100).toString()
+            actualProfession = currentStatus.profession
+            actualSalary = currentStatus.employeeSalary
+            actualSalaryAmount = currentStatus.accountSalaryAmount
+            actualDepotAmount = currentStatus.accountDepotAmount
+            actualPensionAmount = currentStatus.accountPensionAmount
+            actualHireAmount = currentStatus.houseHireAmount
+            actualHouseAmount = currentStatus.houseAmount
+            actualLoanAmount = currentStatus.houseLoanAmount
+            actualCats = currentStatus.countCats
+            actualDogs = currentStatus.countDogs
+            actualHorses = currentStatus.countHorses
+            actualCars = currentStatus.countCars
+            actualBabies = currentStatus.countBabies
+            actualBikes = currentStatus.countBikes
         }
     }
 }

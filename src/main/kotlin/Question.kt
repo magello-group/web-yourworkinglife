@@ -41,19 +41,48 @@ data class Question (
                 )
             }
 
-            "depressed" -> {
+            "profession" -> {
+                questions = listOf(
+                    Question(0,"Egenföretagare", "solo", "salary"),
+                    Question(1, "Säkerhetsspecialist", "security", "salary",),
+                    Question(2, "VD", "VD", "salary"),
+                    Question(3, "Banktjänsteman", "bank", "pension"),
+                    Question(4,"Försäkringsagent", "insurance", "pension"),
+                    Question(4,"Hemlig agent", "agent", "adventure"),
+                    Question(5,"Pilot","pilote", "adventure"),
+                    Question(6,"Brandman", "fireman", "adventure"),
+                    Question(7,"Statsanställd", "authority", "vacation"),
+                    Question(8,"Reseledare", "travelagent", "vacation"),
+                    Question(9,"Snickare", "builder", "vacation"),
+                    Question(10,"Förskolelärare", "teacher", "family"),
+                    Question(8,"Polis", "police", "family"),
+                    Question(9,"Rektor", "rektor", "family"),
+                    Question(10,"Trädgårdsmästare", "writer", "chilla"),
+                    Question(8,"Yogainstruktör", "yoga", "chilla"),
+                    Question(9,"Cirkusprinsessa", "artist", "fun"),
+                    Question(10,"Komiker", "comedian", "fun")
+                )
+            }
+
+            "luck" -> {
                 questions = listOf(
                     Question(0,"Katter🐱😍", "cat", "luck"),
-                    Question(1, "Träning 🤸", "strong", "luck",),
+                    Question(1, "Träning 💪", "strong", "luck",),
                     Question(2, "Vänner 🤗", "friend", "luck"),
                     Question(3, "Hundar 🦖", "dog", "luck"),
                     Question(4,"Vandring 🚶", "alone", "luck"),
-                    Question(5,"Att fiska 🐬", "fish", "luck")
+                    Question(5,"Att fiska 🐬","fish", "luck"),
+                    Question(6,"Fester och dans 🤸", "party", "luck"),
+                    Question(7,"Pengar 💰", "money", "luck"),
+                    Question(8,"Hästar 🦄 ", "horse", "luck"),
+                    Question(9,"Motorcyklar 🛵", "bike", "luck"),
+                    Question(10,"Bilar 🚗", "car", "luck")
                 )
             }
         }
         return questions
     }
+
     fun registerQuestion()
     {
         //Insert in database

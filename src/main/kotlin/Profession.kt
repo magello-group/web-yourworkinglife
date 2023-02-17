@@ -91,7 +91,7 @@ data class Profession(
                 0.0F, 0.0F, 800.0F, 75, "chilla"
             ),
             Profession(
-                16, "painter", "Yogainstruktör", "Du jobbar som yogainstruktör",
+                16, "yoga", "Yogainstruktör", "Du jobbar som yogainstruktör",
                 0.0F, 0.0F, 800.0F, 75, "chilla"
             ),
             Profession(
@@ -102,7 +102,6 @@ data class Profession(
                 17, "comedian", "Komiker", "Du jobbar som komiker",
                 0.0F, 0.0F, 500.0F, 75, "fun"
             )
-
         )
     }
 

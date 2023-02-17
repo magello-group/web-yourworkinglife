@@ -14,5 +14,17 @@ data class Status (
     var houseAmount: String = ""
     var houseLoanAmount: String = ""
     var profession: String = ""
+    var countCats: String = ""
+    var countDogs: String = ""
+    var countHorses: String = ""
+    var countBikes: String = ""
+    var countCars: String = ""
+    var countBabies: String = ""
+    var countFriends: String = ""
+    var countAlone: String = ""
+    var countStrong: String = ""
+    var countFishes: String = ""
+    var countParties: String = ""
+    var countMoney: String = ""
     //var profession: Profession = Profession(0)
 }

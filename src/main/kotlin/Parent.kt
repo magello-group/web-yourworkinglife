@@ -20,28 +20,40 @@ data class Parent (val personId: Int) {
         return sum
     }
 
+    fun costBabies(): Float {
+        var cost: Float = 0.0F
+
+        for (baby in 1..this.countBabies) {
+            cost += 2500.0F * 12.0F
+        }
+
+        return cost
+    }
+
     fun showParent(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
+        val message: Message
 
         if (this.countBabies == 1) {
-            storyList = storyList.plus(
-                Message(
-                    storyId,
-                    "Stort grattis!! du har fått barn!",
-                    "",
-                    "blinking"
-                )
+            message = Message(
+                storyId,
+                "Stort grattis!! du har fått barn!",
+                "",
+                "blinking"
             )
+            message.status.countBabies = this.countBabies.toString()
+            storyList = storyList.plus(message)
+
         } else {
-            storyList = storyList.plus(
-                Message(
-                    storyId,
-                    "Stort grattis!! du har fått ett till barn och du har nu ${ this.countBabies } barn!",
-                    "",
-                    "blinking"
-                )
+            message = Message(
+                storyId,
+                "Stort grattis!! du har fått ett till barn och du har nu ${ this.countBabies } barn!",
+                "",
+                "blinking"
             )
+            message.status.countBabies = this.countBabies.toString()
+            storyList = storyList.plus(message)
         }
 
         storyId += 1

@@ -131,6 +131,18 @@ data class Union( val personId: Int ) {
                 storyList.plus(
                     Message(
                         storyId,
+                        "per månad amount: ${this.unEmployedSalaryAmount.toInt().formatDecimalSeparator()} SEK.",
+                        "hotpink",
+                        ""
+                    )
+                )
+
+            storyId += 1
+
+            storyList =
+                storyList.plus(
+                    Message(
+                        storyId,
                         "per månad: ${this.unEmployedSalary200.toInt().formatDecimalSeparator()} SEK.",
                         "hotpink",
                         ""
@@ -343,7 +355,20 @@ data class Union( val personId: Int ) {
                 ""
             )
         )
+
         storyId += 1
+
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "per månad no akassa: ${this.noAkassaSalaryAmount.toInt().formatDecimalSeparator()} SEK.",
+                "orange",
+                ""
+            )
+        )
+
+        storyId += 1
+
         if (this.countUnEmployeeMonth > 200) {
             storyList = storyList.plus(
                 Message(

@@ -9,14 +9,9 @@ data class Loan( val personId: Int, val loanType: String) {
     var loanMonthPayment: Float = 0.0F
     var ageWhenPayed: Int = 0
 
-    fun calculateLoan(year: Int): Loan {
-        val currentLoan: Loan = this
-        val randomValues = List(1) { Random.nextInt(1, 4) } //Ränta
 
-        currentLoan.loanInterest = randomValues[0].toFloat()
-        currentLoan.ageWhenPayed = year
-        currentLoan.loanMonthPayment = currentLoan.loanAmount / ( currentLoan.ageWhenPayed * 12)
-        return currentLoan
+    fun calculateInterest(): Float {
 
+        return ((this.loanAmount * (this.loanInterest / 100.0F)) / (this.ageWhenPayed.toFloat() * 12.0F))
     }
 }

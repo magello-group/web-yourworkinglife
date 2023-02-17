@@ -249,7 +249,7 @@ val App = FC<Props> {
 
                         onSelectProfession = { profession ->
                             currentProfession = profession
-                            currentView = view.getNewView("start")
+                            currentView = view.getNewView("profession")
                         }
                     }
                 }
@@ -317,7 +317,7 @@ val App = FC<Props> {
                     actualProfession = currentProfession
                 }
             }
-            "question" -> {
+            "question", "luck", "profession" -> {
 
                 div {
 

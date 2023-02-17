@@ -25,10 +25,18 @@ external interface QuestionEventListProps : Props {
 }
 
 val QuestionEventList = FC<QuestionEventListProps> { props ->
-    val actions: List<Question> = props.selectedView.questions
+    var actions: List<Question> = props.selectedView.questions
     var selectedEvents: List<Event> = emptyList()
     var allEvents: List<Event>
     val event = Event(0)
+
+    var selectedProfessions: List<Profession> = emptyList()
+    var allProfessions: List<Profession>
+    val profession = props.selectedProfession
+
+    if (props.selectedView.viewType == "profession") {
+        actions = props.selectedView.getQuestions(profession.objectType)
+    }
 
     div {
         css {
@@ -59,10 +67,19 @@ val QuestionEventList = FC<QuestionEventListProps> { props ->
 
                 for (question in actions) {
                     if (question == props.selectedQuestion) {
-                        allEvents = event.getEventList(question.objectType)
-                        for (action in allEvents) {
-                            if (action.objectType == question.objectText) {
-                                selectedEvents = selectedEvents.plus(action)
+                        if (props.selectedView.viewType == "profession") {
+                            allProfessions = profession.getProfessionList(question.objectType)
+                            for (action in allProfessions) {
+                                if (action.professionType == question.objectText) {
+                                    selectedProfessions = selectedProfessions.plus(action)
+                                }
+                            }
+                        } else {
+                            allEvents = event.getEventList(question.objectType)
+                            for (action in allEvents) {
+                                if (action.objectType == question.objectText) {
+                                    selectedEvents = selectedEvents.plus(action)
+                                }
                             }
                         }
                     }
@@ -141,7 +158,7 @@ val QuestionEventList = FC<QuestionEventListProps> { props ->
                     selectedEvents[0].isSelected = true
                     props.onSelectEvent(
                         selectedEvents[0],
-                        props.selectedView.getNewView("reload"),
+                        props.selectedView.getNextView(),
                         props.selectedMessages,
                         props.selectedProfession,
                         props.selectedPerson,
@@ -152,12 +169,38 @@ val QuestionEventList = FC<QuestionEventListProps> { props ->
                 +" ▶"
             }
         }
-/*
-        ShowAction {
-            actualProfession = selectedProfessions[0]
-            actualAge = props.workingPerson.startWorkingAge.toString()
-        }
+    } else if (selectedProfessions.isNotEmpty()) {
+        p {
+            button {
 
- */
+                key = selectedProfessions[0].id.toString()
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = 10.px
+                    left = 10.px
+
+                    color = NamedColor.green
+                    borderColor = NamedColor.white
+                    fontSize = 18.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+
+                onClick = {
+                    props.onSelectEvent(
+                        event,
+                        props.selectedView.getNextView(),
+                        props.selectedMessages,
+                        selectedProfessions[0],
+                        props.selectedPerson,
+                        props.selectedLife
+                    )
+                }
+                +props.selectedView.buttonText
+                +" ▶"
+            }
+        }
     }
 }
+

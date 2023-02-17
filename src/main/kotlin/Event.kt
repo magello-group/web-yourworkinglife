@@ -6,7 +6,6 @@ data class Event (
     val eventText: String = "",
     val objectType: String = "",
     val eventType: String ="",
-    val point: Int=0,
     var isSelected: Boolean = false
 )
 {
@@ -19,17 +18,24 @@ data class Event (
             Event(4, "du blir skjuten 😱", "shot", "sick"),
             Event(5, "du får en pandemisk sjukdom 😱", "pandemi", "sick"),
             Event(6, "du blir deprimerad.", "depressed", "sick"),
-            Event(7, "du skaffar katt och livet känns härligt 🐱😍", "cat", "luck",10),
-            Event(8, "du börjar träna och du känner dig stark 🤸 och lycklig", "strong", "luck", 10),
-            Event(9, "du finner en vän att prata med och livet vänder 🤗", "friend", "luck", 10),
-            Event(10, "du drar iväg på en lång vandring själv 🚶 och du känner dig fri 😍", "alone", "luck", 10),
-            Event(11, "du skaffar hund och du känner dig både lycklig och stark 🦖😍", "dog", "luck", 10),
-            Event(12, "du drar ut och fiskar 🐬 och känner hur du fylls med lycka 😍", "fish", "luck", 10),
-            Event(13, "du blir varslad 😢", "unemployed", "unemployed"),
-            Event(14, "du byter jobb.", "employed", "unemployed"),
-            Event(15, "du blir träffad av en Magellit.", "magellit", "magellit"),
-            Event(16, "du får barn 👶", "parent", "parent"),
-            Event(17, "du VAB:ar.", "vab", "vab")
+
+            Event(7, "du skaffar katt och livet känns härligt 🐱😍", "cat", "luck"),
+            Event(8, "du börjar träna och du känner dig stark 💪 och lycklig", "strong", "luck"),
+            Event(9, "du finner en vän att prata med och livet vänder 🤗", "friend", "luck"),
+            Event(10, "du drar iväg på en lång vandring själv 🚶 och du känner dig fri 😍", "alone", "luck"),
+            Event(11, "du skaffar hund och du känner dig både lycklig och stark 🦖😍", "dog", "luck"),
+            Event(12, "du drar ut och fiskar 🐬 och känner hur du fylls med lycka 😍", "fish", "luck"),
+            Event(13, "du festar järnet och känner hur du fylls med glädje 🤸", "party", "luck"),
+            Event(14, "du skaffar häst och du drar iväg i en härlig galopp 🦄", "horse", "luck"),
+            Event(15, "du älskar pengar och dyker gärna ned i ett kassavalv 💰", "money", "luck"),
+            Event(16, "du köper en bil och du känner dig fri 🚗", "car", "luck"),
+            Event(17, "du köper en motorcykel och älskar mullret när du drar iväg 🛵", "bike", "luck"),
+
+            Event(18, "du blir varslad 😢", "unemployed", "unemployed"),
+            Event(19, "du byter jobb.", "employed", "unemployed"),
+            Event(20, "du blir träffad av en Magellit.", "magellit", "magellit"),
+            Event(21, "du får barn 👶", "parent", "parent"),
+            Event(22, "du VAB:ar.", "vab", "vab")
         )
     }
 

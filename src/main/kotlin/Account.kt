@@ -23,20 +23,6 @@ data class Account( val accountId: Int, val accountType: String) {
         return storyList
     }
 
-    fun showSeverancePay(messageList: List<Message>, messageId: Int): List<Message> {
-        var storyList = messageList
-
-        storyList = storyList.plus(
-            Message(
-                messageId,
-                "Oj, du får avgångsvederlag på ${this.amount.toInt().formatDecimalSeparator()} 🤑",
-                "",
-                "blinking"
-            )
-        )
-        return storyList
-    }
-
     fun showAccountAmount(year: Int, messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
