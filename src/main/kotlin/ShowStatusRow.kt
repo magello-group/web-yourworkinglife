@@ -29,6 +29,7 @@ external interface ShowStatusRowProps : Props {
     var actualFishes: String
     var actualParties: String
     var actualMoney: String
+    var firstSalary: String
 }
 
 val ShowStatusRow = FC<ShowStatusRowProps> { props ->
@@ -85,6 +86,21 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
             css {
                 display = Display.block
                 position = Position.absolute
+                top = 670.px
+                left = 10.px
+                color = NamedColor.black
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            +"Första lön: "
+            +"${props.firstSalary}"
+        }
+
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
                 top = 700.px
                 left = 10.px
                 color = NamedColor.black
@@ -112,7 +128,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 +props.actualSalary
         }
     }
-
 
     div {
 
@@ -222,7 +237,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 580.px
-                left = 430.px
+                left = 460.px
                 color = NamedColor.black
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
@@ -238,7 +253,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 610.px
-                left = 430.px
+                left = 460.px
                 color = NamedColor.black
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
@@ -254,7 +269,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 640.px
-                left = 430.px
+                left = 460.px
                 color = NamedColor.black
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
@@ -270,7 +285,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 670.px
-                left = 430.px
+                left = 460.px
                 color = NamedColor.black
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
@@ -286,7 +301,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 700.px
-                left = 430.px
+                left = 460.px
                 color = NamedColor.black
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
@@ -302,7 +317,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 730.px
-                left = 430.px
+                left = 460.px
                 color = NamedColor.black
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
@@ -321,7 +336,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 580.px
-                left = 600.px
+                left = 630.px
                 color = NamedColor.black
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
@@ -337,7 +352,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 610.px
-                left = 600.px
+                left = 630.px
                 color = NamedColor.black
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
@@ -353,7 +368,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 640.px
-                left = 600.px
+                left = 630.px
                 color = NamedColor.black
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
@@ -369,7 +384,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 670.px
-                left = 600.px
+                left = 630.px
                 color = NamedColor.black
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
@@ -385,7 +400,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 700.px
-                left = 600.px
+                left = 630.px
                 color = NamedColor.black
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
@@ -401,7 +416,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 730.px
-                left = 600.px
+                left = 630.px
                 color = NamedColor.black
                 fontSize = 18.px
                 backgroundColor = NamedColor.white

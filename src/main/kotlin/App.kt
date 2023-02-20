@@ -306,18 +306,18 @@ val App = FC<Props> {
                             }
                     }
                 }
-
+/*
                 ShowAction {
                     actualProfession = currentProfession
                     actualAge = currentPerson.startWorkingAge.toString()
                 }
-
+*/
                 //Show animation
                 ShowProfessionAnimation {
                     actualProfession = currentProfession
                 }
             }
-            "question", "luck" -> {
+            "luck" -> {
 
                 div {
 
@@ -345,31 +345,8 @@ val App = FC<Props> {
                         }
                     }
                 }
-                //Show animation
-                div {
-                    ShowSparkcykel {}
-                    ShowStreck {
-                        selectedImage01 = "streck002.jpg"
-                        selectedImage02 = "streck003.jpg"
-                        selectedImage03 = "streck004.jpg"
-                    }
-
-                    ShowCloud {
-                        selectedImage ="sol.png"
-                        marginLeftFrom = 0
-                        marginLeftTo = 26
-                    }
-                }
-
-                ShowInput {
-                    actualInputQuestions = inputQuestions
-                    actualName = currentPerson.name
-                    actualAge = currentPerson.age.toString()
-                    actualPension = currentPerson.pension.toString()
-                }
             }
-            "profession" -> {
-
+            "profession", "question" -> {
                 div {
 
                     ProfessionList {
@@ -383,7 +360,8 @@ val App = FC<Props> {
                         selectedMessages = currentMessages
                         selectedLife = currentLife
 
-                        onSelectProfession = { newView, newMessages, newProfession, newPerson, newLife ->
+                        onSelectProfession = { newEvent, newView, newMessages, newProfession, newPerson, newLife ->
+                            currentEvent = newEvent
                             currentView = newView
                             currentMessages = newMessages
                             currentProfession = newProfession
@@ -392,12 +370,6 @@ val App = FC<Props> {
                             currentLife = newLife
                         }
                     }
-                }
-
-                //Show animation
-                ShowAction {
-                    actualProfession = currentProfession
-                    actualAge = currentPerson.startWorkingAge.toString()
                 }
 
                 //Show animation

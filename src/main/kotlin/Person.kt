@@ -13,6 +13,7 @@ data class Person (val id: Int) {
     var professions: List<Profession> = emptyList()
     var employees: List<Employee> = emptyList()
     var accounts: List<Account> = emptyList()
+    var events: List<Event> = emptyList()
     var countWorkMonth: Int = 0
     var blancoLoan: Loan = Loan(id, "Blanco")
     var isMortgage: Boolean = false
@@ -278,7 +279,7 @@ data class Person (val id: Int) {
         }
 
         storyList = storyList.plus(message)
-
+/*
         storyId += 1
 
         storyList = storyList.plus(
@@ -301,6 +302,8 @@ data class Person (val id: Int) {
             )
         )
 
+
+ */
         return storyList
     }
 

@@ -20,7 +20,7 @@ external interface ProfessionListProps : Props {
     var selectedMessages: List<Message>
     var selectedLife: Life
 
-    var onSelectProfession: (View, List<Message>, Profession, Person, Life) -> Unit
+    var onSelectProfession: (Event, View, List<Message>, Profession, Person, Life) -> Unit
 }
 
 val ProfessionList = FC<ProfessionListProps> { props ->
@@ -28,6 +28,10 @@ val ProfessionList = FC<ProfessionListProps> { props ->
     val profession = props.selectedProfession
     var selectedProfessions: List<Profession> = emptyList()
     val allProfessions: List<Profession> = profession.getProfessionList(profession.objectType)
+    var selectedEvents: List<Event>
+    val event = Event(0)
+    selectedEvents = event.getEvent("employed")
+
 
     div {
         css {
@@ -114,7 +118,7 @@ val ProfessionList = FC<ProfessionListProps> { props ->
         }
     }
 
-    if (selectedProfessions.isNotEmpty()) {
+    if (selectedProfessions.isNotEmpty() && selectedEvents.isNotEmpty()) {
         p {
             button {
 
@@ -133,7 +137,9 @@ val ProfessionList = FC<ProfessionListProps> { props ->
                 }
 
                 onClick = {
+                    selectedEvents[0].isSelected = true
                     props.onSelectProfession(
+                        selectedEvents[0],
                         props.selectedView.getNextView(),
                         props.selectedMessages,
                         selectedProfessions[0],
@@ -144,6 +150,11 @@ val ProfessionList = FC<ProfessionListProps> { props ->
                 +props.selectedView.buttonText
                 +" ▶"
             }
+        }
+
+        ShowAction {
+            actualProfession = selectedProfessions[0]
+            actualAge = props.selectedPerson.startWorkingAge.toString()
         }
     }
 }

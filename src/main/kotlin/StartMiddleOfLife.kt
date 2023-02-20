@@ -110,7 +110,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
 
                         onClick = {
                             props.onSelectMessages(
-                                props.selectedView.getNewView("question"),
+                                props.selectedView.getNewView("luck"),
                                 messageList,
                                 profession,
                                 life.person,
@@ -130,6 +130,75 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                 actualName = life.person.name
                 actualPension = (life.person.pension * 100).toString()
                 actualProfession = props.selectedProfession.title
+                firstSalary = life.employee.firstSalary.toInt().formatDecimalSeparator()
+                actualSalary = ""
+                actualSalaryAmount = ""
+                actualDepotAmount = ""
+                actualPensionAmount = ""
+                actualHireAmount = ""
+                actualHouseAmount = ""
+                actualLoanAmount = ""
+            }
+        }
+
+        if (life.isNewProfession) {
+            life.isNewProfession = false
+            div {
+
+                p {
+                    css {
+                        display = Display.block
+                        position = Position.absolute
+                        top = 100.px
+                        left = 10.px
+                        color = NamedColor.black
+                        fontSize = 18.px
+                        backgroundColor = NamedColor.white
+                        fontFamily = FontFamily.cursive
+                    }
+                    +"Dags att fixa nytt jobb! tänk på ditt mål:"
+                }
+
+                p {
+                    button {
+
+                        key = messageList[0].id.toString()
+                        css {
+                            display = Display.block
+                            position = Position.absolute
+                            top = 150.px
+                            left = 10.px
+
+                            color = NamedColor.green
+                            borderColor = NamedColor.white
+                            fontSize = 18.px
+                            backgroundColor = NamedColor.white
+                            fontFamily = FontFamily.cursive
+                        }
+
+                        onClick = {
+                            props.onSelectMessages(
+                                props.selectedView.getNewView("question"),
+                                messageList,
+                                profession,
+                                life.person,
+                                historyMessages,
+                                currentStatus,
+                                life
+                            )
+                        }
+                        +"Vilket yrke väljer du?"
+                        +" ▶"
+                    }
+                }
+            }
+
+            ShowStatusRow {
+                actualAge = life.person.age.toString()
+                actualName = life.person.name
+                actualPension = (life.person.pension * 100).toString()
+                actualProfession = props.selectedProfession.title
+                firstSalary = life.employee.firstSalary.toInt().formatDecimalSeparator()
                 actualSalary = ""
                 actualSalaryAmount = ""
                 actualDepotAmount = ""
@@ -392,6 +461,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                 actualName = life.person.name
                 actualPension = (life.person.pension * 100).toString()
                 actualProfession = currentStatus.profession
+                firstSalary = life.employee.firstSalary.toInt().formatDecimalSeparator()
                 actualSalary = currentStatus.employeeSalary
                 actualSalaryAmount = currentStatus.accountSalaryAmount
                 actualDepotAmount = currentStatus.accountDepotAmount
@@ -471,9 +541,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
     var randomCostEventValues: List<Int>
 
     var currentAmount: Float
-    currentLife.isQuestion = false
 
-    while (age < profession.pensionAge && !currentLife.isQuestion) {
+    while (age < profession.pensionAge && !currentLife.isQuestion && !currentLife.isNewProfession) {
         //Init count month
         parent.countFamilyMonth = 0
         parent.familySalary = 0.0F
@@ -482,6 +551,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         person.union.countUnEmployeeMonth = 0
         person.isSick = false
         lifeChance = randomLifeValues[age - 1]
+        currentLife.isQuestion = false
+        currentLife.isNewProfession = false
 
         //Försörjningsstöd
         if (employee.currentSalary == 0.0F) employee.currentSalary = 4180.0F
@@ -489,13 +560,14 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         if (!event.isSelected) {
             randomEventValues = List(1) { Random.nextInt(0, allEvents.size) }
             event = allEvents[randomEventValues[0]]
+        } else {
+            person.events = person.events.plus(event)
         }
-        event.isSelected = false
 
         when (event.eventType) {
             "depot" -> {
                 //Bonus
-                if (lifeChance < 10 && person.countWorkMonth >= 12 && employee.currentSalary > 0.0) {
+                if (lifeChance < profession.randomBonus && person.countWorkMonth >= 12 && employee.currentSalary > 0.0) {
 
                     //Get value och financial instruments
                     randomValues = List(1) { Random.nextInt(10000, 50000) }
@@ -509,8 +581,9 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
             "sick" -> {
                 //Sjuk
-                if (lifeChance < 20 ||
-                    (isPandemi && event.objectType == "pandemi")) {
+                if (lifeChance < profession.randomSick ||
+                    (isPandemi && event.objectType == "pandemi")
+                ) {
 
                     when (event.objectType) {
                         "pandemi" -> {
@@ -528,6 +601,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                         "burnedout" -> {
                             if (!person.isHappy) {
                                 person.isSick = true
+                                currentLife.isQuestion = true
 
                                 //How many months are you sick?
                                 randomValues = List(1) { Random.nextInt(12, 36) }
@@ -564,7 +638,6 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                         "depressed" -> {
                             if (!person.isHappy) {
                                 person.isSick = true
-                                person.isDepressed = true
                                 currentLife.isQuestion = true
 
                                 //How many months are you sick?
@@ -602,20 +675,53 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
             "luck" -> {
                 //Lycklig
-                if (lifeChance < 10 || event.isSelected) {
+                if (lifeChance < profession.randomLuck || event.isSelected) {
+                    event.isSelected = false
                     person.isHappy = true
                     when (event.objectType) {
-                        "cat" -> { person.countCats += 1}
-                        "strong" -> {person.countStrong += 1}
-                        "friend" -> { person.countFriends += 1}
-                        "alone" -> {person.countAlone += 1}
-                        "dog" -> {person.countDogs += 1}
-                        "fish" -> {person.countFishes += 1}
-                        "party" -> {person.countParties += 1}
-                        "horse"  -> {person.countHorses += 1}
-                        "money"  -> {person.countMoney += 1}
-                        "car"  -> {person.countCars += 1}
-                        "bike"  -> {person.countBikes += 1}
+                        "cat" -> {
+                            person.countCats += 1
+                        }
+
+                        "strong" -> {
+                            person.countStrong += 1
+                        }
+
+                        "friend" -> {
+                            person.countFriends += 1
+                        }
+
+                        "alone" -> {
+                            person.countAlone += 1
+                        }
+
+                        "dog" -> {
+                            person.countDogs += 1
+                        }
+
+                        "fish" -> {
+                            person.countFishes += 1
+                        }
+
+                        "party" -> {
+                            person.countParties += 1
+                        }
+
+                        "horse" -> {
+                            person.countHorses += 1
+                        }
+
+                        "money" -> {
+                            person.countMoney += 1
+                        }
+
+                        "car" -> {
+                            person.countCars += 1
+                        }
+
+                        "bike" -> {
+                            person.countBikes += 1
+                        }
                     }
 
                     messageList = person.showPersonLuck(messageList, messageId, event)
@@ -624,88 +730,106 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
             }
 
             "unemployed" -> {
-                if ((lifeChance < 40 && !person.isMagellit) || isRecession) {
+                if ((lifeChance < profession.randomUnemployed && !person.isMagellit) || isRecession || event.isSelected) {
                     union.countUnEmployeeMonth = 0
                     union.unEmployedSalaryAmount = 0.0
                     union.noAkassaSalaryAmount = 0.0
+                    event.isSelected = false
 
-                    if (event.objectType == "unemployed") {
-                        //Varslad
+                    when (event.objectType) {
+                        "unemployed" -> {
+                            //Varslad
+                            currentLife.isNewProfession = true
 
-                        //Chans till avgångsvederlag om du jobbat mer än 12 månader
-                        randomValues = List(1) { Random.nextInt(0, 100) }
-                        if (randomValues[0] < 30 && person.countWorkMonth >= 12) {
+                            //Chans till avgångsvederlag om du jobbat mer än 12 månader
+                            randomValues = List(1) { Random.nextInt(0, 100) }
+                            if (randomValues[0] < 30 && person.countWorkMonth >= 12) {
 
-                            //Avgångsvederlag! Du får lön i lika många månader som du jobbat år
-                            currentAmount = employee.currentSalary * (person.countWorkMonth / 12).toFloat()
-                            accountSalary.amount += currentAmount
-                            accountNoAkassa.amount += currentAmount
+                                //Avgångsvederlag! Du får lön i lika många månader som du jobbat år
+                                currentAmount = employee.currentSalary * (person.countWorkMonth / 12).toFloat()
+                                accountSalary.amount += currentAmount
+                                accountNoAkassa.amount += currentAmount
 
-                            messageList = employee.showSeverancePay(currentAmount, messageList, messageId)
+                                messageList = employee.showSeverancePay(currentAmount, messageList, messageId)
+                                messageId = messageList.size
+                            }
+
+                            //Hur många dagar är du arbetslös, 22 dagar per månad får man ersättning
+                            randomValues = List(1) { Random.nextInt(22, 300) }
+                            union.countUnEmployeeMonth = randomValues[0] / 22
+
+                            //Endast 300 dagar kan man få a-kassa
+
+                            messageList = union.showCountUnEmployeeMonth(messageList, messageId)
                             messageId = messageList.size
+
+                            //Vilken försäkring kan du få
+                            if (employee.currentSalary >= 60000.0F) {
+                                //Arbetslöshetssersättning = procent av lönen i 200 dagar
+                                union.isIncomeInsurance = true
+                                union.isExtraInsurance = true
+                            } else if (employee.currentSalary >= union.maxSalaryAkassa100) {
+                                //Arbetslöshetssersättning = procent av lönen max 60000 i lön
+                                union.isIncomeInsurance = true
+                            } else {
+                                union.isAkassa = true
+                            }
+
+                            //För att få akassa behövs 12 månaders arbete
+                            if (union.isIncomeInsurance && person.countWorkMonth >= 12) {
+
+                                union.unEmployedSalaryAmount =
+                                    union.getIncomeInsurance(employee.currentSalary.toDouble())
+                                messageList = union.showIncomeInsurance(messageList, messageId)
+                                messageId = messageList.size
+
+                                union.noAkassaSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
+                                messageList = union.showNoAkassa(messageList, messageId)
+                                messageId = messageList.size
+
+                            } else if (union.isAkassa && person.countWorkMonth >= 12) {
+
+                                union.unEmployedSalaryAmount = union.getAkassa(employee.currentSalary.toDouble())
+                                messageList = union.showAkassa(messageList, messageId)
+                                messageId = messageList.size
+
+                                union.noAkassaSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
+
+                            } else if (person.countWorkMonth >= 12) {
+                                union.unEmployedSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
+                                messageList = union.showNoAkassa(messageList, messageId)
+                                messageId = messageList.size
+
+                                union.noAkassaSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
+                            } else {
+                                union.unEmployedSalaryAmount = 0.0
+                                union.noAkassaSalaryAmount = 0.0
+                            }
                         }
 
-                        //Hur många dagar är du arbetslös, 22 dagar per månad får man ersättning
-                        randomValues = List(1) { Random.nextInt(22, 300) }
-                        union.countUnEmployeeMonth = randomValues[0] / 22
+                        "employed" -> {
+                            //Dags att byta jobb och spara tidigare jobb
+                            person.professions = person.professions.plus(profession)
+                            person.employees = person.employees.plus(employee)
 
-                        //Endast 300 dagar kan man få a-kassa
+                            //Nytt jobb
+                            randomValues = List(1) { Random.nextInt(0, allProfessions.size) }
+                            profession = allProfessions[randomValues[0]]
 
-                        messageList = union.showCountUnEmployeeMonth(messageList, messageId)
-                        messageId = messageList.size
+                            employeeId += 1
+                            employee = Employee(employeeId)
+                            employee.title = profession.title
+                            employee.firstSalary = profession.salary * person.age
+                            employee.currentSalary = profession.salary * person.age
+                            employee.countWorkMonth = 0
 
-                        //För att få akassa behövs 12 månaders arbete
-                        if (union.isIncomeInsurance && person.countWorkMonth >= 12) {
-
-                            union.unEmployedSalaryAmount =
-                                union.getIncomeInsurance(employee.currentSalary.toDouble())
-                            messageList = union.showIncomeInsurance(messageList, messageId)
+                            messageList = profession.showNewProfession(messageList, messageId)
                             messageId = messageList.size
 
-                            union.noAkassaSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
-                            messageList = union.showNoAkassa(messageList, messageId)
+                            messageList = employee.showEmployeeSalary(0.0F, messageList, messageId)
                             messageId = messageList.size
-
-                        } else if (union.isAkassa && person.countWorkMonth >= 12) {
-
-                            union.unEmployedSalaryAmount = union.getAkassa(employee.currentSalary.toDouble())
-                            messageList = union.showAkassa(messageList, messageId)
-                            messageId = messageList.size
-
-                            union.noAkassaSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
-
-                        } else if (person.countWorkMonth >= 12) {
-                            union.unEmployedSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
-                            messageList = union.showNoAkassa(messageList, messageId)
-                            messageId = messageList.size
-
-                            union.noAkassaSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
-                        } else {
-                            union.unEmployedSalaryAmount = 0.0
-                            union.noAkassaSalaryAmount = 0.0
                         }
                     }
-
-                    //Dags att byta jobb och spara tidigare jobb
-                    person.professions = person.professions.plus(profession)
-                    person.employees = person.employees.plus(employee)
-
-                    //Nytt jobb
-                    randomValues = List(1) { Random.nextInt(0, allProfessions.size) }
-                    profession = allProfessions[randomValues[0]]
-
-                    employeeId += 1
-                    employee = Employee(employeeId)
-                    employee.title = profession.title
-                    employee.firstSalary = profession.salary * person.age
-                    employee.currentSalary = profession.salary * person.age
-                    employee.countWorkMonth = 0
-
-                    messageList = profession.showNewProfession(messageList, messageId)
-                    messageId = messageList.size
-
-                    messageList = employee.showEmployeeSalary(0.0F, messageList, messageId)
-                    messageId = messageList.size
                 }
             }
 
@@ -1014,10 +1138,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
             randomValues = if (isBoom) {
                 List(1) { Random.nextInt(40, 98) }
-            } else if (isRecession) {
-                List(1) { Random.nextInt(5, 10) }
             } else {
-                List(1) { Random.nextInt(5, 30) }
+                List(1) { Random.nextInt(10, 30) }
             }
 
             employee.currentSalary += (employee.currentSalary * (randomValues[0].toFloat() / 1000.0F))

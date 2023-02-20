@@ -68,6 +68,20 @@ data class Event (
         return selectedEvents
     }
 
+    fun getEvent(objectType: String): List<Event> {
+
+        val events: List<Event> = this.getEvents()
+        var selectedEvents: List<Event> = emptyList()
+
+        for (event in events) {
+            if (event.objectType == objectType) {
+                selectedEvents = selectedEvents.plus(event)
+            }
+        }
+
+        return selectedEvents
+    }
+
     fun showEvent(messageList: List<Message>, messageId: Int, messageStart: String, messageEnd: String): List<Message> {
         var storyList = messageList
 
@@ -77,6 +91,21 @@ data class Event (
                 messageStart + this.eventText + messageEnd,
                 "",
                 "blinking"
+            )
+        )
+
+        return storyList
+    }
+
+    fun showEventPink(messageList: List<Message>, messageId: Int, messageStart: String, messageEnd: String): List<Message> {
+        var storyList = messageList
+
+        storyList = storyList.plus(
+            Message(
+                messageId,
+                messageStart + this.eventText + messageEnd,
+                "",
+                "blinkingPink"
             )
         )
 

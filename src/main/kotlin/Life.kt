@@ -17,4 +17,5 @@ data class Life ( val personId: Int) {
     var isBoom = false
     var isRecession = false
     var isQuestion = false
+    var isNewProfession = false
 }

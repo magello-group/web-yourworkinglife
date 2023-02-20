@@ -48,7 +48,7 @@ val ShowMessage = FC<ShowMessageProps> { props ->
         }
     }
 
-    val blinkingRed: AnimationName = keyframes {
+    val blinkingPink: AnimationName = keyframes {
         0.pct {
             color = NamedColor.hotpink
         }
@@ -99,12 +99,12 @@ val ShowMessage = FC<ShowMessageProps> { props ->
                 }
             }
 
-            "blinkingRed" -> {
+            "blinkingPink" -> {
                 p {
 
                     css {
                         animationDuration = 3.s
-                        animationName = blinkingRed
+                        animationName = blinkingPink
                         animationFillMode = AnimationFillMode.both
                         color = NamedColor.red
                     }

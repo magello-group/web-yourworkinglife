@@ -14,9 +14,9 @@ data class Union( val personId: Int ) {
     var countUnEmployeeMonth: Int = 0
     private val akassaPercentage100: Double = 0.80
     private val akassaPercentage300: Double = 0.70
-    private val maxSalaryAkassa100: Double = 26400.0
-    private val maxSalaryAkassa300: Double = 22000.0
-    private val maxSalaryNoAkassa: Double = 11220.0
+    val maxSalaryAkassa100: Double = 26400.0
+    val maxSalaryAkassa300: Double = 22000.0
+    val maxSalaryNoAkassa: Double = 11220.0
     private val incomeInsurance100: Double = 0.62
     private val incomeInsurance90: Double = 0.64
     private val incomeInsurance80: Double = 0.66
@@ -25,9 +25,30 @@ data class Union( val personId: Int ) {
     private val incomeInsurance50: Double = 0.76
     private val incomeInsurance40: Double = 0.77
     private val incomeInsurance30: Double = 0.80
+    var insurancePercentage: Double = 0.0
     val linkInsurance = "https://www.unionen.se/medlemskapet/inkomstforsakring"
     val linkAkassa = "https://www.kommunalsakassa.se/om-du-blir-arbetslos/rakna-ut-din-a-kassa.html"
 
+    fun getInsurancePercentage(salary: Double): Double {
+        val insurancePercentage = if (salary <= 30000.0)
+            this.incomeInsurance30
+        else if (salary <= 40000.0)
+            this.incomeInsurance40
+        else if (salary <= 50000.0)
+            this.incomeInsurance50
+        else if (salary <= 60000.0)
+            this.incomeInsurance60
+        else if (salary <= 70000.0)
+            this.incomeInsurance70
+        else if (salary <= 80000.0)
+            this.incomeInsurance80
+        else if (salary <= 90000.0)
+            this.incomeInsurance90
+        else
+            this.incomeInsurance100
+
+        return insurancePercentage
+    }
     fun getIncomeInsurance(salary: Double): Double {
         var sum = 0.0
         val month100: Double = 100.0 / 22.0
@@ -35,25 +56,12 @@ data class Union( val personId: Int ) {
         val month200: Double = 200.0 / 22.0
         val leftMonth: Int
 
-        if (this.isIncomeInsurance && this.isExtraInsurance) {
+        this.insurancePercentage = this.getInsurancePercentage(salary)
 
+        if (this.isIncomeInsurance && this.isExtraInsurance) {
             //Arbetslöshetssersättning = procent av lönen i 200 dagar
-            this.unEmployedSalary200 = if (salary <= 30000.0)
-                salary * this.incomeInsurance30
-            else if (salary <= 40000.0)
-                salary * this.incomeInsurance40
-            else if (salary <= 50000.0)
-                salary * this.incomeInsurance50
-            else if (salary <= 60000.0)
-                salary * this.incomeInsurance60
-            else if (salary <= 70000.0)
-                salary * this.incomeInsurance70
-            else if (salary <= 80000.0)
-                salary * this.incomeInsurance80
-            else if (salary <= 90000.0)
-                salary * this.incomeInsurance90
-            else
-                salary * this.incomeInsurance100
+
+            this.unEmployedSalary200 = salary * this.insurancePercentage
 
             //Arbetslöshetssersättning * antal månader max 200 dagar
             sum = if (this.countUnEmployeeMonth > month200.toInt())
@@ -77,14 +85,7 @@ data class Union( val personId: Int ) {
         } else if (this.isIncomeInsurance) {
 
             //Arbetslöshetssersättning = procent av lönen max 60000 i lön
-            sum = if (salary <= 30000.0)
-                salary * this.incomeInsurance30
-            else if (salary <= 40000.0)
-                salary * this.incomeInsurance40
-            else if (salary <= 50000.0)
-                salary * this.incomeInsurance50
-            else
-                60000.0 * this.incomeInsurance60
+            sum = salary * this.insurancePercentage
 
             //Arbetslöshetssersättning * antal månader max 150 dagar
             sum += if (this.countUnEmployeeMonth > month150.toInt())
@@ -105,7 +106,10 @@ data class Union( val personId: Int ) {
                 this.unEmployedSalary300 * month150
             else
                 this.unEmployedSalary300 * leftMonth.toDouble()
+        } else {
+            sum = this.getAkassa(salary)
         }
+
         return sum
     }
 
@@ -119,19 +123,7 @@ data class Union( val personId: Int ) {
                  storyList.plus(
                     Message(
                         storyId,
-                        "Grattis! med inkomst- och tilläggsförsäkring får du i 200 dagar",
-                        "hotpink",
-                        ""
-                    )
-                )
-
-            storyId += 1
-
-            storyList =
-                storyList.plus(
-                    Message(
-                        storyId,
-                        "per månad amount: ${this.unEmployedSalaryAmount.toInt().formatDecimalSeparator()} SEK.",
+                        "Med inkomst- och tilläggsförsäkring får du i 200 dagar",
                         "hotpink",
                         ""
                     )
@@ -150,6 +142,19 @@ data class Union( val personId: Int ) {
                 )
 
             storyId += 1
+
+            storyList =
+                storyList.plus(
+                    Message(
+                        storyId,
+                        "vilket är: ${this.insurancePercentage * 100}% av lönen.",
+                        "hotpink",
+                        ""
+                    )
+                )
+
+            storyId += 1
+
 
             if (this.countUnEmployeeMonth > 200) {
 
@@ -173,7 +178,7 @@ data class Union( val personId: Int ) {
                 storyList.plus(
                     Message(
                         storyId,
-                        "Grattis! med inkomstförsäkring får du i 150 dagar",
+                        "Med inkomstförsäkring får du i 150 dagar",
                         "hotpink",
                         ""
                     )
@@ -186,6 +191,18 @@ data class Union( val personId: Int ) {
                     Message(
                         storyId,
                         "per månad: ${this.unEmployedSalary150.toInt().formatDecimalSeparator()} SEK.",
+                        "hotpink",
+                        ""
+                    )
+                )
+
+            storyId += 1
+
+            storyList =
+                storyList.plus(
+                    Message(
+                        storyId,
+                        "vilket är: ${this.insurancePercentage * 100}% av lönen.",
                         "hotpink",
                         ""
                     )
@@ -208,6 +225,8 @@ data class Union( val personId: Int ) {
 
                 storyId += 1
             }
+        } else {
+            this.showAkassa(storyList, storyId)
         }
 
         return storyList
@@ -221,6 +240,9 @@ data class Union( val personId: Int ) {
         val leftMonth: Int
 
         if (this.isAkassa) {
+            if (salary < this.maxSalaryAkassa100)
+                insurancePercentage = this.akassaPercentage100
+
             if (this.countUnEmployeeMonth > month100.toInt()) {
                 //Arbetslöshetssersättning = procent av lönen i 100 dagar
                 this.unEmployedSalary100 = if (salary < this.maxSalaryAkassa100)
@@ -278,7 +300,7 @@ data class Union( val personId: Int ) {
         storyList = storyList.plus(
             Message(
                  storyId,
-                "Grattis! från a-kassan får du i 100 dagar",
+                "Med a-kassan får du i 100 dagar",
                 "hotpink",
                 ""
             )
@@ -294,6 +316,18 @@ data class Union( val personId: Int ) {
                 ""
             )
         )
+
+        storyId += 1
+
+        storyList =
+            storyList.plus(
+                Message(
+                    storyId,
+                    "vilket är: ${this.insurancePercentage * 100}% av lönen.",
+                    "hotpink",
+                    ""
+                )
+            )
 
         storyId += 1
 
@@ -339,7 +373,7 @@ data class Union( val personId: Int ) {
         storyList = storyList.plus(
             Message(
                  storyId,
-                "Oj! ingen a-kassa, du får ut i 100 dagar",
+                "Utan A-kassa får du ut i 300 dagar",
                 "orange",
                 ""
             )
@@ -350,38 +384,13 @@ data class Union( val personId: Int ) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "per månad: ${this.unEmployedSalary100.toInt().formatDecimalSeparator()} SEK.",
+                "per månad: ${this.unEmployedSalary300.toInt().formatDecimalSeparator()} SEK.",
                 "orange",
                 ""
             )
         )
 
         storyId += 1
-
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "per månad no akassa: ${this.noAkassaSalaryAmount.toInt().formatDecimalSeparator()} SEK.",
-                "orange",
-                ""
-            )
-        )
-
-        storyId += 1
-
-        if (this.countUnEmployeeMonth > 200) {
-            storyList = storyList.plus(
-                Message(
-                    storyId,
-                    "De sista 200 dagarna fick du ut av a-kassan ${
-                        this.unEmployedSalary300.toInt().formatDecimalSeparator()
-                    } SEK.",
-                    "orange",
-                    ""
-                )
-            )
-            storyId += 1
-        }
 
         return storyList
     }
