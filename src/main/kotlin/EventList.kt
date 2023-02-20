@@ -10,25 +10,25 @@ import react.dom.html.ReactHTML.tbody
 import react.dom.html.ReactHTML.td
 import react.dom.html.ReactHTML.tr
 import react.key
-import kotlin.random.Random
 
-external interface ActionListProps : Props {
+external interface EventListProps : Props {
     var selectedView: View
-    var selectedAction: Question?
-    var onSelectAction: (Question) -> Unit
+    var selectedQuestion: Question?
+    var onSelectQuestion: (Question) -> Unit
 
-    //var workingProfession: Profession
-    var onSelectGoal: (Profession) -> Unit
+    var selectedProfession: Profession
+    var selectedPerson: Person
+    var selectedMessages: List<Message>
+    var selectedLife: Life
 
-    var workingPerson: Person
+    var onSelectEvent: (Event, View, List<Message>, Profession, Person, Life) -> Unit
 }
 
-val ActionList = FC<ActionListProps> { props ->
-    val actions: List<Question> = props.selectedView.questions
-    var selectedProfessions: List<Profession> = emptyList()
-    var randomValues: List<Int>
-    var allProfessions: List<Profession>
-    val profession = Profession(0)
+val EventList = FC<EventListProps> { props ->
+    var actions: List<Question> = props.selectedView.questions
+    var selectedEvents: List<Event> = emptyList()
+    var allEvents: List<Event>
+    val event = Event(0)
 
     div {
         css {
@@ -41,7 +41,7 @@ val ActionList = FC<ActionListProps> { props ->
 
         table {
             css {
-                width = 600.px
+                width = 200.px
                 borderSpacing = 0.px
                 borderCollapse = BorderCollapse.collapse
                 whiteSpace = WhiteSpace.nowrap
@@ -58,11 +58,13 @@ val ActionList = FC<ActionListProps> { props ->
                 }
 
                 for (question in actions) {
-                    if (question == props.selectedAction) {
-                        allProfessions = profession.getProfessionList(question.objectType)
-                        randomValues = List(1) { Random.nextInt(0, allProfessions.size) }
-
-                        selectedProfessions = selectedProfessions.plus(allProfessions[randomValues[0]])
+                    if (question == props.selectedQuestion) {
+                        allEvents = event.getEventList(question.objectType)
+                        for (action in allEvents) {
+                            if (action.objectType == question.objectText) {
+                                selectedEvents = selectedEvents.plus(action)
+                            }
+                        }
                     }
 
                     tr {
@@ -94,13 +96,13 @@ val ActionList = FC<ActionListProps> { props ->
                                                 height = 25.px
                                                 width = 25.px
                                                 backgroundColor =
-                                                    if (question == props.selectedAction)
+                                                    if (question == props.selectedQuestion)
                                                         NamedColor.lightgreen
                                                     else
                                                         NamedColor.white
                                             }
                                             onClick = {
-                                                props.onSelectAction(question)
+                                                props.onSelectQuestion(question)
                                             }
                                             +"▶ "
                                         }
@@ -117,11 +119,11 @@ val ActionList = FC<ActionListProps> { props ->
         }
     }
 
-    if (selectedProfessions.isNotEmpty()) {
+    if (selectedEvents.isNotEmpty()) {
         p {
             button {
 
-                key = selectedProfessions[0].id.toString()
+                key = selectedEvents[0].id.toString()
                 css {
                     display = Display.block
                     position = Position.absolute
@@ -136,16 +138,20 @@ val ActionList = FC<ActionListProps> { props ->
                 }
 
                 onClick = {
-                    props.onSelectGoal(selectedProfessions[0])
+                    selectedEvents[0].isSelected = true
+                    props.onSelectEvent(
+                        selectedEvents[0],
+                        props.selectedView.getNextView(),
+                        props.selectedMessages,
+                        props.selectedProfession,
+                        props.selectedPerson,
+                        props.selectedLife
+                    )
                 }
                 +props.selectedView.buttonText
                 +" ▶"
             }
         }
-
-        ShowAction {
-            actualProfession = selectedProfessions[0]
-            actualAge = props.workingPerson.startWorkingAge.toString()
-        }
     }
 }
+

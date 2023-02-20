@@ -11,32 +11,23 @@ import react.dom.html.ReactHTML.td
 import react.dom.html.ReactHTML.tr
 import react.key
 
-external interface QuestionEventListProps : Props {
+external interface ProfessionListProps : Props {
     var selectedView: View
-    var selectedQuestion: Question?
-    var onSelectQuestion: (Question) -> Unit
-
     var selectedProfession: Profession
+    var onSelectQuestion: (Profession) -> Unit
+
     var selectedPerson: Person
     var selectedMessages: List<Message>
     var selectedLife: Life
 
-    var onSelectEvent: (Event, View, List<Message>, Profession, Person, Life) -> Unit
+    var onSelectProfession: (View, List<Message>, Profession, Person, Life) -> Unit
 }
 
-val QuestionEventList = FC<QuestionEventListProps> { props ->
-    var actions: List<Question> = props.selectedView.questions
-    var selectedEvents: List<Event> = emptyList()
-    var allEvents: List<Event>
-    val event = Event(0)
+val ProfessionList = FC<ProfessionListProps> { props ->
 
-    var selectedProfessions: List<Profession> = emptyList()
-    var allProfessions: List<Profession>
     val profession = props.selectedProfession
-
-    if (props.selectedView.viewType == "profession") {
-        actions = props.selectedView.getQuestions(profession.objectType)
-    }
+    var selectedProfessions: List<Profession> = emptyList()
+    val allProfessions: List<Profession> = profession.getProfessionList(profession.objectType)
 
     div {
         css {
@@ -65,24 +56,11 @@ val QuestionEventList = FC<QuestionEventListProps> { props ->
                     textAlign = TextAlign.start
                 }
 
-                for (question in actions) {
-                    if (question == props.selectedQuestion) {
-                        if (props.selectedView.viewType == "profession") {
-                            allProfessions = profession.getProfessionList(question.objectType)
-                            for (action in allProfessions) {
-                                if (action.professionType == question.objectText) {
-                                    selectedProfessions = selectedProfessions.plus(action)
-                                }
-                            }
-                        } else {
-                            allEvents = event.getEventList(question.objectType)
-                            for (action in allEvents) {
-                                if (action.objectType == question.objectText) {
-                                    selectedEvents = selectedEvents.plus(action)
-                                }
-                            }
-                        }
+                for (question in allProfessions) {
+                    if (question == props.selectedProfession) {
+                        selectedProfessions = selectedProfessions.plus(question)
                     }
+
 
                     tr {
                         css {
@@ -113,7 +91,7 @@ val QuestionEventList = FC<QuestionEventListProps> { props ->
                                                 height = 25.px
                                                 width = 25.px
                                                 backgroundColor =
-                                                    if (question == props.selectedQuestion)
+                                                    if (question == props.selectedProfession)
                                                         NamedColor.lightgreen
                                                     else
                                                         NamedColor.white
@@ -125,7 +103,7 @@ val QuestionEventList = FC<QuestionEventListProps> { props ->
                                         }
                                     } else {
                                         +" "
-                                        +question.questionText
+                                        +question.title
                                     }
                                 }
                             }
@@ -136,40 +114,7 @@ val QuestionEventList = FC<QuestionEventListProps> { props ->
         }
     }
 
-    if (selectedEvents.isNotEmpty()) {
-        p {
-            button {
-
-                key = selectedEvents[0].id.toString()
-                css {
-                    display = Display.block
-                    position = Position.absolute
-                    top = 10.px
-                    left = 10.px
-
-                    color = NamedColor.green
-                    borderColor = NamedColor.white
-                    fontSize = 18.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
-                }
-
-                onClick = {
-                    selectedEvents[0].isSelected = true
-                    props.onSelectEvent(
-                        selectedEvents[0],
-                        props.selectedView.getNextView(),
-                        props.selectedMessages,
-                        props.selectedProfession,
-                        props.selectedPerson,
-                        props.selectedLife
-                    )
-                }
-                +props.selectedView.buttonText
-                +" ▶"
-            }
-        }
-    } else if (selectedProfessions.isNotEmpty()) {
+    if (selectedProfessions.isNotEmpty()) {
         p {
             button {
 
@@ -188,8 +133,7 @@ val QuestionEventList = FC<QuestionEventListProps> { props ->
                 }
 
                 onClick = {
-                    props.onSelectEvent(
-                        event,
+                    props.onSelectProfession(
                         props.selectedView.getNextView(),
                         props.selectedMessages,
                         selectedProfessions[0],

@@ -247,7 +247,7 @@ val App = FC<Props> {
                             currentAction = question
                         }
 
-                        onSelectProfession = { profession ->
+                        onSelectGoal = { profession ->
                             currentProfession = profession
                             currentView = view.getNewView("profession")
                         }
@@ -317,11 +317,11 @@ val App = FC<Props> {
                     actualProfession = currentProfession
                 }
             }
-            "question", "luck", "profession" -> {
+            "question", "luck" -> {
 
                 div {
 
-                    QuestionEventList {
+                    EventList {
                         selectedView = currentView
                         selectedQuestion = currentQuestion
 
@@ -359,6 +359,50 @@ val App = FC<Props> {
                         marginLeftFrom = 0
                         marginLeftTo = 26
                     }
+                }
+
+                ShowInput {
+                    actualInputQuestions = inputQuestions
+                    actualName = currentPerson.name
+                    actualAge = currentPerson.age.toString()
+                    actualPension = currentPerson.pension.toString()
+                }
+            }
+            "profession" -> {
+
+                div {
+
+                    ProfessionList {
+                        selectedView = currentView
+                        selectedProfession = currentProfession
+                        onSelectQuestion = { question ->
+                            currentProfession = question
+                        }
+
+                        selectedPerson = person
+                        selectedMessages = currentMessages
+                        selectedLife = currentLife
+
+                        onSelectProfession = { newView, newMessages, newProfession, newPerson, newLife ->
+                            currentView = newView
+                            currentMessages = newMessages
+                            currentProfession = newProfession
+                            currentPerson = newPerson
+                            age = newPerson.age.toString()
+                            currentLife = newLife
+                        }
+                    }
+                }
+
+                //Show animation
+                ShowAction {
+                    actualProfession = currentProfession
+                    actualAge = currentPerson.startWorkingAge.toString()
+                }
+
+                //Show animation
+                ShowProfessionAnimation {
+                    actualProfession = currentProfession
                 }
 
                 ShowInput {

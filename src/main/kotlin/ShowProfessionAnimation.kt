@@ -24,7 +24,7 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                     marginLeftTo = 30
                 }
             }
-            "agent" -> {
+            "detektiv" -> {
                 ShowStreckImage {selectedImage ="streckagent1300.jpg"}
                 ShowStreck {
                     selectedImage01 = "streck002.jpg"
