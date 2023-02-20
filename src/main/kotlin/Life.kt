@@ -17,5 +17,8 @@ data class Life ( val personId: Int) {
     var isBoom = false
     var isRecession = false
     var isQuestion = false
+    var questionMessageId = 0
     var isNewProfession = false
+    var professionMessageId = 0
+    var firstSalary: Float = 0.0F
 }

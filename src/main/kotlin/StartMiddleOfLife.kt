@@ -49,6 +49,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
         life.employee.title = profession.title
         life.employee.firstSalary = profession.salary * person.age.toFloat()
         life.employee.currentSalary = profession.salary * person.age.toFloat()
+        life.firstSalary = profession.salary * person.age.toFloat()
 
         messageList = life.employee.showEmployeeSalary(0.0F, messageList, messageId)
         messageId = messageList.size
@@ -73,6 +74,154 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
         messageList = currentLife.messageList
         messageId = messageList.size
 
+    }
+
+    if (isDebugOn) {
+        div {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 800.px
+                left = 50.px
+                color = NamedColor.black
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+
+            ShowMessage {
+                selectedMessage = Message(
+                    5,
+                    "Nu startar vi steg 5 life.age: ${life.age} pension: ${profession.pensionAge} ",
+                    "",
+                    ""
+                )
+            }
+        }
+    }
+
+    if (life.age >= profession.pensionAge) {
+        life.person.pensionAge = life.age
+    }
+    if (isDebugOn) {
+        div {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 850.px
+                left = 50.px
+                color = NamedColor.black
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+
+            ShowMessage {
+                selectedMessage = Message(
+                    5,
+                    "Nu startar vi steg 6 age life.age: ${life.age} pension: ${life.person.pensionAge} ",
+                    "",
+                    ""
+                )
+            }
+        }
+    }
+    /*
+        if (historyMessages.isEmpty()) {
+            //Store story
+            for (message in messageList) {
+                historyMessages = historyMessages.plus(message)
+            }
+        }
+
+
+ */
+    //Show story
+    if (messageList.isNotEmpty()) {
+        if (isDebugOn) {
+            div {
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = 900.px
+                    left = 50.px
+                    color = NamedColor.black
+                    fontSize = 18.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+
+                ShowMessage {
+                    selectedMessage = Message(
+                        5,
+                        "Nu startar vi steg 7 message: ${messageList[0].messageText} ",
+                        "",
+                        ""
+                    )
+                }
+            }
+        }
+
+        div {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 90.px
+                left = 10.px
+
+                color = NamedColor.green
+                borderColor = NamedColor.white
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+
+            for ((messageIndex, message) in messageList.withIndex()) {
+                if (messageIndex == maxMessages && message.messageText.contains("Det har gått")) {
+                    leftMessages = leftMessages.plus(message)
+                } else  if ((life.isQuestion && message.id >= life.questionMessageId) ||
+                    (life.isNewProfession && message.id >= life.professionMessageId)) {
+                    leftMessages = leftMessages.plus(message)
+                } else if (messageIndex <= maxMessages) {
+                    //Update status row
+                    if (message.status.age != "") currentStatus.age = message.status.age
+                    if (message.status.employeeSalary != "") currentStatus.employeeSalary =
+                        message.status.employeeSalary
+                    if (message.status.accountSalaryAmount != "") currentStatus.accountSalaryAmount =
+                        message.status.accountSalaryAmount
+                    if (message.status.accountDepotAmount != "") currentStatus.accountDepotAmount =
+                        message.status.accountDepotAmount
+                    if (message.status.accountPensionAmount != "") currentStatus.accountPensionAmount =
+                        message.status.accountPensionAmount
+                    if (message.status.houseAmount != "") currentStatus.houseAmount = message.status.houseAmount
+                    if (message.status.houseHireAmount != "") currentStatus.houseHireAmount =
+                        message.status.houseHireAmount
+                    if (message.status.houseLoanAmount != "") currentStatus.houseLoanAmount =
+                        message.status.houseLoanAmount
+                    if (message.status.profession != "") currentStatus.profession = message.status.profession
+                    if (message.status.countCats != "") currentStatus.countCats = message.status.countCats
+                    if (message.status.countDogs != "") currentStatus.countDogs = message.status.countDogs
+                    if (message.status.countHorses != "") currentStatus.countHorses = message.status.countHorses
+                    if (message.status.countCars != "") currentStatus.countCars = message.status.countCars
+                    if (message.status.countBikes != "") currentStatus.countBikes = message.status.countBikes
+                    if (message.status.countParties != "") currentStatus.countParties = message.status.countParties
+                    if (message.status.countAlone != "") currentStatus.countAlone = message.status.countAlone
+                    if (message.status.countFishes != "") currentStatus.countFishes = message.status.countFishes
+                    if (message.status.countFriends != "") currentStatus.countFriends = message.status.countFriends
+                    if (message.status.countBabies != "") currentStatus.countBabies = message.status.countBabies
+                    if (message.status.countMoney != "") currentStatus.countMoney = message.status.countMoney
+                    if (message.status.countStrong != "") currentStatus.countStrong = message.status.countStrong
+
+                    ShowMessage {
+                        selectedMessage = message
+                    }
+                    historyMessages = historyMessages.plus(message)
+                } else {
+                    leftMessages = leftMessages.plus(message)
+                }
+            }
+        }
+
         if (life.isQuestion) {
             life.isQuestion = false
             div {
@@ -81,7 +230,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                     css {
                         display = Display.block
                         position = Position.absolute
-                        top = 100.px
+                        top = 400.px
                         left = 10.px
                         color = NamedColor.black
                         fontSize = 18.px
@@ -98,7 +247,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                         css {
                             display = Display.block
                             position = Position.absolute
-                            top = 150.px
+                            top = 450.px
                             left = 10.px
 
                             color = NamedColor.green
@@ -130,7 +279,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                 actualName = life.person.name
                 actualPension = (life.person.pension * 100).toString()
                 actualProfession = props.selectedProfession.title
-                firstSalary = life.employee.firstSalary.toInt().formatDecimalSeparator()
+                firstSalary = life.firstSalary.toInt().formatDecimalSeparator()
                 actualSalary = ""
                 actualSalaryAmount = ""
                 actualDepotAmount = ""
@@ -149,7 +298,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                     css {
                         display = Display.block
                         position = Position.absolute
-                        top = 100.px
+                        top = 400.px
                         left = 10.px
                         color = NamedColor.black
                         fontSize = 18.px
@@ -166,7 +315,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                         css {
                             display = Display.block
                             position = Position.absolute
-                            top = 150.px
+                            top = 450.px
                             left = 10.px
 
                             color = NamedColor.green
@@ -198,7 +347,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                 actualName = life.person.name
                 actualPension = (life.person.pension * 100).toString()
                 actualProfession = props.selectedProfession.title
-                firstSalary = life.employee.firstSalary.toInt().formatDecimalSeparator()
+                firstSalary = life.firstSalary.toInt().formatDecimalSeparator()
                 actualSalary = ""
                 actualSalaryAmount = ""
                 actualDepotAmount = ""
@@ -208,98 +357,16 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                 actualLoanAmount = ""
             }
         }
-    }
 
-    if (isDebugOn) {
-        div {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top = 800.px
-                left = 50.px
-                color = NamedColor.black
-                fontSize = 18.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
+        p {
+            button {
 
-            ShowMessage {
-                selectedMessage = Message(
-                    5,
-                    "Nu startar vi steg 5 life.age: ${life.age} pension: ${profession.pensionAge} ",
-                    "",
-                    ""
-                )
-            }
-        }
-    }
-
-    if (life.age >= profession.pensionAge) {
-        life.person.pensionAge = life.age
-
-        if (isDebugOn) {
-            div {
+                key = messageList[0].id.toString()
                 css {
                     display = Display.block
                     position = Position.absolute
-                    top = 850.px
-                    left = 50.px
-                    color = NamedColor.black
-                    fontSize = 18.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
-                }
-
-                ShowMessage {
-                    selectedMessage = Message(
-                        5,
-                        "Nu startar vi steg 6 age life.age: ${life.age} pension: ${life.person.pensionAge} ",
-                        "",
-                        ""
-                    )
-                }
-            }
-        }
-
-        if (historyMessages.isEmpty()) {
-            //Store story
-            for (message in messageList) {
-                historyMessages = historyMessages.plus(message)
-            }
-        }
-
-        //Show story
-        if (messageList.isNotEmpty()) {
-            if (isDebugOn) {
-                div {
-                    css {
-                        display = Display.block
-                        position = Position.absolute
-                        top = 900.px
-                        left = 50.px
-                        color = NamedColor.black
-                        fontSize = 18.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
-                    }
-
-                    ShowMessage {
-                        selectedMessage = Message(
-                            5,
-                            "Nu startar vi steg 7 message: ${messageList[0].messageText} ",
-                            "",
-                            ""
-                        )
-                    }
-                }
-            }
-
-            div {
-                css {
-                    display = Display.block
-                    position = Position.absolute
-                    top = 90.px
-                    left = 10.px
+                    top = 10.px
+                    left = 40.px
 
                     color = NamedColor.green
                     borderColor = NamedColor.white
@@ -308,182 +375,122 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                     fontFamily = FontFamily.cursive
                 }
 
-                for ((messageIndex, message) in messageList.withIndex()) {
-                    if (messageIndex == maxMessages && message.messageText.contains("Det har gått")) {
-                        leftMessages = leftMessages.plus(message)
-                    } else if (messageIndex <= maxMessages) {
-                        //Update status row
-                        if (message.status.age != "") currentStatus.age = message.status.age
-                        if (message.status.employeeSalary != "") currentStatus.employeeSalary =
-                            message.status.employeeSalary
-                        if (message.status.accountSalaryAmount != "") currentStatus.accountSalaryAmount =
-                            message.status.accountSalaryAmount
-                        if (message.status.accountDepotAmount != "") currentStatus.accountDepotAmount =
-                            message.status.accountDepotAmount
-                        if (message.status.accountPensionAmount != "") currentStatus.accountPensionAmount =
-                            message.status.accountPensionAmount
-                        if (message.status.houseAmount != "") currentStatus.houseAmount = message.status.houseAmount
-                        if (message.status.houseHireAmount != "") currentStatus.houseHireAmount =
-                            message.status.houseHireAmount
-                        if (message.status.houseLoanAmount != "") currentStatus.houseLoanAmount =
-                            message.status.houseLoanAmount
-                        if (message.status.profession != "") currentStatus.profession = message.status.profession
-                        if (message.status.countCats != "") currentStatus.countCats = message.status.countCats
-                        if (message.status.countDogs != "") currentStatus.countDogs = message.status.countDogs
-                        if (message.status.countHorses != "") currentStatus.countHorses = message.status.countHorses
-                        if (message.status.countCars != "") currentStatus.countCars = message.status.countCars
-                        if (message.status.countBikes != "") currentStatus.countBikes = message.status.countBikes
-                        if (message.status.countParties != "") currentStatus.countParties = message.status.countParties
-                        if (message.status.countAlone != "") currentStatus.countAlone = message.status.countAlone
-                        if (message.status.countFishes != "") currentStatus.countFishes = message.status.countFishes
-                        if (message.status.countFriends != "") currentStatus.countFriends = message.status.countFriends
-                        if (message.status.countBabies != "") currentStatus.countBabies = message.status.countBabies
-                        if (message.status.countMoney != "") currentStatus.countMoney = message.status.countMoney
-                        if (message.status.countStrong != "") currentStatus.countStrong = message.status.countStrong
-
-                        ShowMessage {
-                            selectedMessage = message
-                        }
-
-                    } else {
-                        leftMessages = leftMessages.plus(message)
-                    }
-                }
-            }
-
-            p {
-                button {
-
-                    key = messageList[0].id.toString()
-                    css {
-                        display = Display.block
-                        position = Position.absolute
-                        top = 10.px
-                        left = 40.px
-
-                        color = NamedColor.green
-                        borderColor = NamedColor.white
-                        fontSize = 18.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
-                    }
-
-                    if (leftMessages.size >= maxMessages) {
+                if (leftMessages.size >= maxMessages) {
                     //if (life.year <= profession.pensionAge) {
-                        onClick = {
-                            props.onSelectMessages(
-                                props.selectedView.getNewView("reload"),
-                                leftMessages,
-                                props.selectedProfession,
-                                life.person,
-                                historyMessages,
-                                currentStatus,
-                                life
-                            )
-                        }
-                        +props.selectedView.getNewView("reload").buttonText
-
-
-                    } else {
-                        //Pension life
-                        life.person.age = life.age
-                        life.person.professions = life.person.professions.plus(profession)
-                        life.person.employees = life.person.employees.plus(life.employee)
-                        life.person.accounts = life.person.accounts.plus(life.accountSalary)
-                        life.person.accounts = life.person.accounts.plus(life.accountNoAkassa)
-                        life.person.accounts = life.person.accounts.plus(life.accountDepot)
-                        life.person.accounts = life.person.accounts.plus(life.accountPension)
-
-                        onClick = {
-                            props.onSelectMessages(
-                                props.selectedView.getNewView("pension"),
-                                leftMessages,
-                                props.selectedProfession,
-                                life.person,
-                                historyMessages,
-                                currentStatus,
-                                life
-                            )
-                        }
-                        +props.selectedView.getNewView("pension").buttonText
+                    onClick = {
+                        props.onSelectMessages(
+                            props.selectedView.getNewView("reload"),
+                            leftMessages,
+                            props.selectedProfession,
+                            life.person,
+                            historyMessages,
+                            currentStatus,
+                            life
+                        )
                     }
-                    +" ▶"
-                }
+                    +props.selectedView.getNewView("reload").buttonText
 
-                if (messageList.isNotEmpty()) {
-                    if (historyMessages.isNotEmpty() && messageList[0].id >= (maxMessages + 1)) {
-                        messageId = messageList[0].id - (maxMessages + 1)
 
-                        for ((messageIndex, message) in historyMessages.withIndex()) {
-                            if (messageIndex >= messageId) {
-                                backupMessages = backupMessages.plus(message)
-                            }
-                        }
+                } else {
+                    //Pension life
+                    life.person.age = life.age
+                    life.person.professions = life.person.professions.plus(profession)
+                    life.person.employees = life.person.employees.plus(life.employee)
+                    life.person.accounts = life.person.accounts.plus(life.accountSalary)
+                    life.person.accounts = life.person.accounts.plus(life.accountNoAkassa)
+                    life.person.accounts = life.person.accounts.plus(life.accountDepot)
+                    life.person.accounts = life.person.accounts.plus(life.accountPension)
 
-                        button {
-
-                            key = messageList[0].id.toString()
-                            css {
-                                display = Display.block
-                                position = Position.absolute
-                                top = 10.px
-                                left = 10.px
-
-                                color = NamedColor.green
-                                borderColor = NamedColor.white
-                                fontSize = 18.px
-                                backgroundColor = NamedColor.white
-                                fontFamily = FontFamily.cursive
-                            }
-
-                            onClick = {
-                                props.onSelectMessages(
-                                    props.selectedView,
-                                    backupMessages,
-                                    props.selectedProfession,
-                                    life.person,
-                                    historyMessages,
-                                    currentStatus,
-                                    life
-                                )
-                            }
-                            +"◀ "
-                        }
-
+                    onClick = {
+                        props.onSelectMessages(
+                            props.selectedView.getNewView("pension"),
+                            leftMessages,
+                            props.selectedProfession,
+                            life.person,
+                            historyMessages,
+                            currentStatus,
+                            life
+                        )
                     }
+                    +props.selectedView.getNewView("pension").buttonText
                 }
+                +" ▶"
             }
 
-            if (currentStatus.age == "") currentStatus.age = life.person.age.toString()
-            if (currentStatus.profession == "") currentStatus.profession = props.selectedProfession.title
-            ShowStatusRow {
-                actualAge = currentStatus.age
-                actualName = life.person.name
-                actualPension = (life.person.pension * 100).toString()
-                actualProfession = currentStatus.profession
-                firstSalary = life.employee.firstSalary.toInt().formatDecimalSeparator()
-                actualSalary = currentStatus.employeeSalary
-                actualSalaryAmount = currentStatus.accountSalaryAmount
-                actualDepotAmount = currentStatus.accountDepotAmount
-                actualPensionAmount = currentStatus.accountPensionAmount
-                actualHireAmount = currentStatus.houseHireAmount
-                actualHouseAmount = currentStatus.houseAmount
-                actualLoanAmount = currentStatus.houseLoanAmount
-                actualCats = currentStatus.countCats
-                actualDogs = currentStatus.countDogs
-                actualHorses = currentStatus.countHorses
-                actualCars = currentStatus.countCars
-                actualBabies = currentStatus.countBabies
-                actualBikes = currentStatus.countBikes
-                actualParties = currentStatus.countParties
-                actualAlone = currentStatus.countAlone
-                actualFishes = currentStatus.countFishes
-                actualFriends = currentStatus.countFriends
-                actualMoney = currentStatus.countMoney
-                actualStrong = currentStatus.countStrong
+            if (messageList.isNotEmpty()) {
+                if (historyMessages.isNotEmpty() && messageList[0].id >= (maxMessages + 1)) {
+                    messageId = messageList[0].id - (maxMessages + 1)
+
+                    for ((messageIndex, message) in historyMessages.withIndex()) {
+                        if (messageIndex >= messageId) {
+                            backupMessages = backupMessages.plus(message)
+                        }
+                    }
+
+                    button {
+
+                        key = messageList[0].id.toString()
+                        css {
+                            display = Display.block
+                            position = Position.absolute
+                            top = 10.px
+                            left = 10.px
+
+                            color = NamedColor.green
+                            borderColor = NamedColor.white
+                            fontSize = 18.px
+                            backgroundColor = NamedColor.white
+                            fontFamily = FontFamily.cursive
+                        }
+
+                        onClick = {
+                            props.onSelectMessages(
+                                props.selectedView,
+                                backupMessages,
+                                props.selectedProfession,
+                                life.person,
+                                historyMessages,
+                                currentStatus,
+                                life
+                            )
+                        }
+                        +"◀ "
+                    }
+
+                }
             }
         }
+
+        if (currentStatus.age == "") currentStatus.age = life.person.age.toString()
+        if (currentStatus.profession == "") currentStatus.profession = props.selectedProfession.title
+        ShowStatusRow {
+            actualAge = currentStatus.age
+            actualName = life.person.name
+            actualPension = (life.person.pension * 100).toString()
+            actualProfession = currentStatus.profession
+            firstSalary = life.firstSalary.toInt().formatDecimalSeparator()
+            actualSalary = currentStatus.employeeSalary
+            actualSalaryAmount = currentStatus.accountSalaryAmount
+            actualDepotAmount = currentStatus.accountDepotAmount
+            actualPensionAmount = currentStatus.accountPensionAmount
+            actualHireAmount = currentStatus.houseHireAmount
+            actualHouseAmount = currentStatus.houseAmount
+            actualLoanAmount = currentStatus.houseLoanAmount
+            actualCats = currentStatus.countCats
+            actualDogs = currentStatus.countDogs
+            actualHorses = currentStatus.countHorses
+            actualCars = currentStatus.countCars
+            actualBabies = currentStatus.countBabies
+            actualBikes = currentStatus.countBikes
+            actualParties = currentStatus.countParties
+            actualAlone = currentStatus.countAlone
+            actualFishes = currentStatus.countFishes
+            actualFriends = currentStatus.countFriends
+            actualMoney = currentStatus.countMoney
+            actualStrong = currentStatus.countStrong
+        }
     }
+    //}
 }
 
 fun getProfession(professionId: Int): Profession {
@@ -669,6 +676,9 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                         messageList = employee.showEmployeeCountSickMonth(messageList, messageId)
                         messageId = messageList.size
+
+                        if (currentLife.isQuestion)
+                            currentLife.questionMessageId = messageId
                     }
                 }
             }
@@ -739,7 +749,6 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                     when (event.objectType) {
                         "unemployed" -> {
                             //Varslad
-                            currentLife.isNewProfession = true
 
                             //Chans till avgångsvederlag om du jobbat mer än 12 månader
                             randomValues = List(1) { Random.nextInt(0, 100) }
@@ -805,29 +814,33 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                                 union.unEmployedSalaryAmount = 0.0
                                 union.noAkassaSalaryAmount = 0.0
                             }
-                        }
 
-                        "employed" -> {
                             //Dags att byta jobb och spara tidigare jobb
                             person.professions = person.professions.plus(profession)
                             person.employees = person.employees.plus(employee)
+                            currentLife.isNewProfession = true
+                            currentLife.professionMessageId = messageId
+                        }
 
+                        "employed" -> {
                             //Nytt jobb
-                            randomValues = List(1) { Random.nextInt(0, allProfessions.size) }
-                            profession = allProfessions[randomValues[0]]
+                            if (event.isSelected) {
 
-                            employeeId += 1
-                            employee = Employee(employeeId)
-                            employee.title = profession.title
-                            employee.firstSalary = profession.salary * person.age
-                            employee.currentSalary = profession.salary * person.age
-                            employee.countWorkMonth = 0
+                                event.isSelected = false
 
-                            messageList = profession.showNewProfession(messageList, messageId)
-                            messageId = messageList.size
+                                employeeId += 1
+                                employee = Employee(employeeId)
+                                employee.title = profession.title
+                                employee.firstSalary = profession.salary * person.age
+                                employee.currentSalary = profession.salary * person.age
+                                employee.countWorkMonth = 0
 
-                            messageList = employee.showEmployeeSalary(0.0F, messageList, messageId)
-                            messageId = messageList.size
+                                messageList = profession.showNewProfession(messageList, messageId)
+                                messageId = messageList.size
+
+                                messageList = employee.showEmployeeSalary(0.0F, messageList, messageId)
+                                messageId = messageList.size
+                            }
                         }
                     }
                 }

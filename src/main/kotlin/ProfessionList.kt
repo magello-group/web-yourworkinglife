@@ -105,9 +105,30 @@ val ProfessionList = FC<ProfessionListProps> { props ->
                                             }
                                             +"▶ "
                                         }
-                                    } else {
-                                        +" "
-                                        +question.title
+                                    } else if (cell == 2) {
+                                        +" ${question.title}"
+                                    }
+                                }
+                            }
+                        }
+
+                        for (cell in 3..6) {
+                            td {
+                                p {
+                                    css {
+                                        padding = Padding(0.px, 0.px)
+                                        height = 10.px
+                                        fontSize = 14.px
+                                    }
+
+                                    if (cell == 3) {
+                                        +" (sjuk: ${question.randomSick}%"
+                                    } else if (cell == 4) {
+                                        +", varslad: ${question.randomUnemployed}%"
+                                    } else if (cell == 5) {
+                                        +", bonus: ${question.randomBonus}%"
+                                    } else if (cell == 6) {
+                                        +", lycka: ${question.randomLuck}%)"
                                     }
                                 }
                             }
