@@ -14,13 +14,17 @@ import react.key
 external interface ProfessionListProps : Props {
     var selectedView: View
     var selectedProfession: Profession
-    var onSelectQuestion: (Profession) -> Unit
-
     var selectedPerson: Person
     var selectedMessages: List<Message>
+    var selectedHistory: List<Message>
+    var selectedStatus: Status
     var selectedLife: Life
+    var selectedEvent: Event
 
-    var onSelectProfession: (Event, View, List<Message>, Profession, Person, Life) -> Unit
+    //var onSelectQuestion: (Profession) -> Unit
+    var onSelectQuestion: (Event, View, List<Message>, Profession, Person, List<Message>, Status, Life) -> Unit
+
+    var onSelectProfession: (Event, View, List<Message>, Profession, Person, List<Message>, Status, Life) -> Unit
 }
 
 val ProfessionList = FC<ProfessionListProps> { props ->
@@ -29,8 +33,7 @@ val ProfessionList = FC<ProfessionListProps> { props ->
     var selectedProfessions: List<Profession> = emptyList()
     val allProfessions: List<Profession> = profession.getProfessionList(profession.objectType)
     var selectedEvents: List<Event>
-    val event = Event(0)
-    selectedEvents = event.getEvent("employed")
+    selectedEvents = props.selectedEvent.getEvent("employed")
 
 
     div {
@@ -101,34 +104,21 @@ val ProfessionList = FC<ProfessionListProps> { props ->
                                                         NamedColor.white
                                             }
                                             onClick = {
-                                                props.onSelectQuestion(question)
+                                                props.onSelectQuestion(
+                                                    props.selectedEvent,
+                                                    props.selectedView,
+                                                    props.selectedMessages,
+                                                    question,
+                                                    props.selectedPerson,
+                                                    props.selectedHistory,
+                                                    props.selectedStatus,
+                                                    props.selectedLife
+                                                )
                                             }
                                             +"▶ "
                                         }
                                     } else if (cell == 2) {
                                         +" ${question.title}"
-                                    }
-                                }
-                            }
-                        }
-
-                        for (cell in 3..6) {
-                            td {
-                                p {
-                                    css {
-                                        padding = Padding(0.px, 0.px)
-                                        height = 10.px
-                                        fontSize = 14.px
-                                    }
-
-                                    if (cell == 3) {
-                                        +" (sjuk: ${question.randomSick}%"
-                                    } else if (cell == 4) {
-                                        +", varslad: ${question.randomUnemployed}%"
-                                    } else if (cell == 5) {
-                                        +", bonus: ${question.randomBonus}%"
-                                    } else if (cell == 6) {
-                                        +", lycka: ${question.randomLuck}%)"
                                     }
                                 }
                             }
@@ -165,6 +155,8 @@ val ProfessionList = FC<ProfessionListProps> { props ->
                         props.selectedMessages,
                         selectedProfessions[0],
                         props.selectedPerson,
+                        props.selectedHistory,
+                        props.selectedStatus,
                         props.selectedLife
                     )
                 }

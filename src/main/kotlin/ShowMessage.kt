@@ -90,7 +90,7 @@ val ShowMessage = FC<ShowMessageProps> { props ->
                 p {
 
                     css {
-                        animationDuration = 3.s
+                        animationDuration = 2.s
                         animationName = blinking
                         animationFillMode = AnimationFillMode.both
                         color = NamedColor.gold
@@ -103,7 +103,7 @@ val ShowMessage = FC<ShowMessageProps> { props ->
                 p {
 
                     css {
-                        animationDuration = 3.s
+                        animationDuration = 2.s
                         animationName = blinkingPink
                         animationFillMode = AnimationFillMode.both
                         color = NamedColor.red

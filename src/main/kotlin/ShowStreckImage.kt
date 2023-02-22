@@ -7,9 +7,11 @@ import react.dom.html.ReactHTML.p
 
 external interface ShowStreckImageProps : Props {
     var selectedImage: String
+    var selectTop: Int //350
 }
 
 val ShowStreckImage = FC<ShowStreckImageProps> { props ->
+
     p {
 
         val streckImage = keyframes {
@@ -20,7 +22,7 @@ val ShowStreckImage = FC<ShowStreckImageProps> { props ->
             }
             100.pct {
                 backgroundImage = url(props.selectedImage)
-                marginLeft = 30.pc
+                marginLeft = 35.pc
                 width = 10.pc
             }
         }
@@ -31,7 +33,7 @@ val ShowStreckImage = FC<ShowStreckImageProps> { props ->
             animationFillMode = AnimationFillMode.both
             display = Display.flex
             position = Position.absolute
-            top = 350.px
+            top = props.selectTop.px
             left = 1.px
             width = 154.px
             height = 190.px

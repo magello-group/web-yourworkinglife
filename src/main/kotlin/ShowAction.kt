@@ -51,4 +51,70 @@ val ShowAction = FC<ShowActionProps> { props ->
                 +salary.toString()
         }
     }
+
+    div {
+
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 580.px
+                left = 220.px
+                color = NamedColor.black
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            +"Lyckochans: "
+            +"${props.actualProfession.randomLuck}%"
+        }
+
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 610.px
+                left = 220.px
+                color = NamedColor.black
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            +"Bonuschans: "
+            +"${props.actualProfession.randomBonus}%"
+        }
+    }
+
+    div {
+
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 580.px
+                left = 440.px
+                color = NamedColor.black
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            +"Varsel risk: "
+            +"${props.actualProfession.randomUnemployed}%"
+        }
+
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 610.px
+                left = 440.px
+                color = NamedColor.black
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            +"Sjuk risk: "
+            +"${props.actualProfession.randomSick}%"
+        }
+    }
 }

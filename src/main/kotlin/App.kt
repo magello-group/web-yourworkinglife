@@ -317,33 +317,57 @@ val App = FC<Props> {
                     actualProfession = currentProfession
                 }
             }
-            "luck" -> {
+            "luck", "depressed" -> {
 
                 div {
 
                     EventList {
                         selectedView = currentView
                         selectedQuestion = currentQuestion
-
-                        onSelectQuestion = { question ->
-                            currentQuestion = question
-                        }
-
                         selectedProfession = currentProfession
                         selectedPerson = person
                         selectedMessages = currentMessages
+                        selectedHistory = historyMessages
+                        selectedStatus = currentStatus
                         selectedLife = currentLife
+                        selectedEvent = currentEvent
+/*
+                        onSelectQuestion = { question ->
+                            currentQuestion = question
+                        }
+*/
+                        onSelectQuestion = { question, newEvent, newView, newMessages, newProfession,
+                                             newPerson, newHistory, newStatus, newLife ->
+                            currentEvent = newEvent
+                            currentView = newView
+                            currentMessages = newMessages
+                            currentQuestion = question
+                            currentProfession = newProfession
+                            currentPerson = newPerson
+                            historyMessages = newHistory
+                            age = newPerson.age.toString()
+                            currentStatus = newStatus
+                            currentLife = newLife
+                        }
 
-                        onSelectEvent = { newEvent, newView, newMessages, newProfession, newPerson, newLife ->
+                        onSelectEvent = { newEvent, newView, newMessages, newProfession,
+                                          newPerson, newHistory, newStatus, newLife ->
                             currentEvent = newEvent
                             currentView = newView
                             currentMessages = newMessages
                             currentProfession = newProfession
                             currentPerson = newPerson
+                            historyMessages = newHistory
                             age = newPerson.age.toString()
+                            currentStatus = newStatus
                             currentLife = newLife
                         }
                     }
+                }
+
+                //Show animation
+                ShowEventAnimation {
+                    actualProfession = currentProfession
                 }
             }
             "profession", "question" -> {
@@ -352,21 +376,40 @@ val App = FC<Props> {
                     ProfessionList {
                         selectedView = currentView
                         selectedProfession = currentProfession
+                        selectedPerson = person
+                        selectedMessages = currentMessages
+                        selectedHistory = historyMessages
+                        selectedStatus = currentStatus
+                        selectedLife = currentLife
+                        selectedEvent = currentEvent
+/*
                         onSelectQuestion = { question ->
                             currentProfession = question
                         }
+ */
+                        onSelectQuestion = { newEvent, newView, newMessages, question,
+                                             newPerson, newHistory, newStatus, newLife ->
+                            currentProfession = question
+                            currentEvent = newEvent
+                            currentView = newView
+                            currentMessages = newMessages
+                            currentPerson = newPerson
+                            historyMessages = newHistory
+                            age = newPerson.age.toString()
+                            currentStatus = newStatus
+                            currentLife = newLife
+                        }
 
-                        selectedPerson = person
-                        selectedMessages = currentMessages
-                        selectedLife = currentLife
-
-                        onSelectProfession = { newEvent, newView, newMessages, newProfession, newPerson, newLife ->
+                        onSelectProfession = { newEvent, newView, newMessages, newProfession,
+                                               newPerson, newHistory, newStatus, newLife ->
                             currentEvent = newEvent
                             currentView = newView
                             currentMessages = newMessages
                             currentProfession = newProfession
                             currentPerson = newPerson
+                            historyMessages = newHistory
                             age = newPerson.age.toString()
+                            currentStatus = newStatus
                             currentLife = newLife
                         }
                     }

@@ -21,41 +21,21 @@ data class View(
             View(0, "init", emptyList(), "Ditt arbetsliv börjar här... gör dig redo:","Nästa steg", "action"),
             View(1, "action", goalQuestions,"Vilket mål har du med arbetslivet?", "Välj yrke", "profession"),
             View(2, "start", emptyList(),"Ditt arbetsliv har startat!", "Gå vidare i arbetslivet", "reload"),
-            View(3, "luck", luckQuestions,"Vad gör dig lycklig:", "Gå vidare i arbetslivet", "start"),
-            View(4, "profession", professionQuestions,"Vilket yrke väljer du:", "Starta arbetslivet", "luck"),
+            View(3, "luck", luckQuestions,"Vad gör dig lycklig?", "Starta arbetslivet", "start"),
+            View(4, "profession", professionQuestions,"Vilket yrke väljer du?", "Vad gör dig lycklig?", "luck"),
             View(5, "reload", emptyList(),"Mitt i livet", "Traska på", "pension"),
             View(6, "pension", emptyList(),"Nu startar pensionen", "Pensionär", "slut"),
-            View(7, "question", professionQuestions,"Vilket yrke väljer du:", "Gå vidare i arbetslivet", "reload"),
+            View(7, "question", professionQuestions,"Vilket yrke väljer du?", "Gå vidare till nya jobbet", "reload"),
+            View(8, "depressed", luckQuestions,"Vad gör dig lycklig?", "Gå vidare lycklig", "reload")
         )
     }
     fun getNextView(): View {
         var view: View = View(0)
+        val allViews = view.getViewList()
 
-        when(this.nextViewType) {
-            "init" -> {
-                view = this.getViewList()[0]
-            }
-            "action" -> {
-                view = this.getViewList()[1]
-            }
-            "start" -> {
-                view = this.getViewList()[2]
-            }
-            "luck" -> {
-                view = this.getViewList()[3]
-            }
-            "profession" -> {
-                view = this.getViewList()[4]
-            }
-            "reload" -> {
-                view = this.getViewList()[5]
-            }
-            "pension" -> {
-                view = this.getViewList()[6]
-            }
-            "question" -> {
-                view = this.getViewList()[7]
-            }
+        for (next in allViews) {
+            if (this.nextViewType == next.viewType)
+                view = next
         }
 
         return view
@@ -63,32 +43,11 @@ data class View(
 
     fun getNewView(viewType: String): View {
         var view: View = View(0)
+        val allViews = view.getViewList()
 
-        when(viewType) {
-            "init" -> {
-                view = this.getViewList()[0]
-            }
-            "action" -> {
-                view = this.getViewList()[1]
-            }
-            "start" -> {
-                view = this.getViewList()[2]
-            }
-            "luck" -> {
-                view = this.getViewList()[3]
-            }
-            "profession" -> {
-                view = this.getViewList()[4]
-            }
-            "reload" -> {
-                view = this.getViewList()[5]
-            }
-            "pension" -> {
-                view = this.getViewList()[6]
-            }
-            "question" -> {
-                view = this.getViewList()[7]
-            }
+        for (next in allViews) {
+            if (viewType == next.viewType)
+                view = next
         }
 
         return view

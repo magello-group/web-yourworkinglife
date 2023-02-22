@@ -19,17 +19,17 @@ data class Event (
             Event(5, "du får en pandemisk sjukdom 😱", "pandemi", "sick"),
             Event(6, "du blir deprimerad.", "depressed", "sick"),
 
-            Event(7, "du skaffar katt och livet känns härligt 🐱😍", "cat", "luck"),
-            Event(8, "du börjar träna och du känner dig stark 💪 och lycklig", "strong", "luck"),
-            Event(9, "du finner en vän att prata med och livet vänder 🤗", "friend", "luck"),
-            Event(10, "du drar iväg på en lång vandring själv 🚶 och du känner dig fri 😍", "alone", "luck"),
-            Event(11, "du skaffar hund och du känner dig både lycklig och stark 🦖😍", "dog", "luck"),
-            Event(12, "du drar ut och fiskar 🐬 och känner hur du fylls med lycka 😍", "fish", "luck"),
-            Event(13, "du festar järnet och känner hur du fylls med glädje 🤸", "party", "luck"),
-            Event(14, "du skaffar häst och du drar iväg i en härlig galopp 🦄", "horse", "luck"),
-            Event(15, "du älskar pengar och dyker gärna ned i ett kassavalv 💰", "money", "luck"),
-            Event(16, "du köper en bil och du känner dig fri 🚗", "car", "luck"),
-            Event(17, "du köper en motorcykel och älskar mullret när du drar iväg 🛵", "bike", "luck"),
+            Event(7, "Du skaffar katt och livet känns härligt 🐱😍", "cat", "luck"),
+            Event(8, "Du börjar träna och du känner dig stark 💪 och lycklig", "strong", "luck"),
+            Event(9, "Du finner en vän att prata med och livet vänder 🤗", "friend", "luck"),
+            Event(10, "Du drar iväg på en lång vandring själv 🚶 du känner dig fri 😍", "alone", "luck"),
+            Event(11, "Du skaffar hund och du känner dig både lycklig och stark 🦖😍", "dog", "luck"),
+            Event(12, "Du drar ut och fiskar 🐬 och känner hur du fylls med lycka 😍", "fish", "luck"),
+            Event(13, "Du festar järnet och känner hur du fylls med glädje 🤸", "party", "luck"),
+            Event(14, "Du skaffar häst och du drar iväg i en härlig galopp 🦄", "horse", "luck"),
+            Event(15, "Med ett leende på läpparna dyker du ned i ett kassavalv 💰", "money", "luck"),
+            Event(16, "Du köper en bil och du känner dig fri 🚗", "car", "luck"),
+            Event(17, "Du köper en motorcykel och det mullrar när du drar iväg 🛵", "bike", "luck"),
 
             Event(18, "du blir varslad 😢", "unemployed", "unemployed"),
             Event(19, "du byter jobb.", "employed", "unemployed"),
@@ -84,10 +84,11 @@ data class Event (
 
     fun showEvent(messageList: List<Message>, messageId: Int, messageStart: String, messageEnd: String): List<Message> {
         var storyList = messageList
+        val storyId = messageId + 1
 
         storyList = storyList.plus(
             Message(
-                messageId,
+                storyId,
                 messageStart + this.eventText + messageEnd,
                 "",
                 "blinking"
@@ -99,10 +100,11 @@ data class Event (
 
     fun showEventPink(messageList: List<Message>, messageId: Int, messageStart: String, messageEnd: String): List<Message> {
         var storyList = messageList
+        val storyId = messageId + 1
 
         storyList = storyList.plus(
             Message(
-                messageId,
+                storyId,
                 messageStart + this.eventText + messageEnd,
                 "",
                 "blinkingPink"

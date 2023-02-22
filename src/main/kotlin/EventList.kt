@@ -14,21 +14,23 @@ import react.key
 external interface EventListProps : Props {
     var selectedView: View
     var selectedQuestion: Question?
-    var onSelectQuestion: (Question) -> Unit
-
     var selectedProfession: Profession
     var selectedPerson: Person
     var selectedMessages: List<Message>
+    var selectedHistory: List<Message>
+    var selectedStatus: Status
     var selectedLife: Life
+    var selectedEvent: Event
 
-    var onSelectEvent: (Event, View, List<Message>, Profession, Person, Life) -> Unit
+    var onSelectQuestion: (Question, Event, View, List<Message>, Profession, Person, List<Message>, Status, Life) -> Unit
+
+    var onSelectEvent: (Event, View, List<Message>, Profession, Person, List<Message>, Status, Life) -> Unit
 }
 
 val EventList = FC<EventListProps> { props ->
     var actions: List<Question> = props.selectedView.questions
     var selectedEvents: List<Event> = emptyList()
     var allEvents: List<Event>
-    val event = Event(0)
 
     div {
         css {
@@ -59,7 +61,7 @@ val EventList = FC<EventListProps> { props ->
 
                 for (question in actions) {
                     if (question == props.selectedQuestion) {
-                        allEvents = event.getEventList(question.objectType)
+                        allEvents = props.selectedEvent.getEventList(question.objectType)
                         for (action in allEvents) {
                             if (action.objectType == question.objectText) {
                                 selectedEvents = selectedEvents.plus(action)
@@ -102,7 +104,17 @@ val EventList = FC<EventListProps> { props ->
                                                         NamedColor.white
                                             }
                                             onClick = {
-                                                props.onSelectQuestion(question)
+                                                props.onSelectQuestion(
+                                                    question,
+                                                    props.selectedEvent,
+                                                    props.selectedView,
+                                                    props.selectedMessages,
+                                                    props.selectedProfession,
+                                                    props.selectedPerson,
+                                                    props.selectedHistory,
+                                                    props.selectedStatus,
+                                                    props.selectedLife
+                                                )
                                             }
                                             +"▶ "
                                         }
@@ -145,6 +157,8 @@ val EventList = FC<EventListProps> { props ->
                         props.selectedMessages,
                         props.selectedProfession,
                         props.selectedPerson,
+                        props.selectedHistory,
+                        props.selectedStatus,
                         props.selectedLife
                     )
                 }

@@ -30,6 +30,7 @@ external interface ShowStatusRowProps : Props {
     var actualParties: String
     var actualMoney: String
     var firstSalary: String
+    var actualPerson: Person
 }
 
 val ShowStatusRow = FC<ShowStatusRowProps> { props ->
@@ -254,7 +255,12 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 position = Position.absolute
                 top = 610.px
                 left = 460.px
-                color = NamedColor.black
+
+                if (props.actualPerson.findLuck("cat"))
+                    color = NamedColor.hotpink
+                else
+                    color = NamedColor.black
+
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
@@ -270,7 +276,12 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 position = Position.absolute
                 top = 640.px
                 left = 460.px
-                color = NamedColor.black
+
+                if (props.actualPerson.findLuck("dog"))
+                    color = NamedColor.hotpink
+                else
+                    color = NamedColor.black
+
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
@@ -286,7 +297,12 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 position = Position.absolute
                 top = 670.px
                 left = 460.px
-                color = NamedColor.black
+
+                if (props.actualPerson.findLuck("horse"))
+                    color = NamedColor.hotpink
+                else
+                    color = NamedColor.black
+
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
@@ -302,7 +318,12 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 position = Position.absolute
                 top = 700.px
                 left = 460.px
-                color = NamedColor.black
+
+                if (props.actualPerson.findLuck("car"))
+                    color = NamedColor.hotpink
+                else
+                    color = NamedColor.black
+
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
@@ -318,7 +339,12 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 position = Position.absolute
                 top = 730.px
                 left = 460.px
-                color = NamedColor.black
+
+                if (props.actualPerson.findLuck("bike"))
+                    color = NamedColor.hotpink
+                else
+                    color = NamedColor.black
+
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
@@ -337,7 +363,12 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 position = Position.absolute
                 top = 580.px
                 left = 630.px
-                color = NamedColor.black
+
+                if (props.actualPerson.findLuck("friend"))
+                    color = NamedColor.hotpink
+                else
+                    color = NamedColor.black
+
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
@@ -353,7 +384,12 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 position = Position.absolute
                 top = 610.px
                 left = 630.px
-                color = NamedColor.black
+
+                if (props.actualPerson.findLuck("fish"))
+                    color = NamedColor.hotpink
+                else
+                    color = NamedColor.black
+
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
@@ -369,7 +405,12 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 position = Position.absolute
                 top = 640.px
                 left = 630.px
-                color = NamedColor.black
+
+                if (props.actualPerson.findLuck("strong"))
+                    color = NamedColor.hotpink
+                else
+                    color = NamedColor.black
+
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
@@ -385,7 +426,12 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 position = Position.absolute
                 top = 670.px
                 left = 630.px
-                color = NamedColor.black
+
+                if (props.actualPerson.findLuck("alone"))
+                    color = NamedColor.hotpink
+                else
+                    color = NamedColor.black
+
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
@@ -401,7 +447,10 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 position = Position.absolute
                 top = 700.px
                 left = 630.px
-                color = NamedColor.black
+                if (props.actualPerson.findLuck("party"))
+                    color = NamedColor.hotpink
+                else
+                    color = NamedColor.black
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
@@ -417,7 +466,12 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 position = Position.absolute
                 top = 730.px
                 left = 630.px
-                color = NamedColor.black
+
+                if (props.actualPerson.findLuck("money"))
+                    color = NamedColor.hotpink
+                else
+                    color = NamedColor.black
+
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive

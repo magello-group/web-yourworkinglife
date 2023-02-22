@@ -59,11 +59,24 @@ data class Person (val id: Int) {
         }
         return cost
     }
+
+    fun findLuck(hobby: String): Boolean {
+        var love: Boolean = false
+
+        for(luck in this.events) {
+            if (hobby == luck.objectType)
+                love = true
+        }
+
+        return love
+    }
+
     fun showPersonAccomodation(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
         var message: Message
 
+        storyId += 1
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -72,9 +85,9 @@ data class Person (val id: Int) {
                 ""
             )
         )
-        storyId += 1
 
         if (this.house.houseAmount.toInt() > 0) {
+            storyId += 1
             message = Message(
                 storyId,
                 "Värde: ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
@@ -83,11 +96,10 @@ data class Person (val id: Int) {
             )
             message.status.houseAmount = this.house.houseAmount.toInt().formatDecimalSeparator()
             storyList = storyList.plus(message)
-
-            storyId += 1
         }
 
         if (this.house.isMortgage) {
+            storyId += 1
             message = Message(
                 storyId,
                 "Lån: ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK.",
@@ -98,7 +110,6 @@ data class Person (val id: Int) {
             storyList = storyList.plus(message)
 
             storyId += 1
-
             storyList = storyList.plus(
                 Message(
                     storyId,
@@ -109,7 +120,6 @@ data class Person (val id: Int) {
             )
 
             storyId += 1
-
             storyList = storyList.plus(
                 Message(
                     storyId,
@@ -118,10 +128,10 @@ data class Person (val id: Int) {
                     ""
                 )
             )
-            storyId += 1
         }
 
         if (this.house.houseType == "hyresrätt") {
+            storyId += 1
             message = Message(
                 storyId,
                 "Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
@@ -130,9 +140,8 @@ data class Person (val id: Int) {
             )
             message.status.houseHireAmount = this.house.houseMonthPayment.toInt().formatDecimalSeparator()
             storyList = storyList.plus(message)
-
-            storyId += 1
         } else {
+            storyId += 1
             message = Message(
                 storyId,
                 "Månadskostnad: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
@@ -141,9 +150,23 @@ data class Person (val id: Int) {
             )
             message.status.houseHireAmount = this.house.houseMonthPayment.toInt().formatDecimalSeparator()
             storyList = storyList.plus(message)
-
-            storyId += 1
         }
+
+        return storyList
+    }
+
+    fun showTherapist(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        var storyId = messageId + 1
+
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Du är deprimerad och sitter med en samtalsterapeut, vad blir du glad av? frågar hon.",
+                "",
+                "blinkingRed"
+            )
+        )
 
         return storyList
     }
@@ -152,6 +175,7 @@ data class Person (val id: Int) {
         var storyList = messageList
         var storyId = messageId
 
+        storyId += 1
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -160,8 +184,8 @@ data class Person (val id: Int) {
                 "blinkingRed"
             )
         )
-        storyId += 1
 
+        storyId += 1
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -170,8 +194,8 @@ data class Person (val id: Int) {
                 ""
             )
         )
-        storyId += 1
 
+        storyId += 1
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -186,7 +210,7 @@ data class Person (val id: Int) {
 
     fun showPersonNoHouseLoan(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId
+        val storyId = messageId + 1
 
         storyList = storyList.plus(
             Message(
@@ -202,7 +226,7 @@ data class Person (val id: Int) {
 
     fun showPersonLoanReady(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId
+        val storyId = messageId + 1
 
         storyList = storyList.plus(
             Message(
@@ -212,6 +236,7 @@ data class Person (val id: Int) {
                 "blinking"
             )
         )
+
         return storyList
     }
 
@@ -219,6 +244,7 @@ data class Person (val id: Int) {
         var storyList = messageList
         var storyId = messageId
 
+        storyId += 1
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -229,7 +255,6 @@ data class Person (val id: Int) {
         )
 
         storyId += 1
-
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -240,7 +265,6 @@ data class Person (val id: Int) {
         )
 
         storyId += 1
-
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -255,11 +279,11 @@ data class Person (val id: Int) {
 
     fun showPersonLuck(messageList: List<Message>, messageId: Int, event: Event): List<Message> {
         var storyList = messageList
-        var storyId = messageId
+        val storyId = messageId + 1
 
         val message = Message(
             storyId,
-            "Härligt! " + event.eventText,
+            event.eventText,
             "",
             "blinking"
         )
@@ -277,42 +301,18 @@ data class Person (val id: Int) {
             "fish"  -> { message.status.countFishes = this.countFishes.toString() }
 
         }
-
         storyList = storyList.plus(message)
-/*
-        storyId += 1
 
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Njut av dom små stunderna och glöm sorger och besvär 😇",
-                "",
-                "blinking"
-            )
-        )
-
-        storyId += 1
-
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Så håller du dig frisk! 🍀",
-                "",
-                "blinking"
-            )
-        )
-
-
- */
         return storyList
     }
 
     fun showPersonMagellit(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
+        val storyId = messageId + 1
 
         storyList = storyList.plus(
             Message(
-                messageId,
+                storyId,
                 "Wow!! Du är träffad av en magellit 🚀 då blir du inte varslad.",
                 "",
                 "blinking"
@@ -323,10 +323,11 @@ data class Person (val id: Int) {
 
     fun showPersonAccomodationSold(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
+        val storyId = messageId + 1
 
         storyList = storyList.plus(
             Message(
-                messageId,
+                storyId,
                 "Dags att sälja det gamla boendet! du får ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
@@ -337,10 +338,11 @@ data class Person (val id: Int) {
 
     fun showSkuldsanering(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
+        val storyId = messageId + 1
 
         storyList = storyList.plus(
             Message(
-                messageId,
+                storyId,
                 "Du måste skuldsanera och säljer ditt boende! du får ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
@@ -353,6 +355,7 @@ data class Person (val id: Int) {
         var storyList = messageList
         var storyId = messageId
 
+        storyId += 1
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -363,7 +366,6 @@ data class Person (val id: Int) {
         )
 
         storyId += 1
-
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -372,6 +374,7 @@ data class Person (val id: Int) {
                 ""
             )
         )
+
         return storyList
     }
 
@@ -379,6 +382,7 @@ data class Person (val id: Int) {
         var storyList = messageList
         var storyId = messageId
 
+        storyId += 1
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -389,7 +393,6 @@ data class Person (val id: Int) {
         )
 
         storyId += 1
-
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -398,11 +401,13 @@ data class Person (val id: Int) {
                 ""
             )
         )
+
         return storyList
     }
 
     fun showPersonAccomodationHire(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
+        val storyId = messageId + 1
 
         storyList = storyList.plus(
             Message(
@@ -418,10 +423,11 @@ data class Person (val id: Int) {
 
     fun showPersonAccomodationShift(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
+        val storyId = messageId + 1
 
         storyList = storyList.plus(
             Message(
-                messageId,
+                storyId,
                 "Du byter hyresrätt.",
                 "",
                 "blinking"
@@ -435,6 +441,7 @@ data class Person (val id: Int) {
         var storyList = messageList
         var storyId = messageId
 
+        storyId += 1
         val message = Message(
             storyId,
             "----------------------- Du är ${age} år ------------------------",
@@ -444,10 +451,8 @@ data class Person (val id: Int) {
         message.status.age = age.toString()
         storyList = storyList.plus(message)
 
-        storyId += 1
-
         if (age == this.age) {
-
+            storyId += 1
             storyList = storyList.plus(
                 Message(
                     storyId,
@@ -456,8 +461,8 @@ data class Person (val id: Int) {
                     ""
                 )
             )
-            storyId += 1
 
+            storyId += 1
             storyList = storyList.plus(
                 Message(
                     storyId,
@@ -466,8 +471,8 @@ data class Person (val id: Int) {
                     ""
                 )
             )
-            storyId += 1
 
+            storyId += 1
             storyList = storyList.plus(
                 Message(
                     storyId,
@@ -476,8 +481,8 @@ data class Person (val id: Int) {
                     ""
                 )
             )
-            storyId += 1
 
+            storyId += 1
             storyList = storyList.plus(
                 Message(
                     storyId,

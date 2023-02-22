@@ -118,7 +118,7 @@ data class Union( val personId: Int ) {
         var storyId = messageId
 
         if (this.isIncomeInsurance && this.isExtraInsurance) {
-
+            storyId += 1
             storyList =
                  storyList.plus(
                     Message(
@@ -130,7 +130,6 @@ data class Union( val personId: Int ) {
                 )
 
             storyId += 1
-
             storyList =
                 storyList.plus(
                     Message(
@@ -142,7 +141,6 @@ data class Union( val personId: Int ) {
                 )
 
             storyId += 1
-
             storyList =
                 storyList.plus(
                     Message(
@@ -153,11 +151,8 @@ data class Union( val personId: Int ) {
                     )
                 )
 
-            storyId += 1
-
-
             if (this.countUnEmployeeMonth > 200) {
-
+                storyId += 1
                 storyList = storyList.plus(
                     Message(
                         storyId,
@@ -168,12 +163,10 @@ data class Union( val personId: Int ) {
                         ""
                     )
                 )
-
-                storyId += 1
             }
 
         } else if (this.isIncomeInsurance) {
-
+            storyId += 1
             storyList =
                 storyList.plus(
                     Message(
@@ -185,7 +178,6 @@ data class Union( val personId: Int ) {
                 )
 
             storyId += 1
-
             storyList =
                 storyList.plus(
                     Message(
@@ -197,7 +189,6 @@ data class Union( val personId: Int ) {
                 )
 
             storyId += 1
-
             storyList =
                 storyList.plus(
                     Message(
@@ -209,7 +200,6 @@ data class Union( val personId: Int ) {
                 )
 
             storyId += 1
-
             if (this.countUnEmployeeMonth > 150) {
 
                 storyList = storyList.plus(
@@ -222,8 +212,6 @@ data class Union( val personId: Int ) {
                         ""
                     )
                 )
-
-                storyId += 1
             }
         } else {
             this.showAkassa(storyList, storyId)
@@ -297,6 +285,7 @@ data class Union( val personId: Int ) {
         var storyList = messageList
         var storyId = messageId
 
+        storyId += 1
         storyList = storyList.plus(
             Message(
                  storyId,
@@ -307,7 +296,6 @@ data class Union( val personId: Int ) {
         )
 
         storyId += 1
-
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -318,7 +306,6 @@ data class Union( val personId: Int ) {
         )
 
         storyId += 1
-
         storyList =
             storyList.plus(
                 Message(
@@ -329,10 +316,8 @@ data class Union( val personId: Int ) {
                 )
             )
 
-        storyId += 1
-
         if (this.countUnEmployeeMonth > 200) {
-
+            storyId += 1
             storyList = storyList.plus(
                 Message(
                     storyId,
@@ -343,7 +328,6 @@ data class Union( val personId: Int ) {
                     ""
                 )
             )
-            storyId += 1
         }
 
         return storyList
@@ -370,6 +354,7 @@ data class Union( val personId: Int ) {
         var storyList = messageList
         var storyId = messageId
 
+        storyId += 1
         storyList = storyList.plus(
             Message(
                  storyId,
@@ -380,7 +365,6 @@ data class Union( val personId: Int ) {
         )
 
         storyId += 1
-
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -390,17 +374,16 @@ data class Union( val personId: Int ) {
             )
         )
 
-        storyId += 1
-
         return storyList
     }
 
     fun showCountUnEmployeeMonth(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
+        val storyId = messageId + 1
 
         storyList = storyList.plus(
             Message(
-                messageId,
+                storyId,
                 "Åh nej :( du är arbetslös i ${this.countUnEmployeeMonth * 22} dagar.",
                 "orange",
                 ""

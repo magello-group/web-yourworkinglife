@@ -164,7 +164,7 @@ data class Profession(
             ),
             Profession(
                 26, "teacher", "Lärare", "Du jobbar som lärare",
-                0.0F, 50800.0F, 1500.0F, 65, "vacation",40,40,10, 10
+                0.0F, 35000.0F, 900.0F, 65, "vacation",40,40,10, 10
             ),
             Profession(
                 27, "Programmerare", "Programmerar", "Du jobbar som programmerare på en myndighet",
@@ -261,12 +261,45 @@ data class Profession(
 
     fun showNewProfession(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
+        val storyId = messageId + 1
 
         val message: Message = Message(
-            messageId,
-            "Du byter jobb! ${this.professionText}.",
+            storyId,
+            "Dags att börja ditt nya jobb! ${this.professionText}.",
             "",
             "blinking"
+        )
+        message.status.profession = this.title
+        storyList = storyList.plus(message)
+
+        return storyList
+    }
+    fun showSearchProfession(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        val storyId = messageId + 1
+
+        val message: Message = Message(
+            storyId,
+            "Dags att söka nytt jobb!",
+            "",
+            "blinking"
+        )
+        message.status.profession = this.title
+        storyList = storyList.plus(message)
+
+        return storyList
+    }
+
+    fun showCurrentProfession(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        val storyId = messageId + 1
+        var message: Message
+
+        message = Message(
+            storyId,
+            "Du jobbar som ${this.title}.",
+            "",
+            ""
         )
         message.status.profession = this.title
         storyList = storyList.plus(message)

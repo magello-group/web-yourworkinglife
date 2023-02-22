@@ -36,6 +36,7 @@ data class Parent (val personId: Int) {
         val message: Message
 
         if (this.countBabies == 1) {
+            storyId += 1
             message = Message(
                 storyId,
                 "Stort grattis!! du har fått barn!",
@@ -46,6 +47,7 @@ data class Parent (val personId: Int) {
             storyList = storyList.plus(message)
 
         } else {
+            storyId += 1
             message = Message(
                 storyId,
                 "Stort grattis!! du har fått ett till barn och du har nu ${ this.countBabies } barn!",
@@ -57,7 +59,6 @@ data class Parent (val personId: Int) {
         }
 
         storyId += 1
-
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -68,7 +69,6 @@ data class Parent (val personId: Int) {
         )
 
         storyId += 1
-
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -85,6 +85,7 @@ data class Parent (val personId: Int) {
         var storyList = messageList
         var storyId = messageId
 
+        storyId += 1
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -95,7 +96,6 @@ data class Parent (val personId: Int) {
         )
 
         storyId += 1
-
         storyList = storyList.plus(
             Message(
                 storyId,

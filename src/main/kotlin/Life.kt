@@ -13,6 +13,7 @@ data class Life ( val personId: Int) {
     var accountTax = Account(4, "skatt")
     var accountNoAkassa = Account(5, "noakassa")
     var messageList: List<Message> = emptyList()
+    var lastMessageId: Int = 0
     var isPandemi = false
     var isBoom = false
     var isRecession = false
