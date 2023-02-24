@@ -215,6 +215,25 @@ data class Account( val accountId: Int, val accountType: String) {
         return storyList
     }
 
+    fun showSumAccountCost(messageList: List<Message>, messageId: Int, cost: Float): List<Message> {
+        var storyList = messageList
+        var storyId = messageId
+
+        storyId += 1
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Summa kostnader per månad: ${
+                    cost.toInt().formatDecimalSeparator()
+                } SEK",
+                "",
+                ""
+            )
+        )
+
+        return storyList
+    }
+
     fun showSkuldsanering(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId + 1

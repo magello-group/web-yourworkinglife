@@ -53,7 +53,7 @@ data class Person (val id: Int) {
         var cost: Float = 0.0F
 
         if (this.cats.isNotEmpty()) {
-            cost += this.cats.size * this.cats[0].costHobby() * 12
+            cost += this.cats.size * this.cats[0].costHobby() * 12.0F
         }
 
         if (this.dogs.isNotEmpty()) {
@@ -83,6 +83,71 @@ data class Person (val id: Int) {
         return cost
     }
 
+    fun isHappyPerson(): Boolean {
+        var isLuck = false
+
+        for (event in this.luckEvents) {
+            when (event.objectType) {
+                "cat" -> {
+                    if (this.cats.isNotEmpty())
+                        isLuck = true
+                }
+
+                "strong" -> {
+                    if (this.countStrong > 0)
+                        isLuck = true
+                }
+
+                "friend" -> {
+                    if (this.countFriends > 0)
+                        isLuck = true
+                }
+
+                "walk" -> {
+                    if (this.countWalking > 0)
+                        isLuck = true
+                }
+
+                "dog" -> {
+                    if (this.dogs.isNotEmpty())
+                        isLuck = true
+                }
+
+                "fish" -> {
+                    if (this.countFishing > 0)
+                        isLuck = true
+                }
+
+                "party" -> {
+                    if (this.parties.isNotEmpty())
+                        isLuck = true
+                }
+
+                "horse" -> {
+                    if (this.horses.isNotEmpty())
+                        isLuck = true
+                }
+
+                "boat" -> {
+                    if (this.boats.isNotEmpty())
+                        isLuck = true
+                }
+
+                "car" -> {
+                    if (this.cars.isNotEmpty())
+                        isLuck = true
+                }
+
+                "bike" -> {
+                    if (this.bikes.isNotEmpty())
+                        isLuck = true
+                }
+            }
+        }
+
+        return isLuck
+    }
+
     fun ShowDeadHobbies(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
@@ -90,50 +155,125 @@ data class Person (val id: Int) {
 
         for (cat in this.cats) {
             cat.age += 1
-            if (cat.age > cat.maxAge)
-                cats = cats.minus(cat)
+            if (cat.age > cat.maxAge) {
+                this.cats = this.cats.minus(cat)
+
+                storyId += 1
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "Sorgligt, en av dina katter är gammal och fick avlivas",
+                        "",
+                        "blinking"
+                    )
+                )
+            }
         }
 
         for (dog in this.dogs) {
             dog.age += 1
-            if (dog.age > dog.maxAge)
-                cats = cats.minus(dog)
+            if (dog.age > dog.maxAge) {
+                dogs = dogs.minus(dog)
+
+                storyId += 1
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "Sorgligt, en av dina hundar är gammal och fick avlivas",
+                        "",
+                        "blinking"
+                    )
+                )
+            }
         }
 
         for (horse in this.horses) {
             horse.age += 1
-            if (horse.age > horse.maxAge)
-                cats = cats.minus(horse)
+            if (horse.age > horse.maxAge) {
+                horses = horses.minus(horse)
+
+                storyId += 1
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "Sorgligt, en av dina hästar är gammal och fick avlivas",
+                        "",
+                        "blinking"
+                    )
+                )
+            }
         }
 
         for (car in this.cars) {
             car.age += 1
-            if (car.age > car.maxAge)
-                cats = cats.minus(car)
+            if (car.age > car.maxAge) {
+                cars = cars.minus(car)
+
+                storyId += 1
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "Sorgligt, en av dina bilar är gammal och fick skrotas",
+                        "",
+                        "blinking"
+                    )
+                )
+            }
         }
 
         for (bike in this.bikes) {
             bike.age += 1
-            if (bike.age > bike.maxAge)
-                cats = cats.minus(bike)
+            if (bike.age > bike.maxAge) {
+                bikes = bikes.minus(bike)
+
+                storyId += 1
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "Sorgligt, en av dina motorcyklar är gammal och fick skrotas",
+                        "",
+                        "blinking"
+                    )
+                )
+            }
         }
 
         for (boat in this.boats) {
             boat.age += 1
-            if (boat.age > boat.maxAge)
-                cats = cats.minus(boat)
+            if (boat.age > boat.maxAge) {
+                boats = boats.minus(boat)
+
+                storyId += 1
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "Sorgligt, en av dina segelbåtar är gammal och sjönk ned i havet",
+                        "",
+                        "blinking"
+                    )
+                )
+            }
         }
 
         for (party in this.parties) {
             party.age += 1
-            if (party.age > party.maxAge)
-                cats = cats.minus(party)
+            if (party.age > party.maxAge) {
+                parties = parties.minus(party)
+
+                storyId += 1
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "Sorgligt, festen tog slut",
+                        "",
+                        "blinking"
+                    )
+                )
+            }
         }
-        //TODO
 
         return storyList
     }
-
 
     fun showPersonAccomodation(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
@@ -187,34 +327,25 @@ data class Person (val id: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Avbetalning lån: ${this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+                    "Avbetalning lån per månad: ${
+                        this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()
+                    } SEK.",
                     "",
                     ""
                 )
             )
         }
 
-        if (this.house.houseType == "hyresrätt") {
-            storyId += 1
-            message = Message(
-                storyId,
-                "Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
-                "",
-                ""
-            )
-            message.status.houseHireAmount = this.house.houseMonthPayment.toInt().formatDecimalSeparator()
-            storyList = storyList.plus(message)
-        } else {
-            storyId += 1
-            message = Message(
-                storyId,
-                "Månadskostnad: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
-                "",
-                ""
-            )
-            message.status.houseHireAmount = this.house.houseMonthPayment.toInt().formatDecimalSeparator()
-            storyList = storyList.plus(message)
-        }
+        storyId += 1
+        message = Message(
+            storyId,
+            "Månadskostnad: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+            "",
+            ""
+        )
+        message.status.houseHireAmount = this.house.houseMonthPayment.toInt().formatDecimalSeparator()
+        storyList = storyList.plus(message)
+
 
         return storyList
     }
@@ -403,8 +534,9 @@ data class Person (val id: Int) {
 
     fun showSkuldsanering(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId + 1
+        var storyId = messageId
 
+        storyId += 1
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -413,6 +545,17 @@ data class Person (val id: Int) {
                 ""
             )
         )
+
+        storyId += 1
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Istället skaffar du en hyresrätt.",
+                "hotpink",
+                ""
+            )
+        )
+
         return storyList
     }
 
@@ -434,7 +577,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Månadskostnad hus ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+                "Månadskostnad hus: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
             )
@@ -451,7 +594,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Bostadsrätten kostar ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
+                "Bostadsrätten kostar: ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
             )
