@@ -64,13 +64,16 @@ data class Union( val personId: Int ) {
             this.unEmployedSalary200 = salary * this.insurancePercentage
 
             //Arbetslöshetssersättning * antal månader max 200 dagar
-            sum = if (this.countUnEmployeeMonth > month200.toInt())
-                this.unEmployedSalary200 * month200
-            else
-                this.unEmployedSalary200 * this.countUnEmployeeMonth.toDouble()
+           if (this.countUnEmployeeMonth > month200.toInt()) {
+                sum = this.unEmployedSalary200 * month200
 
-            //Efter 200 dagar till 300 dagar ingår a-kassa
-            leftMonth = this.countUnEmployeeMonth - month200.toInt()
+                //Efter 200 dagar till 300 dagar ingår a-kassa
+                leftMonth = this.countUnEmployeeMonth - month200.toInt()
+            } else {
+                sum = this.unEmployedSalary200 * this.countUnEmployeeMonth.toDouble()
+                //Efter 200 dagar till 300 dagar ingår a-kassa
+                leftMonth = 0
+            }
 
             if (salary >= this.maxSalaryAkassa300)
                 this.unEmployedSalary300 = this.maxSalaryAkassa300
@@ -113,7 +116,7 @@ data class Union( val personId: Int ) {
         return sum
     }
 
-    fun showIncomeInsurance(messageList: List<Message>, messageId: Int): List<Message> {
+    fun showIncomeInsurance(messageList: List<Message>, messageId: Int, amount: Double): List<Message> {
         var storyList = messageList
         var storyId = messageId
 
@@ -217,6 +220,19 @@ data class Union( val personId: Int ) {
             this.showAkassa(storyList, storyId)
         }
 
+        storyId += 1
+        storyList =
+            storyList.plus(
+                Message(
+                    storyId,
+                    "Summa bidrag: ${
+                        amount.toInt().formatDecimalSeparator()
+                    } SEK.",
+                    "hotpink",
+                    ""
+                )
+            )
+
         return storyList
     }
 
@@ -247,7 +263,11 @@ data class Union( val personId: Int ) {
                 else
                     this.maxSalaryAkassa300
 
-                leftMonth = this.countUnEmployeeMonth - month100.toInt()
+                if (this.countUnEmployeeMonth > month100.toInt()) {
+                    leftMonth = this.countUnEmployeeMonth - month100.toInt()
+                } else {
+                    leftMonth = 0
+                }
 
                 sum200 = if (leftMonth > month200.toInt())
                     this.unEmployedSalary300 * month200
@@ -269,7 +289,11 @@ data class Union( val personId: Int ) {
                 else
                     this.maxSalaryNoAkassa
 
-                leftMonth = this.countUnEmployeeMonth - month100.toInt()
+                if (this.countUnEmployeeMonth > month100.toInt()) {
+                    leftMonth = this.countUnEmployeeMonth - month100.toInt()
+                } else {
+                    leftMonth = 0
+                }
 
                 sum200 = if (leftMonth > month200.toInt())
                     this.unEmployedSalary300 * month200
@@ -350,7 +374,7 @@ data class Union( val personId: Int ) {
         return sum
     }
 
-    fun showNoAkassa(messageList: List<Message>, messageId: Int): List<Message> {
+    fun showNoAkassa(messageList: List<Message>, messageId: Int, amount: Double): List<Message> {
         var storyList = messageList
         var storyId = messageId
 
@@ -373,6 +397,19 @@ data class Union( val personId: Int ) {
                 ""
             )
         )
+
+        storyId += 1
+        storyList =
+            storyList.plus(
+                Message(
+                    storyId,
+                    "Summa bidrag: ${
+                        amount.toInt().formatDecimalSeparator()
+                    } SEK.",
+                    "hotpink",
+                    ""
+                )
+            )
 
         return storyList
     }

@@ -117,11 +117,11 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
                     if (message.status.countCars != "") currentStatus.countCars = message.status.countCars
                     if (message.status.countBikes != "") currentStatus.countBikes = message.status.countBikes
                     if (message.status.countParties != "") currentStatus.countParties = message.status.countParties
-                    if (message.status.countAlone != "") currentStatus.countAlone = message.status.countAlone
-                    if (message.status.countFishes != "") currentStatus.countFishes = message.status.countFishes
+                    if (message.status.countWalking != "") currentStatus.countWalking = message.status.countWalking
+                    if (message.status.countFishing != "") currentStatus.countFishing = message.status.countFishing
                     if (message.status.countFriends != "") currentStatus.countFriends = message.status.countFriends
                     if (message.status.countBabies != "") currentStatus.countBabies = message.status.countBabies
-                    if (message.status.countMoney != "") currentStatus.countMoney = message.status.countMoney
+                    if (message.status.countBoats != "") currentStatus.countBoats = message.status.countBoats
                     if (message.status.countStrong != "") currentStatus.countStrong = message.status.countStrong
 
                     ShowMessage {
@@ -352,10 +352,10 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
         actualBabies = currentStatus.countBabies
         actualBikes = currentStatus.countBikes
         actualParties = currentStatus.countParties
-        actualAlone = currentStatus.countAlone
-        actualFishes = currentStatus.countFishes
+        actualWalking = currentStatus.countWalking
+        actualFishing = currentStatus.countFishing
         actualFriends = currentStatus.countFriends
-        actualMoney = currentStatus.countMoney
+        actualBoats = currentStatus.countBoats
         actualStrong = currentStatus.countStrong
     }
 }

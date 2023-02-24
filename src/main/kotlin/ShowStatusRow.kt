@@ -355,6 +355,27 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 +props.actualBikes
         }
 
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 760.px
+                left = 630.px
+
+                if (props.actualPerson.findLuck("boat"))
+                    color = NamedColor.hotpink
+                else
+                    color = NamedColor.black
+
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            +"Segelbåtar: "
+            if (props.actualBoats != "")
+                +props.actualBoats
+        }
+
     }
 
     div {
@@ -459,27 +480,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
             +"Fester: "
             if (props.actualParties != "")
                 +props.actualParties
-        }
-
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top = 730.px
-                left = 630.px
-
-                if (props.actualPerson.findLuck("boat"))
-                    color = NamedColor.hotpink
-                else
-                    color = NamedColor.black
-
-                fontSize = 18.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-            +"Segelbåtar: "
-            if (props.actualBoats != "")
-                +props.actualBoats
         }
 
         p {

@@ -159,14 +159,14 @@ data class Person (val id: Int) {
                 this.cats = this.cats.minus(cat)
 
                 storyId += 1
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Sorgligt, en av dina katter är gammal och fick avlivas",
-                        "",
-                        "blinking"
-                    )
+                message = Message(
+                storyId,
+                "Sorgligt, en av dina katter är gammal och fick avlivas",
+                "",
+                "blinking"
                 )
+                message.status.countCats = this.cats.size.toString()
+                storyList = storyList.plus(message)
             }
         }
 
@@ -176,14 +176,14 @@ data class Person (val id: Int) {
                 dogs = dogs.minus(dog)
 
                 storyId += 1
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Sorgligt, en av dina hundar är gammal och fick avlivas",
-                        "",
-                        "blinking"
-                    )
+                message = Message(
+                    storyId,
+                    "Sorgligt, en av dina hundar är gammal och fick avlivas",
+                    "",
+                    "blinking"
                 )
+                message.status.countDogs = this.dogs.size.toString()
+                storyList = storyList.plus(message)
             }
         }
 
@@ -193,14 +193,14 @@ data class Person (val id: Int) {
                 horses = horses.minus(horse)
 
                 storyId += 1
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Sorgligt, en av dina hästar är gammal och fick avlivas",
-                        "",
-                        "blinking"
-                    )
+                message = Message(
+                    storyId,
+                    "Sorgligt, en av dina hästar är gammal och fick avlivas",
+                    "",
+                    "blinking"
                 )
+                message.status.countHorses = this.horses.size.toString()
+                storyList = storyList.plus(message)
             }
         }
 
@@ -210,14 +210,14 @@ data class Person (val id: Int) {
                 cars = cars.minus(car)
 
                 storyId += 1
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Sorgligt, en av dina bilar är gammal och fick skrotas",
-                        "",
-                        "blinking"
-                    )
+                message = Message(
+                    storyId,
+                    "Sorgligt, en av dina bilar är gammal och fick skrotas",
+                    "",
+                    "blinking"
                 )
+                message.status.countCars = this.cars.size.toString()
+                storyList = storyList.plus(message)
             }
         }
 
@@ -227,14 +227,14 @@ data class Person (val id: Int) {
                 bikes = bikes.minus(bike)
 
                 storyId += 1
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Sorgligt, en av dina motorcyklar är gammal och fick skrotas",
-                        "",
-                        "blinking"
-                    )
+                message = Message(
+                    storyId,
+                    "Sorgligt, en av dina motorcyklar är gammal och fick skrotas",
+                    "",
+                    "blinking"
                 )
+                message.status.countBikes = this.bikes.size.toString()
+                storyList = storyList.plus(message)
             }
         }
 
@@ -244,14 +244,14 @@ data class Person (val id: Int) {
                 boats = boats.minus(boat)
 
                 storyId += 1
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Sorgligt, en av dina segelbåtar är gammal och sjönk ned i havet",
-                        "",
-                        "blinking"
-                    )
+                message = Message(
+                    storyId,
+                    "Sorgligt, en av dina segelbåtar är gammal och sjönk ned i havet",
+                    "",
+                    "blinking"
                 )
+                message.status.countBoats = this.boats.size.toString()
+                storyList = storyList.plus(message)
             }
         }
 
@@ -261,14 +261,14 @@ data class Person (val id: Int) {
                 parties = parties.minus(party)
 
                 storyId += 1
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Sorgligt, festen tog slut",
-                        "",
-                        "blinking"
-                    )
+                message = Message(
+                    storyId,
+                    "Sorgligt, festen tog slut",
+                    "",
+                    "blinking"
                 )
+                message.status.countParties = this.parties.size.toString()
+                storyList = storyList.plus(message)
             }
         }
 
@@ -359,7 +359,7 @@ data class Person (val id: Int) {
                 storyId,
                 "Du är deprimerad och sitter med en samtalsterapeut, vad blir du glad av? frågar hon.",
                 "",
-                "blinkingRed"
+                "blinkingPink"
             )
         )
 
@@ -376,7 +376,7 @@ data class Person (val id: Int) {
                 storyId,
                 "Du behöver ta ett lån på ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK 😅",
                 "",
-                "blinkingRed"
+                "blinkingPink"
             )
         )
 
@@ -412,7 +412,7 @@ data class Person (val id: Int) {
                 storyId,
                 "Ditt lån blev avslaget så det blev inget boende 🤥",
                 "",
-                "blinkingRed"
+                "blinkingPink"
             )
         )
 
@@ -636,7 +636,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Du byter hyresrätt.",
+                "Du lämnar hyresrätten du har.",
                 "",
                 "blinking"
             )

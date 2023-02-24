@@ -15,7 +15,8 @@ data class Profession(
     var randomUnemployed: Int = 30,
     var randomLuck: Int = 30,
     var randomBonus: Int = 30,
-    var pension: Float = 0.07F
+    var pension: Float = 0.07F,
+    var randomSeverancePay: Int = 0
 ) {
 
     fun getProfessionList(objectType: String): List<Profession> {
@@ -54,27 +55,27 @@ data class Profession(
             ),
             Profession(
                 2, "security", "Säkerhetschef", "Du jobbar som säkerhetschef",
-                0.0F, 67500.0F, 2000.0F, 58, "salary", 30,10, 20, 60,  0.07F
+                0.0F, 67500.0F, 2000.0F, 58, "salary", 30,10, 20, 60,  0.07F, 30
             ),
             Profession(
                 3, "VD", "Verkställande direktör", "Du jobbar som VD på ett spelbolag",
-                0.0F, 163000.0F, 4500.0F, 58, "salary", 30, 10, 20, 60,  0.07F
+                0.0F, 163000.0F, 4500.0F, 58, "salary", 30, 10, 20, 60,  0.07F, 50
             ),
             Profession(
                 4, "ambassador", "Ambassadör", "Du jobbar som ambassadör i Tyskland",
-                0.0F, 100000.0F, 2800.0F, 58, "salary",30,20, 20, 60,  0.07F
+                0.0F, 100000.0F, 2800.0F, 58, "salary",30,20, 20, 60,  0.07F, 50
             ),
             Profession(
                 4, "chef", "Bankchef", "Du jobbar som chef på en bank",
-                0.0F, 88000.0F, 2500.0F, 58, "salary",30,40, 20, 60,  0.07F
+                0.0F, 88000.0F, 2500.0F, 58, "salary",30,40, 20, 60,  0.07F, 30
             ),
             Profession(
                 6, "driftchef", "Driftchef", "Du jobbar som driftchef inom bygg, anläggning och gruva",
-                0.0F, 64000.0F, 2000.0F, 58, "salary",30,40, 20, 60,  0.07F
+                0.0F, 64000.0F, 2000.0F, 58, "salary",30,40, 20, 60,  0.07F,30
             ),
             Profession(
                 7, "advokat", "Advokat", "Du jobbar som Advokat",
-                0.0F, 46400.0F, 1400.0F, 58, "salary",30,10, 20, 60,  0.07F
+                0.0F, 46400.0F, 1400.0F, 58, "salary",30,10, 20, 60,  0.07F, 30
             ),
             Profession(
                 8, "doctor", "Läkare", "Du jobbar som Läkare",
@@ -92,15 +93,15 @@ data class Profession(
             //Pension
             Profession(
                 12, "bank", "Banktjänsteman", "Du jobbar på som banktjänsteman",
-                0.0F, 0.0F, 1000.0F, 58, "pension",30,50, 10, 10,  0.15F
+                0.0F, 0.0F, 1000.0F, 58, "pension",30,50, 10, 10,  0.15F, 50
             ),
             Profession(
                 13, "insurance", "Försäkringsdirektör", "Du jobbar som försäkringsdirektör",
-                0.0F, 100000.0F, 2800.0F, 58, "pension",10,50, 10, 10, 0.15F
+                0.0F, 100000.0F, 2800.0F, 58, "pension",10,50, 10, 10, 0.15F, 50
             ),
             Profession(
                 14, "programmer", "Programmerar", "Du jobbar som programmerare på en bank",
-                0.0F, 40000.0F, 1200.0F, 60, "pension",30,20, 10, 10, 0.15F
+                0.0F, 40000.0F, 1200.0F, 60, "pension",30,20, 10, 10, 0.15F, 50
             ),
 
             //Äventyr
@@ -110,7 +111,7 @@ data class Profession(
             ),
             Profession(
                 16, "pilote", "Pilot", "Du jobbar på ett flygbolag",
-                0.0F, 51100.0F, 1500.0F, 50, "adventure",20,10, 40, 20, 0.07F
+                0.0F, 51100.0F, 1500.0F, 50, "adventure",20,10, 40, 20, 0.07F, 30
             ),
             Profession(
                 17, "fireman", "Brandman", "Du jobbar som brandman",
@@ -140,7 +141,7 @@ data class Profession(
             //Semester
             Profession(
                 23, "authority", "Statsanställd", "Du jobbar på en myndighet",
-                0.0F, 30000.0F, 900.0F, 60, "vacation",30,10, 10, 20, 0.07F
+                0.0F, 30000.0F, 900.0F, 60, "vacation",30,10, 10, 20, 0.07F, 30
             ),
             Profession(
                 24, "travelagent", "Reseledare", "Du jobbar på en resebyrå ",
@@ -156,7 +157,7 @@ data class Profession(
             ),
             Profession(
                 27, "programmer", "Programmerar", "Du jobbar som programmerare på en myndighet",
-                0.0F, 35000.0F, 900.0F, 60, "vacation",30,10,10, 10, 0.07F
+                0.0F, 35000.0F, 900.0F, 60, "vacation",30,10,10, 10, 0.07F, 30
             ),
 
             //Samhället

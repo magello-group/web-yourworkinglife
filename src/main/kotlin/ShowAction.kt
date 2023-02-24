@@ -99,6 +99,21 @@ val ShowAction = FC<ShowActionProps> { props ->
             +"${(props.actualProfession.pension * 100).toInt().formatDecimalSeparator()}%"
         }
 
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 670.px
+                left = 220.px
+                color = NamedColor.black
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            +"Avgångsvederlagchans: "
+            +"${(props.actualProfession.randomSeverancePay * 100).toInt().formatDecimalSeparator()}%"
+        }
+
     }
 
     div {

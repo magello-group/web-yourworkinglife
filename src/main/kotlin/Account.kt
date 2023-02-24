@@ -165,7 +165,7 @@ data class Account( val accountId: Int, val accountType: String) {
                                 this.amount.toInt().formatDecimalSeparator()
                             } SEK (efter kostnadsavdrag) 😒",
                             "",
-                            "blinkingRed"
+                            "blinkingPink"
                         )
                     )
                 } else {
