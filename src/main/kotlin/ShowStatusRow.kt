@@ -24,11 +24,12 @@ external interface ShowStatusRowProps : Props {
     var actualCars: String
     var actualBabies: String
     var actualFriends: String
-    var actualAlone: String
+    var actualWalking: String
     var actualStrong: String
-    var actualFishes: String
+    var actualFishing: String
     var actualParties: String
-    var actualMoney: String
+    var actualBoats: String
+    var actualLoves: String
     var firstSalary: String
     var actualPerson: Person
 }
@@ -395,8 +396,8 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 fontFamily = FontFamily.cursive
             }
             +"Fisketurer: "
-            if (props.actualFishes != "")
-                +props.actualFishes
+            if (props.actualFishing != "")
+                +props.actualFishing
         }
 
         p {
@@ -427,7 +428,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 top = 670.px
                 left = 630.px
 
-                if (props.actualPerson.findLuck("alone"))
+                if (props.actualPerson.findLuck("walk"))
                     color = NamedColor.hotpink
                 else
                     color = NamedColor.black
@@ -437,8 +438,8 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 fontFamily = FontFamily.cursive
             }
             +"Vandringar: "
-            if (props.actualAlone != "")
-                +props.actualAlone
+            if (props.actualWalking != "")
+                +props.actualWalking
         }
 
         p {
@@ -467,7 +468,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 top = 730.px
                 left = 630.px
 
-                if (props.actualPerson.findLuck("money"))
+                if (props.actualPerson.findLuck("boat"))
                     color = NamedColor.hotpink
                 else
                     color = NamedColor.black
@@ -476,9 +477,30 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +"Bankvalv: "
-            if (props.actualMoney != "")
-                +props.actualMoney
+            +"Segelbåtar: "
+            if (props.actualBoats != "")
+                +props.actualBoats
+        }
+
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 730.px
+                left = 630.px
+
+                if (props.actualPerson.findLuck("love"))
+                    color = NamedColor.hotpink
+                else
+                    color = NamedColor.black
+
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            +"Sambos: "
+            if (props.actualLoves != "")
+                +props.actualLoves
         }
 
     }

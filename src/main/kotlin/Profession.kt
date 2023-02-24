@@ -43,20 +43,7 @@ data class Profession(
             1331	Forsknings- och utvecklingschefer, nivå 1	78 500
             1361	Driftchefer inom bygg, anläggning och gruva, nivå 1	78 000
             1311	IT-chefer, nivå 1	76 000
-
-            HÄR ÄR DE 10 YRKEN SOM HAR HÖGST STATUS JUST NU ENLIGT UNDERSÖKNINGEN:
-            Läkare
-            VD
-            verkställande direktör
-            Advokat
-            Professor
-            Domare
-            Ambassadör
-            Statsråd
-            Forskare
-            Pilot
-            Ingenjör
-         */
+        */
 
         return listOf(
             //Salary
@@ -73,7 +60,7 @@ data class Profession(
                 0.0F, 163000.0F, 4500.0F, 58, "salary", 30, 10, 20, 60
             ),
             Profession(
-                4, "ambassadör", "Ambassadör", "Du jobbar som ambassadör i Tyskland",
+                4, "ambassador", "Ambassadör", "Du jobbar som ambassadör i Tyskland",
                 0.0F, 100000.0F, 2800.0F, 58, "salary",30,20, 20, 60
             ),
             Profession(
@@ -89,11 +76,11 @@ data class Profession(
                 0.0F, 46400.0F, 1400.0F, 58, "salary",30,10, 20, 60
             ),
             Profession(
-                8, "läkare", "Läkare", "Du jobbar som Läkare",
+                8, "doctor", "Läkare", "Du jobbar som Läkare",
                 0.0F, 58000.0F, 1700.0F, 58, "salary",10,10, 20, 60
             ),
             Profession(
-                9, "Programmerare", "Programmerar", "Du jobbar som programmerare på ett säkerhetsbolag",
+                9, "programmer", "Programmerar", "Du jobbar som programmerare på ett säkerhetsbolag",
                 0.0F, 58000.0F, 1700.0F, 58, "salary",30,10, 20, 60
             ),
             Profession(
@@ -111,7 +98,7 @@ data class Profession(
                 0.0F, 100000.0F, 2800.0F, 58, "pension",10,50, 10, 10
             ),
             Profession(
-                14, "Programmerare", "Programmerar", "Du jobbar som programmerare på en bank",
+                14, "programmer", "Programmerar", "Du jobbar som programmerare på en bank",
                 0.0F, 40000.0F, 1200.0F, 60, "pension",30,20, 10, 10
             ),
 
@@ -145,7 +132,7 @@ data class Profession(
                 0.0F, 30000.0F, 900.0F, 60, "adventure",40,40, 40, 20
             ),
             Profession(
-                22, "Programmerare", "Programmerar", "Du jobbar som programmerare hos underrättelsetjänsten",
+                22, "programmer", "Programmerar", "Du jobbar som programmerare hos underrättelsetjänsten",
                 0.0F, 50000.0F, 1500.0F, 60, "adventure",40,10, 40, 20
             ),
 
@@ -167,7 +154,7 @@ data class Profession(
                 0.0F, 35000.0F, 900.0F, 65, "vacation",40,40,10, 10
             ),
             Profession(
-                27, "Programmerare", "Programmerar", "Du jobbar som programmerare på en myndighet",
+                27, "programmer", "Programmerar", "Du jobbar som programmerare på en myndighet",
                 0.0F, 35000.0F, 900.0F, 60, "vacation",30,10,10, 10
             ),
 
@@ -185,11 +172,11 @@ data class Profession(
                 0.0F, 25000.0F, 700.0F, 60, "family",20,20, 40, 10
             ),
             Profession(
-                31, "Programmerare", "Programmerar", "Du jobbar som programmerare hos polisen",
+                31, "programmer", "Programmerar", "Du jobbar som programmerare hos polisen",
                 0.0F, 39000.0F, 1000.0F, 60, "family",30,10, 40, 10
             ),
             Profession(
-                32, "Socialassistent", "Socialassistent", "Du jobbar som socialassistent",
+                32, "socialworker", "Socialassistent", "Du jobbar som socialassistent",
                 0.0F, 32000.0F, 900.0F, 60, "family",40,20, 40, 10
             ),
 
@@ -219,7 +206,7 @@ data class Profession(
                 0.0F, 39000.0F, 1000.0F, 60, "chilla",20,50, 50, 60
             ),
             Profession(
-                39, "Programmerare", "Programmerar", "Du jobbar som programmerare på en högskola",
+                39, "programmer", "Programmerar", "Du jobbar som programmerare på en högskola",
                 0.0F, 40000.0F, 1000.0F, 60, "chilla",30,10, 50, 10
             ),
 
@@ -253,7 +240,7 @@ data class Profession(
             0.0F, 40000.0F, 1200.0F, 60, "fun",30,40, 60, 10
             ),
             Profession(
-                47, "Programmerare", "Programmerar", "Du jobbar som programmerare på ett spelbolag",
+                47, "programmer", "Programmerar", "Du jobbar som programmerare på ett spelbolag",
                 0.0F, 58000.0F, 1700.0F, 58, "fun",30,10, 60, 60
             )
         )

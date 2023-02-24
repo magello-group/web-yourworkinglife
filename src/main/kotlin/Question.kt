@@ -73,10 +73,11 @@ data class Question (
                     Question(4,"Vandring 🚶", "alone", "luck"),
                     Question(5,"Att fiska 🐬","fish", "luck"),
                     Question(6,"Fester och dans 🤸", "party", "luck"),
-                    Question(7,"Pengar 💰", "money", "luck"),
+                    Question(7,"Segelbåtar ⛵", "boat", "luck"),
                     Question(8,"Hästar 🦄 ", "horse", "luck"),
                     Question(9,"Motorcyklar 🛵", "bike", "luck"),
-                    Question(10,"Bilar 🚗", "car", "luck")
+                    Question(10,"Bilar 🚗", "car", "luck"),
+                    Question(11,"Sambo 💕", "love", "luck")
                 )
             }
         }

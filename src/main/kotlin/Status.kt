@@ -21,10 +21,10 @@ data class Status (
     var countCars: String = ""
     var countBabies: String = ""
     var countFriends: String = ""
-    var countAlone: String = ""
+    var countWalking: String = ""
     var countStrong: String = ""
-    var countFishes: String = ""
+    var countFishing: String = ""
     var countParties: String = ""
-    var countMoney: String = ""
-    //var profession: Profession = Profession(0)
+    var countBoats: String = ""
+    var countLoves: String = ""
 }

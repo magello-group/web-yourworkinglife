@@ -13,7 +13,7 @@ data class Person (val id: Int) {
     var professions: List<Profession> = emptyList()
     var employees: List<Employee> = emptyList()
     var accounts: List<Account> = emptyList()
-    var events: List<Event> = emptyList()
+    var luckEvents: List<Event> = emptyList()
     var countWorkMonth: Int = 0
     var blancoLoan: Loan = Loan(id, "Blanco")
     var isMortgage: Boolean = false
@@ -24,52 +24,116 @@ data class Person (val id: Int) {
     var isAccommodation: Boolean = false
     var isDepressed: Boolean = false
 
-    var countCats: Int = 0
-    var countStrong: Int = 0
+    var cats: List<Hobby> = emptyList()
+    var dogs: List<Hobby> = emptyList()
+    var horses: List<Hobby> = emptyList()
+    var cars: List<Hobby> = emptyList()
+    var bikes: List<Hobby> = emptyList()
+    var parties: List<Hobby> = emptyList()
+    var boats: List<Hobby> = emptyList()
     var countFriends: Int = 0
-    var countAlone: Int = 0
-    var countDogs: Int = 0
-    var countFishes: Int = 0
-    var countParties: Int = 0
-    var countHorses: Int = 0
-    var countMoney: Int = 0
-    var countCars: Int = 0
-    var countBikes: Int = 0
-
-    fun costHobbies(): Float {
-        var cost: Float = 0.0F
-
-        for (hobby in 1..this.countCats) {
-             cost += 1000.0F * 12.0F
-        }
-        for (hobby in 1..this.countDogs) {
-            cost += 2000.0F * 12.0F
-        }
-        for (hobby in 1..this.countParties) {
-            cost += 3000.0F * 12.0F
-        }
-        for (hobby in 1..this.countHorses) {
-            cost += 6000.0F * 12.0F
-        }
-        for (hobby in 1..this.countCars) {
-            cost += 5000.0F * 12.0F
-        }
-        for (hobby in 1..this.countBikes) {
-            cost += 3000.0F * 12.0F
-        }
-        return cost
-    }
+    var countWalking: Int = 0
+    var countStrong: Int = 0
+    var countFishing: Int = 0
+    var countLove: Int = 0
+    var isLove: Boolean = false
 
     fun findLuck(hobby: String): Boolean {
         var love: Boolean = false
 
-        for(luck in this.events) {
+        for(luck in this.luckEvents) {
             if (hobby == luck.objectType)
                 love = true
         }
 
         return love
     }
+
+    fun costHobbies(): Float {
+        var cost: Float = 0.0F
+
+        if (this.cats.isNotEmpty()) {
+            cost += this.cats.size * this.cats[0].costHobby() * 12
+        }
+
+        if (this.dogs.isNotEmpty()) {
+            cost += this.dogs.size * this.dogs[0].costHobby() * 12.0F
+        }
+
+        if (this.horses.isNotEmpty()) {
+            cost += this.horses.size * this.horses[0].costHobby() * 12.0F
+        }
+
+        if (this.bikes.isNotEmpty()) {
+            cost += this.bikes.size * this.bikes[0].costHobby() * 12.0F
+        }
+
+        if (this.cars.isNotEmpty()) {
+            cost += this.cars.size * this.cars[0].costHobby() * 12.0F
+        }
+
+        if (this.boats.isNotEmpty()) {
+            cost += this.boats.size * this.boats[0].costHobby() * 12.0F
+        }
+
+        if (this.parties.isNotEmpty()) {
+            cost += this.parties.size * this.parties[0].costHobby() * 12.0F
+        }
+
+        return cost
+    }
+
+    fun ShowDeadHobbies(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        var storyId = messageId
+        var message: Message
+
+        for (cat in this.cats) {
+            cat.age += 1
+            if (cat.age > cat.maxAge)
+                cats = cats.minus(cat)
+        }
+
+        for (dog in this.dogs) {
+            dog.age += 1
+            if (dog.age > dog.maxAge)
+                cats = cats.minus(dog)
+        }
+
+        for (horse in this.horses) {
+            horse.age += 1
+            if (horse.age > horse.maxAge)
+                cats = cats.minus(horse)
+        }
+
+        for (car in this.cars) {
+            car.age += 1
+            if (car.age > car.maxAge)
+                cats = cats.minus(car)
+        }
+
+        for (bike in this.bikes) {
+            bike.age += 1
+            if (bike.age > bike.maxAge)
+                cats = cats.minus(bike)
+        }
+
+        for (boat in this.boats) {
+            boat.age += 1
+            if (boat.age > boat.maxAge)
+                cats = cats.minus(boat)
+        }
+
+        for (party in this.parties) {
+            party.age += 1
+            if (party.age > party.maxAge)
+                cats = cats.minus(party)
+        }
+        //TODO
+
+        return storyList
+    }
+
 
     fun showPersonAccomodation(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
@@ -288,17 +352,18 @@ data class Person (val id: Int) {
             "blinking"
         )
         when (event.objectType) {
-            "cat" -> { message.status.countCats = this.countCats.toString() }
-            "dog" -> { message.status.countDogs = this.countDogs.toString() }
-            "horse"  -> { message.status.countHorses = this.countHorses.toString() }
-            "car"  -> { message.status.countCars = this.countCars.toString() }
-            "bike"  -> { message.status.countBikes = this.countBikes.toString() }
-            "strong"  -> { message.status.countStrong = this.countStrong.toString() }
-            "alone"  -> { message.status.countAlone = this.countAlone.toString() }
-            "money"  -> { message.status.countMoney = this.countMoney.toString() }
-            "party"  -> { message.status.countParties = this.countParties.toString() }
+            "cat" -> {
+                message.status.countCats = this.cats.size.toString() }
+            "dog" -> { message.status.countDogs = this.dogs.size.toString() }
+            "horse"  -> { message.status.countHorses = this.horses.size.toString() }
+            "car"  -> { message.status.countCars = this.cars.size.toString() }
+            "bike"  -> { message.status.countBikes = this.bikes.size.toString() }
+            "boat"  -> { message.status.countBoats = this.boats.size.toString() }
+            "party"  -> { message.status.countParties = this.parties.size.toString() }
             "friend"  -> { message.status.countFriends = this.countFriends.toString() }
-            "fish"  -> { message.status.countFishes = this.countFishes.toString() }
+            "fish"  -> { message.status.countFishing = this.countFishing.toString() }
+            "strong"  -> { message.status.countStrong = this.countStrong.toString() }
+            "walk"  -> { message.status.countWalking = this.countWalking.toString() }
 
         }
         storyList = storyList.plus(message)
