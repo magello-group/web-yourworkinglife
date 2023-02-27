@@ -15,14 +15,14 @@ data class Person (val id: Int) {
     var accounts: List<Account> = emptyList()
     var luckEvents: List<Event> = emptyList()
     var countWorkMonth: Int = 0
-    var blancoLoan: Loan = Loan(id, "Blanco")
-    var isMortgage: Boolean = false
+    private var blancoLoan: Loan = Loan(id, "Blanco")
+    //var isMortgage: Boolean = false
     var isHappy: Boolean = false
     var isMagellit: Boolean = false
     var isSick: Boolean = false
     var isHealthInsurance: Boolean = false
     var isAccommodation: Boolean = false
-    var isDepressed: Boolean = false
+    //var isDepressed: Boolean = false
 
     var cats: List<Hobby> = emptyList()
     var dogs: List<Hobby> = emptyList()
@@ -39,7 +39,7 @@ data class Person (val id: Int) {
     var isLove: Boolean = false
 
     fun findLuck(hobby: String): Boolean {
-        var love: Boolean = false
+        var love = false
 
         for(luck in this.luckEvents) {
             if (hobby == luck.objectType)
@@ -50,7 +50,7 @@ data class Person (val id: Int) {
     }
 
     fun costHobbies(): Float {
-        var cost: Float = 0.0F
+        var cost = 0.0F
 
         if (this.cats.isNotEmpty()) {
             cost += this.cats.size * this.cats[0].costHobby() * 12.0F
@@ -142,6 +142,10 @@ data class Person (val id: Int) {
                     if (this.bikes.isNotEmpty())
                         isLuck = true
                 }
+                "love" -> {
+                    if (this.countLove > 0)
+                        isLuck = true
+                }
             }
         }
 
@@ -212,7 +216,7 @@ data class Person (val id: Int) {
                 storyId += 1
                 message = Message(
                     storyId,
-                    "Sorgligt, en av dina bilar är gammal och fick skrotas",
+                    "Sorgligt, en av dina bilar måste skrotas",
                     "",
                     "blinking"
                 )
@@ -229,7 +233,7 @@ data class Person (val id: Int) {
                 storyId += 1
                 message = Message(
                     storyId,
-                    "Sorgligt, en av dina motorcyklar är gammal och fick skrotas",
+                    "Sorgligt, en av dina motorcyklar måste skrotas",
                     "",
                     "blinking"
                 )
@@ -246,7 +250,7 @@ data class Person (val id: Int) {
                 storyId += 1
                 message = Message(
                     storyId,
-                    "Sorgligt, en av dina segelbåtar är gammal och sjönk ned i havet",
+                    "Sorgligt, en av dina segelbåtar sjönk ned i havet",
                     "",
                     "blinking"
                 )
@@ -284,13 +288,13 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "----------------------- Årlig summering boende ------------------------",
+                "----------------------- Summering boende ------------------------",
                 "deepskyblue",
                 ""
             )
         )
 
-        if (this.house.houseAmount.toInt() > 0) {
+        //if (this.house.houseAmount.toInt() > 0) {
             storyId += 1
             message = Message(
                 storyId,
@@ -300,9 +304,9 @@ data class Person (val id: Int) {
             )
             message.status.houseAmount = this.house.houseAmount.toInt().formatDecimalSeparator()
             storyList = storyList.plus(message)
-        }
+        //}
 
-        if (this.house.isMortgage) {
+        //if (this.house.isMortgage) {
             storyId += 1
             message = Message(
                 storyId,
@@ -324,17 +328,27 @@ data class Person (val id: Int) {
             )
 
             storyId += 1
-            storyList = storyList.plus(
-                Message(
-                    storyId,
-                    "Avbetalning lån per månad: ${
-                        this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()
-                    } SEK.",
-                    "",
-                    ""
-                )
+            message = Message(
+                storyId,
+                "Räntebelopp per månad: ${this.house.houseLoan.calculateInterest().toInt().formatDecimalSeparator()} SEK.",
+                "",
+                ""
             )
-        }
+            message.status.interestMonthPayment = this.house.houseLoan.calculateInterest().toInt().formatDecimalSeparator()
+            storyList = storyList.plus(message)
+
+            storyId += 1
+            message = Message(
+                storyId,
+                "Avbetalning lån per månad: ${
+                    this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()
+                } SEK.",
+                "",
+                ""
+            )
+            message.status.loanMonthPayment = this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()
+            storyList = storyList.plus(message)
+        //}
 
         storyId += 1
         message = Message(
@@ -352,7 +366,7 @@ data class Person (val id: Int) {
 
     fun showTherapist(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId + 1
+        val storyId = messageId + 1
 
         storyList = storyList.plus(
             Message(
@@ -422,69 +436,47 @@ data class Person (val id: Int) {
     fun showPersonLoanReady(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         val storyId = messageId + 1
+        val message: Message
 
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Wow!! Du har betalt av ditt lån.",
-                "",
-                "blinking"
-            )
+        message = Message(
+            storyId,
+            "Wow!! Du har betalt av ditt lån.",
+            "",
+            "blinking"
         )
-
-        return storyList
-    }
-
-    fun showPersonGetBlancoLoan(messageList: List<Message>, messageId: Int): List<Message> {
-        var storyList = messageList
-        var storyId = messageId
-
-        storyId += 1
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Du tar ett blancolån på ${this.blancoLoan.loanAmount.toInt().formatDecimalSeparator()} SEK 😅",
-                "lavender",
-                ""
-            )
-        )
-
-        storyId += 1
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Låneränta: ${this.blancoLoan.loanInterest.toInt().formatDecimalSeparator()}%",
-                "lavender",
-                ""
-            )
-        )
-
-        storyId += 1
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Avbetalning lån: ${this.blancoLoan.loanMonthPayment.toInt().formatDecimalSeparator()} SEK.",
-                "lavender",
-                ""
-            )
-        )
+        message.status.houseLoanAmount = this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()
+        storyList = storyList.plus(message)
 
         return storyList
     }
 
     fun showPersonLuck(messageList: List<Message>, messageId: Int, event: Event): List<Message> {
         var storyList = messageList
-        val storyId = messageId + 1
+        var storyId = messageId
+        val message: Message
 
-        val message = Message(
-            storyId,
-            event.eventText,
-            "",
-            "blinking"
-        )
+        if (event.objectType == "love" && this.countLove > 1) {
+            storyId += 1
+            message = Message(
+                storyId,
+                "Kärleken höll inte men du finner en ny 💕💕💕💕💕 love is in the air",
+                "",
+                "blinking"
+            )
+
+        } else {
+
+            storyId += 1
+            message = Message(
+                storyId,
+                event.eventText,
+                "",
+                "blinking"
+            )
+        }
+
         when (event.objectType) {
-            "cat" -> {
-                message.status.countCats = this.cats.size.toString() }
+            "cat" -> { message.status.countCats = this.cats.size.toString() }
             "dog" -> { message.status.countDogs = this.dogs.size.toString() }
             "horse"  -> { message.status.countHorses = this.horses.size.toString() }
             "car"  -> { message.status.countCars = this.cars.size.toString() }
@@ -495,6 +487,7 @@ data class Person (val id: Int) {
             "fish"  -> { message.status.countFishing = this.countFishing.toString() }
             "strong"  -> { message.status.countStrong = this.countStrong.toString() }
             "walk"  -> { message.status.countWalking = this.countWalking.toString() }
+            "love"  -> { message.status.countLoves = this.countLove.toString() }
 
         }
         storyList = storyList.plus(message)
@@ -529,6 +522,7 @@ data class Person (val id: Int) {
                 ""
             )
         )
+
         return storyList
     }
 
@@ -619,7 +613,7 @@ data class Person (val id: Int) {
 
         storyList = storyList.plus(
             Message(
-                messageId,
+                storyId,
                 "Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
@@ -702,19 +696,5 @@ data class Person (val id: Int) {
         }
 
         return storyList
-    }
-
-    fun registerPerson()
-    {
-        //Insert in database
-    }
-
-    fun updatePerson()
-    {
-        //Update in database
-    }
-
-    fun getPerson(){
-        //Select person status
     }
 }

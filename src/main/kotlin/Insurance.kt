@@ -15,14 +15,4 @@ data class Insurance( val personId: Int, val insuranceType: String )
 
         return sum
     }
-    fun registerInsurance(){
-        //Insert insurance in db
-    }
-
-    fun updateInsurance(){
-        //Update insurance in db
-    }
-    fun getInsurance(){
-        //Select insurance information
-    }
 }

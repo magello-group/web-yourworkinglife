@@ -3,6 +3,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Life ( val personId: Int) {
     var person = Person(personId)
+    var firstStep = true
     var age = 0
     var parent = Parent(personId)
     var employee = Employee(1)

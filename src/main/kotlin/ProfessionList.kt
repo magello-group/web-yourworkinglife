@@ -32,7 +32,7 @@ val ProfessionList = FC<ProfessionListProps> { props ->
     val profession = props.selectedProfession
     var selectedProfessions: List<Profession> = emptyList()
     val allProfessions: List<Profession> = profession.getProfessionList(profession.objectType)
-    var selectedEvents: List<Event>
+    val selectedEvents: List<Event>
     selectedEvents = props.selectedEvent.getEvent("employed")
 
 

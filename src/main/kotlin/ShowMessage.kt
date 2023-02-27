@@ -3,7 +3,6 @@ import emotion.css.keyframes
 import emotion.react.css
 import react.FC
 import react.Props
-import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.p
 
 external interface ShowMessageProps : Props {

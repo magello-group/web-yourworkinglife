@@ -11,10 +11,23 @@ data class Employee( val employeeId: Int )
     var sickSalary: Float = 0.0F
     var countSickMonth: Int = 0
 
+    fun raiseTheSalary(isBoom: Boolean, age: Int): Float {
+        val randomValues: List<Int>
+
+        randomValues = if (isBoom && age <= 50) {
+            List(1) { Random.nextInt(40, 98) }
+        } else if ( age <= 50 ) {
+            List(1) { Random.nextInt(10, 30) }
+        } else {
+            List(1) { Random.nextInt(0, 10) }
+        }
+
+        return (this.currentSalary * (randomValues[0].toFloat() / 1000.0F))
+    }
     fun showEmployeeSalary(salaryincrease: Float, messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
-        var message: Message
+        val message: Message
 
         if (this.currentSalary == 4180.0F) {
             storyId += 1
@@ -59,7 +72,7 @@ data class Employee( val employeeId: Int )
 
     fun showSeverancePay(amount: Float, messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId + 1
+        val storyId = messageId + 1
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -73,7 +86,7 @@ data class Employee( val employeeId: Int )
 
     fun showEmployeeSickSalary(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId + 1
+        val storyId = messageId + 1
 
         storyList = storyList.plus(
             Message(
@@ -88,7 +101,7 @@ data class Employee( val employeeId: Int )
 
     fun showEmployeeNoSickSalary(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId + 1
+        val storyId = messageId + 1
 
         storyList = storyList.plus(
             Message(
@@ -103,7 +116,7 @@ data class Employee( val employeeId: Int )
 
     fun showEmployeeCountSickMonth(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId + 1
+        val storyId = messageId + 1
 
         storyList = storyList.plus(
             Message(
@@ -118,7 +131,7 @@ data class Employee( val employeeId: Int )
 
     fun showEmployeeCountWorkMonth(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId + 1
+        val storyId = messageId + 1
 
         if (this.countWorkMonth < 0) {
             storyList = storyList.plus(
@@ -157,19 +170,4 @@ data class Employee( val employeeId: Int )
         return storyList
     }
 
-    fun showEmployeeFirstSalary() {
-
-    }
-
-    fun registerWork() {
-        //Insert work in db
-    }
-
-    fun updateWork() {
-        //Update work in db
-    }
-
-    fun getWork() {
-        //Select work information
-    }
 }

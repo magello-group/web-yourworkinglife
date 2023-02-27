@@ -21,7 +21,7 @@ data class Parent (val personId: Int) {
     }
 
     fun costBabies(): Float {
-        var cost: Float = 0.0F
+        var cost = 0.0F
 
         for (baby in 1..this.countBabies) {
             cost += 2500.0F * 12.0F
@@ -106,18 +106,5 @@ data class Parent (val personId: Int) {
         )
 
         return storyList
-    }
-
-
-    fun registerVAB() {
-        //Insert union in db
-    }
-
-    fun updateVAB() {
-        //Update union in db
-    }
-
-    fun getVAB() {
-        //Select union information
     }
 }

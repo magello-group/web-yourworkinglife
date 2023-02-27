@@ -115,7 +115,7 @@ data class Profession(
             ),
             Profession(
                 17, "fireman", "Brandman", "Du jobbar som brandman",
-                0.0F, 40500.0F, 1190.0F, 50, "adventure",40,40, 40, 20, 0.07F
+                50000.0F, 40500.0F, 1190.0F, 50, "adventure",40,40, 40, 20, 0.07F
             ),
             Profession(
                 18, "police", "Polis", "Du jobbar hos polisen",
@@ -127,11 +127,11 @@ data class Profession(
             ),
             Profession(
                 20, "rescue", "Fjällräddare", "Du jobbar som fjällräddare",
-                0.0F, 30000.0F, 900.0F, 50, "adventure",20,50, 40, 20, 0.00F
+                40000.0F, 30000.0F, 900.0F, 50, "adventure",20,50, 40, 20, 0.00F
             ),
             Profession(
                 21, "travelagent", "Reseledare", "Du jobbar på en resebyrå ",
-                0.0F, 30000.0F, 900.0F, 60, "adventure",40,40, 40, 20, 0.07F
+                50000.0F, 30000.0F, 900.0F, 60, "adventure",40,40, 40, 20, 0.07F
             ),
             Profession(
                 22, "programmer", "Programmerar", "Du jobbar som programmerare hos underrättelsetjänsten",
@@ -145,7 +145,7 @@ data class Profession(
             ),
             Profession(
                 24, "travelagent", "Reseledare", "Du jobbar på en resebyrå ",
-                0.0F, 30000.0F, 900.0F, 60, "vacation",40,40,10, 10, 0.07F
+                50000.0F, 30000.0F, 900.0F, 60, "vacation",40,40,10, 10, 0.07F
             ),
             Profession(
                 25, "builder", "Snickare", "Du jobbar som snickare på ett byggbolag",
@@ -153,7 +153,7 @@ data class Profession(
             ),
             Profession(
                 26, "teacher", "Lärare", "Du jobbar som lärare",
-                0.0F, 35000.0F, 900.0F, 65, "vacation",40,40,10, 10, 0.07F
+                50000.0F, 35000.0F, 900.0F, 65, "vacation",40,40,10, 10, 0.07F
             ),
             Profession(
                 27, "programmer", "Programmerar", "Du jobbar som programmerare på en myndighet",
@@ -163,7 +163,7 @@ data class Profession(
             //Samhället
             Profession(
                 28, "teacher", "Lärare", "Du jobbar som lärare",
-                0.0F, 50800.0F, 1500.0F, 65, "family",40,40, 40, 10, 0.07F
+                50000.0F, 50800.0F, 1500.0F, 65, "family",40,40, 40, 10, 0.07F
             ),
             Profession(
                 29, "police", "Polis", "Du jobbar hos polisen",
@@ -179,17 +179,17 @@ data class Profession(
             ),
             Profession(
                 32, "socialworker", "Socialassistent", "Du jobbar som socialassistent",
-                0.0F, 32000.0F, 900.0F, 60, "family",40,20, 40, 10, 0.07F
+                50000.0F, 32000.0F, 900.0F, 60, "family",40,20, 40, 10, 0.07F
             ),
 
             //Chilla
             Profession(
                 33, "writer", "Trädgårdsmästare", "Du jobbar som trädgårdsmästare!",
-                0.0F, 0.0F, 800.0F, 75, "chilla",20,50, 50, 10, 0.00F
+                50000.0F, 0.0F, 800.0F, 75, "chilla",20,50, 50, 10, 0.00F
             ),
             Profession(
                 34, "yoga", "Yogainstruktör", "Du jobbar som yogainstruktör",
-                0.0F, 0.0F, 800.0F, 75, "chilla", 20,50, 50, 10, 0.00F
+                40000.0F, 0.0F, 800.0F, 75, "chilla", 20,50, 50, 10, 0.00F
             ),
             Profession(
                 35, "bonde", "Jordbrukare", "Du jobbar som jordbrukare",
@@ -219,7 +219,7 @@ data class Profession(
             ),
             Profession(
                 41, "pt", "Privat tränare", "Du jobbar som PT på ett gym",
-                0.0F, 30000.0F, 900.0F, 75, "fun",30,50, 60, 10, 0.0F
+                50000.0F, 30000.0F, 900.0F, 75, "fun",30,50, 60, 10, 0.0F
             ),
             Profession(
                 42, "actor", "Skådespelare", "Du jobbar som skådespelare",
@@ -235,7 +235,7 @@ data class Profession(
             ),
             Profession(
                 45, "riding", "Ridlärare", "Du jobbar som ridlärare",
-                0.0F, 33000.0F, 950.0F, 60, "fun",30,50, 60, 10, 0.00F
+                50000.0F, 33000.0F, 950.0F, 60, "fun",30,50, 60, 10, 0.00F
             ),
             Profession(
                 46, "architect", "Arkitekt", "Du jobbar som landskapsarkitekt",
@@ -252,7 +252,7 @@ data class Profession(
         var storyList = messageList
         val storyId = messageId + 1
 
-        val message: Message = Message(
+        val message = Message(
             storyId,
             "Dags att börja ditt nya jobb! ${this.professionText}.",
             "",
@@ -267,7 +267,7 @@ data class Profession(
         var storyList = messageList
         val storyId = messageId + 1
 
-        val message: Message = Message(
+        val message = Message(
             storyId,
             "Dags att söka nytt jobb!",
             "",
@@ -282,7 +282,7 @@ data class Profession(
     fun showCurrentProfession(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         val storyId = messageId + 1
-        var message: Message
+        val message: Message
 
         message = Message(
             storyId,
@@ -294,17 +294,5 @@ data class Profession(
         storyList = storyList.plus(message)
 
         return storyList
-    }
-
-    fun storeProfession() {
-        //Insert profession in db
-    }
-
-    fun registerProfession() {
-        //Update profession in db
-    }
-
-    fun getProfession() {
-        //Select profession information
     }
 }

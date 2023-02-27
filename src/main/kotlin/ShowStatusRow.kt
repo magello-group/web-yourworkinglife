@@ -16,6 +16,8 @@ external interface ShowStatusRowProps : Props {
     var actualHireAmount: String
     var actualHouseAmount: String
     var actualLoanAmount: String
+    var actualLoanMonthPayment: String
+    var actualInterestMonthPayment: String
     var actualProfession: String
     var actualCats: String
     var actualDogs: String
@@ -129,97 +131,13 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
             if (props.actualSalary != "")
                 +props.actualSalary
         }
-    }
-
-    div {
 
         p {
             css {
                 display = Display.block
                 position = Position.absolute
-                top = 580.px
-                left = 220.px
-                color = NamedColor.black
-                fontSize = 18.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-            +"Bostadshyra: "
-            if (props.actualHireAmount != "")
-                +props.actualHireAmount
-        }
-
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top = 610.px
-                left = 220.px
-                color = NamedColor.black
-                fontSize = 18.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-            +"Värde hus: "
-            if (props.actualHouseAmount != "")
-                +props.actualHouseAmount
-        }
-
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top = 640.px
-                left = 220.px
-                color = NamedColor.black
-                fontSize = 18.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-            +"Lån: "
-            if (props.actualLoanAmount != "")
-                +props.actualLoanAmount
-        }
-
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top = 670.px
-                left = 220.px
-                color = NamedColor.black
-                fontSize = 18.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-            +"Lönekonto: "
-            if (props.actualSalaryAmount != "")
-                +props.actualSalaryAmount
-        }
-
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top = 700.px
-                left = 220.px
-                color = NamedColor.black
-                fontSize = 18.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-            +"Depå: "
-            if (props.actualDepotAmount != "")
-                +props.actualDepotAmount
-        }
-
-
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top = 730.px
-                left = 220.px
+                top = 760.px
+                left = 10.px
                 color = NamedColor.black
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
@@ -239,7 +157,122 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 580.px
-                left = 460.px
+                left = 230.px
+                color = NamedColor.black
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            +"Lönekonto: "
+            if (props.actualSalaryAmount != "")
+                +props.actualSalaryAmount
+        }
+
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 610.px
+                left = 230.px
+                color = NamedColor.black
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            +"Depå: "
+            if (props.actualDepotAmount != "")
+                +props.actualDepotAmount
+        }
+
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 640.px
+                left = 230.px
+                color = NamedColor.black
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            +"Bostadshyra: "
+            if (props.actualHireAmount != "")
+                +props.actualHireAmount
+        }
+
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 670.px
+                left = 230.px
+                color = NamedColor.black
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            +"Värde hus: "
+            if (props.actualHouseAmount != "")
+                +props.actualHouseAmount
+        }
+
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 700.px
+                left = 230.px
+                color = NamedColor.black
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            +"Lån: "
+            if (props.actualLoanAmount != "")
+                +props.actualLoanAmount
+        }
+
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 730.px
+                left = 230.px
+                color = NamedColor.black
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            +"Lån avbetalning: "
+            if (props.actualLoanMonthPayment != "")
+                +props.actualLoanMonthPayment
+        }
+
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 760.px
+                left = 230.px
+                color = NamedColor.black
+                fontSize = 18.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            +"Räntebelopp: "
+            if (props.actualInterestMonthPayment != "")
+                +props.actualInterestMonthPayment
+        }
+    }
+
+    div {
+
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 580.px
+                left = 470.px
                 color = NamedColor.black
                 fontSize = 18.px
                 backgroundColor = NamedColor.white
@@ -255,7 +288,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 610.px
-                left = 460.px
+                left = 470.px
 
                 if (props.actualPerson.findLuck("cat"))
                     color = NamedColor.hotpink
@@ -276,7 +309,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 640.px
-                left = 460.px
+                left = 470.px
 
                 if (props.actualPerson.findLuck("dog"))
                     color = NamedColor.hotpink
@@ -297,7 +330,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 670.px
-                left = 460.px
+                left = 470.px
 
                 if (props.actualPerson.findLuck("horse"))
                     color = NamedColor.hotpink
@@ -318,7 +351,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 700.px
-                left = 460.px
+                left = 470.px
 
                 if (props.actualPerson.findLuck("car"))
                     color = NamedColor.hotpink
@@ -339,7 +372,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 730.px
-                left = 460.px
+                left = 470.px
 
                 if (props.actualPerson.findLuck("bike"))
                     color = NamedColor.hotpink
@@ -360,7 +393,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 760.px
-                left = 630.px
+                left = 470.px
 
                 if (props.actualPerson.findLuck("boat"))
                     color = NamedColor.hotpink
@@ -384,7 +417,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 580.px
-                left = 630.px
+                left = 640.px
 
                 if (props.actualPerson.findLuck("friend"))
                     color = NamedColor.hotpink
@@ -405,7 +438,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 610.px
-                left = 630.px
+                left = 640.px
 
                 if (props.actualPerson.findLuck("fish"))
                     color = NamedColor.hotpink
@@ -426,7 +459,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 640.px
-                left = 630.px
+                left = 640.px
 
                 if (props.actualPerson.findLuck("strong"))
                     color = NamedColor.hotpink
@@ -447,7 +480,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 670.px
-                left = 630.px
+                left = 640.px
 
                 if (props.actualPerson.findLuck("walk"))
                     color = NamedColor.hotpink
@@ -468,7 +501,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 700.px
-                left = 630.px
+                left = 640.px
                 if (props.actualPerson.findLuck("party"))
                     color = NamedColor.hotpink
                 else
@@ -487,7 +520,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 730.px
-                left = 630.px
+                left = 640.px
 
                 if (props.actualPerson.findLuck("love"))
                     color = NamedColor.hotpink

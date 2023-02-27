@@ -1,5 +1,4 @@
 import csstype.*
-import emotion.css.keyframes
 import emotion.react.css
 import react.FC
 import react.Props
@@ -7,8 +6,6 @@ import react.dom.html.ReactHTML.button
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.p
 import react.key
-import kotlin.Float
-import kotlin.random.Random
 import kotlin.collections.List
 
 external interface StartPensionLifeProps : Props {
@@ -27,15 +24,14 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
     // Init person
 
     val currentStatus: Status = props.selectedStatus
-    val person = props.selectedPerson
     val life = props.selectedLife
 
     //Init story
-    var messageList = props.selectedHistory
+    val messageList = props.selectedHistory
     var leftMessages: List<Message> = emptyList()
     var backupMessages: List<Message> = emptyList()
     val maxMessages = 8
-    var isDebugOn = false
+    val isDebugOn = false
     var lastDisplayedMessageId = 0
     var topPX = 0
     var messageId = 0
@@ -266,7 +262,7 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
                 if (props.selectedHistory.isNotEmpty() && messageList[0].id >= maxMessages) {
                     messageId = messageList[0].id - maxMessages
 
-                    for ((messageIndex, message) in props.selectedHistory.withIndex()) {
+                    for (message in props.selectedHistory) {
                         if (message.id >= messageId) {
                             backupMessages = backupMessages.plus(message)
                         }

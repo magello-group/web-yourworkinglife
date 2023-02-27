@@ -7,7 +7,6 @@ external interface ShowEventAnimationProps : Props {
 }
 
 val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
-    var topPX = 580
 
     div {
         when (props.actualProfession.professionType) {

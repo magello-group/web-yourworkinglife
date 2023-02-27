@@ -22,7 +22,7 @@ data class Hobby (
     }
 
     fun costHobby(): Float {
-        var cost: Float = 0.0F
+        var cost = 0.0F
 
         for (hobby in this.getAllHobbies()) {
             if (this.hobbyType == hobby.hobbyType)

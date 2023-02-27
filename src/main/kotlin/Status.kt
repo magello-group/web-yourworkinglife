@@ -13,6 +13,8 @@ data class Status (
     var houseHireAmount: String = ""
     var houseAmount: String = ""
     var houseLoanAmount: String = ""
+    var loanMonthPayment: String = ""
+    var interestMonthPayment: String = ""
     var profession: String = ""
     var countCats: String = ""
     var countDogs: String = ""

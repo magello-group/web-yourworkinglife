@@ -43,11 +43,14 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
     val isDebugOn = false
     var topPX = 930
 
-    if (life.age == 0) {
+
+    if (life.firstStep || historyMessages.isEmpty()) {
+        life.firstStep = false
         // starting your workingstory
 
         life.age = person.age
         person.professions = person.professions.plus(profession)
+        person.isAccommodation = false
         life.employee.title = profession.title
         life.employee.firstSalary = profession.salary * person.age.toFloat()
         life.employee.currentSalary = profession.salary * person.age.toFloat()
@@ -60,6 +63,30 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
 
         messageList = person.showWorkingLife(life.age, messageList, messageId)
         messageId = messageList[messageList.size-1].id
+
+        if (isDebugOn) {
+            div {
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = 450.px
+                    left = 50.px
+                    color = NamedColor.black
+                    fontSize = 18.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+
+                ShowMessage {
+                    selectedMessage = Message(
+                        5,
+                        "Nu startar vi steg 1 life.age: ${life.age} boende:${person.isAccommodation} ",
+                        "",
+                        ""
+                    )
+                }
+            }
+        }
     }
 
     if (life.age >= person.age && life.age <= profession.pensionAge) {
@@ -69,6 +96,30 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
         life.professionId = profession.id
         life.messageList = messageList
         life.lastMessageId = messageId
+
+        if (isDebugOn) {
+            div {
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = 500.px
+                    left = 50.px
+                    color = NamedColor.black
+                    fontSize = 18.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+
+                ShowMessage {
+                    selectedMessage = Message(
+                        5,
+                        "Nu startar vi steg 2 life.age: ${life.age} event: ${props.selectedEvent.objectType} ",
+                        "",
+                        ""
+                    )
+                }
+            }
+        }
 
         //Loop middleOfLife until question
         currentLife = middleOfLife(life, props.selectedEvent)
@@ -208,6 +259,10 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
 
                     if (message.status.houseLoanAmount != "")
                         currentStatus.houseLoanAmount = message.status.houseLoanAmount
+                    if (message.status.loanMonthPayment != "")
+                        currentStatus.loanMonthPayment = message.status.loanMonthPayment
+                    if (message.status.interestMonthPayment != "")
+                        currentStatus.interestMonthPayment = message.status.interestMonthPayment
 
                     if (message.status.profession != "") currentStatus.profession = message.status.profession
                     if (message.status.countCats != "") currentStatus.countCats = message.status.countCats
@@ -222,6 +277,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                     if (message.status.countBabies != "") currentStatus.countBabies = message.status.countBabies
                     if (message.status.countBoats != "") currentStatus.countBoats = message.status.countBoats
                     if (message.status.countStrong != "") currentStatus.countStrong = message.status.countStrong
+                    if (message.status.countLoves != "") currentStatus.countLoves = message.status.countLoves
 
                     ShowMessage {
                         selectedMessage = message
@@ -229,7 +285,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
 
                     lastDisplayedMessageId = message.id
 
-                    if (false) {
+                    if (isDebugOn) {
                         div {
                             css {
                                 display = Display.block
@@ -319,7 +375,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                             display = Display.block
                             position = Position.absolute
                             top = 10.px
-                            left = 400.px
+                            left = 10.px
 
                             color = NamedColor.green
                             borderColor = NamedColor.white
@@ -344,23 +400,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                     }
                 }
             }
-/*
-            ShowStatusRow {
-                actualAge = life.person.age.toString()
-                actualName = life.person.name
-                actualPension = (life.person.pension * 100).toString()
-                actualProfession = props.selectedProfession.title
-                firstSalary = life.firstSalary.toInt().formatDecimalSeparator()
-                actualSalary = ""
-                actualSalaryAmount = ""
-                actualDepotAmount = ""
-                actualPensionAmount = ""
-                actualHireAmount = ""
-                actualHouseAmount = ""
-                actualLoanAmount = ""
-            }
 
- */
         } else if (life.isNewProfession && lastDisplayedMessageId >= life.professionMessageId) {
             life.isNewProfession = false
             life.professionMessageId = 0
@@ -399,23 +439,6 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                     }
                 }
             }
-/*
-            ShowStatusRow {
-                actualAge = life.person.age.toString()
-                actualName = life.person.name
-                actualPension = (life.person.pension * 100).toString()
-                actualProfession = props.selectedProfession.title
-                firstSalary = life.firstSalary.toInt().formatDecimalSeparator()
-                actualSalary = ""
-                actualSalaryAmount = ""
-                actualDepotAmount = ""
-                actualPensionAmount = ""
-                actualHireAmount = ""
-                actualHouseAmount = ""
-                actualLoanAmount = ""
-            }
-
- */
         } else {
 
             p {
@@ -507,7 +530,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                     if (historyMessages.isNotEmpty() && messageList[0].id >= maxMessages) {
                         messageId = messageList[0].id - maxMessages
 
-                        for ((messageIndex, message) in historyMessages.withIndex()) {
+                        for (message in historyMessages) {
                             if (message.id >= messageId) {
                                 backupMessages = backupMessages.plus(message)
                             }
@@ -604,6 +627,8 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
             actualHireAmount = currentStatus.houseHireAmount
             actualHouseAmount = currentStatus.houseAmount
             actualLoanAmount = currentStatus.houseLoanAmount
+            actualLoanMonthPayment = currentStatus.loanMonthPayment
+            actualInterestMonthPayment = currentStatus.interestMonthPayment
             actualCats = currentStatus.countCats
             actualDogs = currentStatus.countDogs
             actualHorses = currentStatus.countHorses
@@ -639,7 +664,6 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
     val currentLife = life
     val person = life.person
     val profession = getProfession(life.professionId)
-    val allProfessions = profession.getAllProfession()
     var age = life.age
     val parent = life.parent
     var employee = life.employee
@@ -653,7 +677,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
     var isPandemi = life.isPandemi
     var isBoom = life.isBoom
     var isRecession = life.isRecession
-    var hobby = Hobby("")
+    val hobby = Hobby("")
 
     //Init story
     var messageList = life.messageList
@@ -693,13 +717,14 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         if (employee.currentSalary == 0.0F) employee.currentSalary = 4180.0F
 
         if (!event.isSelected) {
-            randomEventValues = List(1) { Random.nextInt(0, allEvents.size) }
+            randomEventValues = List(1) { Random.nextInt(0, 23) }
             event = allEvents[randomEventValues[0]]
         } else {
             person.luckEvents = person.luckEvents.plus(event)
         }
 
         when (event.eventType) {
+
             "depot" -> {
                 // Event(0, "du får bonus i form av värdepapper 🤑", "depot", "depot"),
 
@@ -714,6 +739,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                 }
             }
+
+
 
             "sick" -> {
                 /*
@@ -902,6 +929,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                     messageList = person.showPersonLuck(messageList, messageId, event)
                     messageId = messageList[messageList.size - 1].id
                 }
+
+
             }
 
             "unemployed" -> {
@@ -1031,7 +1060,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
             "magellit" -> {
 
                 // Event(21, "du blir träffad av en Magellit.", "magellit", "magellit"),
-                if (lifeChance < 40 && profession.professionType == "programmer") {
+                if (lifeChance < 60 && profession.professionType == "programmer") {
                     person.isMagellit = true
 
                     messageList = person.showPersonMagellit(messageList, messageId)
@@ -1074,10 +1103,11 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         }
 
         //Get cost event in life
-        randomCostEventValues = List(1) { Random.nextInt(0, allCostEvents.size) }
+        randomCostEventValues = List(1) { Random.nextInt(0, 17) }
         costevent = allCostEvents[randomCostEventValues[0]]
 
         when (costevent.eventType) {
+
             "home" -> {
                 /*
 
@@ -1094,7 +1124,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                  */
 
-                if (lifeChance > 85 || !person.isAccommodation) {
+                if (lifeChance < 25 || !person.isAccommodation) {
                     messageList = costevent.showEvent(messageList, messageId, "", "")
                     messageId = messageList[messageList.size - 1].id
 
@@ -1107,6 +1137,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             //Betala av lånet
                             accountSalary.amount += (person.house.houseAmount - person.house.houseLoan.loanAmount)
                             accountNoAkassa.amount += (person.house.houseAmount - person.house.houseLoan.loanAmount)
+
                             person.house.houseLoan.loanAmount = 0.0F
                             person.house.houseLoan.loanInterest = 0.0F
                             person.house.houseLoan.loanMonthPayment = 0.0F
@@ -1114,6 +1145,12 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             accountSalary.amount += person.house.houseAmount
                             accountNoAkassa.amount += person.house.houseAmount
                         }
+                        person.house.houseAmount = 0.0F
+                        person.house.houseMonthPayment = 0.0F
+
+                        //Summera boendet
+                        messageList = person.showPersonAccomodation(messageList, messageId)
+                        messageId = messageList[messageList.size - 1].id
                     } else if (person.isAccommodation && (
                                 person.house.houseType == "hire" ||
                                 person.house.houseType == "hirecity" ||
@@ -1121,6 +1158,10 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                                 person.house.houseType == "hiredepartment")
                     ) {
                         messageList = person.showPersonAccomodationShift(messageList, messageId)
+                        messageId = messageList[messageList.size - 1].id
+
+                        //Summera boendet
+                        messageList = person.showPersonAccomodation(messageList, messageId)
                         messageId = messageList[messageList.size - 1].id
                     }
 
@@ -1193,7 +1234,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                         }
 
                         "departmentcity" -> {
-                            person.house = House(0, "departmentcity")
+                            person.house = House(person.id, "departmentcity")
 
                             randomValues = List(1) { Random.nextInt(5000000, 15000000) }
                             person.house.houseAmount = randomValues[0].toFloat()
@@ -1209,7 +1250,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             person.house = House(0, "hirecity")
                             person.house.houseAmount = 0.0F
 
-                            randomValues = List(1) { Random.nextInt(8000, 30000) }
+                            currentAmount = employee.currentSalary/2
+                            randomValues = List(1) { Random.nextInt(5000, currentAmount.toInt()) }
                             person.house.houseMonthPayment = randomValues[0].toFloat()
 
                             messageList = person.showPersonAccomodationHire(messageList, messageId)
@@ -1220,7 +1262,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             person.house = House(0, "hire")
                             person.house.houseAmount = 0.0F
 
-                            randomValues = List(1) { Random.nextInt(5000, 13000) }
+                            currentAmount = employee.currentSalary/2
+                            randomValues = List(1) { Random.nextInt(4000, currentAmount.toInt()) }
                             person.house.houseMonthPayment = randomValues[0].toFloat()
 
                             messageList = person.showPersonAccomodationHire(messageList, messageId)
@@ -1231,7 +1274,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             person.house = House(0, "hirehouse")
                             person.house.houseAmount = 0.0F
 
-                            randomValues = List(1) { Random.nextInt(10000, 30000) }
+                            currentAmount = employee.currentSalary/2
+                            randomValues = List(1) { Random.nextInt(5000, currentAmount.toInt()) }
                             person.house.houseMonthPayment = randomValues[0].toFloat()
 
                             messageList = person.showPersonAccomodationHire(messageList, messageId)
@@ -1242,7 +1286,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             person.house = House(0, "hiredepartment")
                             person.house.houseAmount = 0.0F
 
-                            randomValues = List(1) { Random.nextInt(10000, 30000) }
+                            currentAmount = employee.currentSalary/2
+                            randomValues = List(1) { Random.nextInt(5000, currentAmount.toInt()) }
                             person.house.houseMonthPayment = randomValues[0].toFloat()
 
                             messageList = person.showPersonAccomodationHire(messageList, messageId)
@@ -1302,6 +1347,9 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             }
                         }
                     }
+
+                    messageList = person.showPersonAccomodation(messageList, messageId)
+                    messageId = messageList[messageList.size - 1].id
                 }
             }
 
@@ -1315,9 +1363,12 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                 Event(14, "Din sambo lämnar dig, nu får du betala hyran själv", "unluck", "accident"),
 
                  */
-                if (lifeChance > 85) {
+
+                if (lifeChance < 15) {
+                    isBoom = false
                     person.isMagellit = false
                     when (costevent.objectType) {
+
                         "depot" -> {
                             isRecession = true
                             if (accountDepot.amount > 0.0F) {
@@ -1334,6 +1385,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                                 messageId = messageList[messageList.size - 1].id
                             }
                         }
+
 
                         "home" -> {
                             isRecession = true
@@ -1357,7 +1409,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             isRecession = true
                             if (person.house.isMortgage) {
                                 randomValues = List(1) { Random.nextInt(1, 7) }
-                                person.house.houseLoan.loanInterest += randomValues[0].toFloat() / 100.0F
+                                person.house.houseLoan.loanInterest += randomValues[0].toFloat()
 
                                 messageList = costevent.showEvent(
                                     messageList,
@@ -1369,6 +1421,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             }
                         }
 
+
+
                         "sick" -> {
                             person.isHappy = false
                             isPandemi = true
@@ -1378,12 +1432,13 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                         }
 
                         "unluck" -> {
-                            person.isLove = false
+                            if (person.isLove) {
+                                person.isLove = false
 
-                            messageList = costevent.showEvent(messageList, messageId, "", ".")
-                            messageId = messageList[messageList.size - 1].id
+                                messageList = costevent.showEvent(messageList, messageId, "", ".")
+                                messageId = messageList[messageList.size - 1].id
+                            }
                         }
-
                     }
                 }
             }
@@ -1400,6 +1455,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                 if (lifeChance > 85) {
                     isPandemi = false
                     isBoom = true
+                    isRecession = false
 
                     when (costevent.objectType) {
                         "depot" -> {
@@ -1453,7 +1509,6 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
             }
         }
 
-
         // Nu har det gått ett år
         // Du fyller år
         age += 1
@@ -1471,18 +1526,19 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         if (employee.currentSalary != 4180.0F &&
             (employee.countSickMonth + union.countUnEmployeeMonth + parent.countFamilyMonth == 0)
         ) {
+            currentAmount = employee.raiseTheSalary(isBoom, age)
 
-            randomValues = if (isBoom) {
-                List(1) { Random.nextInt(40, 98) }
+            if (profession.maxSalary == 0.0F || profession.maxSalary <= currentAmount) {
+                messageList =
+                    employee.showEmployeeSalary((currentAmount/employee.currentSalary), messageList, messageId)
+                messageId = messageList[messageList.size - 1].id
+
+                employee.currentSalary += currentAmount
             } else {
-                List(1) { Random.nextInt(10, 30) }
+                messageList =
+                    employee.showEmployeeSalary(0.0F, messageList, messageId)
+                messageId = messageList[messageList.size - 1].id
             }
-
-            employee.currentSalary += (employee.currentSalary * (randomValues[0].toFloat() / 1000.0F))
-
-            messageList =
-                employee.showEmployeeSalary((randomValues[0].toFloat() / 10.0F), messageList, messageId)
-            messageId = messageList[messageList.size - 1].id
         } else {
             messageList =
                 employee.showEmployeeSalary(0.0F, messageList, messageId)
@@ -1560,14 +1616,14 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
             messageId = messageList[messageList.size - 1].id
         }
 
-        if (age >= 50) {
+        //if (age >= 50) {
             // Visa summa pension och skatter efter 50 år
             messageList = accountPension.showAccountAmount((age - person.age + 1), messageList, messageId)
             messageId = messageList[messageList.size - 1].id
 
             messageList = accountTax.showAccountAmount((age - person.age + 1), messageList, messageId)
             messageId = messageList[messageList.size - 1].id
-        }
+        //}
 
         //Dra av diverse levnadskostnader för mat är 3000 genomsnittet
         randomValues = List(1) { Random.nextInt(5000, 10000) }
@@ -1635,6 +1691,11 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
             person.house.houseMonthPayment += person.house.raiseTheRent()
         }
 
+        //Valutan blir mindre värd på kontot
+        if (isRecession) {
+            accountSalary.amount -= accountSalary.recessionTheAccount()
+        }
+
         messageList = accountSalary.showAccountCost(messageList, messageId)
         messageId = messageList[messageList.size - 1].id
 
@@ -1669,11 +1730,12 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                     accountNoAkassa.amount += person.house.houseAmount
                 }
 
-                person.isAccommodation = true
+                person.house.houseAmount = 0.0F
+                person.house.houseMonthPayment = 0.0F
 
                 //Du skaffar dig en hyresrätt istället
+                person.isAccommodation = true
                 person.house = House(0, "hire")
-                person.house.houseAmount = 0.0F
 
                 randomValues = List(1) { Random.nextInt(5000, 13000) }
                 person.house.houseMonthPayment = randomValues[0].toFloat()
@@ -1711,6 +1773,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
     return currentLife
 }
+
 
 
 

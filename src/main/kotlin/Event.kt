@@ -108,21 +108,4 @@ data class Event (
 
         return storyList
     }
-
-    fun showEventPink(messageList: List<Message>, messageId: Int, messageStart: String, messageEnd: String): List<Message> {
-        var storyList = messageList
-        val storyId = messageId + 1
-
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                messageStart + this.eventText + messageEnd,
-                "",
-                "blinkingPink"
-            )
-        )
-
-        return storyList
-    }
-
 }

@@ -111,7 +111,7 @@ val ShowAction = FC<ShowActionProps> { props ->
                 fontFamily = FontFamily.cursive
             }
             +"Avgångsvederlagchans: "
-            +"${(props.actualProfession.randomSeverancePay * 100).toInt().formatDecimalSeparator()}%"
+            +"${(props.actualProfession.randomSeverancePay * 100).formatDecimalSeparator()}%"
         }
 
     }

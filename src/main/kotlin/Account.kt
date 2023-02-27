@@ -1,4 +1,5 @@
 import kotlinx.serialization.Serializable
+import kotlin.random.Random
 
 @Serializable
 data class Account( val accountId: Int, val accountType: String) {
@@ -94,7 +95,7 @@ data class Account( val accountId: Int, val accountType: String) {
                             "",
                             ""
                         )
-                        message.status.accountSalaryAmount = this.amount.toInt().formatDecimalSeparator()
+                        //message.status.accountSalaryAmount = this.amount.toInt().formatDecimalSeparator()
                         storyList = storyList.plus(message)
                     } else {
                         storyId += 1
@@ -104,7 +105,7 @@ data class Account( val accountId: Int, val accountType: String) {
                             "",
                             ""
                         )
-                        message.status.accountSalaryAmount = this.amount.toInt().formatDecimalSeparator()
+                        //message.status.accountSalaryAmount = this.amount.toInt().formatDecimalSeparator()
                         storyList = storyList.plus(message)
                     }
                 }
@@ -153,33 +154,35 @@ data class Account( val accountId: Int, val accountType: String) {
     fun showAccountCost(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
+        val message: Message
 
         when (this.accountType) {
             "lönekonto" -> {
                 if (this.amount.toInt() < 0.0F) {
                     storyId += 1
-                    storyList = storyList.plus(
-                        Message(
-                            storyId,
-                            "Lönekonto: ${
-                                this.amount.toInt().formatDecimalSeparator()
-                            } SEK (efter kostnadsavdrag) 😒",
-                            "",
-                            "blinkingPink"
-                        )
+                    message = Message(
+                        storyId,
+                        "Lönekonto: ${
+                            this.amount.toInt().formatDecimalSeparator()
+                        } SEK (efter kostnadsavdrag) 😒",
+                        "",
+                        "blinkingPink"
                     )
+                    message.status.accountSalaryAmount = this.amount.toInt().formatDecimalSeparator()
+                    storyList = storyList.plus(message)
+
                 } else {
                     storyId += 1
-                    storyList = storyList.plus(
-                        Message(
-                            storyId,
-                            "Lönekonto: ${
-                                this.amount.toInt().formatDecimalSeparator()
-                            } SEK (efter kostnadsavdrag)",
-                            "",
-                            ""
-                        )
+                    message = Message(
+                        storyId,
+                        "Lönekonto: ${
+                            this.amount.toInt().formatDecimalSeparator()
+                        } SEK (efter kostnadsavdrag)",
+                        "",
+                        "blinkingPink"
                     )
+                    message.status.accountSalaryAmount = this.amount.toInt().formatDecimalSeparator()
+                    storyList = storyList.plus(message)
                 }
             }
 
@@ -236,7 +239,7 @@ data class Account( val accountId: Int, val accountType: String) {
 
     fun showSkuldsanering(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        var storyId = messageId + 1
+        val storyId = messageId + 1
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -248,15 +251,9 @@ data class Account( val accountId: Int, val accountType: String) {
         return storyList
     }
 
-    fun registerAccount() {
-        //Insert account in db
-    }
+    fun recessionTheAccount(): Float {
+        val randomValues = List(1) { Random.nextInt(1, 2) }
 
-    fun updateAccount() {
-        //Update account in db
-    }
-
-    fun getAccount() {
-        //Select account from db
+        return this.amount * (randomValues[0].toFloat() / 100.0F)
     }
 }

@@ -58,6 +58,7 @@ val App = FC<Props> {
         currentView = newView
 
         unSelectedQuestions = newView.questions
+        currentLife.firstStep = true
     }
 
     // Top button
@@ -235,6 +236,7 @@ val App = FC<Props> {
                 //Initiate lists of person profession and accounts
                 person.professions = emptyList()
                 person.accounts = emptyList()
+
                 div {
 
                     ActionList {
