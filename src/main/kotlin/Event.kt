@@ -93,19 +93,26 @@ data class Event (
         return selectedEvents
     }
 
-    fun showEvent(messageList: List<Message>, messageId: Int, messageStart: String, messageEnd: String): List<Message> {
+    fun showEvent(amount: Float, messageList: List<Message>, messageId: Int, messageStart: String, messageEnd: String): List<Message> {
         var storyList = messageList
-        val storyId = messageId + 1
+        var storyId = messageId
+        val message: Message
 
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                messageStart + this.eventText + messageEnd,
-                "",
-                "blinking"
-            )
+        storyId += 1
+        message = Message(
+            storyId,
+            messageStart + this.eventText + messageEnd,
+            "",
+            "blinking"
         )
+        when (this.objectType) {
+            "depot" ->   message.status.accountDepotAmount = amount.toInt().formatDecimalSeparator()
+            "home" ->   message.status.houseHireAmount = amount.toInt().formatDecimalSeparator()
+        }
+
+        storyList = storyList.plus(message)
 
         return storyList
     }
+
 }

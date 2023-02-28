@@ -288,13 +288,13 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "----------------------- Summering boende ------------------------",
+                "----------------------- Årlig Summering boende ------------------------",
                 "deepskyblue",
                 ""
             )
         )
 
-        //if (this.house.houseAmount.toInt() > 0) {
+        if (this.house.houseAmount.toInt() > 0) {
             storyId += 1
             message = Message(
                 storyId,
@@ -304,9 +304,9 @@ data class Person (val id: Int) {
             )
             message.status.houseAmount = this.house.houseAmount.toInt().formatDecimalSeparator()
             storyList = storyList.plus(message)
-        //}
+        }
 
-        //if (this.house.isMortgage) {
+        if (this.house.isMortgage) {
             storyId += 1
             message = Message(
                 storyId,
@@ -348,7 +348,7 @@ data class Person (val id: Int) {
             )
             message.status.loanMonthPayment = this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()
             storyList = storyList.plus(message)
-        //}
+        }
 
         storyId += 1
         message = Message(
@@ -366,12 +366,23 @@ data class Person (val id: Int) {
 
     fun showTherapist(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId + 1
+        var storyId = messageId
 
+        storyId += 1
         storyList = storyList.plus(
             Message(
                 storyId,
                 "Du är deprimerad och sitter med en samtalsterapeut, vad blir du glad av? frågar hon.",
+                "",
+                "blinkingPink"
+            )
+        )
+
+        storyId += 1
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "vad blir du glad av? frågar hon.",
                 "",
                 "blinkingPink"
             )
@@ -383,16 +394,17 @@ data class Person (val id: Int) {
     fun showPersonGetHouseLoan(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
+        var message: Message
 
         storyId += 1
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Du behöver ta ett lån på ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK 😅",
-                "",
-                "blinkingPink"
-            )
+        message = Message(
+            storyId,
+            "Du behöver ta ett lån på ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK 😅",
+            "",
+            "blinkingPink"
         )
+        message.status.houseLoanAmount = this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()
+        storyList = storyList.plus(message)
 
         storyId += 1
         storyList = storyList.plus(
@@ -405,47 +417,135 @@ data class Person (val id: Int) {
         )
 
         storyId += 1
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Avbetalning lån: ${this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()}SEK.",
-                "hotpink",
-                ""
-            )
+        message = Message(
+            storyId,
+            "Räntebelopp per månad: ${this.house.houseLoan.calculateInterest().toInt().formatDecimalSeparator()}} SEK.",
+            "",
+            "hotpink"
         )
+        message.status.interestMonthPayment = this.house.houseLoan.calculateInterest().toInt().formatDecimalSeparator()
+        storyList = storyList.plus(message)
+
+        storyId += 1
+        message = Message(
+            storyId,
+            "Avbetalning lån: ${this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()}SEK.",
+            "hotpink",
+            ""
+        )
+        message.status.loanMonthPayment = this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()
+        storyList = storyList.plus(message)
+
 
         return storyList
     }
 
     fun showPersonNoHouseLoan(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId + 1
+        var storyId = messageId
+        var message: Message
 
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Ditt lån blev avslaget så det blev inget boende 🤥",
-                "",
-                "blinkingPink"
-            )
+        storyId += 1
+        message = Message(
+            storyId,
+            "Ditt lån blev avslaget så det blev inget boende 🤥",
+            "",
+            "blinking"
         )
+        message.status.houseLoanAmount = "0"
+        storyList = storyList.plus(message)
+
+        storyId += 1
+        message = Message(
+            storyId,
+            "Du får låna en soffa att sova på 🤥",
+            "",
+            "blinking"
+        )
+        message.status.interestMonthPayment = "0"
+        storyList = storyList.plus(message)
+
+        storyId += 1
+
+        storyId += 1
+        message = Message(
+            storyId,
+            "Avbetalning lån per månad: 0 SEK.",
+            "",
+            ""
+        )
+        message.status.loanMonthPayment = "0"
+        storyList = storyList.plus(message)
+
+
+        storyId += 1
+        message = Message(
+            storyId,
+            "Värde hus: 0 SEK.",
+            "hotpink",
+            ""
+        )
+        message.status.houseAmount = "0"
+        storyList = storyList.plus(message)
+
+        storyId += 1
+        message = Message(
+            storyId,
+            "Månadskostnad hus: 0 SEK.",
+            "",
+            ""
+        )
+        message.status.houseHireAmount = "0"
+        storyList = storyList.plus(message)
 
         return storyList
     }
 
     fun showPersonLoanReady(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId + 1
-        val message: Message
+        var storyId = messageId
+        var message: Message
 
+        storyId += 1
         message = Message(
             storyId,
             "Wow!! Du har betalt av ditt lån.",
             "",
             "blinking"
         )
-        message.status.houseLoanAmount = this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()
+        message.status.houseLoanAmount = "0"
         storyList = storyList.plus(message)
+
+        storyId += 1
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Låneränta: 0%",
+                "",
+                ""
+            )
+        )
+
+        storyId += 1
+        message = Message(
+            storyId,
+            "Räntebelopp per månad: 0 SEK.",
+            "",
+            ""
+        )
+        message.status.interestMonthPayment = "0"
+        storyList = storyList.plus(message)
+
+        storyId += 1
+        message = Message(
+            storyId,
+            "Avbetalning lån per månad: 0 SEK.",
+            "",
+            ""
+        )
+        message.status.loanMonthPayment = "0"
+        storyList = storyList.plus(message)
+
 
         return storyList
     }
@@ -512,16 +612,18 @@ data class Person (val id: Int) {
 
     fun showPersonAccomodationSold(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId + 1
+        var storyId = messageId
+        val message: Message
 
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Dags att sälja det gamla boendet! du får ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
-                "hotpink",
-                ""
-            )
+        storyId += 1
+        message = Message(
+            storyId,
+            "Dags att sälja det gamla boendet! du får ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
+            "hotpink",
+            ""
         )
+        message.status.houseAmount = "0"
+        storyList = storyList.plus(message)
 
         return storyList
     }
@@ -529,16 +631,17 @@ data class Person (val id: Int) {
     fun showSkuldsanering(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
+        var message: Message
 
         storyId += 1
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Du måste skuldsanera och säljer ditt boende! du får ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
-                "hotpink",
-                ""
-            )
+        message = Message(
+            storyId,
+            "Du måste skuldsanera och säljer ditt boende! du får ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
+            "hotpink",
+            ""
         )
+        message.status.houseAmount = "0"
+        storyList = storyList.plus(message)
 
         storyId += 1
         storyList = storyList.plus(
@@ -550,32 +653,122 @@ data class Person (val id: Int) {
             )
         )
 
+        if (this.house.isMortgage) {
+            storyId += 1
+            message = Message(
+                storyId,
+                "Lån: 0 SEK.",
+                "",
+                ""
+            )
+            message.status.houseLoanAmount = "0"
+            storyList = storyList.plus(message)
+
+
+            storyId += 1
+            message = Message(
+                storyId,
+                "Räntebelopp per månad: 0 SEK.",
+                "",
+                ""
+            )
+            message.status.interestMonthPayment = "0"
+            storyList = storyList.plus(message)
+
+            storyId += 1
+            message = Message(
+                storyId,
+                "Avbetalning lån per månad: 0 SEK.",
+                "",
+                ""
+            )
+            message.status.loanMonthPayment = "0"
+            storyList = storyList.plus(message)
+        }
+
+        storyId += 1
+        message = Message(
+            storyId,
+            "Månadskostnad hus: 0 SEK.",
+            "",
+            ""
+        )
+        message.status.houseHireAmount = "0"
+        storyList = storyList.plus(message)
+
         return storyList
     }
 
     fun showPersonHouseBought(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
+        var message: Message
 
-        storyId += 1
-        storyList = storyList.plus(
-            Message(
+        if (this.house.houseAmount.toInt() > 0) {
+            storyId += 1
+            message = Message(
                 storyId,
                 "Huset kostar: ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
             )
-        )
+            message.status.houseAmount = this.house.houseAmount.toInt().formatDecimalSeparator()
+            storyList = storyList.plus(message)
+        }
 
-        storyId += 1
-        storyList = storyList.plus(
-            Message(
+        if (this.house.isMortgage) {
+            storyId += 1
+            message = Message(
                 storyId,
-                "Månadskostnad hus: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+                "Lån: ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
             )
+            message.status.houseLoanAmount = this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()
+            storyList = storyList.plus(message)
+
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Låneränta: ${this.house.houseLoan.loanInterest.toInt().formatDecimalSeparator()}%",
+                    "hotpink",
+                    ""
+                )
+            )
+
+            storyId += 1
+            message = Message(
+                storyId,
+                "Räntebelopp per månad: ${this.house.houseLoan.calculateInterest().toInt().formatDecimalSeparator()} SEK.",
+                "hotpink",
+                ""
+            )
+            message.status.interestMonthPayment = this.house.houseLoan.calculateInterest().toInt().formatDecimalSeparator()
+            storyList = storyList.plus(message)
+
+            storyId += 1
+            message = Message(
+                storyId,
+                "Avbetalning lån per månad: ${
+                    this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()
+                } SEK.",
+                "hotpink",
+                ""
+            )
+            message.status.loanMonthPayment = this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()
+            storyList = storyList.plus(message)
+        }
+
+        storyId += 1
+        message = Message(
+            storyId,
+            "Månadskostnad hus: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+            "hotpink",
+            ""
         )
+        message.status.houseHireAmount = this.house.houseMonthPayment.toInt().formatDecimalSeparator()
+        storyList = storyList.plus(message)
 
         return storyList
     }
@@ -583,42 +776,91 @@ data class Person (val id: Int) {
     fun showPersonDepartmentBought(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
+        var message: Message
 
-        storyId += 1
-        storyList = storyList.plus(
-            Message(
+        if (this.house.houseAmount.toInt() > 0) {
+            storyId += 1
+            message = Message(
                 storyId,
-                "Bostadsrätten kostar: ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
+                "Bostadsrätten kostar:  ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
             )
-        )
+            message.status.houseAmount = this.house.houseAmount.toInt().formatDecimalSeparator()
+            storyList = storyList.plus(message)
+        }
 
-        storyId += 1
-        storyList = storyList.plus(
-            Message(
+        if (this.house.isMortgage) {
+            storyId += 1
+            message = Message(
                 storyId,
-                "Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+                "Lån: ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
             )
+            message.status.houseLoanAmount = this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()
+            storyList = storyList.plus(message)
+
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Låneränta: ${this.house.houseLoan.loanInterest.toInt().formatDecimalSeparator()}%",
+                    "hotpink",
+                    ""
+                )
+            )
+
+            storyId += 1
+            message = Message(
+                storyId,
+                "Räntebelopp per månad: ${this.house.houseLoan.calculateInterest().toInt().formatDecimalSeparator()} SEK.",
+                "hotpink",
+                ""
+            )
+            message.status.interestMonthPayment = this.house.houseLoan.calculateInterest().toInt().formatDecimalSeparator()
+            storyList = storyList.plus(message)
+
+            storyId += 1
+            message = Message(
+                storyId,
+                "Avbetalning lån per månad: ${
+                    this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()
+                } SEK.",
+                "hotpink",
+                ""
+            )
+            message.status.loanMonthPayment = this.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()
+            storyList = storyList.plus(message)
+        }
+
+        storyId += 1
+        message = Message(
+            storyId,
+            "Hyra bostadsrätt: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+            "hotpink",
+            ""
         )
+        message.status.houseHireAmount = this.house.houseMonthPayment.toInt().formatDecimalSeparator()
+        storyList = storyList.plus(message)
 
         return storyList
     }
 
     fun showPersonAccomodationHire(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId + 1
+        var storyId = messageId
+        var message: Message
 
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
-                "hotpink",
-                ""
-            )
+        storyId += 1
+        message = Message(
+            storyId,
+            "Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+            "hotpink",
+            ""
         )
+        message.status.houseHireAmount = this.house.houseMonthPayment.toInt().formatDecimalSeparator()
+        storyList = storyList.plus(message)
 
         return storyList
     }

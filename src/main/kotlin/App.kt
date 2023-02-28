@@ -426,7 +426,7 @@ val App = FC<Props> {
                     actualInputQuestions = inputQuestions
                     actualName = currentPerson.name
                     actualAge = currentPerson.age.toString()
-                    actualPension = currentPerson.pension.toString()
+                    actualPension = (currentPerson.pension * 100).toString()
                 }
             }
             "pension" -> {

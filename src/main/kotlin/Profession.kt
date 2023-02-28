@@ -66,7 +66,7 @@ data class Profession(
                 0.0F, 100000.0F, 2800.0F, 58, "salary",30,20, 20, 60,  0.07F, 50
             ),
             Profession(
-                4, "chef", "Bankchef", "Du jobbar som chef på en bank",
+                5, "chef", "Bankchef", "Du jobbar som chef på en bank",
                 0.0F, 88000.0F, 2500.0F, 58, "salary",30,40, 20, 60,  0.07F, 30
             ),
             Profession(
@@ -86,163 +86,163 @@ data class Profession(
                 0.0F, 58000.0F, 1700.0F, 58, "salary",30,10, 20, 60,  0.07F
             ),
             Profession(
-                11, "professor", "Professor", "Du jobbar som professor",
+                10, "professor", "Professor", "Du jobbar som professor",
                 0.0F, 50000.0F, 1500.0F, 60, "salary",40,10, 40, 20,  0.07F
             ),
 
             //Pension
             Profession(
-                12, "bank", "Banktjänsteman", "Du jobbar på som banktjänsteman",
+                20, "bank", "Banktjänsteman", "Du jobbar på som banktjänsteman",
                 0.0F, 0.0F, 1000.0F, 58, "pension",30,50, 10, 10,  0.15F, 50
             ),
             Profession(
-                13, "insurance", "Försäkringsdirektör", "Du jobbar som försäkringsdirektör",
+                21, "insurance", "Försäkringsdirektör", "Du jobbar som försäkringsdirektör",
                 0.0F, 100000.0F, 2800.0F, 58, "pension",10,50, 10, 10, 0.15F, 50
             ),
             Profession(
-                14, "programmer", "Programmerar", "Du jobbar som programmerare på en bank",
+                22, "programmer", "Programmerar", "Du jobbar som programmerare på en bank",
                 0.0F, 40000.0F, 1200.0F, 60, "pension",30,20, 10, 10, 0.15F, 50
             ),
 
             //Äventyr
             Profession(
-                15, "detektiv", "Detektiv", "Du jobbar som detektiv",
+                30, "detektiv", "Detektiv", "Du jobbar som detektiv",
                 0.0F, 30800.0F, 3000.0F, 50, "adventure",30,50, 40,20, 0.0F
             ),
             Profession(
-                16, "pilote", "Pilot", "Du jobbar på ett flygbolag",
+                31, "pilote", "Pilot", "Du jobbar på ett flygbolag",
                 0.0F, 51100.0F, 1500.0F, 50, "adventure",20,10, 40, 20, 0.07F, 30
             ),
             Profession(
-                17, "fireman", "Brandman", "Du jobbar som brandman",
+                32, "fireman", "Brandman", "Du jobbar som brandman",
                 50000.0F, 40500.0F, 1190.0F, 50, "adventure",40,40, 40, 20, 0.07F
             ),
             Profession(
-                18, "police", "Polis", "Du jobbar hos polisen",
+                33, "police", "Polis", "Du jobbar hos polisen",
                 0.0F, 68200.0F, 2000.0F, 50, "adventure",40,10, 40, 20, 0.07F
             ),
             Profession(
-                19, "kapten", "Kapten", "Du jobbar som kapten på ett fartyg",
+                34, "kapten", "Kapten", "Du jobbar som kapten på ett fartyg",
                 0.0F, 51100.0F, 1500.0F, 50, "adventure",30,30, 40, 20, 0.07F
             ),
             Profession(
-                20, "rescue", "Fjällräddare", "Du jobbar som fjällräddare",
+                35, "rescue", "Fjällräddare", "Du jobbar som fjällräddare",
                 40000.0F, 30000.0F, 900.0F, 50, "adventure",20,50, 40, 20, 0.00F
             ),
             Profession(
-                21, "travelagent", "Reseledare", "Du jobbar på en resebyrå ",
+                36, "travelagent", "Reseledare", "Du jobbar på en resebyrå ",
                 50000.0F, 30000.0F, 900.0F, 60, "adventure",40,40, 40, 20, 0.07F
             ),
             Profession(
-                22, "programmer", "Programmerar", "Du jobbar som programmerare hos underrättelsetjänsten",
+                37, "programmer", "Programmerar", "Du jobbar som programmerare hos underrättelsetjänsten",
                 0.0F, 50000.0F, 1500.0F, 60, "adventure",40,10, 40, 20, 0.07F
             ),
 
             //Semester
             Profession(
-                23, "authority", "Statsanställd", "Du jobbar på en myndighet",
+                40, "authority", "Statsanställd", "Du jobbar på en myndighet",
                 0.0F, 30000.0F, 900.0F, 60, "vacation",30,10, 10, 20, 0.07F, 30
             ),
             Profession(
-                24, "travelagent", "Reseledare", "Du jobbar på en resebyrå ",
+                41, "travelagent", "Reseledare", "Du jobbar på en resebyrå ",
                 50000.0F, 30000.0F, 900.0F, 60, "vacation",40,40,10, 10, 0.07F
             ),
             Profession(
-                25, "builder", "Snickare", "Du jobbar som snickare på ett byggbolag",
+                42, "builder", "Snickare", "Du jobbar som snickare på ett byggbolag",
                 0.0F, 35500.0F, 1000.0F, 60, "vacation",40,20,10, 10, 0.07F
             ),
             Profession(
-                26, "teacher", "Lärare", "Du jobbar som lärare",
+                43, "teacher", "Lärare", "Du jobbar som lärare",
                 50000.0F, 35000.0F, 900.0F, 65, "vacation",40,40,10, 10, 0.07F
             ),
             Profession(
-                27, "programmer", "Programmerar", "Du jobbar som programmerare på en myndighet",
+                44, "programmer", "Programmerar", "Du jobbar som programmerare på en myndighet",
                 0.0F, 35000.0F, 900.0F, 60, "vacation",30,10,10, 10, 0.07F, 30
             ),
 
             //Samhället
             Profession(
-                28, "teacher", "Lärare", "Du jobbar som lärare",
+                50, "teacher", "Lärare", "Du jobbar som lärare",
                 50000.0F, 50800.0F, 1500.0F, 65, "family",40,40, 40, 10, 0.07F
             ),
             Profession(
-                29, "police", "Polis", "Du jobbar hos polisen",
+                51, "police", "Polis", "Du jobbar hos polisen",
                 0.0F, 0.0F, 1190.0F, 50, "family",40,10, 40, 10, 0.07F
             ),
             Profession(
-                30, "bonde", "Jordbrukare", "Du jobbar som jordbrukare",
+                52, "bonde", "Jordbrukare", "Du jobbar som jordbrukare",
                 0.0F, 25000.0F, 700.0F, 60, "family",20,20, 40, 10, 0.00F
             ),
             Profession(
-                31, "programmer", "Programmerar", "Du jobbar som programmerare hos polisen",
+                53, "programmer", "Programmerar", "Du jobbar som programmerare hos polisen",
                 0.0F, 39000.0F, 1000.0F, 60, "family",30,10, 40, 10, 0.07F
             ),
             Profession(
-                32, "socialworker", "Socialassistent", "Du jobbar som socialassistent",
+                54, "socialworker", "Socialassistent", "Du jobbar som socialassistent",
                 50000.0F, 32000.0F, 900.0F, 60, "family",40,20, 40, 10, 0.07F
             ),
 
             //Chilla
             Profession(
-                33, "writer", "Trädgårdsmästare", "Du jobbar som trädgårdsmästare!",
+                60, "writer", "Trädgårdsmästare", "Du jobbar som trädgårdsmästare!",
                 50000.0F, 0.0F, 800.0F, 75, "chilla",20,50, 50, 10, 0.00F
             ),
             Profession(
-                34, "yoga", "Yogainstruktör", "Du jobbar som yogainstruktör",
+                61, "yoga", "Yogainstruktör", "Du jobbar som yogainstruktör",
                 40000.0F, 0.0F, 800.0F, 75, "chilla", 20,50, 50, 10, 0.00F
             ),
             Profession(
-                35, "bonde", "Jordbrukare", "Du jobbar som jordbrukare",
+                62, "bonde", "Jordbrukare", "Du jobbar som jordbrukare",
                 0.0F, 25000.0F, 700.0F, 60, "chilla",20,20, 50, 10, 0.00F
             ),
             Profession(
-                36, "painter", "Konstnär", "Du jobbar som konstnär",
+                63, "painter", "Konstnär", "Du jobbar som konstnär",
                 0.0F, 32000.0F, 900.0F, 60, "chilla",20,50, 50, 60, 0.00F
             ),
             Profession(
-                37, "musiker", "Musiker", "Du jobbar som musiker",
+                64, "musiker", "Musiker", "Du jobbar som musiker",
                 0.0F, 39000.0F, 1000.0F, 60, "chilla", 20,50, 50, 60, 0.00F
             ),
             Profession(
-                38, "writer", "Författare", "Du jobbar som författare",
+                65, "writer", "Författare", "Du jobbar som författare",
                 0.0F, 39000.0F, 1000.0F, 60, "chilla",20,50, 50, 60, 0.00F
             ),
             Profession(
-                39, "programmer", "Programmerar", "Du jobbar som programmerare på en högskola",
+                66, "programmer", "Programmerar", "Du jobbar som programmerare på en högskola",
                 0.0F, 40000.0F, 1000.0F, 60, "chilla",30,10, 50, 10, 0.07F
             ),
 
             //Kul
             Profession(
-                40, "artist", "Cirkusprinsessa", "Du jobbar som cirkusartist!",
+                70, "artist", "Cirkusprinsessa", "Du jobbar som cirkusartist!",
                 0.0F, 30000.0F, 900.0F, 75, "fun",40,40, 60, 10, 0.00F
             ),
             Profession(
-                41, "pt", "Privat tränare", "Du jobbar som PT på ett gym",
+                71, "pt", "Privat tränare", "Du jobbar som PT på ett gym",
                 50000.0F, 30000.0F, 900.0F, 75, "fun",30,50, 60, 10, 0.0F
             ),
             Profession(
-                42, "actor", "Skådespelare", "Du jobbar som skådespelare",
+                72, "actor", "Skådespelare", "Du jobbar som skådespelare",
                 0.0F, 30000.0F, 900.0F, 75, "fun",30,50, 60, 60, 0.0F
             ),
             Profession(
-                43, "comedian", "Komiker", "Du jobbar som komiker",
+                73, "comedian", "Komiker", "Du jobbar som komiker",
                 0.0F, 30000.0F, 900.0F, 75, "fun",30,50, 60, 60, 0.0F
             ),
             Profession(
-                44, "musiker", "Musiker", "Du jobbar som musiker",
+                74, "musiker", "Musiker", "Du jobbar som musiker",
             0.0F, 39000.0F, 1000.0F, 60, "fun",30,50, 60, 60, 0.0F
             ),
             Profession(
-                45, "riding", "Ridlärare", "Du jobbar som ridlärare",
+                75, "riding", "Ridlärare", "Du jobbar som ridlärare",
                 50000.0F, 33000.0F, 950.0F, 60, "fun",30,50, 60, 10, 0.00F
             ),
             Profession(
-                46, "architect", "Arkitekt", "Du jobbar som landskapsarkitekt",
+                76, "architect", "Arkitekt", "Du jobbar som landskapsarkitekt",
             0.0F, 40000.0F, 1200.0F, 60, "fun",30,40, 60, 10, 0.07F
             ),
             Profession(
-                47, "programmer", "Programmerar", "Du jobbar som programmerare på ett spelbolag",
+                77, "programmer", "Programmerar", "Du jobbar som programmerare på ett spelbolag",
                 0.0F, 58000.0F, 1700.0F, 58, "fun",30,10, 60, 60, 0.07F
             )
         )
