@@ -1455,10 +1455,10 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             if (person.isAccommodation) {
 
                                 randomValues = List(1) { Random.nextInt(1, 7) }
-                                person.house.houseMonthPayment -= person.house.houseMonthPayment * (randomValues[0].toFloat() / 100.0F)
+                                person.house.houseAmount += person.house.houseAmount * (randomValues[0].toFloat() / 100.0F)
 
                                 messageList = costevent.showEvent(
-                                    person.house.houseMonthPayment,
+                                    person.house.houseAmount,
                                     messageList,
                                     messageId,
                                     "",
@@ -1581,9 +1581,6 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
             messageId = messageList[messageList.size - 1].id
         }
 
-        messageList = accountSalary.showAccountAmount((age - person.age + 1), messageList, messageId)
-        messageId = messageList[messageList.size - 1].id
-
         if (accountDepot.amount > 0.0F) {
             //Skuldsanering om lönekonto tom men pengar i depå
             if (accountSalary.amount < 0.0F) {
@@ -1594,18 +1591,19 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                 accountNoAkassa.amount += accountDepot.amount
                 accountDepot.amount = 0.0F
             }
-            messageList = accountDepot.showAccountAmount((age - person.age + 1), messageList, messageId)
-            messageId = messageList[messageList.size - 1].id
         }
 
-        //if (age >= 50) {
-            // Visa summa pension och skatter efter 50 år
-            messageList = accountPension.showAccountAmount((age - person.age + 1), messageList, messageId)
-            messageId = messageList[messageList.size - 1].id
+        messageList = accountSalary.showAccountAmount((age - person.age + 1), messageList, messageId)
+        messageId = messageList[messageList.size - 1].id
 
-            messageList = accountTax.showAccountAmount((age - person.age + 1), messageList, messageId)
-            messageId = messageList[messageList.size - 1].id
-        //}
+        messageList = accountDepot.showAccountAmount((age - person.age + 1), messageList, messageId)
+        messageId = messageList[messageList.size - 1].id
+
+        messageList = accountPension.showAccountAmount((age - person.age + 1), messageList, messageId)
+        messageId = messageList[messageList.size - 1].id
+
+        messageList = accountTax.showAccountAmount((age - person.age + 1), messageList, messageId)
+        messageId = messageList[messageList.size - 1].id
 
         //Dra av diverse levnadskostnader för mat är 3000 genomsnittet
         randomValues = List(1) { Random.nextInt(5000, 10000) }
@@ -1675,8 +1673,11 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
         //Valutan blir mindre värd på kontot
         if (isRecession) {
-            accountSalary.amount -= accountSalary.recessionTheAccount()
-            accountNoAkassa.amount -= accountSalary.recessionTheAccount()
+            randomValues = List(1) { Random.nextInt(1, 2) }
+
+            accountSalary.amount -= (accountSalary.amount * (randomValues[0].toFloat() / 100.0F))
+            accountNoAkassa.amount -= (accountNoAkassa.amount * (randomValues[0].toFloat() / 100.0F))
+
         }
 
         messageList = accountSalary.showAccountCost(messageList, messageId)
@@ -1712,6 +1713,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                     accountSalary.amount += person.house.houseAmount
                     accountNoAkassa.amount += person.house.houseAmount
                 }
+                messageList = accountSalary.showAccountAmount((age - person.age + 1), messageList, messageId)
+                messageId = messageList[messageList.size - 1].id
 
                 person.house.houseAmount = 0.0F
                 person.house.houseMonthPayment = 0.0F

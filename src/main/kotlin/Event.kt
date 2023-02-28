@@ -105,9 +105,16 @@ data class Event (
             "",
             "blinking"
         )
+
         when (this.objectType) {
-            "depot" ->   message.status.accountDepotAmount = amount.toInt().formatDecimalSeparator()
-            "home" ->   message.status.houseHireAmount = amount.toInt().formatDecimalSeparator()
+            "depot" -> message.status.accountDepotAmount = amount.toInt().formatDecimalSeparator()
+
+            "home" -> {
+                if (this.eventType == "accident")
+                    message.status.houseHireAmount = amount.toInt().formatDecimalSeparator()
+                else
+                    message.status.houseAmount = amount.toInt().formatDecimalSeparator()
+            }
         }
 
         storyList = storyList.plus(message)

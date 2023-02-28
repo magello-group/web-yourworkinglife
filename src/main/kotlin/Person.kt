@@ -353,7 +353,7 @@ data class Person (val id: Int) {
         storyId += 1
         message = Message(
             storyId,
-            "Månadskostnad: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+            "Månadskostnad/Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
             "",
             ""
         )
@@ -466,8 +466,6 @@ data class Person (val id: Int) {
         storyList = storyList.plus(message)
 
         storyId += 1
-
-        storyId += 1
         message = Message(
             storyId,
             "Avbetalning lån per månad: 0 SEK.",
@@ -476,7 +474,6 @@ data class Person (val id: Int) {
         )
         message.status.loanMonthPayment = "0"
         storyList = storyList.plus(message)
-
 
         storyId += 1
         message = Message(
@@ -613,7 +610,7 @@ data class Person (val id: Int) {
     fun showPersonAccomodationSold(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
-        val message: Message
+        var message: Message
 
         storyId += 1
         message = Message(
@@ -623,6 +620,46 @@ data class Person (val id: Int) {
             ""
         )
         message.status.houseAmount = "0"
+        storyList = storyList.plus(message)
+
+        storyId += 1
+        message = Message(
+            storyId,
+            "Månadskostnad hus: 0 SEK.",
+            "",
+            ""
+        )
+        message.status.houseHireAmount = "0"
+        storyList = storyList.plus(message)
+
+        storyId += 1
+        message = Message(
+            storyId,
+            "Lån: 0 SEK",
+            "",
+            "blinking"
+        )
+        message.status.houseLoanAmount = "0"
+        storyList = storyList.plus(message)
+
+        storyId += 1
+        message = Message(
+            storyId,
+            "Räntebelopp per månad: 0 SEK",
+            "",
+            "blinking"
+        )
+        message.status.interestMonthPayment = "0"
+        storyList = storyList.plus(message)
+
+        storyId += 1
+        message = Message(
+            storyId,
+            "Avbetalning lån per månad: 0 SEK.",
+            "",
+            ""
+        )
+        message.status.loanMonthPayment = "0"
         storyList = storyList.plus(message)
 
         return storyList
@@ -663,7 +700,6 @@ data class Person (val id: Int) {
             )
             message.status.houseLoanAmount = "0"
             storyList = storyList.plus(message)
-
 
             storyId += 1
             message = Message(
