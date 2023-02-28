@@ -1129,92 +1129,117 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                         "rosehouse" -> {
                             //Event(0, "Kul! du köper ett hus på landet med doftande rosor.","rosehouse","home"),
 
+                            if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
+                                person.house = House(0, "rosehouse")
 
-                            person.house = House(0, "rosehouse")
+                                randomValues = List(1) { Random.nextInt(1000000, 5000000) }
+                                person.house.houseAmount = randomValues[0].toFloat()
 
-                            randomValues = List(1) { Random.nextInt(1000000, 5000000) }
-                            person.house.houseAmount = randomValues[0].toFloat()
+                                randomValues = List(1) { Random.nextInt(2000, 5000) }
+                                person.house.houseMonthPayment = randomValues[0].toFloat()
 
-                            randomValues = List(1) { Random.nextInt(2000, 5000) }
-                            person.house.houseMonthPayment = randomValues[0].toFloat()
-
-                            messageList = person.showPersonHouseBought(messageList, messageId)
-                            messageId = messageList[messageList.size - 1].id
+                                messageList = person.showPersonHouseBought(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+                            } else {
+                                messageList = person.noMoneyToShop(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+                            }
                         }
 
                         "castel" -> {
                             //Event(1, "Kul! du köper ett slott med tinar och torn.","castel","home"),
+                            if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
+                                person.house = House(0, "castel")
 
-                            person.house = House(0, "castel")
+                                randomValues = List(1) { Random.nextInt(5000000, 30000000) }
+                                person.house.houseAmount = randomValues[0].toFloat()
 
-                            randomValues = List(1) { Random.nextInt(5000000, 30000000) }
-                            person.house.houseAmount = randomValues[0].toFloat()
+                                randomValues = List(1) { Random.nextInt(2000, 5000) }
+                                person.house.houseMonthPayment = randomValues[0].toFloat()
 
-                            randomValues = List(1) { Random.nextInt(2000, 5000) }
-                            person.house.houseMonthPayment = randomValues[0].toFloat()
-
-                            messageList = person.showPersonHouseBought(messageList, messageId)
-                            messageId = messageList[messageList.size - 1].id
+                                messageList = person.showPersonHouseBought(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+                            } else {
+                                messageList = person.noMoneyToShop(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+                            }
                         }
 
                         "house" -> {
                             //Event(2, "Kul! du köper ett minimalistiskt hus med raka linjer.","house","home"),
 
-                            person.house = House(0, "house")
+                            if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
+                                person.house = House(0, "house")
 
-                            randomValues = List(1) { Random.nextInt(2000000, 10000000) }
-                            person.house.houseAmount = randomValues[0].toFloat()
+                                randomValues = List(1) { Random.nextInt(2000000, 10000000) }
+                                person.house.houseAmount = randomValues[0].toFloat()
 
-                            randomValues = List(1) { Random.nextInt(2000, 5000) }
-                            person.house.houseMonthPayment = randomValues[0].toFloat()
+                                randomValues = List(1) { Random.nextInt(2000, 5000) }
+                                person.house.houseMonthPayment = randomValues[0].toFloat()
 
-                            messageList = person.showPersonHouseBought(messageList, messageId)
-                            messageId = messageList[messageList.size - 1].id
+                                messageList = person.showPersonHouseBought(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+                            } else {
+                                messageList = person.noMoneyToShop(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+                            }
                         }
 
                         "koja" -> {
                             //Event(3, "Kul! du köper en koja i skogen.","koja","home"),
+                            if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
+                                person.house = House(0, "koja")
 
-                            person.house = House(0, "koja")
+                                randomValues = List(1) { Random.nextInt(500000, 1000000) }
+                                person.house.houseAmount = randomValues[0].toFloat()
 
-                            randomValues = List(1) { Random.nextInt(500000, 1000000) }
-                            person.house.houseAmount = randomValues[0].toFloat()
+                                randomValues = List(1) { Random.nextInt(1000, 3000) }
+                                person.house.houseMonthPayment = randomValues[0].toFloat()
 
-                            randomValues = List(1) { Random.nextInt(1000, 3000) }
-                            person.house.houseMonthPayment = randomValues[0].toFloat()
-
-                            messageList = person.showPersonHouseBought(messageList, messageId)
-                            messageId = messageList[messageList.size - 1].id
+                                messageList = person.showPersonHouseBought(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+                            } else {
+                                messageList = person.noMoneyToShop(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+                            }
                         }
 
                         "department" -> {
                             //Event(5, "Kul! du köper ett bostadsrättsradhus i en förort.","department","home"),
+                            if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
+                                person.house = House(0, "department")
 
-                            person.house = House(0, "department")
+                                randomValues = List(1) { Random.nextInt(1000000, 5000000) }
+                                person.house.houseAmount = randomValues[0].toFloat()
 
-                            randomValues = List(1) { Random.nextInt(1000000, 5000000) }
-                            person.house.houseAmount = randomValues[0].toFloat()
+                                randomValues = List(1) { Random.nextInt(1000, 7000) }
+                                person.house.houseMonthPayment = randomValues[0].toFloat()
 
-                            randomValues = List(1) { Random.nextInt(1000, 7000) }
-                            person.house.houseMonthPayment = randomValues[0].toFloat()
-
-                            messageList = person.showPersonDepartmentBought(messageList, messageId)
-                            messageId = messageList[messageList.size - 1].id
+                                messageList = person.showPersonDepartmentBought(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+                            } else {
+                                messageList = person.noMoneyToShop(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+                            }
                         }
 
                         "departmentcity" -> {
                             //Event(4, "Kul! du köper en bostadsrätt mitt i staden.","departmentcity","home"),
+                            if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
+                                person.house = House(person.id, "departmentcity")
 
-                            person.house = House(person.id, "departmentcity")
+                                randomValues = List(1) { Random.nextInt(5000000, 15000000) }
+                                person.house.houseAmount = randomValues[0].toFloat()
 
-                            randomValues = List(1) { Random.nextInt(5000000, 15000000) }
-                            person.house.houseAmount = randomValues[0].toFloat()
+                                randomValues = List(1) { Random.nextInt(1000, 7000) }
+                                person.house.houseMonthPayment = randomValues[0].toFloat()
 
-                            randomValues = List(1) { Random.nextInt(1000, 7000) }
-                            person.house.houseMonthPayment = randomValues[0].toFloat()
-
-                            messageList = person.showPersonDepartmentBought(messageList, messageId)
-                            messageId = messageList[messageList.size - 1].id
+                                messageList = person.showPersonDepartmentBought(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+                            } else {
+                                messageList = person.noMoneyToShop(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+                            }
                         }
 
                         "hirecity" -> {
@@ -1505,11 +1530,11 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
         //Löneökning
         if (employee.currentSalary != 4180.0F &&
-            (employee.countSickMonth + union.countUnEmployeeMonth + parent.countFamilyMonth == 0)
-        ) {
+            ((employee.countSickMonth + union.countUnEmployeeMonth + parent.countFamilyMonth) == 0))
+        {
             currentAmount = employee.raiseTheSalary(isBoom, age)
 
-            if (profession.maxSalary == 0.0F || profession.maxSalary <= currentAmount) {
+            if (profession.maxSalary == 0.0F || currentAmount <= profession.maxSalary ) {
                 messageList =
                     employee.showEmployeeSalary((currentAmount/employee.currentSalary), messageList, messageId)
                 messageId = messageList[messageList.size - 1].id
@@ -1550,8 +1575,9 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         accountNoAkassa.amount -= currentAmount
         accountPension.amount += currentAmount
 
-        //Summera kostnader
+        //Initiera kostnader
         sumCosts = 0.0F
+        //privat pension
         sumCosts += employee.currentSalary * person.pension * 12.0F
 
         //Lägg på inkomst
@@ -1567,9 +1593,11 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
             //Dra av skatt
             accountSalary.amount += currentAmount - (currentAmount * 0.3F)
             accountNoAkassa.amount += currentAmount - (currentAmount * 0.3F)
+            sumCosts +=  currentAmount * 0.3F
 
             //Summera pension
             accountPension.amount += (employee.currentSalary * profession.pension) * employee.countWorkMonth.toFloat()
+            sumCosts +=  (employee.currentSalary * profession.pension) * employee.countWorkMonth.toFloat()
 
             messageList = employee.showEmployeeCountWorkMonth(messageList, messageId)
             messageId = messageList[messageList.size - 1].id

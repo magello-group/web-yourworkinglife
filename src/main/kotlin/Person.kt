@@ -607,6 +607,21 @@ data class Person (val id: Int) {
         return storyList
     }
 
+    fun noMoneyToShop(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        val storyId = messageId + 1
+
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Åh nej! du har inga pengar att köpa ett nytt boende 😒",
+                "",
+                "blinking"
+            )
+        )
+        return storyList
+    }
+
     fun showPersonAccomodationSold(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
@@ -637,7 +652,7 @@ data class Person (val id: Int) {
             storyId,
             "Lån: 0 SEK",
             "",
-            "blinking"
+            ""
         )
         message.status.houseLoanAmount = "0"
         storyList = storyList.plus(message)
@@ -647,7 +662,7 @@ data class Person (val id: Int) {
             storyId,
             "Räntebelopp per månad: 0 SEK",
             "",
-            "blinking"
+            ""
         )
         message.status.interestMonthPayment = "0"
         storyList = storyList.plus(message)
@@ -744,7 +759,7 @@ data class Person (val id: Int) {
             storyId += 1
             message = Message(
                 storyId,
-                "Huset kostar: ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
+                "Det nya huset kostar: ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
             )
@@ -818,7 +833,7 @@ data class Person (val id: Int) {
             storyId += 1
             message = Message(
                 storyId,
-                "Bostadsrätten kostar:  ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
+                "Den nya bostadsrätten kostar:  ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
                 "hotpink",
                 ""
             )
@@ -891,7 +906,7 @@ data class Person (val id: Int) {
         storyId += 1
         message = Message(
             storyId,
-            "Hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
+            "Det nya boendet hyra: ${this.house.houseMonthPayment.toInt().formatDecimalSeparator()} SEK.",
             "hotpink",
             ""
         )

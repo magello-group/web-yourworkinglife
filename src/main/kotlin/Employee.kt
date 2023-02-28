@@ -19,7 +19,7 @@ data class Employee( val employeeId: Int )
         } else if ( age <= 50 ) {
             List(1) { Random.nextInt(10, 30) }
         } else {
-            List(1) { Random.nextInt(0, 10) }
+            List(1) { Random.nextInt(5, 10) }
         }
 
         return (this.currentSalary * (randomValues[0].toFloat() / 1000.0F))
