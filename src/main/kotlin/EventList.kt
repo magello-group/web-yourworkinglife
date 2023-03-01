@@ -166,6 +166,10 @@ val EventList = FC<EventListProps> { props ->
                 +" ▶"
             }
         }
+
+        ShowEvent {
+            actualEvent = selectedEvents[0]
+        }
     }
 }
 

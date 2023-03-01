@@ -20,7 +20,7 @@ data class Event (
             Event(6, "du blir deprimerad.", "depressed", "sick"),
 
             Event(7, "Du skaffar katt och livet känns härligt 🐱😍", "cat", "luck"),
-            Event(8, "Du börjar träna och du känner dig stark 💪 och lycklig", "strong", "luck"),
+            Event(8, "Du tränar och känner dig både stark 💪 och lycklig", "strong", "luck"),
             Event(9, "Du finner en vän att prata med och livet vänder 🤗", "friend", "luck"),
             Event(10, "Du drar iväg på en lång vandring själv 🚶 du känner dig fri 😍", "walk", "luck"),
             Event(11, "Du skaffar hund och du känner dig både lycklig och stark 🦖😍", "dog", "luck"),

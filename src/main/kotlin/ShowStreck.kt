@@ -9,9 +9,14 @@ external interface ShowStreckProps : Props {
     var selectedImage01: String //= "streck002.jpg"
     var selectedImage02: String //= "streck003.jpg"
     var selectedImage03: String //= "streck004.jpg"
+    var selectedTopPX: Int //543
 }
 
 val ShowStreck = FC<ShowStreckProps> { props ->
+    var topPX = 543
+
+    if (props.selectedTopPX > 0) topPX = props.selectedTopPX
+
     p {
 
         val streck: AnimationName = keyframes {
@@ -94,7 +99,7 @@ val ShowStreck = FC<ShowStreckProps> { props ->
             backgroundImage = url("streck002.jpg")
             display = Display.flex
             position = Position.absolute
-            top = 543.px
+            top = topPX.px
             left = 1.px
             width = 50.px
             height = 30.px

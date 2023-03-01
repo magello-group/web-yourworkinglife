@@ -1,9 +1,11 @@
 import kotlinx.serialization.Serializable
+import kotlin.math.absoluteValue
 
 @Serializable
 data class Life ( val personId: Int) {
     var person = Person(personId)
     var firstStep = true
+    var pensionStep = false
     var age = 0
     var parent = Parent(personId)
     var employee = Employee(1)
@@ -23,4 +25,96 @@ data class Life ( val personId: Int) {
     var isNewProfession = false
     var professionMessageId = 0
     var firstSalary: Float = 0.0F
+    var urlPension = "https://www.pensionsmyndigheten.se/forsta-din-pension/sa-fungerar-pensionen/sa-tjanar-du-in-till-din-pension"
+
+    fun showPensionLife(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        var storyId = messageId
+        var currentAmount: Float
+
+        storyId += 1
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Du gick i pension vid en ålder på ${this.age} år.",
+                "",
+                "blinking"
+            )
+        )
+
+        storyId += 1
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Du har jobbat i ${(person.countWorkMonth/12).formatDecimalSeparator()} år.",
+                "",
+                ""
+            )
+        )
+
+        if (parent.countBabies > 0) {
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Du är förälder till ${(parent.countBabies).formatDecimalSeparator()} barn.",
+                    "",
+                    ""
+                )
+            )
+        }
+
+        storyId += 1
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Du har haft ${person.professions.size} yrken: ",
+                "",
+                ""
+            )
+        )
+
+        for (profession in person.professions) {
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    profession.title,
+                    "",
+                    ""
+                )
+            )
+        }
+
+        currentAmount = employee.currentSalary - this.firstSalary
+
+        if (currentAmount > 0) {
+
+            currentAmount = currentAmount.absoluteValue / employee.currentSalary
+
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Du har haft en löneökning på: ${currentAmount}",
+                    "",
+                    ""
+                )
+            )
+        } else {
+            currentAmount = currentAmount.absoluteValue / employee.currentSalary
+
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Du har haft en lönesänkning på: ${currentAmount}",
+                    "",
+                    ""
+                )
+            )
+        }
+
+        return storyList
+    }
 }

@@ -686,6 +686,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
     var currentAmount: Float
     var sumCosts: Float
+    var maxPension = 599250.0F //Max pensionsgrundad inkomst
 
     while (age < profession.pensionAge && !currentLife.isQuestion && !currentLife.isNewProfession) {
         //Init count month
@@ -1519,6 +1520,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         // Du fyller år
         age += 1
         person.countWorkMonth += 12
+        //Initiera kostnader
+        sumCosts = 0.0F
 
         messageList = person.showWorkingLife(age, messageList, messageId)
         messageId = messageList[messageList.size - 1].id
@@ -1556,18 +1559,53 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
         //sick
         employee.countWorkMonth -= employee.countSickMonth
-        accountSalary.amount += employee.sickSalary * employee.countSickMonth.toFloat()
-        accountNoAkassa.amount += employee.sickSalary * employee.countSickMonth.toFloat()
+        //Sjuk inkomst
+        currentAmount = employee.sickSalary * employee.countSickMonth.toFloat()
+        //Summera skatt
+        accountTax.amount += currentAmount * 0.3F
+        //Summera statlig inkomstpension på pensionsgrundad inkomst
+        if (currentAmount <= maxPension)
+            accountPension.amount += currentAmount * 0.18F
+        else
+            accountPension.amount += maxPension * 0.18F
+        //Dra av skatt på inkomsten
+        accountSalary.amount += currentAmount - (currentAmount * 0.3F)
+        accountNoAkassa.amount += currentAmount - (currentAmount * 0.3F)
+        sumCosts += currentAmount * 0.3F
 
         //varslad
         employee.countWorkMonth -= union.countUnEmployeeMonth
-        accountSalary.amount += union.unEmployedSalaryAmount.toFloat()
-        accountNoAkassa.amount += union.noAkassaSalaryAmount.toFloat()
+        //arbetslöshetsersättning
+        currentAmount = union.unEmployedSalaryAmount.toFloat()
+        //Summera skatt
+        accountTax.amount += currentAmount * 0.3F
+        //Summera statlig inkomstpension på pensionsgrundad inkomst
+        if (currentAmount <= maxPension)
+            accountPension.amount += currentAmount * 0.18F
+        else
+            accountPension.amount += maxPension * 0.18F
+        //Dra av skatt på inkomsten
+        accountSalary.amount += currentAmount - (currentAmount * 0.3F)
+        sumCosts += currentAmount * 0.3F
+
+        currentAmount = union.noAkassaSalaryAmount.toFloat()
+        accountNoAkassa.amount += currentAmount - (currentAmount * 0.3F)
 
         //parent
         employee.countWorkMonth -= parent.countFamilyMonth
-        accountSalary.amount += parent.familySalary * parent.countFamilyMonth.toFloat()
-        accountNoAkassa.amount += parent.familySalary * parent.countFamilyMonth.toFloat()
+        //föräldrarpenning
+        currentAmount = parent.familySalary * parent.countFamilyMonth.toFloat()
+        //Summera skatt
+        accountTax.amount += currentAmount * 0.3F
+        //Summera statlig inkomstpension på pensionsgrundad inkomst
+        if (currentAmount <= maxPension)
+            accountPension.amount += currentAmount * 0.18F
+        else
+            accountPension.amount += maxPension * 0.18F
+
+        accountSalary.amount += currentAmount - (currentAmount * 0.3F)
+        accountNoAkassa.amount += currentAmount - (currentAmount * 0.3F)
+        sumCosts += currentAmount * 0.3F
 
         //privat pension
         currentAmount = employee.currentSalary * person.pension * 12.0F
@@ -1575,8 +1613,6 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         accountNoAkassa.amount -= currentAmount
         accountPension.amount += currentAmount
 
-        //Initiera kostnader
-        sumCosts = 0.0F
         //privat pension
         sumCosts += employee.currentSalary * person.pension * 12.0F
 
@@ -1589,6 +1625,9 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
             //Summera skatt
             accountTax.amount += currentAmount * 0.3F
+
+            //Summera inkomstpension
+            accountPension.amount += currentAmount * 0.18F
 
             //Dra av skatt
             accountSalary.amount += currentAmount - (currentAmount * 0.3F)

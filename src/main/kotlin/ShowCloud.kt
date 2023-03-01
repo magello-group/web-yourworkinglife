@@ -9,9 +9,14 @@ external interface ShowCloudProps : Props {
     var selectedImage: String
     var marginLeftFrom: Int // =26
     var marginLeftTo: Int   //=0
+    var selectedTopPX: Int // 200
 }
 
 val ShowCloud = FC<ShowCloudProps> { props ->
+    var topPX = 200
+
+    if (props.selectedTopPX > 0) topPX = props.selectedTopPX
+
     p {
 
         val moln: AnimationName = keyframes {
@@ -35,7 +40,7 @@ val ShowCloud = FC<ShowCloudProps> { props ->
             animationFillMode = AnimationFillMode.both
             display = Display.flex
             position = Position.absolute
-            top = 200.px
+            top = topPX.px
             left = 1.px
             width = 10.px
             height = 10.px
