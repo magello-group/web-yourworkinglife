@@ -36,6 +36,7 @@ val App = FC<Props> {
 
     var currentMessages: List<Message> by useState(emptyList())
     var historyMessages: List<Message> by useState(emptyList())
+    var lifeHistoryMessages: List<Message> by useState(emptyList())
     var currentPerson: Person by useState(Person(0))
     var currentLife: Life by useState(Life(0))
     var currentStatus: Status by useState(Status(0))
@@ -434,21 +435,20 @@ val App = FC<Props> {
 
                     StartPensionLife {
                         selectedView = currentView
-                        selectedPerson = person
                         selectedMessages = currentMessages
                         selectedHistory = historyMessages
                         selectedStatus = currentStatus
                         selectedLife = currentLife
+                        selectedLifeHistory = lifeHistoryMessages
 
                         onSelectPension =
-                            { newView, newMessages, newPerson, newHistory, newStatus, newLife ->
+                            { newView, newMessages, newHistory, newStatus, newLife, newLifeHistory ->
                                 currentView = newView
                                 currentMessages = newMessages
-                                currentPerson = newPerson
                                 historyMessages = newHistory
-                                age = newStatus.age
                                 currentStatus = newStatus
                                 currentLife = newLife
+                                lifeHistoryMessages = newLifeHistory
                             }
                     }
                 }

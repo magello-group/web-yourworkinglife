@@ -10,13 +10,13 @@ data class Account( val accountId: Int, val accountType: String) {
     var isMessageMiljon20: Boolean = true
 
 
-    fun showDepotAmount(messageList: List<Message>, messageId: Int): List<Message> {
+    fun showDepotAmount(amount: Float, messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         val storyId = messageId + 1
 
         val message = Message(
             storyId,
-            "Härligt! du får värdepapper med ett värde på ${ this.amount.toInt().formatDecimalSeparator() } SEK 🤑" ,
+            "Härligt! du får värdepapper med ett värde på ${ amount.toInt().formatDecimalSeparator() } SEK 🤑" ,
             "",
             "blinking"
         )

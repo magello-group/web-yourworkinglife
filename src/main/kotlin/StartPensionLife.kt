@@ -12,15 +12,14 @@ import kotlin.collections.List
 
 external interface StartPensionLifeProps : Props {
     var selectedView: View
-    var selectedProfession: Profession
-    var selectedPerson: Person
     var selectedMessages: List<Message>
+    var selectedLifeHistory: List<Message>
     var selectedHistory: List<Message>
     var selectedStatus: Status
     var selectedLife: Life
     var selectedEvent: Event
 
-    var onSelectMessages: (View, List<Message>, Profession, Person, List<Message>, Status, Life) -> Unit
+    var onSelectPension: (View, List<Message>, List<Message>, Status, Life, List<Message>) -> Unit
 }
 
 val StartPensionLife = FC<StartPensionLifeProps> { props ->
@@ -28,8 +27,6 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
     // Init person life
     var life: Life = props.selectedLife
     val currentLife: Life
-    val person: Person = props.selectedPerson
-    var profession: Profession = props.selectedProfession
 
     //Init story
     var messageList: List<Message> = props.selectedMessages
@@ -38,13 +35,10 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
     var backupMessages: List<Message> = emptyList()
     val currentStatus: Status = props.selectedStatus
     var messageId = props.selectedLife.lastMessageId
-    var lastDisplayedMessageId = 0
     val maxMessages = 8
-    val isDebugOn = false
-    var topPX = 930
 
 
-    if (!life.pensionStep || props.selectedHistory.isNotEmpty()) {
+    if (!life.pensionStep || historyMessages.isEmpty()) {
         life.pensionStep = true
 
         // starting your pension life
@@ -58,9 +52,6 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
         messageList = currentLife.messageList
         messageId = currentLife.lastMessageId
 
-    }
-
-    if (historyMessages.isEmpty()) {
         //Store story
         for (message in messageList) {
             historyMessages = historyMessages.plus(message)
@@ -86,61 +77,14 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
 
             for ((messageIndex, message) in messageList.withIndex()) {
                 if (messageIndex < maxMessages) {
-                    //Update status row
-                    if (message.status.age != "")
-                        currentStatus.age = message.status.age
-
-                    if (message.status.employeeSalary != "")
-                        currentStatus.employeeSalary = message.status.employeeSalary
-
-                    if (message.status.accountSalaryAmount != "")
-                        currentStatus.accountSalaryAmount = message.status.accountSalaryAmount
-
-                    if (message.status.accountDepotAmount != "")
-                        currentStatus.accountDepotAmount = message.status.accountDepotAmount
-
-                    if (message.status.accountPensionAmount != "")
-                        currentStatus.accountPensionAmount = message.status.accountPensionAmount
-
-                    if (message.status.houseAmount != "") currentStatus.houseAmount = message.status.houseAmount
-
-                    if (message.status.houseHireAmount != "")
-                        currentStatus.houseHireAmount = message.status.houseHireAmount
-
-                    if (message.status.houseLoanAmount != "")
-                        currentStatus.houseLoanAmount = message.status.houseLoanAmount
-                    if (message.status.loanMonthPayment != "")
-                        currentStatus.loanMonthPayment = message.status.loanMonthPayment
-                    if (message.status.interestMonthPayment != "")
-                        currentStatus.interestMonthPayment = message.status.interestMonthPayment
-
-                    if (message.status.profession != "") currentStatus.profession = message.status.profession
-                    if (message.status.countCats != "") currentStatus.countCats = message.status.countCats
-                    if (message.status.countDogs != "") currentStatus.countDogs = message.status.countDogs
-                    if (message.status.countHorses != "") currentStatus.countHorses = message.status.countHorses
-                    if (message.status.countCars != "") currentStatus.countCars = message.status.countCars
-                    if (message.status.countBikes != "") currentStatus.countBikes = message.status.countBikes
-                    if (message.status.countParties != "") currentStatus.countParties = message.status.countParties
-                    if (message.status.countWalking != "") currentStatus.countWalking = message.status.countWalking
-                    if (message.status.countFishing != "") currentStatus.countFishing = message.status.countFishing
-                    if (message.status.countFriends != "") currentStatus.countFriends = message.status.countFriends
-                    if (message.status.countBabies != "") currentStatus.countBabies = message.status.countBabies
-                    if (message.status.countBoats != "") currentStatus.countBoats = message.status.countBoats
-                    if (message.status.countStrong != "") currentStatus.countStrong = message.status.countStrong
-                    if (message.status.countLoves != "") currentStatus.countLoves = message.status.countLoves
 
                     ShowMessage {
                         selectedMessage = message
                     }
 
-                    lastDisplayedMessageId = message.id
-
                 } else {
                     leftMessages = leftMessages.plus(message)
                 }
-
-                if (historyMessages[historyMessages.size - 1].id < message.id)
-                    historyMessages = historyMessages.plus(message)
             }
         }
 
@@ -163,22 +107,27 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
                     }
 
                     onClick = {
-                        props.onSelectMessages(
-                            props.selectedView.getNewView("reload"),
+                        props.onSelectPension(
+                            props.selectedView,
                             leftMessages,
-                            props.selectedProfession,
-                            life.person,
                             historyMessages,
                             currentStatus,
-                            life
+                            life,
+                            props.selectedLifeHistory
                         )
                     }
-                    +props.selectedView.getNewView("reload").buttonText
-
+                    +props.selectedView.buttonText
                     +" ▶"
                 }
 
-                if (historyMessages.isNotEmpty()) {
+                if (historyMessages.isNotEmpty() && messageList[0].id >= maxMessages) {
+                    messageId = messageList[0].id - maxMessages
+
+                    for (message in historyMessages) {
+                        if (message.id >= messageId) {
+                            backupMessages = backupMessages.plus(message)
+                        }
+                    }
 
                     button {
 
@@ -197,14 +146,13 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
                         }
 
                         onClick = {
-                            props.onSelectMessages(
+                            props.onSelectPension(
                                 props.selectedView,
-                                props.selectedHistory,
-                                props.selectedProfession,
-                                life.person,
+                                backupMessages,
                                 historyMessages,
                                 currentStatus,
-                                life
+                                life,
+                                props.selectedLifeHistory
                             )
                         }
                         +"◀ "
@@ -212,8 +160,7 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
                 }
             }
         }
-        if (currentStatus.age == "") currentStatus.age = life.person.age.toString()
-        if (currentStatus.profession == "") currentStatus.profession = props.selectedProfession.title
+
         ShowStatusRow {
             actualPerson = life.person
             actualAge = currentStatus.age

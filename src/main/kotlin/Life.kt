@@ -90,25 +90,25 @@ data class Life ( val personId: Int) {
 
         if (currentAmount > 0) {
 
-            currentAmount = currentAmount.absoluteValue / employee.currentSalary
+            currentAmount = (currentAmount.absoluteValue / employee.currentSalary) * 100
 
             storyId += 1
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Du har haft en löneökning på: ${currentAmount}",
+                    "Du har haft en löneökning på: ${currentAmount.toInt().formatDecimalSeparator()}%",
                     "",
                     ""
                 )
             )
         } else {
-            currentAmount = currentAmount.absoluteValue / employee.currentSalary
+            currentAmount = (currentAmount.absoluteValue / employee.currentSalary) * 100
 
             storyId += 1
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Du har haft en lönesänkning på: ${currentAmount}",
+                    "Du har haft en lönesänkning på: ${currentAmount.toInt().formatDecimalSeparator()}%",
                     "",
                     ""
                 )

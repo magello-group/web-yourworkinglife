@@ -49,7 +49,6 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
         // starting your workingstory
 
         life.age = person.age
-        person.professions = person.professions.plus(profession)
         person.isAccommodation = false
         life.employee.title = profession.title
         life.employee.firstSalary = profession.salary * person.age.toFloat()
@@ -719,11 +718,11 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                     //Get value och financial instruments
                     randomValues = List(1) { Random.nextInt(10000, 50000) }
+
                     accountDepot.amount += randomValues[0].toFloat()
 
-                    messageList = accountDepot.showDepotAmount(messageList, messageId)
+                    messageList = accountDepot.showDepotAmount(randomValues[0].toFloat(),messageList, messageId)
                     messageId = messageList[messageList.size - 1].id
-
                 }
             }
 
