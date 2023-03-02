@@ -258,7 +258,9 @@ val App = FC<Props> {
                 }
                 //Show animation
                 div {
-                    ShowSparkcykel {}
+                    ShowSparkcykel {
+                        selectedTopPX = 350
+                    }
                     ShowStreck {
                         selectedImage01 = "streck002.jpg"
                         selectedImage02 = "streck003.jpg"
@@ -435,38 +437,39 @@ val App = FC<Props> {
 
                     StartPensionLife {
                         selectedView = currentView
-                        selectedMessages = currentMessages
-                        selectedHistory = historyMessages
-                        selectedStatus = currentStatus
                         selectedLife = currentLife
-                        selectedLifeHistory = lifeHistoryMessages
 
                         onSelectPension =
-                            { newView, newMessages, newHistory, newStatus, newLife, newLifeHistory ->
+                            { newView, newLife ->
                                 currentView = newView
-                                currentMessages = newMessages
-                                historyMessages = newHistory
-                                currentStatus = newStatus
                                 currentLife = newLife
-                                lifeHistoryMessages = newLifeHistory
                             }
                     }
                 }
 
                 //Show animation
                 div {
-                    ShowSparkcykel {}
+                    /*
+                    ShowSparkcykel {
+                        selectedTopPX = 750
+                    }
+
+                     */
                     ShowStreck {
+                        selectedTopPX = 780
                         selectedImage01 = "streck002.jpg"
                         selectedImage02 = "streck003.jpg"
                         selectedImage03 = "streck004.jpg"
                     }
-
+/*
                     ShowCloud {
+                        selectedTopPX = 600
                         selectedImage ="sol.png"
                         marginLeftFrom = 0
-                        marginLeftTo = 26
+                        marginLeftTo = 40
                     }
+
+ */
                 }
             }
         }

@@ -51,8 +51,9 @@ external interface ShowPensionRowProps : Props {
 
 val ShowPensionRow = FC<ShowPensionRowProps> { props ->
     var topPX: Int
+    var startPX: Int = 800
 
-    topPX = 580
+    topPX = startPX
     div {
         p {
             css {
@@ -275,7 +276,7 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
 
     div {
 
-        topPX = 580
+        topPX = startPX
         p {
             css {
                 display = Display.block
@@ -415,7 +416,7 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
     }
 
     div {
-        topPX = 580
+        topPX = startPX
         p {
             css {
                 display = Display.block
@@ -710,7 +711,7 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
     }
 
     div {
-        topPX = 580
+        topPX = startPX
         if (props.actualFriends != "0") {
             p {
                 css {

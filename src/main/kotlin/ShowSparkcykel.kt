@@ -7,9 +7,14 @@ import react.Props
 import react.dom.html.ReactHTML.p
 
 external interface ShowSparkcykelProps : Props {
+    var selectedTopPX: Int // 350
 }
 
 val ShowSparkcykel = FC<ShowSparkcykelProps> { props ->
+    var topPX = 350
+
+    if (props.selectedTopPX > 0) topPX = props.selectedTopPX
+
     p {
 
         val sparkCykel: AnimationName = keyframes {
@@ -31,7 +36,7 @@ val ShowSparkcykel = FC<ShowSparkcykelProps> { props ->
             animationFillMode = AnimationFillMode.both
             display = Display.flex
             position = Position.absolute
-            top = 350.px
+            top = props.selectedTopPX.px
             left = 1.px
             width = 154.px
             height = 190.px
