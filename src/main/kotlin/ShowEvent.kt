@@ -62,7 +62,7 @@ val ShowEvent = FC<ShowEventProps> { props ->
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +"Poäng: "
+            +"Lycka: "
             +hobby.point.formatDecimalSeparator()
         }
     }

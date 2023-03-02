@@ -12,14 +12,9 @@ import kotlin.collections.List
 
 external interface StartPensionLifeProps : Props {
     var selectedView: View
-    var selectedMessages: List<Message>
-    var selectedLifeHistory: List<Message>
-    var selectedHistory: List<Message>
-    var selectedStatus: Status
     var selectedLife: Life
-    var selectedEvent: Event
 
-    var onSelectPension: (View, List<Message>, List<Message>, Status, Life, List<Message>) -> Unit
+    var onSelectPension: (View, Life) -> Unit
 }
 
 val StartPensionLife = FC<StartPensionLifeProps> { props ->
@@ -29,34 +24,19 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
     val currentLife: Life
 
     //Init story
-    var messageList: List<Message> = props.selectedMessages
+    var messageList: List<Message> = emptyList()
     var leftMessages: List<Message> = emptyList()
-    var historyMessages: List<Message> = props.selectedHistory
-    var backupMessages: List<Message> = emptyList()
-    val currentStatus: Status = props.selectedStatus
-    var messageId = props.selectedLife.lastMessageId
-    val maxMessages = 8
+    val maxMessages = 100
 
-
-    if (!life.pensionStep || historyMessages.isEmpty()) {
-        life.pensionStep = true
-
-        // starting your pension life
+    // starting your pension life
         life.messageList = emptyList()
         life.lastMessageId = 0
 
-        currentLife = pensionLife(life, props.selectedEvent)
+        currentLife = pensionLife(life)
 
         //Get what happened in your life
         life = currentLife
         messageList = currentLife.messageList
-        messageId = currentLife.lastMessageId
-
-        //Store story
-        for (message in messageList) {
-            historyMessages = historyMessages.plus(message)
-        }
-    }
 
     //Show story
     if (messageList.isNotEmpty()) {
@@ -88,113 +68,54 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
             }
         }
 
-        if (messageList.isNotEmpty()) {
-            p {
-                button {
-
-                    key = messageList[0].id.toString()
-                    css {
-                        display = Display.block
-                        position = Position.absolute
-                        top = 10.px
-                        left = 40.px
-
-                        color = NamedColor.green
-                        borderColor = NamedColor.white
-                        fontSize = 18.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
-                    }
-
-                    onClick = {
-                        props.onSelectPension(
-                            props.selectedView,
-                            leftMessages,
-                            historyMessages,
-                            currentStatus,
-                            life,
-                            props.selectedLifeHistory
-                        )
-                    }
-                    +props.selectedView.buttonText
-                    +" ▶"
-                }
-
-                if (historyMessages.isNotEmpty() && messageList[0].id >= maxMessages) {
-                    messageId = messageList[0].id - maxMessages
-
-                    for (message in historyMessages) {
-                        if (message.id >= messageId) {
-                            backupMessages = backupMessages.plus(message)
-                        }
-                    }
-
-                    button {
-
-                        key = messageList[0].id.toString()
-                        css {
-                            display = Display.block
-                            position = Position.absolute
-                            top = 10.px
-                            left = 10.px
-
-                            color = NamedColor.green
-                            borderColor = NamedColor.white
-                            fontSize = 18.px
-                            backgroundColor = NamedColor.white
-                            fontFamily = FontFamily.cursive
-                        }
-
-                        onClick = {
-                            props.onSelectPension(
-                                props.selectedView,
-                                backupMessages,
-                                historyMessages,
-                                currentStatus,
-                                life,
-                                props.selectedLifeHistory
-                            )
-                        }
-                        +"◀ "
-                    }
-                }
-            }
-        }
-
-        ShowStatusRow {
+        ShowPensionRow {
             actualPerson = life.person
-            actualAge = currentStatus.age
+            actualAge = life.age.toString()
             actualName = life.person.name
             actualPension = (life.person.pension * 100.0F).toInt().formatDecimalSeparator()
-            actualProfession = currentStatus.profession
+            actualProfession = getProfession(life.professionId).title
             firstSalary = life.firstSalary.toInt().formatDecimalSeparator()
-            actualSalary = currentStatus.employeeSalary
-            actualSalaryAmount = currentStatus.accountSalaryAmount
-            actualDepotAmount = currentStatus.accountDepotAmount
-            actualPensionAmount = currentStatus.accountPensionAmount
-            actualHireAmount = currentStatus.houseHireAmount
-            actualHouseAmount = currentStatus.houseAmount
-            actualLoanAmount = currentStatus.houseLoanAmount
-            actualLoanMonthPayment = currentStatus.loanMonthPayment
-            actualInterestMonthPayment = currentStatus.interestMonthPayment
-            actualCats = currentStatus.countCats
-            actualDogs = currentStatus.countDogs
-            actualHorses = currentStatus.countHorses
-            actualCars = currentStatus.countCars
-            actualBabies = currentStatus.countBabies
-            actualBikes = currentStatus.countBikes
-            actualParties = currentStatus.countParties
-            actualWalking = currentStatus.countWalking
-            actualFishing = currentStatus.countFishing
-            actualFriends = currentStatus.countFriends
-            actualBoats = currentStatus.countBoats
-            actualLoves = currentStatus.countLoves
-            actualStrong = currentStatus.countStrong
+            actualSalary = life.employee.currentSalary.toInt().formatDecimalSeparator()
+            actualWorkYear = (life.person.countWorkMonth/12).formatDecimalSeparator()
+            actualSickMonth = (life.person.countSickMonth/12).formatDecimalSeparator()
+            actualParentMonth = (life.person.countParentMonth/12).formatDecimalSeparator()
+            actualSalaryAmount = life.accountSalary.amount.toInt().formatDecimalSeparator()
+            actualNoAkassaAmount = (life.accountNoAkassa.amount - life.accountSalary.amount).toInt().formatDecimalSeparator()
+            actualDepotAmount = life.accountDepot.amount.toInt().formatDecimalSeparator()
+            actualPensionAmount = life.accountPension.amount.toInt().formatDecimalSeparator()
+            actualWorkPensionAmount = life.accountWorkPension.amount.toInt().formatDecimalSeparator()
+            actualTaxPensionAmount = life.accountTaxPension.amount.toInt().formatDecimalSeparator()
+            actualDepotAmount = life.accountDepot.amount.toInt().formatDecimalSeparator()
+            actualTaxAmount = life.accountTax.amount.toInt().formatDecimalSeparator()
+            actualHireAmount = life.person.house.houseMonthPayment.toInt().formatDecimalSeparator()
+            actualHouseAmount =  life.person.house.houseAmount.toInt().formatDecimalSeparator()
+            actualLoanAmount = life.person.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()
+            actualLoanMonthPayment = life.person.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()
+            actualInterestMonthPayment = life.person.house.houseLoan.calculateInterest().toInt().formatDecimalSeparator()
+            actualCats = life.person.cats.size.toString()
+            actualDogs = life.person.dogs.size.toString()
+            actualHorses = life.person.horses.size.toString()
+            actualCars = life.person.cars.size.toString()
+            actualBabies = life.parent.countBabies.toString()
+            actualBikes = life.person.bikes.size.toString()
+            actualParties = (life.person.parties.size + life.person.deadParties.size).toString()
+            actualWalking = life.person.countWalking.toString()
+            actualFishing = life.person.countFishing.toString()
+            actualFriends = life.person.countFriends.toString()
+            actualBoats = life.person.boats.size.toString()
+            actualLoves = life.person.countLove.toString()
+            actualStrong = life.person.countStrong.toString()
+            actualDeadCats = life.person.deadCats.size.toString()
+            actualDeadDogs = life.person.deadDogs.size.toString()
+            actualDeadHorses = life.person.deadHorses.size.toString()
+            actualDeadBikes = life.person.deadBikes.size.toString()
+            actualDeadCars = life.person.deadCars.size.toString()
+            actualDeadBoats = life.person.deadBoats.size.toString()
         }
     }
 }
 
-fun pensionLife(life: Life, selectedEvent: Event): Life {
+fun pensionLife(life: Life): Life {
     val currentLife = life
 
     //Init story
@@ -205,74 +126,6 @@ fun pensionLife(life: Life, selectedEvent: Event): Life {
     messageList = life.showPensionLife(messageList, messageId)
     messageId = messageList[messageList.size - 1].id
 
-    messageList = life.accountSalary.showAccountAmount(life.age, messageList, messageId)
-    messageId = messageList[messageList.size - 1].id
-
-    messageList = life.accountDepot.showAccountAmount(life.age, messageList, messageId)
-    messageId = messageList[messageList.size - 1].id
-
-    messageList = life.accountPension.showAccountAmount(life.age, messageList, messageId)
-    messageId = messageList[messageList.size - 1].id
-
-    messageList = life.accountTax.showAccountAmount(life.age, messageList, messageId)
-    messageId = messageList[messageList.size - 1].id
-/*
-    //Dra av diverse levnadskostnader för mat är 3000 genomsnittet
-    randomValues = List(1) { Random.nextInt(5000, 10000) }
-    sumCosts += randomValues[0].toFloat() * 12.0F
-
-    //Hobbies kostar pengar
-    sumCosts += person.costHobbies()
-
-    //Dra av kostnad för boendet
-    if (person.isAccommodation) {
-        if (person.isLove) {
-            //Sambo att dela hyra med
-            sumCosts += (person.house.houseMonthPayment * 12.0F) / 2.0F
-        } else {
-            sumCosts += person.house.houseMonthPayment * 12.0F
-        }
-
-        //Årlig höjning av hyran
-        //person.house.houseMonthPayment += person.house.raiseTheRent()
-    }
-
-    messageList = accountSalary.showAccountCost(messageList, messageId)
-    messageId = messageList[messageList.size - 1].id
-
-    if (accountSalary.amount != accountNoAkassa.amount) {
-        messageList = accountNoAkassa.showAccountCost(messageList, messageId)
-        messageId = messageList[messageList.size - 1].id
-    }
-
-    sumCosts = sumCosts / 12.0F //per månad
-    messageList = accountSalary.showSumAccountCost(messageList, messageId, sumCosts)
-    messageId = messageList[messageList.size - 1].id
-
-    if (person.isAccommodation) {
-        // Visa boende
-        messageList = person.showPersonAccomodation(messageList, messageId)
-        messageId = messageList[messageList.size - 1].id
-    }
-
-    //Store story
-    currentLife.age = age
-    currentLife.person = person
-    currentLife.professionId = profession.id
-    currentLife.parent = parent
-    currentLife.employee = employee
-    currentLife.accountPension = accountPension
-    currentLife.accountSalary = accountSalary
-    currentLife.accountDepot = accountDepot
-    currentLife.accountTax = accountTax
-    currentLife.accountNoAkassa = accountNoAkassa
-    currentLife.person.union = union
-    currentLife.isPandemi = isPandemi
-    currentLife.isBoom = isBoom
-    currentLife.isRecession = isRecession
-    currentLife.messageList = messageList
-    currentLife.lastMessageId = messageId
-*/
     currentLife.messageList = messageList
     currentLife.lastMessageId = messageId
 

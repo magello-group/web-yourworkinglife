@@ -10,12 +10,16 @@ data class Person (val id: Int) {
     var union: Union = Union(id)
     var insurance: Insurance = Insurance(id,"Olycksfallsförsäkring")
     var house: House = House(id, "")
+    var houses: List<House> = emptyList()
     var professions: List<Profession> = emptyList()
     var employees: List<Employee> = emptyList()
     var accounts: List<Account> = emptyList()
     var luckEvents: List<Event> = emptyList()
     var countWorkMonth: Int = 0
-    private var blancoLoan: Loan = Loan(id, "Blanco")
+    var countSickMonth: Int = 0
+    var countParentMonth: Int = 0
+    var countUnemployedMonth: Int = 0
+    //var blancoLoan: Loan = Loan(id, "Blanco")
     //var isMortgage: Boolean = false
     var isHappy: Boolean = false
     var isMagellit: Boolean = false
@@ -31,6 +35,13 @@ data class Person (val id: Int) {
     var bikes: List<Hobby> = emptyList()
     var parties: List<Hobby> = emptyList()
     var boats: List<Hobby> = emptyList()
+    var deadCats: List<Hobby> = emptyList()
+    var deadDogs: List<Hobby> = emptyList()
+    var deadHorses: List<Hobby> = emptyList()
+    var deadCars: List<Hobby> = emptyList()
+    var deadBikes: List<Hobby> = emptyList()
+    var deadParties: List<Hobby> = emptyList()
+    var deadBoats: List<Hobby> = emptyList()
     var countFriends: Int = 0
     var countWalking: Int = 0
     var countStrong: Int = 0
@@ -81,6 +92,136 @@ data class Person (val id: Int) {
         }
 
         return cost
+    }
+
+    fun countPoints(): Int {
+        var point = 0
+        var hobby = Hobby("")
+        var event = Event(0)
+        var eventList: List<Event>
+
+        if (this.cats.isNotEmpty()) {
+            eventList = event.getEvent("cat")
+            if (eventList.isNotEmpty()) {
+                if (this.luckEvents.contains(eventList[0]))
+                    point += this.cats.size * this.cats[0].point * 2
+                else
+                    point += this.cats.size * this.cats[0].point
+            }
+        }
+
+        if (this.dogs.isNotEmpty()) {
+            eventList = event.getEvent("dog")
+            if (eventList.isNotEmpty()) {
+                if (this.luckEvents.contains(eventList[0]))
+                    point += this.dogs.size * this.dogs[0].point * 2
+                else
+                    point += this.dogs.size * this.dogs[0].point
+            }
+        }
+
+        if (this.horses.isNotEmpty()) {
+            eventList = event.getEvent("horse")
+            if (eventList.isNotEmpty()) {
+                if (this.luckEvents.contains(eventList[0]))
+                    point += this.horses.size * this.horses[0].point * 2
+                else
+                    point += this.horses.size * this.horses[0].point
+            }
+
+        }
+
+        if (this.bikes.isNotEmpty()) {
+            eventList = event.getEvent("bike")
+            if (eventList.isNotEmpty()) {
+                if (this.luckEvents.contains(eventList[0]))
+                    point += this.bikes.size * this.bikes[0].point * 2
+                else
+                    point += this.bikes.size * this.bikes[0].point
+            }
+        }
+
+        if (this.cars.isNotEmpty()) {
+            eventList = event.getEvent("car")
+            if (eventList.isNotEmpty()) {
+                if (this.luckEvents.contains(eventList[0]))
+                    point += this.cars.size * this.cars[0].point * 2
+                else
+                    point += this.cars.size * this.cars[0].point
+            }
+        }
+
+        if (this.boats.isNotEmpty()) {
+            eventList = event.getEvent("boat")
+            if (eventList.isNotEmpty()) {
+                if (this.luckEvents.contains(eventList[0]))
+                    point += this.boats.size * this.boats[0].point * 2
+                else
+                    point += this.boats.size * this.boats[0].point
+            }
+        }
+
+        if (this.parties.isNotEmpty()) {
+            eventList = event.getEvent("party")
+            if (eventList.isNotEmpty()) {
+                if (this.luckEvents.contains(eventList[0]))
+                    point += this.parties.size * this.parties[0].point * 2
+                else
+                    point += this.parties.size * this.parties[0].point
+            }
+        }
+
+        hobby = hobby.getHobby("strong")
+        eventList = event.getEvent(hobby.hobbyType)
+
+        if (eventList.isNotEmpty()) {
+            if (this.luckEvents.contains(eventList[0]))
+                point += this.countStrong * hobby.point * 2
+            else
+                point += this.countStrong * hobby.point
+        }
+
+        hobby = hobby.getHobby("walk")
+        eventList = event.getEvent(hobby.hobbyType)
+
+        if (eventList.isNotEmpty()) {
+            if (this.luckEvents.contains(eventList[0]))
+                point += this.countWalking * hobby.point
+            else
+                point += this.countWalking * hobby.point * 2
+        }
+
+        hobby = hobby.getHobby("fish")
+        eventList = event.getEvent(hobby.hobbyType)
+
+        if (eventList.isNotEmpty()) {
+            if (this.luckEvents.contains(eventList[0]))
+                point += this.countFishing * hobby.point * 2
+            else
+                point += this.countFishing * hobby.point
+        }
+
+        hobby = hobby.getHobby("friend")
+        eventList = event.getEvent(hobby.hobbyType)
+
+        if (eventList.isNotEmpty()) {
+            if (this.luckEvents.contains(eventList[0]))
+                point += this.countFriends * hobby.point * 2
+            else
+                point += this.countFriends * hobby.point
+        }
+
+        hobby = hobby.getHobby("love")
+        eventList = event.getEvent(hobby.hobbyType)
+
+        if (eventList.isNotEmpty()) {
+            if (this.luckEvents.contains(eventList[0]))
+                point += this.countLove * hobby.point * 2
+            else
+                point += this.countLove * hobby.point
+        }
+
+        return point
     }
 
     fun isHappyPerson(): Boolean {
@@ -161,6 +302,7 @@ data class Person (val id: Int) {
             cat.age += 1
             if (cat.age > cat.maxAge) {
                 this.cats = this.cats.minus(cat)
+                this.deadCats = this.deadCats.plus(cat)
 
                 storyId += 1
                 message = Message(
@@ -177,7 +319,8 @@ data class Person (val id: Int) {
         for (dog in this.dogs) {
             dog.age += 1
             if (dog.age > dog.maxAge) {
-                dogs = dogs.minus(dog)
+                this.dogs = this.dogs.minus(dog)
+                this.deadDogs = this.deadDogs.plus(dog)
 
                 storyId += 1
                 message = Message(
@@ -194,7 +337,8 @@ data class Person (val id: Int) {
         for (horse in this.horses) {
             horse.age += 1
             if (horse.age > horse.maxAge) {
-                horses = horses.minus(horse)
+                this.horses = this.horses.minus(horse)
+                this.deadHorses = this.deadHorses.plus(horse)
 
                 storyId += 1
                 message = Message(
@@ -211,7 +355,8 @@ data class Person (val id: Int) {
         for (car in this.cars) {
             car.age += 1
             if (car.age > car.maxAge) {
-                cars = cars.minus(car)
+                this.cars = this.cars.minus(car)
+                this.deadCars = this.deadCars.plus(car)
 
                 storyId += 1
                 message = Message(
@@ -228,7 +373,8 @@ data class Person (val id: Int) {
         for (bike in this.bikes) {
             bike.age += 1
             if (bike.age > bike.maxAge) {
-                bikes = bikes.minus(bike)
+                this.bikes = this.bikes.minus(bike)
+                this.deadBikes = this.deadBikes.plus(bike)
 
                 storyId += 1
                 message = Message(
@@ -245,7 +391,8 @@ data class Person (val id: Int) {
         for (boat in this.boats) {
             boat.age += 1
             if (boat.age > boat.maxAge) {
-                boats = boats.minus(boat)
+                this.boats = this.boats.minus(boat)
+                this.deadBoats = this.deadBoats.plus(boat)
 
                 storyId += 1
                 message = Message(
@@ -262,12 +409,13 @@ data class Person (val id: Int) {
         for (party in this.parties) {
             party.age += 1
             if (party.age > party.maxAge) {
-                parties = parties.minus(party)
+                this.parties = this.parties.minus(party)
+                this.deadParties = this.deadParties.plus(party)
 
                 storyId += 1
                 message = Message(
                     storyId,
-                    "Sorgligt, festen tog slut",
+                    "Deppigt, du har slutat att festa",
                     "",
                     "blinking"
                 )
@@ -609,8 +757,9 @@ data class Person (val id: Int) {
 
     fun noMoneyToShop(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
-        val storyId = messageId + 1
+        var storyId = messageId
 
+        storyId += 1
         storyList = storyList.plus(
             Message(
                 storyId,
@@ -619,6 +768,17 @@ data class Person (val id: Int) {
                 "blinking"
             )
         )
+
+        storyId += 1
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Det blir att låna en soffa.",
+                "",
+                "blinking"
+            )
+        )
+
         return storyList
     }
 
@@ -971,7 +1131,47 @@ data class Person (val id: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "för löneökning används ca 0.5% - 9,8% ",
+                    "för löneökning används ca 0.5% - 9,8%. ",
+                    "",
+                    ""
+                )
+            )
+
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Händelser i världen kan höja eller sänka värdet på innehav.",
+                    "",
+                    ""
+                )
+            )
+
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Din inkomst, mående och lycka beror av val av yrke och hobby.",
+                    "",
+                    ""
+                )
+            )
+
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Men också av oförutsedda händelser. Allt kan hända.",
+                    "",
+                    ""
+                )
+            )
+
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Är du beredd?",
                     "",
                     ""
                 )

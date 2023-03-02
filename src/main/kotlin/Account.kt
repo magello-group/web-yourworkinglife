@@ -222,6 +222,153 @@ data class Account( val accountId: Int, val accountType: String) {
         return storyList
     }
 
+    fun showAccountSoldHouse(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        var storyId = messageId
+        val message: Message
+
+        when (this.accountType) {
+            "lönekonto" -> {
+                if (this.amount.toInt() < 0.0F) {
+                    storyId += 1
+                    message = Message(
+                        storyId,
+                        "Lönekonto: ${
+                            this.amount.toInt().formatDecimalSeparator()
+                        } SEK (efter husförsäljning) 😒",
+                        "",
+                        "blinkingPink"
+                    )
+                    message.status.accountSalaryAmount = this.amount.toInt().formatDecimalSeparator()
+                    storyList = storyList.plus(message)
+
+                } else {
+                    storyId += 1
+                    message = Message(
+                        storyId,
+                        "Lönekonto: ${
+                            this.amount.toInt().formatDecimalSeparator()
+                        } SEK (efter husförsäljning)",
+                        "",
+                        "blinkingPink"
+                    )
+                    message.status.accountSalaryAmount = this.amount.toInt().formatDecimalSeparator()
+                    storyList = storyList.plus(message)
+                }
+            }
+
+            "noakassa" -> {
+                if (this.amount.toInt() < 0.0F) {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "utan A-kassa: ${
+                                this.amount.toInt().formatDecimalSeparator()
+                            } SEK (efter husförsäljning) 😒",
+                            "grey",
+                            ""
+                        )
+                    )
+                } else {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "utan A-kassa: ${
+                                this.amount.toInt().formatDecimalSeparator()
+                            } SEK (efter husförsäljning) 😅",
+                            "grey",
+                            ""
+                        )
+                    )
+                }
+            }
+        }
+
+        return storyList
+    }
+
+    fun showAccountBoughtHouse(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        var storyId = messageId
+        val message: Message
+
+        when (this.accountType) {
+            "lönekonto" -> {
+                if (this.amount.toInt() < 0.0F) {
+                    storyId += 1
+                    message = Message(
+                        storyId,
+                        "Lönekonto: ${
+                            this.amount.toInt().formatDecimalSeparator()
+                        } SEK (efter husköp) 😒",
+                        "",
+                        "blinkingPink"
+                    )
+                    message.status.accountSalaryAmount = this.amount.toInt().formatDecimalSeparator()
+                    storyList = storyList.plus(message)
+
+                } else {
+                    storyId += 1
+                    message = Message(
+                        storyId,
+                        "Lönekonto: ${
+                            this.amount.toInt().formatDecimalSeparator()
+                        } SEK (efter husköp)",
+                        "",
+                        "blinkingPink"
+                    )
+                    message.status.accountSalaryAmount = this.amount.toInt().formatDecimalSeparator()
+                    storyList = storyList.plus(message)
+                }
+            }
+
+            "noakassa" -> {
+                if (this.amount.toInt() < 0.0F) {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "utan A-kassa: ${
+                                this.amount.toInt().formatDecimalSeparator()
+                            } SEK (efter husköp) 😒",
+                            "grey",
+                            ""
+                        )
+                    )
+                } else {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "utan A-kassa: ${
+                                this.amount.toInt().formatDecimalSeparator()
+                            } SEK (efter husköp) 😅",
+                            "grey",
+                            ""
+                        )
+                    )
+                }
+            }
+
+            "depå" -> {
+                storyId += 1
+                message = Message(
+                    storyId,
+                    "Depå: ${this.amount.toInt().formatDecimalSeparator()} SEK (efter husköp) 😅",
+                    "",
+                    ""
+                )
+                message.status.accountDepotAmount = this.amount.toInt().formatDecimalSeparator()
+                storyList = storyList.plus(message)
+            }
+
+        }
+
+        return storyList
+    }
+
     fun showSumAccountCost(messageList: List<Message>, messageId: Int, cost: Float): List<Message> {
         var storyList = messageList
         var storyId = messageId

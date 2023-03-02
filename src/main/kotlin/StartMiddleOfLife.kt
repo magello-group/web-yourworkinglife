@@ -39,7 +39,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
     val currentStatus: Status = props.selectedStatus
     var messageId = props.selectedLife.lastMessageId
     var lastDisplayedMessageId = 0
-    val maxMessages = 8
+    val maxMessages = 10
     val isDebugOn = false
     var topPX = 930
 
@@ -442,22 +442,22 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
 
             p {
                 button {
-
-                    key = messageList[0].id.toString()
-                    css {
-                        display = Display.block
-                        position = Position.absolute
-                        top = 10.px
-                        left = 40.px
-
-                        color = NamedColor.green
-                        borderColor = NamedColor.white
-                        fontSize = 18.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
-                    }
-
                     if (leftMessages.size >= maxMessages) {
+                        key = messageList[0].id.toString()
+                        css {
+                            display = Display.block
+                            position = Position.absolute
+                            top = 10.px
+                            left = 40.px
+
+                            color = NamedColor.green
+                            borderColor = NamedColor.white
+                            fontSize = 18.px
+                            backgroundColor = NamedColor.white
+                            fontFamily = FontFamily.cursive
+                        }
+
+
                         //if (life.year <= profession.pensionAge) {
                         onClick = {
                             props.onSelectMessages(
@@ -482,6 +482,20 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                         life.person.accounts = life.person.accounts.plus(life.accountNoAkassa)
                         life.person.accounts = life.person.accounts.plus(life.accountDepot)
                         life.person.accounts = life.person.accounts.plus(life.accountPension)
+
+                        key = messageList[0].id.toString()
+                        css {
+                            display = Display.block
+                            position = Position.absolute
+                            top = 10.px
+                            left = 200.px
+
+                            color = NamedColor.green
+                            borderColor = NamedColor.white
+                            fontSize = 18.px
+                            backgroundColor = NamedColor.white
+                            fontFamily = FontFamily.cursive
+                        }
 
                         onClick = {
                             props.onSelectMessages(
@@ -656,6 +670,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
     val accountDepot = life.accountDepot
     val accountTax = life.accountTax
     val accountNoAkassa = life.accountNoAkassa
+    val accountWorkPension = life.accountWorkPension
+    val accountTaxPension = life.accountTaxPension
     val union = person.union
     var isPandemi = life.isPandemi
     var isBoom = life.isBoom
@@ -693,17 +709,18 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         parent.familySalary = 0.0F
         employee.countSickMonth = 0
         employee.sickSalary = 0.0F
-        person.union.countUnEmployeeMonth = 0
+        person.union.countUnemployeeMonth = 0
         person.isSick = false
         lifeChance = randomLifeValues[age - 1]
-        union.unEmployedSalaryAmount = 0.0
+        union.unemployedSalaryAmount = 0.0
         union.noAkassaSalaryAmount = 0.0
 
         //Försörjningsstöd
         if (employee.currentSalary == 0.0F) employee.currentSalary = 4180.0F
 
         if (!event.isSelected) {
-            randomEventValues = List(1) { Random.nextInt(0, 23) }
+            //randomEventValues = List(1) { Random.nextInt(0, 23) }
+            randomEventValues = List(1) { Random.nextInt(0, allEvents.size) }
             event = allEvents[randomEventValues[0]]
         } else {
             person.luckEvents = person.luckEvents.plus(event)
@@ -926,8 +943,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                         "unemployed" -> {
                             //Event(19, "du blir varslad 😢", "unemployed", "unemployed"),
 
-                            union.countUnEmployeeMonth = 0
-                            union.unEmployedSalaryAmount = 0.0
+                            union.countUnemployeeMonth = 0
+                            union.unemployedSalaryAmount = 0.0
                             union.noAkassaSalaryAmount = 0.0
 
                             //Chans till avgångsvederlag om du jobbat mer än 12 månader
@@ -945,11 +962,11 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                             //Hur många dagar är du arbetslös, 22 dagar per månad får man ersättning
                             randomValues = List(1) { Random.nextInt(22, 300) }
-                            union.countUnEmployeeMonth = randomValues[0] / 22
+                            union.countUnemployeeMonth = randomValues[0] / 22
 
                             //Endast 300 dagar kan man få a-kassa
 
-                            messageList = union.showCountUnEmployeeMonth(messageList, messageId)
+                            messageList = union.showCountUnemployeeMonth(messageList, messageId)
                             messageId = messageList[messageList.size - 1].id
 
                             //Vilken försäkring kan du få
@@ -967,10 +984,10 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             //För att få akassa behövs 12 månaders arbete
                             if (union.isIncomeInsurance && person.countWorkMonth >= 12) {
 
-                                union.unEmployedSalaryAmount =
+                                union.unemployedSalaryAmount =
                                     union.getIncomeInsurance(employee.currentSalary.toDouble())
                                 messageList =
-                                    union.showIncomeInsurance(messageList, messageId, union.unEmployedSalaryAmount)
+                                    union.showIncomeInsurance(messageList, messageId, union.unemployedSalaryAmount)
                                 messageId = messageList[messageList.size - 1].id
 
                                 union.noAkassaSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
@@ -979,7 +996,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                             } else if (union.isAkassa && person.countWorkMonth >= 12) {
 
-                                union.unEmployedSalaryAmount = union.getAkassa(employee.currentSalary.toDouble())
+                                union.unemployedSalaryAmount = union.getAkassa(employee.currentSalary.toDouble())
                                 messageList = union.showAkassa(messageList, messageId)
                                 messageId = messageList[messageList.size - 1].id
 
@@ -988,13 +1005,13 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                                 messageId = messageList[messageList.size - 1].id
 
                             } else if (person.countWorkMonth >= 12) {
-                                union.unEmployedSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
-                                messageList = union.showNoAkassa(messageList, messageId, union.unEmployedSalaryAmount)
+                                union.unemployedSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
+                                messageList = union.showNoAkassa(messageList, messageId, union.unemployedSalaryAmount)
                                 messageId = messageList[messageList.size - 1].id
 
                                 union.noAkassaSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
                             } else {
-                                union.unEmployedSalaryAmount = 0.0
+                                union.unemployedSalaryAmount = 0.0
                                 union.noAkassaSalaryAmount = 0.0
                             }
 
@@ -1083,7 +1100,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         }
 
         //Get cost event in life
-        randomCostEventValues = List(1) { Random.nextInt(0, 17) }
+        randomCostEventValues = List(1) { Random.nextInt(0, allCostEvents.size) }
         costevent = allCostEvents[randomCostEventValues[0]]
 
         when (costevent.eventType) {
@@ -1095,6 +1112,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                     if (person.isAccommodation && person.house.houseAmount > 0.0F) {
                         // Säljer det boendet du har
+                        person.houses = person.houses.plus(person.house)
+
                         messageList = person.showPersonAccomodationSold(messageList, messageId)
                         messageId = messageList[messageList.size - 1].id
 
@@ -1110,6 +1129,15 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             accountSalary.amount += person.house.houseAmount
                             accountNoAkassa.amount += person.house.houseAmount
                         }
+
+                        messageList = accountSalary.showAccountSoldHouse(messageList, messageId)
+                        messageId = messageList[messageList.size - 1].id
+
+                        if (accountSalary.amount != accountNoAkassa.amount) {
+                            messageList = accountNoAkassa.showAccountSoldHouse(messageList, messageId)
+                            messageId = messageList[messageList.size - 1].id
+                        }
+
                         person.house.houseAmount = 0.0F
                         person.house.houseMonthPayment = 0.0F
 
@@ -1119,8 +1147,13 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                                 person.house.houseType == "hirehouse" ||
                                 person.house.houseType == "hiredepartment")
                     ) {
+                        // Du lämnar hyresrätteb
                         messageList = person.showPersonAccomodationShift(messageList, messageId)
                         messageId = messageList[messageList.size - 1].id
+
+                        person.houses = person.houses.plus(person.house)
+
+                        person.house.houseMonthPayment = 0.0F
                     }
 
                     person.isAccommodation = true
@@ -1307,13 +1340,32 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             accountSalary.amount -= person.house.houseAmount
                             accountNoAkassa.amount -= person.house.houseAmount
 
+                            messageList = accountSalary.showAccountBoughtHouse(messageList, messageId)
+                            messageId = messageList[messageList.size - 1].id
+
+                            if (accountSalary.amount != accountNoAkassa.amount) {
+                                messageList = accountNoAkassa.showAccountBoughtHouse(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+                            }
+
                         } else if (accountDepot.amount >= person.house.houseAmount) {
                             accountDepot.amount -= person.house.houseAmount
 
+                            messageList = accountDepot.showAccountBoughtHouse(messageList, messageId)
+                            messageId = messageList[messageList.size - 1].id
+
                         } else if ((accountDepot.amount + accountSalary.amount) >= person.house.houseAmount) {
                             accountDepot.amount -= (person.house.houseAmount - accountSalary.amount)
+                            accountNoAkassa.amount -= accountSalary.amount
                             accountSalary.amount = 0.0F
-                            accountNoAkassa.amount = 0.0F
+
+                            messageList = accountSalary.showAccountBoughtHouse(messageList, messageId)
+                            messageId = messageList[messageList.size - 1].id
+
+                            if (accountSalary.amount != accountNoAkassa.amount) {
+                                messageList = accountNoAkassa.showAccountBoughtHouse(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+                            }
 
                         } else {
                             // Ta lån?
@@ -1321,7 +1373,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             person.house.houseLoan.loanAmount =
                                 person.house.houseAmount - (accountDepot.amount + accountSalary.amount)
 
-                            randomValues = List(1) { Random.nextInt(1, 4) } //Ränta
+                            randomValues = List(1) { Random.nextInt(1, 5) } //Ränta
                             person.house.houseLoan.loanInterest = randomValues[0].toFloat()
                             person.house.houseLoan.ageWhenPayed = profession.pensionAge - age
                             person.house.houseLoan.loanMonthPayment = person.house.houseLoan.loanAmount /
@@ -1342,12 +1394,20 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                                 messageId = messageList[messageList.size - 1].id
                             } else {
                                 // loan
+                                accountNoAkassa.amount -= accountSalary.amount
                                 accountSalary.amount = 0.0F
-                                accountNoAkassa.amount = 0.0F
                                 accountDepot.amount = 0.0F
 
                                 messageList = person.showPersonGetHouseLoan(messageList, messageId)
                                 messageId = messageList[messageList.size - 1].id
+
+                                messageList = accountSalary.showAccountBoughtHouse(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+
+                                if (accountSalary.amount != accountNoAkassa.amount) {
+                                    messageList = accountNoAkassa.showAccountBoughtHouse(messageList, messageId)
+                                    messageId = messageList[messageList.size - 1].id
+                                }
                             }
                         }
                     }
@@ -1387,7 +1447,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             isRecession = true
                             if (person.isAccommodation) {
 
-                                randomValues = List(1) { Random.nextInt(1, 7) }
+                                randomValues = List(1) { Random.nextInt(1, 5) }
                                 person.house.houseMonthPayment += person.house.houseMonthPayment * (randomValues[0].toFloat() / 100.0F)
 
                                 messageList = costevent.showEvent(
@@ -1407,7 +1467,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                             isRecession = true
                             if (person.house.isMortgage) {
-                                randomValues = List(1) { Random.nextInt(1, 7) }
+                                randomValues = List(1) { Random.nextInt(1, 5) }
                                 person.house.houseLoan.loanInterest += randomValues[0].toFloat()
 
                                 messageList = costevent.showEvent(
@@ -1479,7 +1539,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                             if (person.isAccommodation) {
 
-                                randomValues = List(1) { Random.nextInt(1, 7) }
+                                randomValues = List(1) { Random.nextInt(1, 20) }
                                 person.house.houseAmount += person.house.houseAmount * (randomValues[0].toFloat() / 100.0F)
 
                                 messageList = costevent.showEvent(
@@ -1532,7 +1592,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
         //Löneökning
         if (employee.currentSalary != 4180.0F &&
-            ((employee.countSickMonth + union.countUnEmployeeMonth + parent.countFamilyMonth) == 0))
+            ((employee.countSickMonth + union.countUnemployeeMonth + parent.countFamilyMonth) == 0))
         {
             currentAmount = employee.raiseTheSalary(isBoom, age)
 
@@ -1556,33 +1616,49 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         //12 arbetsmånader har gått men har du jobbat
         employee.countWorkMonth += 12
 
-        //sick
+        //Sick -------------------------------------------------------------------------------
         employee.countWorkMonth -= employee.countSickMonth
+        person.countSickMonth += employee.countSickMonth
+
         //Sjuk inkomst
         currentAmount = employee.sickSalary * employee.countSickMonth.toFloat()
+
         //Summera skatt
         accountTax.amount += currentAmount * 0.3F
+
         //Summera statlig inkomstpension på pensionsgrundad inkomst
-        if (currentAmount <= maxPension)
+        if (currentAmount <= maxPension) {
             accountPension.amount += currentAmount * 0.18F
-        else
+            accountTaxPension.amount += currentAmount * 0.18F
+        } else {
             accountPension.amount += maxPension * 0.18F
+            accountTaxPension.amount += maxPension * 0.18F
+        }
+
         //Dra av skatt på inkomsten
         accountSalary.amount += currentAmount - (currentAmount * 0.3F)
         accountNoAkassa.amount += currentAmount - (currentAmount * 0.3F)
         sumCosts += currentAmount * 0.3F
 
-        //varslad
-        employee.countWorkMonth -= union.countUnEmployeeMonth
+        //Varslad ---------------------------------------------------------------------------------
+        employee.countWorkMonth -= union.countUnemployeeMonth
+        person.countUnemployedMonth += union.countUnemployeeMonth
+
         //arbetslöshetsersättning
-        currentAmount = union.unEmployedSalaryAmount.toFloat()
+        currentAmount = union.unemployedSalaryAmount.toFloat()
+
         //Summera skatt
         accountTax.amount += currentAmount * 0.3F
+
         //Summera statlig inkomstpension på pensionsgrundad inkomst
-        if (currentAmount <= maxPension)
+        if (currentAmount <= maxPension) {
             accountPension.amount += currentAmount * 0.18F
-        else
+            accountTaxPension.amount += currentAmount * 0.18F
+        } else {
             accountPension.amount += maxPension * 0.18F
+            accountTaxPension.amount += maxPension * 0.18F
+        }
+
         //Dra av skatt på inkomsten
         accountSalary.amount += currentAmount - (currentAmount * 0.3F)
         sumCosts += currentAmount * 0.3F
@@ -1590,51 +1666,64 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         currentAmount = union.noAkassaSalaryAmount.toFloat()
         accountNoAkassa.amount += currentAmount - (currentAmount * 0.3F)
 
-        //parent
+        //Parent -------------------------------------------------------------------------------------
         employee.countWorkMonth -= parent.countFamilyMonth
+        person.countParentMonth += parent.countFamilyMonth
+
         //föräldrarpenning
         currentAmount = parent.familySalary * parent.countFamilyMonth.toFloat()
+
         //Summera skatt
         accountTax.amount += currentAmount * 0.3F
+
         //Summera statlig inkomstpension på pensionsgrundad inkomst
-        if (currentAmount <= maxPension)
+        if (currentAmount <= maxPension) {
             accountPension.amount += currentAmount * 0.18F
-        else
+            accountTaxPension.amount += currentAmount * 0.18F
+        } else {
             accountPension.amount += maxPension * 0.18F
+            accountTaxPension.amount += maxPension * 0.18F
+        }
 
         accountSalary.amount += currentAmount - (currentAmount * 0.3F)
         accountNoAkassa.amount += currentAmount - (currentAmount * 0.3F)
         sumCosts += currentAmount * 0.3F
 
-        //privat pension
+        //privat pension ----------------------------------------------------------------------------
         currentAmount = employee.currentSalary * person.pension * 12.0F
         accountSalary.amount -= currentAmount
         accountNoAkassa.amount -= currentAmount
         accountPension.amount += currentAmount
 
-        //privat pension
         sumCosts += employee.currentSalary * person.pension * 12.0F
 
-        //Lägg på inkomst
+        //Beräkna inkomst, skatt och pension --------------------------------------------------------
         if (employee.countWorkMonth > 0) {
 
-            //Dra bort pension innan skatt
+            //Dra bort tjänstepension innan skatt
             currentAmount =
                 (employee.currentSalary - (employee.currentSalary * profession.pension)) * employee.countWorkMonth.toFloat()
 
             //Summera skatt
             accountTax.amount += currentAmount * 0.3F
 
-            //Summera inkomstpension
-            accountPension.amount += currentAmount * 0.18F
+            //Summera inkomstpension är 18% av skatten vi betalar
+            if (currentAmount <= maxPension) {
+                accountPension.amount += currentAmount * 0.18F
+                accountTaxPension.amount += currentAmount * 0.18F
+            } else {
+                accountPension.amount += maxPension * 0.18F
+                accountTaxPension.amount += maxPension * 0.18F
+            }
 
             //Dra av skatt
             accountSalary.amount += currentAmount - (currentAmount * 0.3F)
             accountNoAkassa.amount += currentAmount - (currentAmount * 0.3F)
             sumCosts +=  currentAmount * 0.3F
 
-            //Summera pension
+            //Summera tjänstepension
             accountPension.amount += (employee.currentSalary * profession.pension) * employee.countWorkMonth.toFloat()
+            accountWorkPension.amount += (employee.currentSalary * profession.pension) * employee.countWorkMonth.toFloat()
             sumCosts +=  (employee.currentSalary * profession.pension) * employee.countWorkMonth.toFloat()
 
             messageList = employee.showEmployeeCountWorkMonth(messageList, messageId)
@@ -1659,6 +1748,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
             }
         }
 
+        //Visa konton
         messageList = accountSalary.showAccountAmount((age - person.age + 1), messageList, messageId)
         messageId = messageList[messageList.size - 1].id
 
@@ -1812,6 +1902,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
     currentLife.parent = parent
     currentLife.employee = employee
     currentLife.accountPension = accountPension
+    currentLife.accountWorkPension = accountWorkPension
+    currentLife.accountTaxPension = accountTaxPension
     currentLife.accountSalary = accountSalary
     currentLife.accountDepot = accountDepot
     currentLife.accountTax = accountTax
