@@ -51,7 +51,7 @@ external interface ShowPensionRowProps : Props {
 
 val ShowPensionRow = FC<ShowPensionRowProps> { props ->
     var topPX: Int
-    var startPX: Int = 800
+    var startPX: Int = 690
 
     topPX = startPX
     div {

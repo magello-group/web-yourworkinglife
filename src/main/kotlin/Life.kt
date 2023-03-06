@@ -70,49 +70,342 @@ data class Life ( val personId: Int) {
             this.countPoint += this.parent.countBabies * 3
         }
 
-        //Beräkna antal lyckliga poäng
-        this.countPoint += this.person.countPoints()
-
-        storyId += 1
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Din sammanlagda lyckopoäng: ${this.countPoint}.",
-                "",
-                ""
+        if (this.person.isLove) {
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Din livskärlek finns med dig 💕💕💕💕💕.",
+                    "",
+                    "blinking"
+                )
             )
-        )
+            this.countPoint += 1
+        }
 
-        if (this.countPoint  > 10) {
-                storyId += 1
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Du har haft ett väldigt lyckligt liv.",
-                        "",
-                        ""
-                    )
+        if (this.person.houses.size <= 2) {
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Du fann dig till ro i ditt bo.",
+                    "",
+                    ""
                 )
-        } else if ( this.countPoint > 5) {
-                storyId += 1
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Du har haft ett lyckligt liv.",
-                        "",
-                        ""
-                    )
+            )
+            this.countPoint += 1
+        } else if (this.person.houses.size > 4) {
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Du vandra runt från bostad till bostad.",
+                    "",
+                    ""
                 )
+            )
+            this.countPoint += 1
         } else {
             storyId += 1
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Du bara jobbade och jobbade.",
+                    "Du har funnit ditt bo.",
                     "",
                     ""
                 )
             )
+            this.countPoint += 1
+        }
+
+        when (this.person.professions[0].objectType) {
+            "salary" -> {
+                // Question(4,"Maxa lönen", "lön", "salary"),
+
+                storyId += 1
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "Ditt mål var att maxa lönen: ${this.employee.currentSalary.toInt().formatDecimalSeparator()}.",
+                        "",
+                        ""
+                    )
+                )
+
+                if (this.employee.currentSalary >= 100000) {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "Vilket du gjorde!",
+                            "",
+                            "blinking"
+                        )
+                    )
+                    this.countPoint += 5
+                } else {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "Kanske inte helt i mål.",
+                            "",
+                            ""
+                        )
+                    )
+                }
+            }
+
+            "pension" -> {
+                // Question(5, "Maxa pensionen", "pension", "pension"),
+
+                storyId += 1
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "Ditt mål var att maxa pensionen: ${
+                            this.accountPension.amount.toInt().formatDecimalSeparator()
+                        }.",
+                        "",
+                        ""
+                    )
+                )
+
+                if (this.accountPension.amount >= 5000000) {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "Vilket du gjorde!",
+                            "",
+                            "blinking"
+                        )
+                    )
+                    this.countPoint += 5
+                } else {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "Kanske inte helt i mål.",
+                            "",
+                            ""
+                        )
+                    )
+                }
+            }
+
+            "adventure" -> {
+                // Question(0,"Maxa spänningen", "spänning", "adventure"),
+
+                storyId += 1
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "Ditt mål var att maxa spänningen.",
+                        "",
+                        ""
+                    )
+                )
+
+                if (this.person.countSickMonth >= 12) {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "Vilket du gjorde med antal sjukmånader: ${this.person.countSickMonth}.",
+                            "",
+                            "blinking"
+                        )
+                    )
+                    this.countPoint += 5
+                } else {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "Kanske inte helt i mål då du verkar oskadd :).",
+                            "",
+                            ""
+                        )
+                    )
+                }
+            }
+
+            "vacation" -> {
+                // Question(2, "Maxa semesterdagarna", "semester", "vacation"),
+
+                storyId += 1
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "Ditt mål var att maxa semestern.",
+                        "",
+                        ""
+                    )
+                )
+
+                if (this.age <= 60) {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "Vilket du gjorde med att gå i pension tidigt.",
+                            "",
+                            "blinking"
+                        )
+                    )
+                    this.countPoint += 5
+                } else {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "Kanske inte helt i mål då du går i pension sent",
+                            "",
+                            ""
+                        )
+                    )
+                }
+            }
+
+            "family" -> {
+                // Question(1, "Göra samhällsnytta och skillnad", "familj", "family",),
+
+                storyId += 1
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "Du vill göra samhällsnytta och skillnad.",
+                        "",
+                        ""
+                    )
+                )
+
+                if (this.employee.currentSalary <= 40000) {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "Du gick på ditt kall även om lönen var låg: ${
+                                this.employee.currentSalary.toInt().formatDecimalSeparator()
+                            }",
+                            "",
+                            "blinking"
+                        )
+                    )
+                    this.countPoint += 5
+                } else {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "Kanske inte helt i mål då du inte accepterade en låg lön",
+                            "",
+                            ""
+                        )
+                    )
+                }
+            }
+
+            "chilla" -> {
+                // Question(3, "Chilla", "chilla", "chilla"),
+
+                storyId += 1
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "Ditt mål var att chilla.",
+                        "",
+                        ""
+                    )
+                )
+
+                if ((this.accountSalary.amount + this.accountDepot.amount) < 0) {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "Ja du klarade det och tjänade inte så mycket: ${
+                                this.accountSalary.amount.toInt().formatDecimalSeparator()
+                            }",
+                            "",
+                            "blinking"
+                        )
+                    )
+                    this.countPoint += 5
+                } else {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "Kanske inte helt i mål då du inte accepterade en låg lön",
+                            "",
+                            ""
+                        )
+                    )
+                }
+            }
+
+            "fun" -> {
+                // Question(6, "Bara ha kul", "kul", "fun")
+
+                storyId += 1
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "Ditt mål var att ha kul.",
+                        "",
+                        ""
+                    )
+                )
+
+                if (this.person.countSickMonth >= 1) {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "Livet var så kul att du inte blev sjuk.",
+                            "",
+                            "blinking"
+                        )
+                    )
+                    this.countPoint += 5
+                } else {
+                    storyId += 1
+                    storyList = storyList.plus(
+                        Message(
+                            storyId,
+                            "Livet var inte alltid så kul, du blev sjuk: ${this.person.countSickMonth}",
+                            "",
+                            ""
+                        )
+                    )
+                }
+            }
+        }
+
+        if (this.person.professions.size <= 1) {
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Du stannade på samma arbetsplats hela livet.",
+                    "",
+                    ""
+                )
+            )
+        } else {
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Finn den arbetsplats som förstår ditt värde.",
+                    "",
+                    ""
+                )
+            )
+            this.countPoint += 1
         }
 
         //Summa konton
@@ -121,7 +414,10 @@ data class Life ( val personId: Int) {
         currentAmount += this.accountPension.amount - (this.accountPension.amount * 0.30F)
 
         //Summa kostnader per månad + kostnad mat
-        currentCost = this.person.house.houseMonthPayment + person.costHobbies() + 3000
+        if (this.person.isLove)
+            currentCost = (this.person.house.houseMonthPayment / 2) + (person.costHobbies() / 12) + 3000
+        else
+            currentCost = this.person.house.houseMonthPayment + (person.costHobbies() / 12) + 3000
 
         sumPensionMonth = currentAmount / currentCost
 
@@ -134,6 +430,20 @@ data class Life ( val personId: Int) {
                 ""
             )
         )
+
+        if ((this.accountNoAkassa.amount - this.accountSalary.amount) < 0) {
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Utan a-kassa hade du förlorat: ${
+                        (this.accountNoAkassa.amount - this.accountSalary.amount).toInt().formatDecimalSeparator()
+                    } SEK",
+                    "",
+                    ""
+                )
+            )
+        }
 
         storyId += 1
         storyList = storyList.plus(
@@ -149,54 +459,82 @@ data class Life ( val personId: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Det gör att du klara dig i: ${sumPensionMonth.toInt().formatDecimalSeparator()} månader",
-                "",
-                ""
-            )
-        )
-
-        storyId += 1
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Tills du är: ${(this.age + (sumPensionMonth/12).toInt()).formatDecimalSeparator()} år",
+                "Det gör att du klara dig tills du är: ${(this.age + (sumPensionMonth / 12).toInt()).formatDecimalSeparator()} år",
                 "",
                 ""
             )
         )
 
         //Ett poäng för varje år du klara
-        this.countPoint += (sumPensionMonth/12).toInt()
-
-        storyId += 1
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Lycka är när pengarna räcker tills månaden är slut.",
-                "",
-                ""
-            )
-        )
-
-        storyId += 1
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Du får 1 poäng per år som pengarna räcker. Dina lyckopoäng: ${this.countPoint}",
-                "",
-                ""
-            )
-        )
-
-        if ((this.age + (sumPensionMonth/12)).toInt() > 100) {
-            storyList = this.showRichLife(storyList, storyId)
-            storyId = storyList[storyList.size - 1].id
-        }else if ((this.age + (sumPensionMonth/12)).toInt() >= 75) {
-            storyList = this.showRichLife(storyList, storyId)
-            storyId = storyList[storyList.size - 1].id
+        if ((this.age + (sumPensionMonth / 12)) > 100) {
+            this.countPoint += (100 - this.age)
         } else {
-            storyList = this.showLifeValue(storyList, storyId)
-            storyId = storyList[storyList.size - 1].id
+            this.countPoint += (sumPensionMonth / 12).toInt()
+        }
+
+        storyId += 1
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Lycka är när pengarna räcker livet ut.",
+                "",
+                ""
+            )
+        )
+
+        storyId += 1
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Lev livet innan det tar slut.",
+                "",
+                ""
+            )
+        )
+
+        //Beräkna antal lyckliga poäng
+        this.countPoint += this.person.countPoints()
+
+        storyId += 1
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Din sammanlagda lyckopoäng: ${this.countPoint}.",
+                "",
+                "blinking"
+            )
+        )
+
+        if (this.countPoint > 50) {
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Du har haft ett väldigt lyckligt liv.",
+                    "",
+                    ""
+                )
+            )
+        } else if (this.countPoint > 25) {
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Du har haft ett lyckligt liv.",
+                    "",
+                    ""
+                )
+            )
+        } else {
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Du bara jobbade och jobbade.",
+                    "",
+                    ""
+                )
+            )
         }
 
         return storyList

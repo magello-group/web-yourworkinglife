@@ -36,7 +36,6 @@ val App = FC<Props> {
 
     var currentMessages: List<Message> by useState(emptyList())
     var historyMessages: List<Message> by useState(emptyList())
-    var lifeHistoryMessages: List<Message> by useState(emptyList())
     var currentPerson: Person by useState(Person(0))
     var currentLife: Life by useState(Life(0))
     var currentStatus: Status by useState(Status(0))
@@ -87,7 +86,7 @@ val App = FC<Props> {
                             }
 
                             onClick = {
-                                if (name.isNotBlank() && age.isNotBlank()) {
+                                if (name.isNotBlank() && age.isNotBlank() && pension.isNotBlank()) {
                                     onSelectView(view.getNextView())
                                 }
                             }
@@ -96,7 +95,7 @@ val App = FC<Props> {
                             //+"◀ "
                         }
                     }
-                    if (name.isBlank() || age.isBlank()) {
+                    if (name.isBlank() || age.isBlank() || pension.isBlank()) {
                         p {
                             css {
                                 display = Display.block
@@ -110,7 +109,7 @@ val App = FC<Props> {
                                 backgroundColor = NamedColor.white
                                 fontFamily = FontFamily.cursive
                             }
-                            +"OBS: Ange namn och ålder innan du går till nästa steg!"
+                            +"OBS: Ange namn, ålder och pension (privat i procent) innan du går till nästa steg!"
                         }
                     }
                 }
@@ -456,7 +455,7 @@ val App = FC<Props> {
 
                      */
                     ShowStreck {
-                        selectedTopPX = 780
+                        selectedTopPX = 650
                         selectedImage01 = "streck002.jpg"
                         selectedImage02 = "streck003.jpg"
                         selectedImage03 = "streck004.jpg"

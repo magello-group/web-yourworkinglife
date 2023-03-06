@@ -457,8 +457,6 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                             fontFamily = FontFamily.cursive
                         }
 
-
-                        //if (life.year <= profession.pensionAge) {
                         onClick = {
                             props.onSelectMessages(
                                 props.selectedView.getNewView("reload"),
@@ -471,8 +469,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                             )
                         }
                         +props.selectedView.getNewView("reload").buttonText
-
-
+                        +" ▶"
                     } else {
                         //Pension life
                         life.person.age = life.age
@@ -488,7 +485,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                             display = Display.block
                             position = Position.absolute
                             top = 10.px
-                            left = 200.px
+                            left = 40.px
 
                             color = NamedColor.green
                             borderColor = NamedColor.white
@@ -509,8 +506,8 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                             )
                         }
                         +props.selectedView.getNewView("pension").buttonText
+                        +" ▶"
                     }
-                    +" ▶"
                 }
 
                 if (messageList.isNotEmpty()) {

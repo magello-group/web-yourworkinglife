@@ -41,7 +41,7 @@ data class Employee( val employeeId: Int )
             )
         } else {
 
-            if (salaryincrease >= 1.0F) {
+            if (salaryincrease >= 0.0F) {
                 storyId += 1
                 storyList = storyList.plus(
                     Message(

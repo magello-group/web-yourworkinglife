@@ -704,7 +704,7 @@ data class Person (val id: Int) {
             storyId += 1
             message = Message(
                 storyId,
-                "Kärleken höll inte men du finner en ny 💕💕💕💕💕 love is in the air",
+                "Kärleken höll inte men du finner en ny 💕💕💕💕💕",
                 "",
                 "blinking"
             )
@@ -1080,15 +1080,25 @@ data class Person (val id: Int) {
         var storyList = messageList
         val storyId = messageId + 1
 
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Du lämnar hyresrätten du har.",
-                "",
-                "blinking"
+        if (this.isAccommodation) {
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Du lämnar hyresrätten du har.",
+                    "",
+                    ""
+                )
             )
-        )
-
+        } else {
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Skönt att få ett eget boende.",
+                    "",
+                    ""
+                )
+            )
+        }
         return storyList
     }
 
