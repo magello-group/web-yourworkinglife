@@ -127,7 +127,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +"Lön: "
+            +"Aktuell lön: "
             if (props.actualSalary != "")
                 +props.actualSalary
         }

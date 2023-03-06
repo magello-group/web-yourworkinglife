@@ -1173,6 +1173,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             } else {
                                 messageList = person.noMoneyToShop(messageList, messageId)
                                 messageId = messageList[messageList.size - 1].id
+                                person.isAccommodation = false
                             }
                         }
 
@@ -1192,6 +1193,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             } else {
                                 messageList = person.noMoneyToShop(messageList, messageId)
                                 messageId = messageList[messageList.size - 1].id
+                                person.isAccommodation = false
                             }
                         }
 
@@ -1212,6 +1214,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             } else {
                                 messageList = person.noMoneyToShop(messageList, messageId)
                                 messageId = messageList[messageList.size - 1].id
+                                person.isAccommodation = false
                             }
                         }
 
@@ -1231,6 +1234,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             } else {
                                 messageList = person.noMoneyToShop(messageList, messageId)
                                 messageId = messageList[messageList.size - 1].id
+                                person.isAccommodation = false
                             }
                         }
 
@@ -1250,6 +1254,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             } else {
                                 messageList = person.noMoneyToShop(messageList, messageId)
                                 messageId = messageList[messageList.size - 1].id
+                                person.isAccommodation = false
                             }
                         }
 
@@ -1269,6 +1274,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             } else {
                                 messageList = person.noMoneyToShop(messageList, messageId)
                                 messageId = messageList[messageList.size - 1].id
+                                person.isAccommodation = false
                             }
                         }
 

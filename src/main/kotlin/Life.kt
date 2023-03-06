@@ -360,12 +360,12 @@ data class Life ( val personId: Int) {
                     )
                 )
 
-                if (this.person.countSickMonth >= 1) {
+                if (this.person.countSickMonth <= 2) {
                     storyId += 1
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Livet var så kul att du inte blev sjuk.",
+                            "Livet var så kul och du höll dig frisk.",
                             "",
                             "blinking"
                         )
@@ -376,7 +376,7 @@ data class Life ( val personId: Int) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Livet var inte alltid så kul, du blev sjuk: ${this.person.countSickMonth}",
+                            "Livet var inte alltid så kul, du blev sjuk: ${this.person.countSickMonth} ggr",
                             "",
                             ""
                         )
@@ -436,8 +436,8 @@ data class Life ( val personId: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Utan a-kassa hade du förlorat: ${
-                        (this.accountNoAkassa.amount - this.accountSalary.amount).toInt().formatDecimalSeparator()
+                    "Med a-kassa (inkomstförsäkring och tilläggsförsäkring) tjänade du: ${
+                        (this.accountSalary.amount - this.accountNoAkassa.amount).toInt().formatDecimalSeparator() 
                     } SEK",
                     "",
                     ""

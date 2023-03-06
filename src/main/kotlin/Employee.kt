@@ -14,8 +14,8 @@ data class Employee( val employeeId: Int )
     fun raiseTheSalary(isBoom: Boolean, age: Int): Float {
         val randomValues: List<Int>
 
-        randomValues = if (isBoom && age <= 50) {
-            List(1) { Random.nextInt(40, 98) }
+        randomValues = if (isBoom) {
+            List(1) { Random.nextInt(30, 50) }
         } else if ( age <= 50 ) {
             List(1) { Random.nextInt(10, 30) }
         } else {
@@ -41,13 +41,13 @@ data class Employee( val employeeId: Int )
             )
         } else {
 
-            if (salaryincrease >= 0.0F) {
+            if (salaryincrease * 100 >= 0.0F) {
                 storyId += 1
                 storyList = storyList.plus(
                     Message(
                         storyId,
                         "Du har fått löneökning på ${
-                            salaryincrease.toInt().formatDecimalSeparator()
+                            (salaryincrease * 100)
                         }% 💪",
                         "",
                         ""

@@ -51,7 +51,7 @@ external interface ShowPensionRowProps : Props {
 
 val ShowPensionRow = FC<ShowPensionRowProps> { props ->
     var topPX: Int
-    var startPX: Int = 690
+    var startPX: Int = 840
 
     topPX = startPX
     div {
@@ -306,7 +306,7 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
-                +"utan A-kassa: "
+                +"med A-kassa: "
                 +props.actualNoAkassaAmount
             }
         }

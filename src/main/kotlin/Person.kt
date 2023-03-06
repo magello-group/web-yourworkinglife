@@ -1141,7 +1141,7 @@ data class Person (val id: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "för löneökning används ca 0.5% - 9,8%. ",
+                    "för löneökning används ca 0.5% - 5,0%. ",
                     "",
                     ""
                 )

@@ -455,7 +455,7 @@ val App = FC<Props> {
 
                      */
                     ShowStreck {
-                        selectedTopPX = 650
+                        selectedTopPX = 800
                         selectedImage01 = "streck002.jpg"
                         selectedImage02 = "streck003.jpg"
                         selectedImage03 = "streck004.jpg"
