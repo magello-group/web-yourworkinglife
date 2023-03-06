@@ -1161,6 +1161,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                             if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
                                 person.house = House(0, "rosehouse")
+                                person.house.description = "ett hus på landet med doftande rosor"
 
                                 randomValues = List(1) { Random.nextInt(1000000, 5000000) }
                                 person.house.houseAmount = randomValues[0].toFloat()
@@ -1181,6 +1182,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             //Event(1, "Kul! du köper ett slott med tinar och torn.","castel","home"),
                             if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
                                 person.house = House(0, "castel")
+                                person.house.description = "ett slott med tinar och torn"
 
                                 randomValues = List(1) { Random.nextInt(5000000, 30000000) }
                                 person.house.houseAmount = randomValues[0].toFloat()
@@ -1202,6 +1204,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                             if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
                                 person.house = House(0, "house")
+                                person.house.description = "ett minimalistiskt hus med raka linjer"
 
                                 randomValues = List(1) { Random.nextInt(2000000, 10000000) }
                                 person.house.houseAmount = randomValues[0].toFloat()
@@ -1222,6 +1225,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             //Event(3, "Kul! du köper en koja i skogen.","koja","home"),
                             if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
                                 person.house = House(0, "koja")
+                                person.house.description = "en koja i skogen"
 
                                 randomValues = List(1) { Random.nextInt(500000, 1000000) }
                                 person.house.houseAmount = randomValues[0].toFloat()
@@ -1242,6 +1246,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             //Event(5, "Kul! du köper ett bostadsrättsradhus i en förort.","department","home"),
                             if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
                                 person.house = House(0, "department")
+                                person.house.description = "ett bostadsrättsradhus i en förort"
 
                                 randomValues = List(1) { Random.nextInt(1000000, 5000000) }
                                 person.house.houseAmount = randomValues[0].toFloat()
@@ -1262,6 +1267,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             //Event(4, "Kul! du köper en bostadsrätt mitt i staden.","departmentcity","home"),
                             if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
                                 person.house = House(person.id, "departmentcity")
+                                person.house.description = "en bostadsrätt mitt i staden"
 
                                 randomValues = List(1) { Random.nextInt(5000000, 15000000) }
                                 person.house.houseAmount = randomValues[0].toFloat()
@@ -1283,6 +1289,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                             person.house = House(0, "hirecity")
                             person.house.houseAmount = 0.0F
+                            person.house.description = "en hyresrätt mitt i staden"
 
                             currentAmount = employee.currentSalary/2
                             randomValues = List(1) { Random.nextInt(5000, currentAmount.toInt()) }
@@ -1297,6 +1304,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                             person.house = House(0, "hire")
                             person.house.houseAmount = 0.0F
+                            person.house.description = "en hyresrätt i en förort"
 
                             currentAmount = employee.currentSalary/2
                             randomValues = List(1) { Random.nextInt(4000, currentAmount.toInt()) }
@@ -1311,6 +1319,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                             person.house = House(0, "hirehouse")
                             person.house.houseAmount = 0.0F
+                            person.house.description = "hyr i andra hand ett hus på landet"
 
                             currentAmount = employee.currentSalary/2
                             randomValues = List(1) { Random.nextInt(5000, currentAmount.toInt()) }
@@ -1325,6 +1334,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                             person.house = House(0, "hiredepartment")
                             person.house.houseAmount = 0.0F
+                            person.house.description = " hyr i andra hand en lägenhet mitt i staden"
 
                             currentAmount = employee.currentSalary/2
                             randomValues = List(1) { Random.nextInt(5000, currentAmount.toInt()) }
@@ -1599,7 +1609,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         {
             currentAmount = employee.raiseTheSalary(isBoom, age)
 
-            if (profession.maxSalary == 0.0F || currentAmount <= profession.maxSalary ) {
+            if (profession.maxSalary == 0.0F || (employee.currentSalary + currentAmount) <= profession.maxSalary ) {
                 messageList =
                     employee.showEmployeeSalary((currentAmount/employee.currentSalary), messageList, messageId)
                 messageId = messageList[messageList.size - 1].id

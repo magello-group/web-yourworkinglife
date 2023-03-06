@@ -51,7 +51,7 @@ data class Event (
             Event(6, "Kul! du skaffar dig en hyresrätt mitt i staden.","hirecity","home"),
             Event(7, "Kul! du skaffar dig en hyresrätt i en förort.","hire","home"),
             Event(8, "Kul! du hyr i andra hand ett hus på landet.","hirehouse","home"),
-            Event(9, "Kul! du hyr i andra hand ett lägenhet mitt i staden.","hiredepartment","home"),
+            Event(9, "Kul! du hyr i andra hand en lägenhet mitt i staden.","hiredepartment","home"),
 
             Event(10, "Lågkonjuktur! ditt sparande rasar i värde ","depot","accident"),
             Event(11, "Lågkonjuktur! din hyra höjs på ditt boende ","home","accident"),

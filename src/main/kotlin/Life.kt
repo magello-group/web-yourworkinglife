@@ -83,34 +83,12 @@ data class Life ( val personId: Int) {
             this.countPoint += 1
         }
 
-        if (this.person.houses.size <= 2) {
+        if (this.person.houses.size > 1) {
             storyId += 1
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Du fann dig till ro i ditt bo.",
-                    "",
-                    ""
-                )
-            )
-            this.countPoint += 1
-        } else if (this.person.houses.size > 4) {
-            storyId += 1
-            storyList = storyList.plus(
-                Message(
-                    storyId,
-                    "Du vandra runt från bostad till bostad.",
-                    "",
-                    ""
-                )
-            )
-            this.countPoint += 1
-        } else {
-            storyId += 1
-            storyList = storyList.plus(
-                Message(
-                    storyId,
-                    "Du har funnit ditt bo.",
+                    "Du fann dig till ro i ditt bo, ${this.person.houses[this.person.houses.size - 1].description}",
                     "",
                     ""
                 )
@@ -122,22 +100,12 @@ data class Life ( val personId: Int) {
             "salary" -> {
                 // Question(4,"Maxa lönen", "lön", "salary"),
 
-                storyId += 1
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Ditt mål var att maxa lönen: ${this.employee.currentSalary.toInt().formatDecimalSeparator()}.",
-                        "",
-                        ""
-                    )
-                )
-
                 if (this.employee.currentSalary >= 100000) {
                     storyId += 1
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Vilket du gjorde!",
+                            "Ditt mål var att maxa lönen: ${this.employee.currentSalary.toInt().formatDecimalSeparator()}, vilket du gjorde!",
                             "",
                             "blinking"
                         )
@@ -148,7 +116,7 @@ data class Life ( val personId: Int) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Kanske inte helt i mål.",
+                            "Ditt mål var att maxa lönen: ${this.employee.currentSalary.toInt().formatDecimalSeparator()}, du kom inte helt i mål.",
                             "",
                             ""
                         )
@@ -159,24 +127,14 @@ data class Life ( val personId: Int) {
             "pension" -> {
                 // Question(5, "Maxa pensionen", "pension", "pension"),
 
-                storyId += 1
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Ditt mål var att maxa pensionen: ${
-                            this.accountPension.amount.toInt().formatDecimalSeparator()
-                        }.",
-                        "",
-                        ""
-                    )
-                )
-
                 if (this.accountPension.amount >= 5000000) {
                     storyId += 1
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Vilket du gjorde!",
+                            "Ditt mål var att maxa pensionen: ${
+                                this.accountPension.amount.toInt().formatDecimalSeparator()
+                            }, vilket du gjorde!",
                             "",
                             "blinking"
                         )
@@ -187,7 +145,9 @@ data class Life ( val personId: Int) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Kanske inte helt i mål.",
+                            "Ditt mål var att maxa pensionen: ${
+                                this.accountPension.amount.toInt().formatDecimalSeparator()
+                            }, du kom inte helt i mål.",
                             "",
                             ""
                         )
@@ -198,22 +158,12 @@ data class Life ( val personId: Int) {
             "adventure" -> {
                 // Question(0,"Maxa spänningen", "spänning", "adventure"),
 
-                storyId += 1
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Ditt mål var att maxa spänningen.",
-                        "",
-                        ""
-                    )
-                )
-
                 if (this.person.countSickMonth >= 12) {
                     storyId += 1
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Vilket du gjorde med antal sjukmånader: ${this.person.countSickMonth}.",
+                            "Ditt mål var att maxa spänningen, vilket du gjorde med antal sjukmånader: ${this.person.countSickMonth}.",
                             "",
                             "blinking"
                         )
@@ -224,7 +174,7 @@ data class Life ( val personId: Int) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Kanske inte helt i mål då du verkar oskadd :).",
+                            "Ditt mål var att maxa spänningen, du kom inte helt i mål då du verkar oskadd :).",
                             "",
                             ""
                         )
@@ -235,22 +185,12 @@ data class Life ( val personId: Int) {
             "vacation" -> {
                 // Question(2, "Maxa semesterdagarna", "semester", "vacation"),
 
-                storyId += 1
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Ditt mål var att maxa semestern.",
-                        "",
-                        ""
-                    )
-                )
-
                 if (this.age <= 60) {
                     storyId += 1
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Vilket du gjorde med att gå i pension tidigt.",
+                            "Ditt mål var att maxa semestern, vilket du gjorde med att gå i pension tidigt.",
                             "",
                             "blinking"
                         )
@@ -261,7 +201,7 @@ data class Life ( val personId: Int) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Kanske inte helt i mål då du går i pension sent",
+                            "Ditt mål var att maxa semestern, du kom inte helt i mål då du går i pension sent.",
                             "",
                             ""
                         )
@@ -272,22 +212,12 @@ data class Life ( val personId: Int) {
             "family" -> {
                 // Question(1, "Göra samhällsnytta och skillnad", "familj", "family",),
 
-                storyId += 1
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Du vill göra samhällsnytta och skillnad.",
-                        "",
-                        ""
-                    )
-                )
-
                 if (this.employee.currentSalary <= 40000) {
                     storyId += 1
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Du gick på ditt kall även om lönen var låg: ${
+                            "Du vill göra samhällsnytta och skillnad. Du gick på ditt kall även om lönen var låg: ${
                                 this.employee.currentSalary.toInt().formatDecimalSeparator()
                             }",
                             "",
@@ -300,7 +230,7 @@ data class Life ( val personId: Int) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Kanske inte helt i mål då du inte accepterade en låg lön",
+                            "Du vill göra samhällsnytta och skillnad. Kanske inte helt i mål då du inte accepterade en låg lön",
                             "",
                             ""
                         )
@@ -311,22 +241,12 @@ data class Life ( val personId: Int) {
             "chilla" -> {
                 // Question(3, "Chilla", "chilla", "chilla"),
 
-                storyId += 1
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Ditt mål var att chilla.",
-                        "",
-                        ""
-                    )
-                )
-
                 if ((this.accountSalary.amount + this.accountDepot.amount) < 0) {
                     storyId += 1
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Ja du klarade det och tjänade inte så mycket: ${
+                            "Ditt mål var att chilla, som du klarade det och tjänade inte så mycket: ${
                                 this.accountSalary.amount.toInt().formatDecimalSeparator()
                             }",
                             "",
@@ -339,7 +259,7 @@ data class Life ( val personId: Int) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Kanske inte helt i mål då du inte accepterade en låg lön",
+                            "Ditt mål var att chilla, du kom inte helt i mål då du verkar ha jobbat :)",
                             "",
                             ""
                         )
@@ -350,22 +270,12 @@ data class Life ( val personId: Int) {
             "fun" -> {
                 // Question(6, "Bara ha kul", "kul", "fun")
 
-                storyId += 1
-                storyList = storyList.plus(
-                    Message(
-                        storyId,
-                        "Ditt mål var att ha kul.",
-                        "",
-                        ""
-                    )
-                )
-
-                if (this.person.countSickMonth <= 2) {
+                if (this.person.countSickMonth <= 1) {
                     storyId += 1
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Livet var så kul och du höll dig frisk.",
+                            "Ditt mål var att ha kul. Livet var så kul och du var sällan sjuk.",
                             "",
                             "blinking"
                         )
@@ -376,7 +286,7 @@ data class Life ( val personId: Int) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Livet var inte alltid så kul, du blev sjuk: ${this.person.countSickMonth} ggr",
+                            "Livet var inte alltid så kul, du blev sjuk i ${this.person.countSickMonth} månader",
                             "",
                             ""
                         )
@@ -400,7 +310,7 @@ data class Life ( val personId: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Finn den arbetsplats som förstår ditt värde.",
+                    "Du fann den arbetsplats som förstod ditt värde.",
                     "",
                     ""
                 )
@@ -476,17 +386,7 @@ data class Life ( val personId: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Lycka är när pengarna räcker livet ut.",
-                "",
-                ""
-            )
-        )
-
-        storyId += 1
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Lev livet innan det tar slut.",
+                "Lycka är när pengarna räcker livet ut. Lev livet innan det tar slut.",
                 "",
                 ""
             )
@@ -495,24 +395,14 @@ data class Life ( val personId: Int) {
         //Beräkna antal lyckliga poäng
         this.countPoint += this.person.countPoints()
 
-        storyId += 1
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Din sammanlagda lyckopoäng: ${this.countPoint}.",
-                "",
-                "blinking"
-            )
-        )
-
         if (this.countPoint > 50) {
             storyId += 1
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Du har haft ett väldigt lyckligt liv.",
+                    "Din sammanlagda lyckopoäng: ${this.countPoint}. Du har haft ett väldigt lyckligt liv.",
                     "",
-                    ""
+                    "blinking"
                 )
             )
         } else if (this.countPoint > 25) {
@@ -520,9 +410,9 @@ data class Life ( val personId: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Du har haft ett lyckligt liv.",
+                    "Din sammanlagda lyckopoäng: ${this.countPoint}. Du har haft ett lyckligt liv.",
                     "",
-                    ""
+                    "blinking"
                 )
             )
         } else {
@@ -530,9 +420,9 @@ data class Life ( val personId: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Du bara jobbade och jobbade.",
+                    "Din sammanlagda lyckopoäng: ${this.countPoint}. Du bara jobbade och jobbade.",
                     "",
-                    ""
+                    "blinking"
                 )
             )
         }

@@ -1,4 +1,5 @@
 import kotlinx.serialization.Serializable
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 @Serializable
@@ -28,6 +29,7 @@ data class Employee( val employeeId: Int )
         var storyList = messageList
         var storyId = messageId
         val message: Message
+        val roundoff = (salaryincrease * 100.0F).roundToInt() / 100.0F
 
         if (this.currentSalary == 4180.0F) {
             storyId += 1
@@ -41,13 +43,13 @@ data class Employee( val employeeId: Int )
             )
         } else {
 
-            if (salaryincrease * 100 >= 0.0F) {
+            if (roundoff * 100 > 0.0F) {
                 storyId += 1
                 storyList = storyList.plus(
                     Message(
                         storyId,
                         "Du har fått löneökning på ${
-                            (salaryincrease * 100)
+                            (roundoff * 100)
                         }% 💪",
                         "",
                         ""
