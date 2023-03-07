@@ -14,6 +14,7 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                 ShowStreckImage {
                     selectedImage ="streckpilot1400.jpg"
                     selectTop = 350
+                    selectMarginLeft = 35
                 }
                 ShowStreck {
                     selectedImage01 = "streck002.jpg"
@@ -30,6 +31,7 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                 ShowStreckImage {
                     selectedImage ="streckagent1300.jpg"
                     selectTop = 350
+                    selectMarginLeft = 35
                 }
                 ShowStreck {
                     selectedImage01 = "streck002.jpg"
@@ -46,6 +48,7 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                 ShowStreckImage {
                     selectedImage ="streckpolis1300.jpg"
                     selectTop = 350
+                    selectMarginLeft = 35
                 }
                 ShowStreck {
                     selectedImage01 = "streck002.jpg"
@@ -62,6 +65,7 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
             ShowStreckImage {
                 selectedImage ="streckgubbe1300.jpg"
                 selectTop = 350
+                selectMarginLeft = 35
             }
             ShowStreck {
                 selectedImage01 = "streck002.jpg"

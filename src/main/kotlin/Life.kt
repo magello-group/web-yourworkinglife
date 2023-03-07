@@ -331,16 +331,27 @@ data class Life ( val personId: Int) {
 
         sumPensionMonth = currentAmount / currentCost
 
-        storyId += 1
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Du har sparat totalt (-skatt): ${currentAmount.toInt().formatDecimalSeparator()} SEK",
-                "",
-                ""
+        if (currentAmount <= 0.0F) {
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Du ligger back: ${currentAmount.toInt().formatDecimalSeparator()} SEK.",
+                    "",
+                    ""
+                )
             )
-        )
-
+        } else {
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Du har sparat totalt (-skatt): ${currentAmount.toInt().formatDecimalSeparator()} SEK",
+                    "",
+                    ""
+                )
+            )
+        }
         if ((this.accountNoAkassa.amount - this.accountSalary.amount) < 0) {
             storyId += 1
             storyList = storyList.plus(
@@ -365,15 +376,27 @@ data class Life ( val personId: Int) {
             )
         )
 
-        storyId += 1
-        storyList = storyList.plus(
-            Message(
-                storyId,
-                "Det gör att du klara dig tills du är: ${(this.age + (sumPensionMonth / 12).toInt()).formatDecimalSeparator()} år",
-                "",
-                ""
+        if (sumPensionMonth > 0.0F) {
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Det gör att du klara dig tills du är: ${(this.age + (sumPensionMonth / 12).toInt()).formatDecimalSeparator()} år",
+                    "",
+                    ""
+                )
             )
-        )
+        } else {
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Du får jobba några år till.",
+                    "",
+                    ""
+                )
+            )
+        }
 
         //Ett poäng för varje år du klara
         if ((this.age + (sumPensionMonth / 12)) > 100) {
@@ -400,7 +423,7 @@ data class Life ( val personId: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Din sammanlagda lyckopoäng: ${this.countPoint}. Du har haft ett väldigt lyckligt liv.",
+                    "Din sammanlagda lyckopoäng: ${this.countPoint}. Du har haft ett väldigt lyckligt arbetsliv.",
                     "",
                     "blinking"
                 )
@@ -410,7 +433,7 @@ data class Life ( val personId: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Din sammanlagda lyckopoäng: ${this.countPoint}. Du har haft ett lyckligt liv.",
+                    "Din sammanlagda lyckopoäng: ${this.countPoint}. Du har haft ett lyckligt arbetsliv.",
                     "",
                     "blinking"
                 )

@@ -8,6 +8,7 @@ import react.dom.html.ReactHTML.p
 external interface ShowStreckImageProps : Props {
     var selectedImage: String
     var selectTop: Int //350
+    var selectMarginLeft: Int //35
 }
 
 val ShowStreckImage = FC<ShowStreckImageProps> { props ->
@@ -22,7 +23,7 @@ val ShowStreckImage = FC<ShowStreckImageProps> { props ->
             }
             100.pct {
                 backgroundImage = url(props.selectedImage)
-                marginLeft = 35.pc
+                marginLeft = props.selectMarginLeft.pc
                 width = 10.pc
             }
         }

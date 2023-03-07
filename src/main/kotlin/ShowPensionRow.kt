@@ -147,7 +147,7 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +"Lön: "
+            +"Sista lön: "
             if (props.actualSalary != "")
                 +props.actualSalary
         }

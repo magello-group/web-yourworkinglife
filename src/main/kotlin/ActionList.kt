@@ -68,7 +68,7 @@ val ActionList = FC<ActionListProps> { props ->
                     tr {
                         css {
                             fontSize = 18.px
-                            cursor = Cursor.pointer
+                            //cursor = Cursor.pointer
                             borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
                             hover {
                                 backgroundColor = NamedColor.lightgray

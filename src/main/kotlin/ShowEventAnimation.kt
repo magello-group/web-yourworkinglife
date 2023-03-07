@@ -14,6 +14,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                 ShowStreckImage {
                     selectedImage ="streckpilot1400.jpg"
                     selectTop = 507
+                    selectMarginLeft = 26
                 }
 
                 ShowStreck {
@@ -24,7 +25,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                 }
 
                 ShowCloud {
-                    selectedImage ="sol.png"
+                    selectedImage = "heart.png"
                     marginLeftFrom = 0
                     marginLeftTo = 30
                     selectedTopPX = 357
@@ -34,6 +35,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                 ShowStreckImage {
                     selectedImage ="streckagent1300.jpg"
                     selectTop = 507
+                    selectMarginLeft = 26
                 }
 
                 ShowStreck {
@@ -45,7 +47,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
 
 
                 ShowCloud {
-                    selectedImage ="regn.png"
+                    selectedImage = "heart.png"
                     marginLeftFrom = 0
                     marginLeftTo = 30
                     selectedTopPX = 357
@@ -55,6 +57,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                 ShowStreckImage {
                     selectedImage ="streckpolis1300.jpg"
                     selectTop = 507
+                    selectMarginLeft = 26
                 }
 
                 ShowStreck {
@@ -65,7 +68,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                 }
 
                 ShowCloud {
-                    selectedImage ="sol.png"
+                    selectedImage = "heart.png"
                     marginLeftFrom = 0
                     marginLeftTo = 30
                     selectedTopPX = 357
@@ -75,6 +78,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                 ShowStreckImage {
                     selectedImage = "streckgubbe1300.jpg"
                     selectTop = 507
+                    selectMarginLeft = 26
                 }
 
                 ShowStreck {
@@ -84,9 +88,9 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                     selectedTopPX = 700
                 }
                 ShowCloud {
-                    selectedImage = "sol.png"
+                    selectedImage = "heart.png"
                     marginLeftFrom = 0
-                    marginLeftTo = 35
+                    marginLeftTo = 26
                     selectedTopPX = 357
                 }
             }

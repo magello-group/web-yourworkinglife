@@ -448,27 +448,17 @@ val App = FC<Props> {
 
                 //Show animation
                 div {
-                    /*
-                    ShowSparkcykel {
-                        selectedTopPX = 750
+
+                    ShowStreckPensioner {
+                        selectedTopPX = 520
                     }
 
-                     */
                     ShowStreck {
                         selectedTopPX = 700
                         selectedImage01 = "streck002.jpg"
                         selectedImage02 = "streck003.jpg"
                         selectedImage03 = "streck004.jpg"
                     }
-/*
-                    ShowCloud {
-                        selectedTopPX = 600
-                        selectedImage ="sol.png"
-                        marginLeftFrom = 0
-                        marginLeftTo = 40
-                    }
-
- */
                 }
             }
         }

@@ -82,7 +82,7 @@ data class Profession(
                 0.0F, 58000.0F, 1700.0F, 58, "salary",10,10, 20, 60,  0.07F
             ),
             Profession(
-                9, "programmer", "Programmerar", "Du jobbar som programmerare på ett säkerhetsbolag",
+                9, "programmer", "Programmerare", "Du jobbar som programmerare på ett säkerhetsbolag",
                 0.0F, 58000.0F, 1700.0F, 58, "salary",30,10, 20, 60,  0.07F
             ),
 
@@ -96,7 +96,7 @@ data class Profession(
                 0.0F, 100000.0F, 2800.0F, 58, "pension",10,50, 10, 10, 0.15F, 50
             ),
             Profession(
-                22, "programmer", "Programmerar", "Du jobbar som programmerare på en bank",
+                22, "programmer", "Programmerare", "Du jobbar som programmerare på en bank",
                 0.0F, 40000.0F, 1200.0F, 58, "pension",30,20, 10, 10, 0.15F, 50
             ),
             Profession(
@@ -135,7 +135,7 @@ data class Profession(
                 50000.0F, 30000.0F, 900.0F, 60, "adventure",40,40, 40, 20, 0.07F
             ),
             Profession(
-                37, "programmer", "Programmerar", "Du jobbar som programmerare hos underrättelsetjänsten",
+                37, "programmer", "Programmerare", "Du jobbar som programmerare hos underrättelsetjänsten",
                 0.0F, 50000.0F, 1500.0F, 60, "adventure",40,10, 40, 20, 0.07F
             ),
 
@@ -157,7 +157,7 @@ data class Profession(
                 50000.0F, 35000.0F, 900.0F, 65, "vacation",40,40,10, 10, 0.07F
             ),
             Profession(
-                44, "programmer", "Programmerar", "Du jobbar som programmerare på en myndighet",
+                44, "programmer", "Programmerare", "Du jobbar som programmerare på en myndighet",
                 0.0F, 35000.0F, 900.0F, 60, "vacation",30,10,10, 10, 0.07F, 30
             ),
 
@@ -175,7 +175,7 @@ data class Profession(
                 0.0F, 25000.0F, 700.0F, 60, "family",20,20, 40, 10, 0.00F
             ),
             Profession(
-                53, "programmer", "Programmerar", "Du jobbar som programmerare hos polisen",
+                53, "programmer", "Programmerare", "Du jobbar som programmerare hos polisen",
                 0.0F, 39000.0F, 1000.0F, 60, "family",30,10, 40, 10, 0.07F
             ),
             Profession(
@@ -209,7 +209,7 @@ data class Profession(
                 0.0F, 39000.0F, 1000.0F, 60, "chilla",20,50, 50, 60, 0.00F
             ),
             Profession(
-                66, "programmer", "Programmerar", "Du jobbar som programmerare på en högskola",
+                66, "programmer", "Programmerare", "Du jobbar som programmerare på en högskola",
                 0.0F, 40000.0F, 1000.0F, 60, "chilla",30,10, 50, 10, 0.07F
             ),
 
@@ -243,7 +243,7 @@ data class Profession(
             0.0F, 40000.0F, 1200.0F, 60, "fun",30,40, 60, 10, 0.07F
             ),
             Profession(
-                77, "programmer", "Programmerar", "Du jobbar som programmerare på ett spelbolag",
+                77, "programmer", "Programmerare", "Du jobbar som programmerare på ett spelbolag",
                 0.0F, 58000.0F, 1700.0F, 58, "fun",30,10, 60, 60, 0.07F
             )
         )

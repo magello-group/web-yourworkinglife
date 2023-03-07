@@ -827,7 +827,10 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                         messageList = event.showEvent(0.0F,messageList, messageId, "Åh nej! ", "")
                         messageId = messageList[messageList.size - 1].id
 
-                        employee.sickSalary = person.insurance.getIncome(employee.currentSalary)
+                        if (person.isMagellit)
+                            employee.sickSalary = employee.currentSalary * 0.90F //90% av lönen
+                        else
+                            employee.sickSalary = person.insurance.getIncome(employee.currentSalary)
 
                         messageList = employee.showEmployeeSickSalary(messageList, messageId)
                         messageId = messageList[messageList.size - 1].id
