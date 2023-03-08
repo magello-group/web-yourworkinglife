@@ -718,7 +718,7 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     display = Display.block
                     position = Position.absolute
                     top = topPX.px
-                    left = 640.px
+                    left = 660.px
 
                     if (props.actualPerson.findLuck("friend"))
                         color = NamedColor.hotpink
@@ -742,7 +742,7 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     display = Display.block
                     position = Position.absolute
                     top = topPX.px
-                    left = 640.px
+                    left = 660.px
 
                     if (props.actualPerson.findLuck("fish"))
                         color = NamedColor.hotpink
@@ -766,7 +766,7 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     display = Display.block
                     position = Position.absolute
                     top = topPX.px
-                    left = 640.px
+                    left = 660.px
 
                     if (props.actualPerson.findLuck("strong"))
                         color = NamedColor.hotpink
@@ -789,7 +789,7 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     display = Display.block
                     position = Position.absolute
                     top = topPX.px
-                    left = 640.px
+                    left = 660.px
 
                     if (props.actualPerson.findLuck("walk"))
                         color = NamedColor.hotpink
@@ -812,7 +812,7 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     display = Display.block
                     position = Position.absolute
                     top = topPX.px
-                    left = 640.px
+                    left = 660.px
                     if (props.actualPerson.findLuck("party"))
                         color = NamedColor.hotpink
                     else
@@ -834,7 +834,7 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     display = Display.block
                     position = Position.absolute
                     top = topPX.px
-                    left = 640.px
+                    left = 660.px
 
                     if (props.actualPerson.findLuck("love"))
                         color = NamedColor.hotpink

@@ -42,6 +42,8 @@ val App = FC<Props> {
 
     var unSelectedQuestions: List<Question> by useState(emptyList())
     var selectedQuestions: List<Question> by useState(emptyList())
+    var checkInt: Int?
+    var checkDouble: Double?
 
     // Initiera arbetslivet
     val person: Person = currentPerson
@@ -95,7 +97,18 @@ val App = FC<Props> {
                             //+"◀ "
                         }
                     }
-                    if (name.isBlank() || age.isBlank() || pension.isBlank()) {
+                    checkInt = age.toIntOrNull()
+                    if (checkInt != null) {
+                        if (checkInt!! > 58.0 || checkInt!! < 15.0)
+                            checkInt = null
+                    }
+                    checkDouble = pension.toDoubleOrNull()
+                    if (checkDouble != null) {
+                        if (checkDouble!! > 50.0 || checkDouble!! < 0.0)
+                            checkDouble = null
+                    }
+
+                    if (name.isBlank() || age.isBlank() || pension.isBlank() || checkInt == null || checkDouble == null) {
                         p {
                             css {
                                 display = Display.block
