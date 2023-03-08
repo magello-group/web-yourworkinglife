@@ -78,69 +78,77 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
             "programmer", "solo" -> {
                 ShowStreckImage {
                     selectedImage ="streckprogrammer100.jpg"
-                    selectTop = 350
+                    selectTop = 507
                     selectMarginLeft = props.actualMarginLeft
                 }
                 ShowStreck {
                     selectedImage01 = "streck002.jpg"
                     selectedImage02 = "streck003.jpg"
                     selectedImage03 = "streck004.jpg"
+                    selectedTopPX = 700
                 }
                 ShowCloud {
                     selectedImage = "heart.png"
                     marginLeftFrom = 0
                     marginLeftTo = 30
+                    selectedTopPX = 357
                 }
             }
             "security", "VD", "ambassador", "chef", "driftchef", "bank", "insurance" -> {
                 ShowStreckImage {
                     selectedImage ="streckboss300.jpg"
-                    selectTop = 350
+                    selectTop = 507
                     selectMarginLeft = props.actualMarginLeft
                 }
                 ShowStreck {
                     selectedImage01 = "streck002.jpg"
                     selectedImage02 = "streck003.jpg"
                     selectedImage03 = "streck007.jpg"
+                    selectedTopPX = 700
                 }
                 ShowCloud {
-                    selectedImage ="sol.png"
+                    selectedImage = "heart.png"
                     marginLeftFrom = 0
-                    marginLeftTo = props.actualMarginLeft
+                    marginLeftTo = 30
+                    selectedTopPX = 357
                 }
             }
             "advokat" -> {
                 ShowStreckImage {
                     selectedImage ="streckadvokat300.jpg"
-                    selectTop = 350
+                    selectTop = 507
                     selectMarginLeft = props.actualMarginLeft
                 }
                 ShowStreck {
                     selectedImage01 = "streck002.jpg"
                     selectedImage02 = "streck003.jpg"
                     selectedImage03 = "streck007.jpg"
+                    selectedTopPX = 700
                 }
                 ShowCloud {
-                    selectedImage ="sol.png"
+                    selectedImage = "heart.png"
                     marginLeftFrom = 0
-                    marginLeftTo = props.actualMarginLeft
+                    marginLeftTo = 30
+                    selectedTopPX = 357
                 }
             }
             "doctor" -> {
                 ShowStreckImage {
                     selectedImage ="streckdoctor300.jpg"
-                    selectTop = 350
+                    selectTop = 507
                     selectMarginLeft = props.actualMarginLeft
                 }
                 ShowStreck {
                     selectedImage01 = "streck002.jpg"
                     selectedImage02 = "streck003.jpg"
                     selectedImage03 = "streck007.jpg"
+                    selectedTopPX = 700
                 }
                 ShowCloud {
-                    selectedImage ="sol.png"
+                    selectedImage = "heart.png"
                     marginLeftFrom = 0
-                    marginLeftTo = props.actualMarginLeft
+                    marginLeftTo = 30
+                    selectedTopPX = 357
                 }
             }
             else -> {
