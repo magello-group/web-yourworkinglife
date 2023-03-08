@@ -62,9 +62,43 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                     marginLeftTo = props.actualMarginLeft
                 }
             }
-            "programmer" -> {
+            "programmer", "solo" -> {
                 ShowStreckImage {
                     selectedImage ="streckprogrammer100.jpg"
+                    selectTop = 350
+                    selectMarginLeft = props.actualMarginLeft
+                }
+                ShowStreck {
+                    selectedImage01 = "streck002.jpg"
+                    selectedImage02 = "streck003.jpg"
+                    selectedImage03 = "streck007.jpg"
+                }
+                ShowCloud {
+                    selectedImage ="sol.png"
+                    marginLeftFrom = 0
+                    marginLeftTo = props.actualMarginLeft
+                }
+            }
+            "advokat" -> {
+                ShowStreckImage {
+                    selectedImage ="streckadvokat300.jpg"
+                    selectTop = 350
+                    selectMarginLeft = props.actualMarginLeft
+                }
+                ShowStreck {
+                    selectedImage01 = "streck002.jpg"
+                    selectedImage02 = "streck003.jpg"
+                    selectedImage03 = "streck007.jpg"
+                }
+                ShowCloud {
+                    selectedImage ="sol.png"
+                    marginLeftFrom = 0
+                    marginLeftTo = props.actualMarginLeft
+                }
+            }
+            "doctor" -> {
+                ShowStreckImage {
+                    selectedImage ="streckdoctor300.jpg"
                     selectTop = 350
                     selectMarginLeft = props.actualMarginLeft
                 }
