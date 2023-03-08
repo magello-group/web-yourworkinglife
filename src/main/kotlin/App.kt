@@ -319,6 +319,7 @@ val App = FC<Props> {
                 //Show animation
                 ShowProfessionAnimation {
                     actualProfession = currentProfession
+                    actualMarginLeft = 35
                 }
             }
             "luck", "depressed" -> {
@@ -372,6 +373,7 @@ val App = FC<Props> {
                 //Show animation
                 ShowEventAnimation {
                     actualProfession = currentProfession
+                    actualMarginLeft = 26
                 }
             }
             "profession", "question" -> {
@@ -422,6 +424,7 @@ val App = FC<Props> {
                 //Show animation
                 ShowProfessionAnimation {
                     actualProfession = currentProfession
+                    actualMarginLeft = 26
                 }
 
                 ShowInput {
@@ -457,7 +460,7 @@ val App = FC<Props> {
                         selectedTopPX = 700
                         selectedImage01 = "streck002.jpg"
                         selectedImage02 = "streck003.jpg"
-                        selectedImage03 = "streck004.jpg"
+                        selectedImage03 = "streck007.jpg"
                     }
                 }
             }

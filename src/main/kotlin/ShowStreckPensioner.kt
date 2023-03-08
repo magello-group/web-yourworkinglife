@@ -81,7 +81,7 @@ val ShowStreckPensioner = FC<ShowStreckPensionerProps> { props ->
             }
             100.pct {
                 backgroundImage = url("streckpensioner400.jpg")
-                marginLeft = 35.pc
+                marginLeft = 38.pc
                 width = 8.pc
             }
         }

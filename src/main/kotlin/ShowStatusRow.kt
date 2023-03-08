@@ -417,7 +417,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 580.px
-                left = 640.px
+                left = 660.px
 
                 if (props.actualPerson.findLuck("friend"))
                     color = NamedColor.hotpink
@@ -438,7 +438,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 610.px
-                left = 640.px
+                left = 660.px
 
                 if (props.actualPerson.findLuck("fish"))
                     color = NamedColor.hotpink
@@ -459,7 +459,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 640.px
-                left = 640.px
+                left = 660.px
 
                 if (props.actualPerson.findLuck("strong"))
                     color = NamedColor.hotpink
@@ -480,7 +480,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 670.px
-                left = 640.px
+                left = 660.px
 
                 if (props.actualPerson.findLuck("walk"))
                     color = NamedColor.hotpink
@@ -501,7 +501,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 700.px
-                left = 640.px
+                left = 660.px
                 if (props.actualPerson.findLuck("party"))
                     color = NamedColor.hotpink
                 else
@@ -520,7 +520,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 display = Display.block
                 position = Position.absolute
                 top = 730.px
-                left = 640.px
+                left = 660.px
 
                 if (props.actualPerson.findLuck("love"))
                     color = NamedColor.hotpink

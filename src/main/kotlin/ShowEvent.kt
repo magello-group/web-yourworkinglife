@@ -65,5 +65,21 @@ val ShowEvent = FC<ShowEventProps> { props ->
             +"Lycka: "
             +hobby.point.formatDecimalSeparator()
         }
+
+
+        p {
+            css {
+                display = Display.block
+                position = Position.absolute
+                top = 800.px
+                left = 10.px
+                color = NamedColor.hotpink
+                borderColor = NamedColor.white
+                fontSize = 14.px
+                backgroundColor = NamedColor.white
+                fontFamily = FontFamily.cursive
+            }
+            +"OBS: En sambo betalar halva hyran. Blir du deppig får du prata med en terapeut och kan välja ännu en lycka!"
+        }
     }
 }

@@ -4,6 +4,7 @@ import react.dom.html.ReactHTML.div
 
 external interface ShowEventAnimationProps : Props {
     var actualProfession: Profession
+    var actualMarginLeft: Int
 }
 
 val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
@@ -14,7 +15,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                 ShowStreckImage {
                     selectedImage ="streckpilot1400.jpg"
                     selectTop = 507
-                    selectMarginLeft = 26
+                    selectMarginLeft = props.actualMarginLeft
                 }
 
                 ShowStreck {
@@ -35,7 +36,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                 ShowStreckImage {
                     selectedImage ="streckagent1300.jpg"
                     selectTop = 507
-                    selectMarginLeft = 26
+                    selectMarginLeft = props.actualMarginLeft
                 }
 
                 ShowStreck {
@@ -57,7 +58,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                 ShowStreckImage {
                     selectedImage ="streckpolis1300.jpg"
                     selectTop = 507
-                    selectMarginLeft = 26
+                    selectMarginLeft = props.actualMarginLeft
                 }
 
                 ShowStreck {
@@ -74,11 +75,28 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                     selectedTopPX = 357
                 }
             }
+            "programmer" -> {
+                ShowStreckImage {
+                    selectedImage ="streckprogrammer100.jpg"
+                    selectTop = 350
+                    selectMarginLeft = props.actualMarginLeft
+                }
+                ShowStreck {
+                    selectedImage01 = "streck002.jpg"
+                    selectedImage02 = "streck003.jpg"
+                    selectedImage03 = "streck004.jpg"
+                }
+                ShowCloud {
+                    selectedImage = "heart.png"
+                    marginLeftFrom = 0
+                    marginLeftTo = 30
+                }
+            }
             else -> {
                 ShowStreckImage {
                     selectedImage = "streckgubbe1300.jpg"
                     selectTop = 507
-                    selectMarginLeft = 26
+                    selectMarginLeft = props.actualMarginLeft
                 }
 
                 ShowStreck {
@@ -90,7 +108,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                 ShowCloud {
                     selectedImage = "heart.png"
                     marginLeftFrom = 0
-                    marginLeftTo = 26
+                    marginLeftTo = 30
                     selectedTopPX = 357
                 }
             }
