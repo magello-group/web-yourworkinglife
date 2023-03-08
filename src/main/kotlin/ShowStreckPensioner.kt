@@ -87,7 +87,7 @@ val ShowStreckPensioner = FC<ShowStreckPensionerProps> { props ->
         }
 
         css {
-            animationDuration = 3.s
+            animationDuration = 5.s
             animationName = streckPensioner
             animationFillMode = AnimationFillMode.both
             display = Display.flex

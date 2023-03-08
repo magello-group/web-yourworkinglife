@@ -84,16 +84,28 @@ data class Life ( val personId: Int) {
         }
 
         if (this.person.houses.size > 1) {
-            storyId += 1
-            storyList = storyList.plus(
-                Message(
-                    storyId,
-                    "Du fann dig till ro i ditt bo, ${this.person.houses[this.person.houses.size - 1].description}",
-                    "",
-                    ""
+            if (this.person.houses[this.person.houses.size - 1].houseMonthPayment > 0.0F) {
+                storyId += 1
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "Du fann dig till ro i ditt bo, ${this.person.houses[this.person.houses.size - 1].description}",
+                        "",
+                        ""
+                    )
                 )
-            )
-            this.countPoint += 1
+                this.countPoint += 1
+            } else {
+                storyId += 1
+                storyList = storyList.plus(
+                    Message(
+                        storyId,
+                        "Du lånar en soffa att bo på.",
+                        "",
+                        ""
+                    )
+                )
+            }
         }
 
         when (this.person.professions[0].objectType) {

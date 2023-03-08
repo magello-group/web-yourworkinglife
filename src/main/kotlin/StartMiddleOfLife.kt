@@ -479,6 +479,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                         life.person.accounts = life.person.accounts.plus(life.accountNoAkassa)
                         life.person.accounts = life.person.accounts.plus(life.accountDepot)
                         life.person.accounts = life.person.accounts.plus(life.accountPension)
+                        life.person.houses = life.person.houses.plus(life.person.house)
 
                         key = messageList[0].id.toString()
                         css {
