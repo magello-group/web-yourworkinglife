@@ -18,11 +18,11 @@ data class View(
         val professionQuestions: List<Question> = question.getQuestionList("profession")
 
         return listOf(
-            View(0, "init", emptyList(), "Ditt arbetsliv börjar här... gör dig redo:","Nästa steg", "action"),
+            View(0, "init", emptyList(), "Ditt arbetsliv börjar här ... gör dig redo:","Nästa steg", "action"),
             View(1, "action", goalQuestions,"Vilket mål har du med arbetslivet?", "Välj yrke", "profession"),
             View(2, "start", emptyList(),"Ditt arbetsliv har startat!", "Gå vidare i arbetslivet", "reload"),
             View(3, "luck", luckQuestions,"Vad gör dig lycklig?", "Starta", "start"),
-            View(4, "profession", professionQuestions,"Vilket yrke väljer du?", "Vad gör dig lycklig?", "luck"),
+            View(4, "profession", professionQuestions,"Vilket yrke väljer du?", "Nästa?", "luck"),
             View(5, "reload", emptyList(),"Mitt i livet", "Traska på", "pension"),
             View(6, "pension", emptyList(),"Nu startar pensionen", "Pensionär", "slut"),
             View(7, "question", professionQuestions,"Vilket yrke väljer du?", "Gå vidare till nya jobbet", "reload"),

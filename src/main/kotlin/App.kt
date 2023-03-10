@@ -10,10 +10,12 @@ import react.dom.html.ReactHTML.button
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.h1
 import react.dom.html.ReactHTML.input
+import react.dom.html.ReactHTML.label
 import react.dom.html.ReactHTML.p
 import react.dom.html.ReactHTML.table
 import react.dom.html.ReactHTML.tbody
 import react.dom.html.ReactHTML.td
+import react.dom.html.ReactHTML.textarea
 import react.dom.html.ReactHTML.tr
 
 val mainScope = MainScope()
@@ -73,72 +75,71 @@ val App = FC<Props> {
 
     // Top button
     div {
-        css {
-            width = 800.px
-        }
         div {
-            when (currentView.viewType) {
-                "init" -> {
-                    // Initiera arbetslivet
 
+            if (currentView.viewType == "init") {
+                // Initiera arbetslivet
+
+                p {
+                    button {
+
+                        key = currentView.id.toString()
+                        css {
+                            display = Display.block
+                            position = Position.absolute
+                            top = appStyle.topPXbutton01.px
+                            left = appStyle.leftPXbutton01.px
+
+                            color = NamedColor.green
+                            borderColor = NamedColor.white
+                            fontSize = appStyle.fontMedium.px
+                            backgroundColor = NamedColor.white
+                            fontFamily = FontFamily.cursive
+                        }
+
+                        onClick = {
+                            if (name.isNotBlank() && age.isNotBlank() && pension.isNotBlank()) {
+                                onSelectView(view.getNextView())
+                            }
+                        }
+                        +currentView.buttonText
+                        +" ▶"
+                        //+"◀ "
+                    }
+                }
+
+                //Check if input is correct
+                checkInt = age.toIntOrNull()
+                if (checkInt != null) {
+                    if (checkInt!! > 58.0 || checkInt!! < 15.0)
+                        checkInt = null
+                }
+                checkDouble = pension.toDoubleOrNull()
+                if (checkDouble != null) {
+                    if (checkDouble!! > 50.0 || checkDouble!! < 0.0)
+                        checkDouble = null
+                }
+
+                if (name.isBlank() || age.isBlank() || pension.isBlank() || checkInt == null || checkDouble == null) {
                     p {
-                        button {
-
-                            key = currentView.id.toString()
-                            css {
-                                display = Display.block
-                                position = Position.absolute
-                                top = appStyle.topPXbutton01.px
-                                left = appStyle.leftPXbutton01.px
-
-                                color = NamedColor.green
-                                borderColor = NamedColor.white
-                                fontSize = appStyle.fontMedium.px
-                                backgroundColor = NamedColor.white
-                                fontFamily = FontFamily.cursive
-                            }
-
-                            onClick = {
-                                if (name.isNotBlank() && age.isNotBlank() && pension.isNotBlank()) {
-                                    onSelectView(view.getNextView())
-                                }
-                            }
-                            +currentView.buttonText
-                            +" ▶"
-                            //+"◀ "
+                        css {
+                            display = Display.block
+                            position = Position.absolute
+                            top = appStyle.topPXOBSText00.px
+                            left = appStyle.leftPXOBSText00.px
+                            color = NamedColor.hotpink
+                            borderColor = NamedColor.white
+                            fontSize = appStyle.fontSmall.px
+                            backgroundColor = NamedColor.white
+                            fontFamily = FontFamily.cursive
                         }
-                    }
-
-                    //Check if input is correct
-                    checkInt = age.toIntOrNull()
-                    if (checkInt != null) {
-                        if (checkInt!! > 58.0 || checkInt!! < 15.0)
-                            checkInt = null
-                    }
-                    checkDouble = pension.toDoubleOrNull()
-                    if (checkDouble != null) {
-                        if (checkDouble!! > 50.0 || checkDouble!! < 0.0)
-                            checkDouble = null
-                    }
-
-                    if (name.isBlank() || age.isBlank() || pension.isBlank() || checkInt == null || checkDouble == null) {
-                        p {
-                            css {
-                                display = Display.block
-                                position = Position.absolute
-                                top = appStyle.topPXOBSText00.px
-                                left = appStyle.leftPXOBSText00.px
-                                color = NamedColor.hotpink
-                                borderColor = NamedColor.white
-                                fontSize = appStyle.fontSmall.px
-                                backgroundColor = NamedColor.white
-                                fontFamily = FontFamily.cursive
-                            }
-                            +"OBS: Ange namn, ålder och pension innan du går till nästa steg!"
-                        }
+                        +"OBS: Ange namn, ålder och pension innan du går till nästa steg!"
                     }
                 }
             }
+        }
+
+        div {
 
             //Main title
             h1 {
@@ -148,7 +149,8 @@ val App = FC<Props> {
                     top = appStyle.topPXTitle.px
                     left = appStyle.leftPXTitle.px
                     color = NamedColor.black
-                    fontSize = appStyle.fontLarge.px
+                    width = 800.px
+                    //fontSize = appStyle.fontLarge.px
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
@@ -163,8 +165,8 @@ val App = FC<Props> {
                     css {
                         display = Display.block
                         position = Position.absolute
-                        top = appStyle.topPXTable01.px
-                        left = appStyle.leftPXTable01.px
+                        top = appStyle.topPXTable02.px
+                        left = appStyle.leftPXTable02.px
                         fontFamily = FontFamily.cursive
                     }
 
@@ -192,7 +194,7 @@ val App = FC<Props> {
                                         fontSize = appStyle.fontMedium.px
                                         borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
                                         hover {
-                                            backgroundColor = NamedColor.white
+                                            backgroundColor = NamedColor.lightgrey
                                         }
                                         maxHeight = 10.px
                                     }
@@ -201,19 +203,33 @@ val App = FC<Props> {
 
                                         css {
                                             padding = Padding(0.px, 0.px)
-                                            height = 10.px
-
+                                            width = 400.px
                                             color = NamedColor.black
                                             fontSize = appStyle.fontMedium.px
                                             fontFamily = FontFamily.cursive
                                         }
                                         +input.questionText
                                         +" "
+                                    }
+                                    td {
 
+                                        css {
+                                            padding = Padding(0.px, 0.px)
+                                            height = 5.px
+                                            color = NamedColor.black
+                                            fontSize = appStyle.fontMedium.px
+                                            fontFamily = FontFamily.cursive
+                                        }
                                         input {
                                             css {
-                                                marginTop = 5.px
-                                                marginBottom = 5.pc
+                                                display = Display.block
+                                                borderTop = Border(1.px, LineStyle.solid, NamedColor.white)
+                                                borderLeft = Border(1.px, LineStyle.solid, NamedColor.white)
+                                                borderRight = Border(1.px, LineStyle.solid, NamedColor.white)
+                                                borderBottom = Border(1.px, LineStyle.solid, NamedColor.grey)
+                                                height = 25.px
+                                                marginTop = 1.pc
+                                                marginBottom = 0.pc
                                                 fontSize = appStyle.fontMedium.px
                                                 fontFamily = FontFamily.cursive
                                                 when (input.objectType) {
@@ -358,9 +374,9 @@ val App = FC<Props> {
                 //Show animation
                 ShowProfessionAnimation {
                     actualProfession = currentProfession
-                    actualMarginLeft = 36
+                    actualMarginLeft = 38
                     actualStyle = appStyle
-                    actualCloudMarginLeftTo = 36
+                    actualCloudMarginLeftTo = 38
                 }
             }
 

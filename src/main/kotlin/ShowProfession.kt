@@ -29,7 +29,6 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
                 top = props.actualStyle.topPXTitle.px //25
                 left = props.actualStyle.leftPXTitle.px
                 color = NamedColor.green
-                fontSize = props.actualStyle.fontLarge.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
                 width = 1000.px
@@ -38,120 +37,132 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
             +props.actualProfession.professionText
             +"!"
         }
-        topPX += 120
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top =  topPX.px
-                left = props.actualStyle.leftPX01.px
-                color = NamedColor.black
-                fontSize = props.actualStyle.fontMedium.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-            +"Första lön: "
-            if (salary <= 0)
-                +"?"
-            else
-                +salary.toString()
-        }
-    }
-
-    div {
-        topPX = props.actualStartTopPX
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top = topPX.px
-                left = props.actualStyle.leftPX02.px
-                color = NamedColor.black
-                fontSize = props.actualStyle.fontMedium.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-            +"Lyckochans: "
-            +"${props.actualProfession.randomLuck}%"
-        }
-        topPX += 40
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top =  topPX.px
-                left = props.actualStyle.leftPX02.px
-                color = NamedColor.black
-                fontSize = props.actualStyle.fontMedium.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-            +"Bonuschans: "
-            +"${props.actualProfession.randomBonus}%"
-        }
-        topPX += 40
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top =  topPX.px
-                left = props.actualStyle.leftPX02.px
-                color = NamedColor.black
-                fontSize = props.actualStyle.fontMedium.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-            +"Pension jobb: "
-            +"${(props.actualProfession.pension * 100).toInt().formatDecimalSeparator()}%"
-        }
-        topPX += 40
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top =  topPX.px
-                left = props.actualStyle.leftPX02.px
-                color = NamedColor.black
-                fontSize = props.actualStyle.fontMedium.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-            +"Avgångsvederlagchans: "
-            +"${(props.actualProfession.randomSeverancePay).formatDecimalSeparator()}%"
-        }
 
     }
 
     div {
-        topPX = props.actualStartTopPX
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top =  topPX.px
-                left = props.actualStyle.leftPX03.px
-                color = NamedColor.black
-                fontSize = props.actualStyle.fontMedium.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-            +"Varsel risk: "
-            +"${props.actualProfession.randomUnemployed}%"
+        css {
+            display = Display.block
+            position = Position.absolute
+            width = 800.px
         }
-        topPX += 40
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top =  topPX.px
-                left = props.actualStyle.leftPX03.px
-                color = NamedColor.black
-                fontSize = props.actualStyle.fontMedium.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
+
+        div {
+            topPX += 120
+            p {
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = topPX.px
+                    left = props.actualStyle.leftPX01.px
+                    color = NamedColor.black
+                    fontSize = props.actualStyle.fontMedium.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+                +"Första lön: "
+                if (salary <= 0)
+                    +"?"
+                else
+                    +salary.toString()
             }
-            +"Sjuk risk: "
-            +"${props.actualProfession.randomSick}%"
+        }
+
+        div {
+            topPX = props.actualStartTopPX
+            p {
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = topPX.px
+                    left = props.actualStyle.leftPX02.px
+                    color = NamedColor.black
+                    fontSize = props.actualStyle.fontMedium.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+                +"Lyckochans: "
+                +"${props.actualProfession.randomLuck}%"
+            }
+            topPX += 40
+            p {
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = topPX.px
+                    left = props.actualStyle.leftPX02.px
+                    color = NamedColor.black
+                    fontSize = props.actualStyle.fontMedium.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+                +"Bonuschans: "
+                +"${props.actualProfession.randomBonus}%"
+            }
+            topPX += 40
+            p {
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = topPX.px
+                    left = props.actualStyle.leftPX02.px
+                    color = NamedColor.black
+                    fontSize = props.actualStyle.fontMedium.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+                +"Pension jobb: "
+                +"${(props.actualProfession.pension * 100).toInt().formatDecimalSeparator()}%"
+            }
+            topPX += 40
+            p {
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = topPX.px
+                    left = props.actualStyle.leftPX02.px
+                    color = NamedColor.black
+                    fontSize = props.actualStyle.fontMedium.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+                +"Avgångsvederlagchans: "
+                +"${(props.actualProfession.randomSeverancePay).formatDecimalSeparator()}%"
+            }
+
+        }
+
+        div {
+            topPX = props.actualStartTopPX
+            p {
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = topPX.px
+                    left = props.actualStyle.leftPX03.px
+                    color = NamedColor.black
+                    fontSize = props.actualStyle.fontMedium.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+                +"Varsel risk: "
+                +"${props.actualProfession.randomUnemployed}%"
+            }
+            topPX += 40
+            p {
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = topPX.px
+                    left = props.actualStyle.leftPX03.px
+                    color = NamedColor.black
+                    fontSize = props.actualStyle.fontMedium.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+                +"Sjuk risk: "
+                +"${props.actualProfession.randomSick}%"
+            }
         }
     }
 }

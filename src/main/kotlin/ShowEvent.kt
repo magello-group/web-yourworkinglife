@@ -72,13 +72,13 @@ val ShowEvent = FC<ShowEventProps> { props ->
             +"Lycka: "
             +hobby.point.formatDecimalSeparator()
         }
-
+        topPX += 50
         p {
             css {
                 display = Display.block
                 position = Position.absolute
-                top = props.actualStyle.topPXOBSText00.px
-                left = props.actualStyle.leftPXOBSText00.px
+                top = topPX.px
+                left = leftPX.px
                 color = NamedColor.hotpink
                 borderColor = NamedColor.white
                 fontSize = props.actualStyle.fontSmall.px

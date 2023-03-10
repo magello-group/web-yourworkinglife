@@ -28,6 +28,9 @@ class Style(val styleType: String) {
     var topPXTable01: Int = 120
     var leftPXTable01: Int = 20
 
+    var topPXTable02: Int = 150
+    var leftPXTable02: Int = 20
+
     var topPXStory01: Int = 110
     var leftPXStory01: Int = 20
 
@@ -37,11 +40,7 @@ class Style(val styleType: String) {
     var topPXTitle: Int = 50
     var leftPXTitle: Int = 20
 
-    var topPXTextName: Int = 120
-    var topPXTextAge: Int = 180
-    var topPXTextPension: Int = 240
-
-    var widthPXInputName: Int = 400
+    var widthPXInputName: Int = 200
     var widthPXInputAge: Int = 30
     var widthPXInputPension: Int = 30
 
@@ -52,8 +51,8 @@ class Style(val styleType: String) {
 
     //pensioner
     //var topPXPensionerCloud: Int = 357
-    var topPXPensionerAnimation: Int = 657
-    var topPXPensionerStreck: Int = 837 // +180
+    var topPXPensionerAnimation: Int = 700
+    var topPXPensionerStreck: Int = 880 // +180
 
     //profession
     var topPXProfessionCloud: Int = 357
@@ -71,6 +70,7 @@ class Style(val styleType: String) {
     var streckLandscape01: String = "streck005.jpg"
     var streckLandscape02: String = "streck006.jpg"
     var streckStones03: String = "streck007.jpg"
+    var streckgreen: String = "streck008.jpg"
 
     var streckSol: String = "sol.png"
     var streckOnlySol: String = "solsol.png"
