@@ -54,7 +54,7 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
                 fontSize = props.selectedStyle.fontMedium.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
-                width = 600.px
+                width = 800.px
             }
 
             for ((messageIndex, message) in messageList.withIndex()) {

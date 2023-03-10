@@ -25,7 +25,7 @@ class Style(val styleType: String) {
     var topPX09: Int = 860
     var topPX10: Int = 900
 
-    var topPXTable01: Int = 110
+    var topPXTable01: Int = 120
     var leftPXTable01: Int = 20
 
     var topPXStory01: Int = 110

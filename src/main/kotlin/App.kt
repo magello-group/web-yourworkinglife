@@ -73,6 +73,9 @@ val App = FC<Props> {
 
     // Top button
     div {
+        css {
+            width = 800.px
+        }
         div {
             when (currentView.viewType) {
                 "init" -> {
@@ -167,13 +170,13 @@ val App = FC<Props> {
 
                     table {
                         css {
-                            width = 600.px
-                            maxHeight = 300.px
+                            width = 800.px
                             borderSpacing = 0.px
                             borderCollapse = BorderCollapse.collapse
                             whiteSpace = WhiteSpace.nowrap
                             border = Border(0.px, LineStyle.solid, NamedColor.white)
                             margin = Auto.auto
+
                         }
 
                         tbody {
@@ -189,8 +192,9 @@ val App = FC<Props> {
                                         fontSize = appStyle.fontMedium.px
                                         borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
                                         hover {
-                                            backgroundColor = NamedColor.lightgray
+                                            backgroundColor = NamedColor.white
                                         }
+                                        maxHeight = 10.px
                                     }
 
                                     td {
