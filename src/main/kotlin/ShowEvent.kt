@@ -3,27 +3,33 @@ import emotion.react.css
 import react.FC
 import react.Props
 import react.dom.html.ReactHTML.div
+import react.dom.html.ReactHTML.h1
 import react.dom.html.ReactHTML.p
 
 external interface ShowEventProps : Props {
     var actualEvent: Event
+    var actualStyle: Style
+    var actualStartTopPX: Int // props.actualStyle.topPX07
 }
 
 val ShowEvent = FC<ShowEventProps> { props ->
 
     var hobby = Hobby(props.actualEvent.objectType)
+    var topPX: Int
+    var leftPX = props.actualStyle.leftPX01
+
     hobby = hobby.getHobby(props.actualEvent.objectType)
 
     div {
 
-        p {
+        h1 {
             css {
                 display = Display.block
                 position = Position.absolute
-                top = 25.px
-                left = 10.px
+                top = props.actualStyle.topPXTitle.px //25
+                left = props.actualStyle.leftPXTitle.px
                 color = NamedColor.green
-                fontSize = 26.px
+                fontSize = props.actualStyle.fontLarge.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
                 width = 1000.px
@@ -35,15 +41,15 @@ val ShowEvent = FC<ShowEventProps> { props ->
     }
 
     div {
-
+        topPX = props.actualStartTopPX
         p {
             css {
                 display = Display.block
                 position = Position.absolute
-                top = 730.px
-                left = 10.px
+                top = topPX.px
+                left = leftPX.px
                 color = NamedColor.black
-                fontSize = 18.px
+                fontSize = props.actualStyle.fontMedium.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
@@ -51,14 +57,15 @@ val ShowEvent = FC<ShowEventProps> { props ->
             +hobby.cost.toInt().formatDecimalSeparator()
         }
 
+        topPX += 40
         p {
             css {
                 display = Display.block
                 position = Position.absolute
-                top = 760.px
-                left = 10.px
+                top = topPX.px
+                left = leftPX.px
                 color = NamedColor.black
-                fontSize = 18.px
+                fontSize = props.actualStyle.fontMedium.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
@@ -66,20 +73,19 @@ val ShowEvent = FC<ShowEventProps> { props ->
             +hobby.point.formatDecimalSeparator()
         }
 
-
         p {
             css {
                 display = Display.block
                 position = Position.absolute
-                top = 800.px
-                left = 10.px
+                top = props.actualStyle.topPXOBSText00.px
+                left = props.actualStyle.leftPXOBSText00.px
                 color = NamedColor.hotpink
                 borderColor = NamedColor.white
-                fontSize = 14.px
+                fontSize = props.actualStyle.fontSmall.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
-            +"OBS: En sambo betalar halva hyran. Blir du deppig får du prata med en terapeut och kan välja ännu en lycka!"
+            +"OBS: Blir du deppig får du prata med en terapeut och kan välja ännu en lycka!"
         }
     }
 }

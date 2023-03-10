@@ -21,6 +21,7 @@ external interface ActionListProps : Props {
     var onSelectGoal: (Profession) -> Unit
 
     var workingPerson: Person
+    var selectedStyle: Style
 }
 
 val ActionList = FC<ActionListProps> { props ->
@@ -34,8 +35,8 @@ val ActionList = FC<ActionListProps> { props ->
         css {
             display = Display.block
             position = Position.absolute
-            top = 90.px
-            left = 10.px
+            top = props.selectedStyle.topPXTable01.px
+            left = props.selectedStyle.leftPXTable01.px
             fontFamily = FontFamily.cursive
         }
 
@@ -67,8 +68,7 @@ val ActionList = FC<ActionListProps> { props ->
 
                     tr {
                         css {
-                            fontSize = 18.px
-                            //cursor = Cursor.pointer
+                            fontSize = props.selectedStyle.fontMedium.px
                             borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
                             hover {
                                 backgroundColor = NamedColor.lightgray
@@ -125,12 +125,12 @@ val ActionList = FC<ActionListProps> { props ->
                 css {
                     display = Display.block
                     position = Position.absolute
-                    top = 10.px
-                    left = 10.px
+                    top = props.selectedStyle.topPXbutton01.px
+                    left = props.selectedStyle.leftPXbutton01.px
 
                     color = NamedColor.green
                     borderColor = NamedColor.white
-                    fontSize = 18.px
+                    fontSize = props.selectedStyle.fontMedium.px
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
@@ -142,12 +142,5 @@ val ActionList = FC<ActionListProps> { props ->
                 +" ▶"
             }
         }
-/*
-        ShowAction {
-            actualProfession = selectedProfessions[0]
-            actualAge = props.workingPerson.startWorkingAge.toString()
-        }
-
- */
     }
 }

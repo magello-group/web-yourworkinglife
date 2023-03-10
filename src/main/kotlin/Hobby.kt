@@ -23,7 +23,7 @@ data class Hobby (
             Hobby("friend",0,0,0.0F,1,"Vänner ger dig gemenskap och välmående"),
             Hobby("strong",0,0,0.0F,1,"Träning gör dig stark, välmående och pigg"),
             Hobby("fish",0,0,0.0F,1,"En fisketur på böljan det blå ger frisk luft och välmående"),
-            Hobby("love",0,0,0.0F,1,"En sambo ger livet mening som går både upp och ner"),
+            Hobby("love",0,0,0.0F,1,"Sambon betalar halva hyran!"),
             Hobby("walk",0,0,0.0F,1,"Att bara få vandra själv ger insikt, motion och välmående")
         )
     }

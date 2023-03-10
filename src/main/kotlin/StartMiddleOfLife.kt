@@ -19,6 +19,7 @@ external interface StartMiddleOfLifeProps : Props {
     var selectedStatus: Status
     var selectedLife: Life
     var selectedEvent: Event
+    var selectedStyle: Style
 
     var onSelectMessages: (View, List<Message>, Profession, Person, List<Message>, Status, Life) -> Unit
 }
@@ -64,26 +65,11 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
         messageId = messageList[messageList.size-1].id
 
         if (isDebugOn) {
-            div {
-                css {
-                    display = Display.block
-                    position = Position.absolute
-                    top = 450.px
-                    left = 50.px
-                    color = NamedColor.black
-                    fontSize = 18.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
-                }
-
-                ShowMessage {
-                    selectedMessage = Message(
-                        5,
-                        "Nu startar vi steg 1 life.age: ${life.age} boende:${person.isAccommodation} ",
-                        "",
-                        ""
-                    )
-                }
+            ShowDebugInfo {
+                selectedDebugMessage = "steg1"
+                selectedStyle = props.selectedStyle
+                selectedLife = life
+                selectedPerson = person
             }
         }
     }
@@ -97,26 +83,12 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
         life.lastMessageId = messageId
 
         if (isDebugOn) {
-            div {
-                css {
-                    display = Display.block
-                    position = Position.absolute
-                    top = 500.px
-                    left = 50.px
-                    color = NamedColor.black
-                    fontSize = 18.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
-                }
-
-                ShowMessage {
-                    selectedMessage = Message(
-                        5,
-                        "Nu startar vi steg 2 life.age: ${life.age} event: ${props.selectedEvent.objectType} ",
-                        "",
-                        ""
-                    )
-                }
+            ShowDebugInfo {
+                selectedDebugMessage = "steg2"
+                selectedStyle = props.selectedStyle
+                selectedLife = life
+                selectedPerson = person
+                selectedEvent = props.selectedEvent
             }
         }
 
@@ -132,26 +104,13 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
     }
 
     if (isDebugOn) {
-        div {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top = 800.px
-                left = 50.px
-                color = NamedColor.black
-                fontSize = 18.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-
-            ShowMessage {
-                selectedMessage = Message(
-                    5,
-                    "Nu startar vi steg 5 life.age: ${life.age} pension: ${profession.pensionAge} ",
-                    "",
-                    ""
-                )
-            }
+        ShowDebugInfo {
+            selectedDebugMessage = "steg3"
+            selectedStyle = props.selectedStyle
+            selectedLife = life
+            selectedPerson = person
+            selectedEvent = props.selectedEvent
+            selectedProfession = profession
         }
     }
 
@@ -159,30 +118,18 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
         life.person.pensionAge = life.age
     }
     if (isDebugOn) {
-        div {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top = 850.px
-                left = 50.px
-                color = NamedColor.black
-                fontSize = 18.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-
-            ShowMessage {
-                selectedMessage = Message(
-                    5,
-                    "Nu startar vi steg 6 age life.age: ${life.age} pension: ${life.person.pensionAge} ",
-                    "",
-                    ""
-                )
-            }
+        ShowDebugInfo {
+            selectedDebugMessage = "steg4"
+            selectedStyle = props.selectedStyle
+            selectedLife = life
+            selectedPerson = life.person
+            selectedEvent = props.selectedEvent
+            selectedProfession = profession
         }
     }
 
     if (historyMessages.isEmpty()) {
+
         //Store story
         for (message in messageList) {
             historyMessages = historyMessages.plus(message)
@@ -192,26 +139,14 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
     //Show story
     if (messageList.isNotEmpty()) {
         if (isDebugOn) {
-            div {
-                css {
-                    display = Display.block
-                    position = Position.absolute
-                    top = 900.px
-                    left = 50.px
-                    color = NamedColor.black
-                    fontSize = 18.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
-                }
-
-                ShowMessage {
-                    selectedMessage = Message(
-                        5,
-                        "Nu startar vi steg 7 message: ${messageList[0].messageText} ",
-                        "",
-                        ""
-                    )
-                }
+            ShowDebugInfo {
+                selectedDebugMessage = "steg5"
+                selectedStyle = props.selectedStyle
+                selectedLife = life
+                selectedPerson = life.person
+                selectedEvent = props.selectedEvent
+                selectedProfession = profession
+                selectedMessage = messageList[0]
             }
         }
 
@@ -219,14 +154,15 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
             css {
                 display = Display.block
                 position = Position.absolute
-                top = 90.px
-                left = 10.px
+                top = props.selectedStyle.topPXStory01.px
+                left = props.selectedStyle.leftPXStory01.px
 
                 color = NamedColor.green
                 borderColor = NamedColor.white
-                fontSize = 18.px
+                fontSize = props.selectedStyle.fontMedium.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
+                width = 600.px
             }
 
             for ((messageIndex, message) in messageList.withIndex()) {
@@ -285,28 +221,18 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                     lastDisplayedMessageId = message.id
 
                     if (isDebugOn) {
-                        div {
-                            css {
-                                display = Display.block
-                                position = Position.absolute
-                                top = topPX.px
-                                left = 50.px
-                                color = NamedColor.black
-                                fontSize = 18.px
-                                backgroundColor = NamedColor.white
-                                fontFamily = FontFamily.cursive
-                            }
-
-                            ShowMessage {
-                                selectedMessage = Message(
-                                    6,
-                                    "LastmessageId: ${lastDisplayedMessageId} index: ${messageIndex}  ",
-                                    "",
-                                    ""
-                                )
-                            }
-                            topPX += 50
+                        ShowDebugInfo {
+                            selectedDebugMessage = "steg6"
+                            selectedStyle = props.selectedStyle
+                            selectedLife = life
+                            selectedPerson = life.person
+                            selectedEvent = props.selectedEvent
+                            selectedProfession = profession
+                            selectedTopPX = topPX
+                            selectedlastDisplayedMessageId =  lastDisplayedMessageId
+                            selectedMessageIndex = messageIndex
                         }
+                        topPX += 50
                     }
 
                 } else {
@@ -315,49 +241,21 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
 
                 if (historyMessages[historyMessages.size - 1].id < message.id)
                     historyMessages = historyMessages.plus(message)
-            }
-        }
+            } // end for
+        } // end div
 
         if (isDebugOn) {
             topPX += 50
-            div {
-                css {
-                    display = Display.block
-                    position = Position.absolute
-                    top = topPX.px
-                    left = 50.px
-                    color = NamedColor.black
-                    fontSize = 18.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
-                }
-
-                ShowMessage {
-                    selectedMessage = Message(
-                        6,
-                        "QuestionId: ${life.questionMessageId} employedid: ${life.professionMessageId} ",
-                        "",
-                        ""
-                    )
-                }
-
-                ShowMessage {
-                    selectedMessage = Message(
-                        7,
-                        "isQuestion: ${life.isQuestion}  isNewProfession: ${life.isNewProfession} ",
-                        "",
-                        ""
-                    )
-                }
-
-                ShowMessage {
-                    selectedMessage = Message(
-                        7,
-                        "messageList: ${messageList.size}  historyMessages: ${historyMessages.size} ",
-                        "",
-                        ""
-                    )
-                }
+            ShowDebugInfo {
+                selectedDebugMessage = "steg7"
+                selectedStyle = props.selectedStyle
+                selectedLife = life
+                selectedPerson = life.person
+                selectedEvent = props.selectedEvent
+                selectedProfession = profession
+                selectedTopPX = topPX
+                selectedMessageList = messageList
+                selectedHistoryMessages = historyMessages
             }
         }
 
@@ -373,12 +271,12 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                         css {
                             display = Display.block
                             position = Position.absolute
-                            top = 10.px
-                            left = 10.px
+                            top = props.selectedStyle.topPXbutton01.px
+                            left = props.selectedStyle.leftPXbutton01.px
 
                             color = NamedColor.green
                             borderColor = NamedColor.white
-                            fontSize = 18.px
+                            fontSize = props.selectedStyle.fontMedium.px
                             backgroundColor = NamedColor.white
                             fontFamily = FontFamily.cursive
                         }
@@ -412,12 +310,12 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                         css {
                             display = Display.block
                             position = Position.absolute
-                            top = 10.px
-                            left = 10.px
+                            top = props.selectedStyle.topPXbutton01.px
+                            left = props.selectedStyle.leftPXbutton01.px
 
                             color = NamedColor.green
                             borderColor = NamedColor.white
-                            fontSize = 18.px
+                            fontSize = props.selectedStyle.fontMedium.px
                             backgroundColor = NamedColor.white
                             fontFamily = FontFamily.cursive
                         }
@@ -447,12 +345,12 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                         css {
                             display = Display.block
                             position = Position.absolute
-                            top = 10.px
-                            left = 40.px
+                            top = props.selectedStyle.topPXbutton01.px
+                            left = props.selectedStyle.leftPXbutton01.px
 
                             color = NamedColor.green
                             borderColor = NamedColor.white
-                            fontSize = 18.px
+                            fontSize = props.selectedStyle.fontMedium.px
                             backgroundColor = NamedColor.white
                             fontFamily = FontFamily.cursive
                         }
@@ -485,12 +383,12 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                         css {
                             display = Display.block
                             position = Position.absolute
-                            top = 10.px
-                            left = 40.px
+                            top = props.selectedStyle.topPXbutton01.px
+                            left = props.selectedStyle.leftPXbutton01.px
 
                             color = NamedColor.green
                             borderColor = NamedColor.white
-                            fontSize = 18.px
+                            fontSize = props.selectedStyle.fontMedium.px
                             backgroundColor = NamedColor.white
                             fontFamily = FontFamily.cursive
                         }
@@ -515,26 +413,17 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
 
                     if (isDebugOn) {
                         topPX += 150
-                        div {
-                            css {
-                                display = Display.block
-                                position = Position.absolute
-                                top = topPX.px
-                                left = 50.px
-                                color = NamedColor.black
-                                fontSize = 18.px
-                                backgroundColor = NamedColor.white
-                                fontFamily = FontFamily.cursive
-                            }
-
-                            ShowMessage {
-                                selectedMessage = Message(
-                                    6,
-                                    "first message: ${messageList[0].id} >=  ${maxMessages} ",
-                                    "",
-                                    ""
-                                )
-                            }
+                        ShowDebugInfo {
+                            selectedDebugMessage = "steg8"
+                            selectedStyle = props.selectedStyle
+                            selectedLife = life
+                            selectedPerson = life.person
+                            selectedEvent = props.selectedEvent
+                            selectedProfession = profession
+                            selectedTopPX = topPX
+                            selectedMessageList = messageList
+                            selectedHistoryMessages = historyMessages
+                            selectedMaxMessages = maxMessages
                         }
                     }
 
@@ -553,12 +442,12 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                             css {
                                 display = Display.block
                                 position = Position.absolute
-                                top = 10.px
-                                left = 10.px
+                                top = props.selectedStyle.topPX01.px
+                                left = props.selectedStyle.leftPX01.px
 
                                 color = NamedColor.green
                                 borderColor = NamedColor.white
-                                fontSize = 18.px
+                                fontSize = props.selectedStyle.fontMedium.px
                                 backgroundColor = NamedColor.white
                                 fontFamily = FontFamily.cursive
                             }
@@ -579,26 +468,17 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
 
                         if (isDebugOn) {
                             topPX += 50
-                            div {
-                                css {
-                                    display = Display.block
-                                    position = Position.absolute
-                                    top = topPX.px
-                                    left = 50.px
-                                    color = NamedColor.black
-                                    fontSize = 18.px
-                                    backgroundColor = NamedColor.white
-                                    fontFamily = FontFamily.cursive
-                                }
-
-                                ShowMessage {
-                                    selectedMessage = Message(
-                                        7,
-                                        "backup: ${backupMessages.size}  historyMessages: ${historyMessages.size} ",
-                                        "",
-                                        ""
-                                    )
-                                }
+                            ShowDebugInfo {
+                                selectedDebugMessage = "steg9"
+                                selectedStyle = props.selectedStyle
+                                selectedLife = life
+                                selectedPerson = life.person
+                                selectedEvent = props.selectedEvent
+                                selectedProfession = profession
+                                selectedTopPX = topPX
+                                selectedMessageList = backupMessages
+                                selectedHistoryMessages = historyMessages
+                                selectedMaxMessages = maxMessages
                             }
                         }
                     }
@@ -637,6 +517,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
             actualBoats = currentStatus.countBoats
             actualLoves = currentStatus.countLoves
             actualStrong = currentStatus.countStrong
+            actualStyle = props.selectedStyle
         }
     }
 }
@@ -736,11 +617,10 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                     accountDepot.amount += randomValues[0].toFloat()
 
-                    messageList = accountDepot.showDepotAmount(randomValues[0].toFloat(),messageList, messageId)
+                    messageList = accountDepot.showDepotAmount(randomValues[0].toFloat(), messageList, messageId)
                     messageId = messageList[messageList.size - 1].id
                 }
             }
-
 
 
             "sick" -> {
@@ -825,7 +705,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                     if (person.isSick) {
                         //Save event in story
-                        messageList = event.showEvent(0.0F,messageList, messageId, "Åh nej! ", "")
+                        messageList = event.showEvent(0.0F, messageList, messageId, "Åh nej! ", "")
                         messageId = messageList[messageList.size - 1].id
 
                         if (person.isMagellit)
@@ -1002,7 +882,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                                 messageId = messageList[messageList.size - 1].id
 
                                 union.noAkassaSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
-                                messageList = union.showNoAkassa(messageList, messageId,  union.noAkassaSalaryAmount )
+                                messageList = union.showNoAkassa(messageList, messageId, union.noAkassaSalaryAmount)
                                 messageId = messageList[messageList.size - 1].id
 
                             } else if (person.countWorkMonth >= 12) {
@@ -1108,7 +988,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
             "home" -> {
                 if (lifeChance < 25 || !person.isAccommodation) {
-                    messageList = costevent.showEvent(0.0F,messageList, messageId, "", "")
+                    messageList = costevent.showEvent(0.0F, messageList, messageId, "", "")
                     messageId = messageList[messageList.size - 1].id
 
                     if (person.isAccommodation && person.house.houseAmount > 0.0F) {
@@ -1144,9 +1024,9 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
                     } else if (person.isAccommodation && (
                                 person.house.houseType == "hire" ||
-                                person.house.houseType == "hirecity" ||
-                                person.house.houseType == "hirehouse" ||
-                                person.house.houseType == "hiredepartment")
+                                        person.house.houseType == "hirecity" ||
+                                        person.house.houseType == "hirehouse" ||
+                                        person.house.houseType == "hiredepartment")
                     ) {
                         // Du lämnar hyresrätteb
                         messageList = person.showPersonAccomodationShift(messageList, messageId)
@@ -1295,7 +1175,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             person.house.houseAmount = 0.0F
                             person.house.description = "en hyresrätt mitt i staden"
 
-                            currentAmount = employee.currentSalary/2
+                            currentAmount = employee.currentSalary / 2
                             randomValues = List(1) { Random.nextInt(5000, currentAmount.toInt()) }
                             person.house.houseMonthPayment = randomValues[0].toFloat()
 
@@ -1310,7 +1190,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             person.house.houseAmount = 0.0F
                             person.house.description = "en hyresrätt i en förort"
 
-                            currentAmount = employee.currentSalary/2
+                            currentAmount = employee.currentSalary / 2
                             randomValues = List(1) { Random.nextInt(4000, currentAmount.toInt()) }
                             person.house.houseMonthPayment = randomValues[0].toFloat()
 
@@ -1325,7 +1205,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             person.house.houseAmount = 0.0F
                             person.house.description = "hyr i andra hand ett hus på landet"
 
-                            currentAmount = employee.currentSalary/2
+                            currentAmount = employee.currentSalary / 2
                             randomValues = List(1) { Random.nextInt(5000, currentAmount.toInt()) }
                             person.house.houseMonthPayment = randomValues[0].toFloat()
 
@@ -1340,7 +1220,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             person.house.houseAmount = 0.0F
                             person.house.description = " hyr i andra hand en lägenhet mitt i staden"
 
-                            currentAmount = employee.currentSalary/2
+                            currentAmount = employee.currentSalary / 2
                             randomValues = List(1) { Random.nextInt(5000, currentAmount.toInt()) }
                             person.house.houseMonthPayment = randomValues[0].toFloat()
 
@@ -1499,14 +1379,13 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                         }
 
 
-
                         "sick" -> {
                             //Event(13, "Pandemi! risk att du blir sjuk","sick","accident"),
 
                             person.isHappy = false
                             isPandemi = true
 
-                            messageList = costevent.showEvent(0.0F,messageList, messageId, "", ".")
+                            messageList = costevent.showEvent(0.0F, messageList, messageId, "", ".")
                             messageId = messageList[messageList.size - 1].id
                         }
 
@@ -1516,7 +1395,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             if (person.isLove) {
                                 person.isLove = false
 
-                                messageList = costevent.showEvent(0.0F,messageList, messageId, "", ".")
+                                messageList = costevent.showEvent(0.0F, messageList, messageId, "", ".")
                                 messageId = messageList[messageList.size - 1].id
                             }
                         }
@@ -1609,13 +1488,13 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
         //Löneökning
         if (employee.currentSalary != 4180.0F &&
-            ((employee.countSickMonth + union.countUnemployeeMonth + parent.countFamilyMonth) == 0))
-        {
+            ((employee.countSickMonth + union.countUnemployeeMonth + parent.countFamilyMonth) == 0)
+        ) {
             currentAmount = employee.raiseTheSalary(isBoom, age)
 
-            if (profession.maxSalary == 0.0F || (employee.currentSalary + currentAmount) <= profession.maxSalary ) {
+            if (profession.maxSalary == 0.0F || (employee.currentSalary + currentAmount) <= profession.maxSalary) {
                 messageList =
-                    employee.showEmployeeSalary((currentAmount/employee.currentSalary), messageList, messageId)
+                    employee.showEmployeeSalary((currentAmount / employee.currentSalary), messageList, messageId)
                 messageId = messageList[messageList.size - 1].id
 
                 employee.currentSalary += currentAmount
@@ -1736,12 +1615,12 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
             //Dra av skatt
             accountSalary.amount += currentAmount - (currentAmount * 0.3F)
             accountNoAkassa.amount += currentAmount - (currentAmount * 0.3F)
-            sumCosts +=  currentAmount * 0.3F
+            sumCosts += currentAmount * 0.3F
 
             //Summera tjänstepension
             accountPension.amount += (employee.currentSalary * profession.pension) * employee.countWorkMonth.toFloat()
             accountWorkPension.amount += (employee.currentSalary * profession.pension) * employee.countWorkMonth.toFloat()
-            sumCosts +=  (employee.currentSalary * profession.pension) * employee.countWorkMonth.toFloat()
+            sumCosts += (employee.currentSalary * profession.pension) * employee.countWorkMonth.toFloat()
 
             messageList = employee.showEmployeeCountWorkMonth(messageList, messageId)
             messageId = messageList[messageList.size - 1].id

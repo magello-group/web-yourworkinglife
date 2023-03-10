@@ -6,10 +6,12 @@ import react.Props
 import react.dom.html.ReactHTML.p
 
 external interface ShowCloudProps : Props {
-    var selectedImage: String
+    var selectedImage1: String
+    var selectedImage2: String
     var marginLeftFrom: Int // =26
     var marginLeftTo: Int   //=0
     var selectedTopPX: Int // 200
+    var selectedWidth: Int // 13
 }
 
 val ShowCloud = FC<ShowCloudProps> { props ->
@@ -21,15 +23,15 @@ val ShowCloud = FC<ShowCloudProps> { props ->
 
         val moln: AnimationName = keyframes {
             0.pct {
-                backgroundImage = url(props.selectedImage)
+                backgroundImage = url(props.selectedImage1)
                 marginLeft = props.marginLeftFrom.pc
                 width = 13.pc
                 height = 9.pc
             }
             100.pct {
-                backgroundImage = url(props.selectedImage)
+                backgroundImage = url(props.selectedImage2)
                 marginLeft = props.marginLeftTo.pc
-                width = 13.pc
+                width = props.selectedWidth.pc
                 height = 9.pc
             }
         }

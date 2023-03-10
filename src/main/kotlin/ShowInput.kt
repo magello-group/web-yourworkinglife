@@ -10,19 +10,23 @@ external interface ShowInputProps : Props {
     var actualName: String
     var actualAge: String
     var actualPension: String
+    var actualStyle: Style
+    var actualStartTopPX: Int // props.actualStyle.topPX02
 }
 
 val ShowInput = FC<ShowInputProps> { props ->
+    var topPX: Int
 
+    topPX = props.actualStartTopPX
     div {
         p {
             css {
                 display = Display.block
                 position = Position.absolute
-                top = 580.px
-                left = 10.px
+                top = topPX.px
+                left = props.actualStyle.leftPX01.px
                 color = NamedColor.black
-                fontSize = 18.px
+                fontSize = props.actualStyle.fontMedium.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
@@ -34,14 +38,15 @@ val ShowInput = FC<ShowInputProps> { props ->
             }
         }
 
+        topPX += 40
         p {
             css {
                 display = Display.block
                 position = Position.absolute
-                top = 610.px
-                left = 10.px
+                top = topPX.px
+                left = props.actualStyle.leftPX01.px
                 color = NamedColor.black
-                fontSize = 18.px
+                fontSize = props.actualStyle.fontMedium.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }
@@ -52,14 +57,16 @@ val ShowInput = FC<ShowInputProps> { props ->
                 +": ${props.actualAge} "
             }
         }
+
+        topPX += 40
         p {
             css {
                 display = Display.block
                 position = Position.absolute
-                top = 640.px
-                left = 10.px
+                top = topPX.px
+                left = props.actualStyle.leftPX01.px
                 color = NamedColor.black
-                fontSize = 18.px
+                fontSize = props.actualStyle.fontMedium.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
             }

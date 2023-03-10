@@ -436,7 +436,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "----------------------- Årlig Summering boende ------------------------",
+                "----------- Årlig Summering boende --------------",
                 "deepskyblue",
                 ""
             )
@@ -1151,7 +1151,7 @@ data class Person (val id: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Händelser i världen kan höja eller sänka värdet på innehav.",
+                    "Händelser i världen kan höja eller sänka värdet",
                     "",
                     ""
                 )
@@ -1161,7 +1161,7 @@ data class Person (val id: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Din inkomst, mående och lycka beror av val av yrke och hobby.",
+                    " på innehav. Din inkomst, mående och lycka beror",
                     "",
                     ""
                 )
@@ -1171,7 +1171,7 @@ data class Person (val id: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Men också av oförutsedda händelser. Allt kan hända.",
+                    "av val av yrke och hobby. Men också av",
                     "",
                     ""
                 )
@@ -1181,7 +1181,7 @@ data class Person (val id: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Är du beredd?",
+                    "oförutsedda händelser. Är du beredd?",
                     "",
                     ""
                 )

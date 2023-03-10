@@ -6,6 +6,9 @@ import react.Props
 import react.dom.html.ReactHTML.p
 
 external interface ShowStreckGubbeProps : Props {
+    var selectedTopPX: Int // 350
+    var marginLeftFrom: Int // = 0
+    var marginLeftTo: Int   // = 26
 }
 
 val ShowStreckGubbe = FC<ShowStreckGubbeProps> { props ->
@@ -14,7 +17,7 @@ val ShowStreckGubbe = FC<ShowStreckGubbeProps> { props ->
         val streckGubbe = keyframes {
             0.pct {
                 backgroundImage = url("streckgubbe100.jpg")
-                marginLeft = 0.pc
+                marginLeft = props.marginLeftFrom.pc
                 width = 8.pc
             }
             7.pct {
@@ -79,7 +82,7 @@ val ShowStreckGubbe = FC<ShowStreckGubbeProps> { props ->
             }
             100.pct {
                 backgroundImage = url("streckgubbe1500.jpg")
-                marginLeft = 26.pc
+                marginLeft = props.marginLeftTo.pc
                 width = 10.pc
             }
         }
@@ -90,7 +93,7 @@ val ShowStreckGubbe = FC<ShowStreckGubbeProps> { props ->
             animationFillMode = AnimationFillMode.both
             display = Display.flex
             position = Position.absolute
-            top = 350.px
+            top = props.selectedTopPX.px
             left = 1.px
             width = 154.px
             height = 190.px

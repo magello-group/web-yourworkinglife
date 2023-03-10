@@ -3,16 +3,24 @@ import csstype.*
 import react.*
 import kotlinx.coroutines.*
 import emotion.react.css
+import kotlinx.js.import
 import react.dom.html.InputType
+import react.dom.html.ReactHTML
 import react.dom.html.ReactHTML.button
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.h1
 import react.dom.html.ReactHTML.input
 import react.dom.html.ReactHTML.p
+import react.dom.html.ReactHTML.table
+import react.dom.html.ReactHTML.tbody
+import react.dom.html.ReactHTML.td
+import react.dom.html.ReactHTML.tr
 
 val mainScope = MainScope()
 
 val App = FC<Props> {
+
+    val appStyle = Style("standard")
     val question = Question(0)
     val view = View(0)
 
@@ -77,12 +85,12 @@ val App = FC<Props> {
                             css {
                                 display = Display.block
                                 position = Position.absolute
-                                top = 10.px
-                                left = 10.px
+                                top = appStyle.topPXbutton01.px
+                                left = appStyle.leftPXbutton01.px
 
                                 color = NamedColor.green
                                 borderColor = NamedColor.white
-                                fontSize = 18.px
+                                fontSize = appStyle.fontMedium.px
                                 backgroundColor = NamedColor.white
                                 fontFamily = FontFamily.cursive
                             }
@@ -97,6 +105,8 @@ val App = FC<Props> {
                             //+"◀ "
                         }
                     }
+
+                    //Check if input is correct
                     checkInt = age.toIntOrNull()
                     if (checkInt != null) {
                         if (checkInt!! > 58.0 || checkInt!! < 15.0)
@@ -113,29 +123,29 @@ val App = FC<Props> {
                             css {
                                 display = Display.block
                                 position = Position.absolute
-                                top = 6.px
-                                left = 160.px
-
+                                top = appStyle.topPXOBSText00.px
+                                left = appStyle.leftPXOBSText00.px
                                 color = NamedColor.hotpink
                                 borderColor = NamedColor.white
-                                fontSize = 14.px
+                                fontSize = appStyle.fontSmall.px
                                 backgroundColor = NamedColor.white
                                 fontFamily = FontFamily.cursive
                             }
-                            +"OBS: Ange namn, ålder och pension (privat i procent) innan du går till nästa steg!"
+                            +"OBS: Ange namn, ålder och pension innan du går till nästa steg!"
                         }
                     }
                 }
             }
+
             //Main title
             h1 {
                 css {
                     display = Display.block
                     position = Position.absolute
-                    top = 30.px
-                    left = 10.px
+                    top = appStyle.topPXTitle.px
+                    left = appStyle.leftPXTitle.px
                     color = NamedColor.black
-                    fontSize = 26.px
+                    fontSize = appStyle.fontLarge.px
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
@@ -146,81 +156,104 @@ val App = FC<Props> {
         // Welcome menu
         when (currentView.viewType) {
             "init" -> {
-                for (input in inputQuestions) {
-                    div {
+                div {
+                    css {
+                        display = Display.block
+                        position = Position.absolute
+                        top = appStyle.topPXTable01.px
+                        left = appStyle.leftPXTable01.px
+                        fontFamily = FontFamily.cursive
+                    }
+
+                    table {
                         css {
-                            display = Display.block
-                            position = Position.absolute
-                            when (input.objectType) {
-                                "name" -> top = 100.px
-                                "age" -> top = 140.px
-                                "pension" -> top = 180.px
-
-                            }
-                            left = 10.px
-                            color = NamedColor.black
-                            fontSize = 18.px
-                            fontFamily = FontFamily.cursive
+                            width = 600.px
+                            maxHeight = 300.px
+                            borderSpacing = 0.px
+                            borderCollapse = BorderCollapse.collapse
+                            whiteSpace = WhiteSpace.nowrap
+                            border = Border(0.px, LineStyle.solid, NamedColor.white)
+                            margin = Auto.auto
                         }
-                        +input.questionText
-                        +" "
 
-                        input {
+                        tbody {
                             css {
-                                marginTop = 5.px
-                                marginBottom = 5.pc
-                                fontSize = 18.px
-                                fontFamily = FontFamily.cursive
-                                when (input.objectType) {
-                                    "name" -> width = 400.px
-                                    "age" -> width = 25.px
-                                    "pension" -> width = 25.px
-
-                                }
+                                color = NamedColor.black
+                                backgroundColor = NamedColor.white
+                                textAlign = TextAlign.start
                             }
-                            type = InputType.text
-                            when (input.objectType) {
-                                "name" -> {
-                                    value = name
-                                    onChange = { event ->
-                                        name = event.target.value
+
+                            for (input in inputQuestions) {
+                                tr {
+                                    css {
+                                        fontSize = appStyle.fontMedium.px
+                                        borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
+                                        hover {
+                                            backgroundColor = NamedColor.lightgray
+                                        }
+                                    }
+
+                                    td {
+
+                                        css {
+                                            padding = Padding(0.px, 0.px)
+                                            height = 10.px
+
+                                            color = NamedColor.black
+                                            fontSize = appStyle.fontMedium.px
+                                            fontFamily = FontFamily.cursive
+                                        }
+                                        +input.questionText
+                                        +" "
+
+                                        input {
+                                            css {
+                                                marginTop = 5.px
+                                                marginBottom = 5.pc
+                                                fontSize = appStyle.fontMedium.px
+                                                fontFamily = FontFamily.cursive
+                                                when (input.objectType) {
+                                                    "name" -> width = appStyle.widthPXInputName.px
+                                                    "age" -> width = appStyle.widthPXInputAge.px
+                                                    "pension" -> width = appStyle.widthPXInputPension.px
+                                                }
+                                            }
+                                            type = InputType.text
+                                            when (input.objectType) {
+                                                "name" -> {
+                                                    value = name
+                                                    onChange = { event ->
+                                                        name = event.target.value
+                                                    }
+                                                }
+
+                                                "age" -> {
+                                                    value = age
+                                                    onChange = { event ->
+                                                        age = event.target.value
+                                                    }
+                                                }
+
+                                                "pension" -> {
+                                                    value = pension
+                                                    onChange = { event ->
+                                                        pension = event.target.value
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
-
-                                "age" -> {
-                                    value = age
-                                    onChange = { event ->
-                                        age = event.target.value
-                                    }
-                                }
-
-                                "pension" -> {
-                                    value = pension
-                                    onChange = { event ->
-                                        pension = event.target.value
-                                    }
-                                }
-
                             }
                         }
                     }
                 }
 
+
                 //Show animation
-                div {
-                    ShowStreckGubbe {}
-
-                    ShowStreck {
-                        selectedImage01 = "streck002.jpg"
-                        selectedImage02 = "streck003.jpg"
-                        selectedImage03 = "streck004.jpg"
-                    }
-
-                    ShowCloud {
-                        selectedImage ="sol.png"
-                        marginLeftFrom = 26
-                        marginLeftTo = 0
-                    }
+                ShowInitAnimation {
+                    actualMarginLeft = 30
+                    actualStyle = appStyle
                 }
 
                 //Show notes
@@ -230,6 +263,8 @@ val App = FC<Props> {
                         actualName = name
                         actualAge = age
                         actualPension = pension
+                        actualStyle = appStyle
+                        actualStartTopPX = appStyle.topPX02
                     }
 
                     person.union.isAkassa = true
@@ -257,6 +292,7 @@ val App = FC<Props> {
                         selectedAction = currentAction
                         //workingProfession = currentProfession
                         workingPerson = person
+                        selectedStyle = appStyle
 
                         onSelectAction = { question ->
                             currentAction = question
@@ -269,21 +305,9 @@ val App = FC<Props> {
                     }
                 }
                 //Show animation
-                div {
-                    ShowSparkcykel {
-                        selectedTopPX = 350
-                    }
-                    ShowStreck {
-                        selectedImage01 = "streck002.jpg"
-                        selectedImage02 = "streck003.jpg"
-                        selectedImage03 = "streck004.jpg"
-                    }
-
-                    ShowCloud {
-                        selectedImage ="sol.png"
-                        marginLeftFrom = 0
-                        marginLeftTo = 26
-                    }
+                ShowActionAnimation {
+                    actualMarginLeft = 26
+                    actualStyle = appStyle
                 }
 
                 ShowInput {
@@ -291,6 +315,8 @@ val App = FC<Props> {
                     actualName = name
                     actualAge = age
                     actualPension = pension
+                    actualStyle = appStyle
+                    actualStartTopPX = appStyle.topPX02
                 }
             }
 
@@ -309,6 +335,7 @@ val App = FC<Props> {
                         selectedStatus = currentStatus
                         selectedLife = currentLife
                         selectedEvent = currentEvent
+                        selectedStyle = appStyle
 
                         onSelectMessages =
                             { newView, newMessages, newProfession, newPerson, newHistory, newStatus, newLife ->
@@ -323,18 +350,16 @@ val App = FC<Props> {
                             }
                     }
                 }
-/*
-                ShowAction {
-                    actualProfession = currentProfession
-                    actualAge = currentPerson.startWorkingAge.toString()
-                }
-*/
+
                 //Show animation
                 ShowProfessionAnimation {
                     actualProfession = currentProfession
-                    actualMarginLeft = 35
+                    actualMarginLeft = 36
+                    actualStyle = appStyle
+                    actualCloudMarginLeftTo = 36
                 }
             }
+
             "luck", "depressed" -> {
 
                 div {
@@ -349,11 +374,8 @@ val App = FC<Props> {
                         selectedStatus = currentStatus
                         selectedLife = currentLife
                         selectedEvent = currentEvent
-/*
-                        onSelectQuestion = { question ->
-                            currentQuestion = question
-                        }
-*/
+                        selectedStyle = appStyle
+
                         onSelectQuestion = { question, newEvent, newView, newMessages, newProfession,
                                              newPerson, newHistory, newStatus, newLife ->
                             currentEvent = newEvent
@@ -387,8 +409,10 @@ val App = FC<Props> {
                 ShowEventAnimation {
                     actualProfession = currentProfession
                     actualMarginLeft = 26
+                    actualStyle = appStyle
                 }
             }
+
             "profession", "question" -> {
                 div {
 
@@ -401,11 +425,8 @@ val App = FC<Props> {
                         selectedStatus = currentStatus
                         selectedLife = currentLife
                         selectedEvent = currentEvent
-/*
-                        onSelectQuestion = { question ->
-                            currentProfession = question
-                        }
- */
+                        selectedStyle = appStyle
+
                         onSelectQuestion = { newEvent, newView, newMessages, question,
                                              newPerson, newHistory, newStatus, newLife ->
                             currentProfession = question
@@ -438,6 +459,8 @@ val App = FC<Props> {
                 ShowProfessionAnimation {
                     actualProfession = currentProfession
                     actualMarginLeft = 26
+                    actualStyle = appStyle
+                    actualCloudMarginLeftTo = 26
                 }
 
                 ShowInput {
@@ -445,14 +468,18 @@ val App = FC<Props> {
                     actualName = currentPerson.name
                     actualAge = currentPerson.age.toString()
                     actualPension = (currentPerson.pension * 100).toString()
+                    actualStyle = appStyle
+                    actualStartTopPX = appStyle.topPX06
                 }
             }
+
             "pension" -> {
                 div {
 
                     StartPensionLife {
                         selectedView = currentView
                         selectedLife = currentLife
+                        selectedStyle = appStyle
 
                         onSelectPension =
                             { newView, newLife ->
@@ -463,18 +490,9 @@ val App = FC<Props> {
                 }
 
                 //Show animation
-                div {
-
-                    ShowStreckPensioner {
-                        selectedTopPX = 520
-                    }
-
-                    ShowStreck {
-                        selectedTopPX = 700
-                        selectedImage01 = "streck002.jpg"
-                        selectedImage02 = "streck003.jpg"
-                        selectedImage03 = "streck007.jpg"
-                    }
+                ShowPensionerAnimation {
+                    actualMarginLeft = 26
+                    actualStyle = appStyle
                 }
             }
         }

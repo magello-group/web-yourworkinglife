@@ -20,6 +20,7 @@ external interface ProfessionListProps : Props {
     var selectedStatus: Status
     var selectedLife: Life
     var selectedEvent: Event
+    var selectedStyle: Style
 
     //var onSelectQuestion: (Profession) -> Unit
     var onSelectQuestion: (Event, View, List<Message>, Profession, Person, List<Message>, Status, Life) -> Unit
@@ -40,8 +41,8 @@ val ProfessionList = FC<ProfessionListProps> { props ->
         css {
             display = Display.block
             position = Position.absolute
-            top = 90.px
-            left = 10.px
+            top = props.selectedStyle.topPXTable01.px
+            left = props.selectedStyle.leftPXTable01.px
             fontFamily = FontFamily.cursive
         }
 
@@ -71,8 +72,7 @@ val ProfessionList = FC<ProfessionListProps> { props ->
 
                     tr {
                         css {
-                            fontSize = 18.px
-                            //cursor = Cursor.pointer
+                            fontSize = props.selectedStyle.fontMedium.px
                             borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
                             hover {
                                 backgroundColor = NamedColor.lightgray
@@ -86,7 +86,6 @@ val ProfessionList = FC<ProfessionListProps> { props ->
                                         padding = Padding(0.px, 0.px)
                                         height = 10.px
                                     }
-
 
                                     if (cell == 1) {
                                         button {
@@ -137,12 +136,12 @@ val ProfessionList = FC<ProfessionListProps> { props ->
                 css {
                     display = Display.block
                     position = Position.absolute
-                    top = 10.px
-                    left = 10.px
+                    top = props.selectedStyle.topPXbutton01.px
+                    left = props.selectedStyle.leftPXbutton01.px
 
                     color = NamedColor.green
                     borderColor = NamedColor.white
-                    fontSize = 18.px
+                    fontSize = props.selectedStyle.fontMedium.px
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
@@ -165,9 +164,11 @@ val ProfessionList = FC<ProfessionListProps> { props ->
             }
         }
 
-        ShowAction {
+        ShowProfession {
             actualProfession = selectedProfessions[0]
             actualAge = props.selectedPerson.startWorkingAge.toString()
+            actualStyle = props.selectedStyle
+            actualStartTopPX = props.selectedStyle.topPX06
         }
     }
 }

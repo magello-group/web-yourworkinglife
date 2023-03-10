@@ -5,6 +5,8 @@ import react.dom.html.ReactHTML.div
 external interface ShowProfessionAnimationProps : Props {
     var actualProfession: Profession
     var actualMarginLeft: Int
+    var actualStyle: Style
+    var actualCloudMarginLeftTo: Int
 }
 
 val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
@@ -13,140 +15,179 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
         when (props.actualProfession.professionType) {
             "pilote" -> {
                 ShowStreckImage {
-                    selectedImage ="streckpilot1400.jpg"
-                    selectTop = 350
+                    selectedImage =  props.actualStyle.streckPilot
+                    selectTop = props.actualStyle.topPXProfessionAnimation
                     selectMarginLeft = props.actualMarginLeft
                 }
                 ShowStreck {
-                    selectedImage01 = "streck002.jpg"
-                    selectedImage02 = "streck005.jpg"
-                    selectedImage03 = "streck006.jpg"
+                    selectedImage01 = props.actualStyle.streck
+                    selectedImage02 = props.actualStyle.streckLandscape01
+                    selectedImage03 = props.actualStyle.streckLandscape01
+                    selectedTopPX = props.actualStyle.topPXProfessionStreck
                 }
                 ShowCloud {
-                    selectedImage ="sol.png"
+                    selectedImage1 = props.actualStyle.streckSol
+                    selectedImage2 = props.actualStyle.streckOnlySol
                     marginLeftFrom = 0
-                    marginLeftTo = props.actualMarginLeft
+                    marginLeftTo = props.actualCloudMarginLeftTo
+                    selectedTopPX = props.actualStyle.topPXProfessionCloud
+                    selectedWidth = props.actualStyle.streckOnlySolWidth
                 }
             }
+
             "detektiv" -> {
                 ShowStreckImage {
-                    selectedImage ="streckagent1300.jpg"
-                    selectTop = 350
+                    selectedImage = props.actualStyle.streckAgent
+                    selectTop = props.actualStyle.topPXProfessionAnimation
                     selectMarginLeft = props.actualMarginLeft
                 }
                 ShowStreck {
-                    selectedImage01 = "streck002.jpg"
-                    selectedImage02 = "streck003.jpg"
-                    selectedImage03 = "streck007.jpg"
+                    selectedImage01 = props.actualStyle.streck
+                    selectedImage02 = props.actualStyle.streckStones01
+                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedTopPX = props.actualStyle.topPXProfessionStreck
                 }
                 ShowCloud {
-                    selectedImage ="regn.png"
+                    selectedImage1 = props.actualStyle.streckCloud
+                    selectedImage2 = props.actualStyle.streckRegn
                     marginLeftFrom = 0
-                    marginLeftTo = props.actualMarginLeft
+                    marginLeftTo = props.actualCloudMarginLeftTo
+                    selectedTopPX = props.actualStyle.topPXProfessionCloud
+                    selectedWidth = props.actualStyle.streckWidth
                 }
             }
+
             "police" -> {
                 ShowStreckImage {
-                    selectedImage ="streckpolis1300.jpg"
-                    selectTop = 350
+                    selectedImage = props.actualStyle.streckPolis
+                    selectTop = props.actualStyle.topPXProfessionAnimation
                     selectMarginLeft = props.actualMarginLeft
                 }
                 ShowStreck {
-                    selectedImage01 = "streck002.jpg"
-                    selectedImage02 = "streck003.jpg"
-                    selectedImage03 = "streck007.jpg"
+                    selectedImage01 = props.actualStyle.streck
+                    selectedImage02 = props.actualStyle.streckStones01
+                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedTopPX = props.actualStyle.topPXProfessionStreck
                 }
                 ShowCloud {
-                    selectedImage ="sol.png"
+                    selectedImage1 = props.actualStyle.streckSol
+                    selectedImage2 = props.actualStyle.streckOnlySol
                     marginLeftFrom = 0
-                    marginLeftTo = props.actualMarginLeft
+                    marginLeftTo = props.actualCloudMarginLeftTo
+                    selectedTopPX = props.actualStyle.topPXProfessionCloud
+                    selectedWidth = props.actualStyle.streckOnlySolWidth
                 }
             }
+
             "programmer", "solo" -> {
                 ShowStreckImage {
-                    selectedImage ="streckprogrammer100.jpg"
-                    selectTop = 350
+                    selectedImage = "streckprogrammer100.jpg"
+                    selectTop = props.actualStyle.topPXProfessionAnimation
                     selectMarginLeft = props.actualMarginLeft
                 }
                 ShowStreck {
-                    selectedImage01 = "streck002.jpg"
-                    selectedImage02 = "streck003.jpg"
-                    selectedImage03 = "streck007.jpg"
+                    selectedImage01 = props.actualStyle.streck
+                    selectedImage02 = props.actualStyle.streckStones01
+                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedTopPX = props.actualStyle.topPXProfessionStreck
                 }
                 ShowCloud {
-                    selectedImage ="sol.png"
+                    selectedImage1 = props.actualStyle.streckSol
+                    selectedImage2 = props.actualStyle.streckOnlySol
                     marginLeftFrom = 0
-                    marginLeftTo = props.actualMarginLeft
+                    marginLeftTo = props.actualCloudMarginLeftTo
+                    selectedTopPX = props.actualStyle.topPXProfessionCloud
+                    selectedWidth = props.actualStyle.streckOnlySolWidth
                 }
             }
+
             "security", "VD", "ambassador", "chef", "driftchef", "bank", "insurance" -> {
                 ShowStreckImage {
-                    selectedImage ="streckboss300.jpg"
-                    selectTop = 350
+                    selectedImage = props.actualStyle.streckBoss
+                    selectTop = props.actualStyle.topPXProfessionAnimation
                     selectMarginLeft = props.actualMarginLeft
                 }
                 ShowStreck {
-                    selectedImage01 = "streck002.jpg"
-                    selectedImage02 = "streck003.jpg"
-                    selectedImage03 = "streck007.jpg"
+                    selectedImage01 = props.actualStyle.streck
+                    selectedImage02 = props.actualStyle.streckStones01
+                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedTopPX = props.actualStyle.topPXProfessionStreck
                 }
                 ShowCloud {
-                    selectedImage ="sol.png"
+                    selectedImage1 = props.actualStyle.streckSol
+                    selectedImage2 = props.actualStyle.streckOnlySol
                     marginLeftFrom = 0
-                    marginLeftTo = props.actualMarginLeft
+                    marginLeftTo = props.actualCloudMarginLeftTo
+                    selectedTopPX = props.actualStyle.topPXProfessionCloud
+                    selectedWidth = props.actualStyle.streckOnlySolWidth
                 }
             }
+
             "advokat" -> {
                 ShowStreckImage {
-                    selectedImage ="streckadvokat300.jpg"
-                    selectTop = 350
+                    selectedImage = props.actualStyle.streckAdvokat
+                    selectTop = props.actualStyle.topPXProfessionAnimation
                     selectMarginLeft = props.actualMarginLeft
                 }
                 ShowStreck {
-                    selectedImage01 = "streck002.jpg"
-                    selectedImage02 = "streck003.jpg"
-                    selectedImage03 = "streck007.jpg"
+                    selectedImage01 = props.actualStyle.streck
+                    selectedImage02 = props.actualStyle.streckStones01
+                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedTopPX = props.actualStyle.topPXProfessionStreck
                 }
                 ShowCloud {
-                    selectedImage ="sol.png"
+                    selectedImage1 = props.actualStyle.streckSol
+                    selectedImage2 = props.actualStyle.streckOnlySol
                     marginLeftFrom = 0
-                    marginLeftTo = props.actualMarginLeft
+                    marginLeftTo = props.actualCloudMarginLeftTo
+                    selectedTopPX = props.actualStyle.topPXProfessionCloud
+                    selectedWidth = props.actualStyle.streckOnlySolWidth
                 }
             }
+
             "doctor" -> {
                 ShowStreckImage {
-                    selectedImage ="streckdoctor300.jpg"
-                    selectTop = 350
+                    selectedImage = props.actualStyle.streckDoctor
+                    selectTop = props.actualStyle.topPXProfessionAnimation
                     selectMarginLeft = props.actualMarginLeft
                 }
                 ShowStreck {
-                    selectedImage01 = "streck002.jpg"
-                    selectedImage02 = "streck003.jpg"
-                    selectedImage03 = "streck007.jpg"
+                    selectedImage01 = props.actualStyle.streck
+                    selectedImage02 = props.actualStyle.streckStones01
+                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedTopPX = props.actualStyle.topPXProfessionStreck
                 }
                 ShowCloud {
-                    selectedImage ="sol.png"
+                    selectedImage1 = props.actualStyle.streckSol
+                    selectedImage2 = props.actualStyle.streckOnlySol
                     marginLeftFrom = 0
-                    marginLeftTo = props.actualMarginLeft
+                    marginLeftTo = props.actualCloudMarginLeftTo
+                    selectedTopPX = props.actualStyle.topPXProfessionCloud
+                    selectedWidth = props.actualStyle.streckOnlySolWidth
                 }
             }
+
             else -> {
-            ShowStreckImage {
-                selectedImage ="streckgubbe1300.jpg"
-                selectTop = 350
-                selectMarginLeft = props.actualMarginLeft
+                ShowStreckImage {
+                    selectedImage = props.actualStyle.streckGubbe
+                    selectTop = props.actualStyle.topPXProfessionAnimation
+                    selectMarginLeft = props.actualMarginLeft
+                }
+                ShowStreck {
+                    selectedImage01 = props.actualStyle.streck
+                    selectedImage02 = props.actualStyle.streckStones01
+                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedTopPX = props.actualStyle.topPXProfessionStreck
+                }
+                ShowCloud {
+                    selectedImage1 = props.actualStyle.streckSol
+                    selectedImage2 = props.actualStyle.streckOnlySol
+                    marginLeftFrom = 0
+                    marginLeftTo = props.actualCloudMarginLeftTo
+                    selectedTopPX = props.actualStyle.topPXProfessionCloud
+                    selectedWidth = props.actualStyle.streckOnlySolWidth
+                }
             }
-            ShowStreck {
-                selectedImage01 = "streck002.jpg"
-                selectedImage02 = "streck003.jpg"
-                selectedImage03 = "streck007.jpg"
-            }
-            ShowCloud {
-                selectedImage ="sol.png"
-                marginLeftFrom = 0
-                marginLeftTo = props.actualMarginLeft
-            }
-        }
         }
     }
 }

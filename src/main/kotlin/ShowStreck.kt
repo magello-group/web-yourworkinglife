@@ -66,7 +66,7 @@ val ShowStreck = FC<ShowStreckProps> { props ->
                 width = 32.pc
             }
             63.pct {
-                backgroundImage = url(props.selectedImage02)
+                backgroundImage = url(props.selectedImage03)
                 marginLeft = 0.pc
                 width = 36.pc
             }
@@ -83,12 +83,12 @@ val ShowStreck = FC<ShowStreckProps> { props ->
             84.pct {
                 backgroundImage = url(props.selectedImage03)
                 marginLeft = 0.pc
-                width = 48.pc
+                width = 45.pc
             }
             100.pct {
                 backgroundImage = url(props.selectedImage03)
                 marginLeft = 0.pc
-                width = 52.pc
+                width = 46.pc
             }
         }
 

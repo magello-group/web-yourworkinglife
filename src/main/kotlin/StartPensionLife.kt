@@ -13,6 +13,7 @@ import kotlin.collections.List
 external interface StartPensionLifeProps : Props {
     var selectedView: View
     var selectedLife: Life
+    var selectedStyle: Style
 
     var onSelectPension: (View, Life) -> Unit
 }
@@ -45,14 +46,15 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
             css {
                 display = Display.block
                 position = Position.absolute
-                top = 90.px
-                left = 10.px
+                top = props.selectedStyle.topPXStory01.px
+                left = props.selectedStyle.leftPXStory01.px
 
                 color = NamedColor.green
                 borderColor = NamedColor.white
-                fontSize = 18.px
+                fontSize = props.selectedStyle.fontMedium.px
                 backgroundColor = NamedColor.white
                 fontFamily = FontFamily.cursive
+                width = 600.px
             }
 
             for ((messageIndex, message) in messageList.withIndex()) {
@@ -111,6 +113,7 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
             actualDeadBikes = life.person.deadBikes.size.toString()
             actualDeadCars = life.person.deadCars.size.toString()
             actualDeadBoats = life.person.deadBoats.size.toString()
+            actualStyle = props.selectedStyle
         }
     }
 }

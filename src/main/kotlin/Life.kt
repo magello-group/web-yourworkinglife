@@ -421,7 +421,7 @@ data class Life ( val personId: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Lycka är när pengarna räcker livet ut. Lev livet innan det tar slut.",
+                "Lycka är när pengarna räcker livet ut.",
                 "",
                 ""
             )
@@ -430,12 +430,22 @@ data class Life ( val personId: Int) {
         //Beräkna antal lyckliga poäng
         this.countPoint += this.person.countPoints()
 
+        storyId += 1
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Din sammanlagda lyckopoäng: ${this.countPoint}.",
+                "",
+                "blinking"
+            )
+        )
+
         if (this.countPoint > 50) {
             storyId += 1
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Din sammanlagda lyckopoäng: ${this.countPoint}. Du har haft ett väldigt lyckligt arbetsliv.",
+                    "Du har haft ett väldigt lyckligt arbetsliv.",
                     "",
                     "blinking"
                 )
@@ -445,7 +455,7 @@ data class Life ( val personId: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Din sammanlagda lyckopoäng: ${this.countPoint}. Du har haft ett lyckligt arbetsliv.",
+                    "Du har haft ett lyckligt arbetsliv.",
                     "",
                     "blinking"
                 )
@@ -455,7 +465,7 @@ data class Life ( val personId: Int) {
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Din sammanlagda lyckopoäng: ${this.countPoint}. Du bara jobbade och jobbade.",
+                    "Du bara jobbade och jobbade.",
                     "",
                     "blinking"
                 )
