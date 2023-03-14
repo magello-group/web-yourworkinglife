@@ -71,7 +71,7 @@ val ActionList = FC<ActionListProps> { props ->
                             fontSize = props.selectedStyle.fontMedium.px
                             borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
                             hover {
-                                backgroundColor = NamedColor.lightgray
+                                backgroundColor = NamedColor.white
                             }
                         }
 

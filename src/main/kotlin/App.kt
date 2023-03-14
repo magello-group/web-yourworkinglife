@@ -326,6 +326,10 @@ val App = FC<Props> {
                 }
                 //Show animation
                 ShowActionAnimation {
+                    if (currentAction == null)
+                        selectedAction = ""
+                    else
+                        selectedAction = currentAction!!.objectType
                     actualMarginLeft = 26
                     actualStyle = appStyle
                 }

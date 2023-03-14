@@ -92,7 +92,12 @@ class Style(val styleType: String) {
     var streckAdvokat: String = "streckadvokat300.jpg"
     var streckDoctor: String = "streckdoctor300.jpg"
     var streckGubbe: String = "streckgubbe1300.jpg"
-    var streckMyra: String = "myra001.jpg"
+    var streckMyraFromLeft: String = "myra001.jpg"
+    var streckMyraFromRight: String = "myra002.jpg"
+    var streckHumlaFromLeft: String = "bumbelbee001.jpg"
+    var streckHumlaFromRight: String = "bumbelbee002.jpg"
+    var streckChair: String = "chair001.jpg"
+    var streckIcecream: String = "icescream001.jpg"
 
 
 
