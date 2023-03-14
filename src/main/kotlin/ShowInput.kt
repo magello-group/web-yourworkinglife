@@ -16,65 +16,73 @@ external interface ShowInputProps : Props {
 
 val ShowInput = FC<ShowInputProps> { props ->
     var topPX: Int
+    val leftPX = props.actualStyle.leftPX01
 
     topPX = props.actualStartTopPX
     div {
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top = topPX.px
-                left = props.actualStyle.leftPX01.px
-                color = NamedColor.black
-                fontSize = props.actualStyle.fontMedium.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-            if (props.actualName.isEmpty()) {
-                +" "
-            } else {
-                +props.actualInputQuestions[0].objectText
-                +": ${props.actualName} "
-            }
+        css {
+            display = Display.block
+            position = Position.absolute
+            width = 800.px
         }
+        div {
+            p {
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = topPX.px
+                    left = leftPX.px
+                    color = NamedColor.black
+                    fontSize = props.actualStyle.fontMedium.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+                if (props.actualName.isEmpty()) {
+                    +" "
+                } else {
+                    +props.actualInputQuestions[0].objectText
+                    +": ${props.actualName} "
+                }
+            }
 
-        topPX += 40
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top = topPX.px
-                left = props.actualStyle.leftPX01.px
-                color = NamedColor.black
-                fontSize = props.actualStyle.fontMedium.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
+            topPX += 40
+            p {
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = topPX.px
+                    left = leftPX.px
+                    color = NamedColor.black
+                    fontSize = props.actualStyle.fontMedium.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+                if (props.actualAge.isEmpty()) {
+                    +" "
+                } else {
+                    +props.actualInputQuestions[1].objectText
+                    +": ${props.actualAge} "
+                }
             }
-            if (props.actualAge.isEmpty()) {
-                +" "
-            } else {
-                +props.actualInputQuestions[1].objectText
-                +": ${props.actualAge} "
-            }
-        }
 
-        topPX += 40
-        p {
-            css {
-                display = Display.block
-                position = Position.absolute
-                top = topPX.px
-                left = props.actualStyle.leftPX01.px
-                color = NamedColor.black
-                fontSize = props.actualStyle.fontMedium.px
-                backgroundColor = NamedColor.white
-                fontFamily = FontFamily.cursive
-            }
-            if (props.actualPension.isEmpty()) {
-                +" "
-            } else {
-                +props.actualInputQuestions[2].objectText
-                +": ${props.actualPension}%"
+            topPX += 40
+            p {
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = topPX.px
+                    left = leftPX.px
+                    color = NamedColor.black
+                    fontSize = props.actualStyle.fontMedium.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+                if (props.actualPension.isEmpty()) {
+                    +" "
+                } else {
+                    +props.actualInputQuestions[2].objectText
+                    +": ${props.actualPension}%"
+                }
             }
         }
     }

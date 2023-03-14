@@ -5,21 +5,18 @@ import react.FC
 import react.Props
 import react.dom.html.ReactHTML.p
 
-external interface ShowStreckProps : Props {
+external interface ShowTreeProps : Props {
     var selectedImage01: String //= "streck002.jpg"
     var selectedImage02: String //= "streck003.jpg"
     var selectedImage03: String //= "streck004.jpg"
     var selectedTopPX: Int //543
 }
 
-val ShowStreck = FC<ShowStreckProps> { props ->
-    var topPX = 543
-
-    if (props.selectedTopPX > 0) topPX = props.selectedTopPX
+val ShowTree = FC<ShowTreeProps> { props ->
 
     p {
 
-        val streck: AnimationName = keyframes {
+        val tree: AnimationName = keyframes {
             0.pct {
                 backgroundImage = url(props.selectedImage01)
                 marginLeft = 0.pc
@@ -46,37 +43,37 @@ val ShowStreck = FC<ShowStreckProps> { props ->
                 width = 16.pc
             }
             35.pct {
-                backgroundImage = url(props.selectedImage02)
+                backgroundImage = url(props.selectedImage01)
                 marginLeft = 0.pc
                 width = 20.pc
             }
             42.pct {
-                backgroundImage = url(props.selectedImage02)
+                backgroundImage = url(props.selectedImage01)
                 marginLeft = 0.pc
                 width = 24.pc
             }
             49.pct {
-                backgroundImage = url(props.selectedImage02)
+                backgroundImage = url(props.selectedImage01)
                 marginLeft = 0.pc
                 width = 28.pc
             }
             56.pct {
-                backgroundImage = url(props.selectedImage02)
+                backgroundImage = url(props.selectedImage01)
                 marginLeft = 0.pc
                 width = 32.pc
             }
             63.pct {
-                backgroundImage = url(props.selectedImage03)
+                backgroundImage = url(props.selectedImage01)
                 marginLeft = 0.pc
                 width = 36.pc
             }
             70.pct {
-                backgroundImage = url(props.selectedImage03)
+                backgroundImage = url(props.selectedImage01)
                 marginLeft = 0.pc
                 width = 40.pc
             }
             77.pct {
-                backgroundImage = url(props.selectedImage03)
+                backgroundImage = url(props.selectedImage01)
                 marginLeft = 0.pc
                 width = 44.pc
             }
@@ -94,15 +91,15 @@ val ShowStreck = FC<ShowStreckProps> { props ->
 
         css {
             animationDuration = 4.s
-            animationName = streck
+            animationName = tree
             animationFillMode = AnimationFillMode.both
-            backgroundImage = url("streck002.jpg")
+            backgroundImage = url("strecktree0020.png")
             display = Display.flex
             position = Position.absolute
-            top = topPX.px
+            top = props.selectedTopPX.px
             left = 1.px
-            width = 50.px
-            height = 30.px
+            width = 737.px
+            height = 221.px
         }
     }
 }

@@ -126,25 +126,6 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
-                +"Avgångsvederlagchans: "
-                +"${(props.actualProfession.randomSeverancePay).formatDecimalSeparator()}%"
-            }
-
-        }
-
-        div {
-            topPX = props.actualStartTopPX
-            p {
-                css {
-                    display = Display.block
-                    position = Position.absolute
-                    top = topPX.px
-                    left = props.actualStyle.leftPX03.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
-                }
                 +"Varsel risk: "
                 +"${props.actualProfession.randomUnemployed}%"
             }
@@ -154,7 +135,7 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
                     display = Display.block
                     position = Position.absolute
                     top = topPX.px
-                    left = props.actualStyle.leftPX03.px
+                    left = props.actualStyle.leftPX02.px
                     color = NamedColor.black
                     fontSize = props.actualStyle.fontMedium.px
                     backgroundColor = NamedColor.white
@@ -162,6 +143,21 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
                 }
                 +"Sjuk risk: "
                 +"${props.actualProfession.randomSick}%"
+            }
+            topPX += 40
+            p {
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = topPX.px
+                    left = props.actualStyle.leftPX02.px
+                    color = NamedColor.black
+                    fontSize = props.actualStyle.fontMedium.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+                +"Avgångsvederlagchans: "
+                +"${(props.actualProfession.randomSeverancePay).formatDecimalSeparator()}%"
             }
         }
     }

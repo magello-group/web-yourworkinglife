@@ -773,7 +773,7 @@ data class Person (val id: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Det blir att låna en soffa.",
+                "Det blir till att låna en soffa.",
                 "",
                 "blinking"
             )

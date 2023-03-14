@@ -88,7 +88,7 @@ val ShowStreckGubbe = FC<ShowStreckGubbeProps> { props ->
         }
 
         css {
-            animationDuration = 2.s
+            animationDuration = 4.s
             animationName = streckGubbe
             animationFillMode = AnimationFillMode.both
             display = Display.flex

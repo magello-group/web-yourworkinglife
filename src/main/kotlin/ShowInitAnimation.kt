@@ -8,19 +8,21 @@ external interface ShowInitAnimationProps : Props {
 }
 
 val ShowInitAnimation = FC<ShowInitAnimationProps> { props ->
+    val topPXTree = props.actualStyle.topPXInitAnimation - 20
     div {
+
+        ShowTree {
+            selectedImage01 = props.actualStyle.streckTree01
+            selectedImage02 = props.actualStyle.streckTree02
+            selectedImage03 = props.actualStyle.streckTree03
+            selectedTopPX = topPXTree
+        }
+
         ShowStreckGubbe {
             marginLeftFrom = 0
             marginLeftTo = props.actualMarginLeft
 
             selectedTopPX = props.actualStyle.topPXInitAnimation
-        }
-
-        ShowStreck {
-            selectedImage01 = props.actualStyle.streck
-            selectedImage02 = props.actualStyle.streckStones01
-            selectedImage03 = props.actualStyle.streckStones02
-            selectedTopPX = props.actualStyle.topPXInitStreck
         }
 
         ShowCloud {

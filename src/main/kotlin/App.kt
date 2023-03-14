@@ -203,7 +203,7 @@ val App = FC<Props> {
 
                                         css {
                                             padding = Padding(0.px, 0.px)
-                                            width = 400.px
+                                            width = 300.px
                                             color = NamedColor.black
                                             fontSize = appStyle.fontMedium.px
                                             fontFamily = FontFamily.cursive
