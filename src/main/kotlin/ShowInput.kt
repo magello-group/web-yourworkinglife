@@ -23,7 +23,7 @@ val ShowInput = FC<ShowInputProps> { props ->
         css {
             display = Display.block
             position = Position.absolute
-            width = 800.px
+            width = 1000.px
         }
         div {
             p {

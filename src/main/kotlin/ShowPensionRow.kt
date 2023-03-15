@@ -62,7 +62,7 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
         css {
             display = Display.block
             position = Position.absolute
-            width = 900.px
+            width = 1000.px
         }
 
         topPX = startPX

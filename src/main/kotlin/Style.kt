@@ -41,9 +41,9 @@ class Style(val styleType: String) {
 
     //pensioner
     //var topPXPensionerCloud: Int = 357
-    var topPXPensionerAnimation: Int = 710
-    var topPXPensionerStreck: Int = 890 // +180
-    var topPXPensionerStatus: Int = 900
+    var topPXPensionerAnimation: Int = 730
+    var topPXPensionerStreck: Int = 910 // +180
+    var topPXPensionerStatus: Int = 920
 
     //profession
     var topPXProfessionCloud: Int = 365

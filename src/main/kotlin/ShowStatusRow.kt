@@ -42,13 +42,13 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
     var leftPX = props.actualStyle.leftPX01
     val startPX = props.actualStyle.topPXProfessionStatus
     val padding = 40
-    val leftPadding = 300
+    val leftPadding = 450
 
     div {
         css {
             display = Display.block
             position = Position.absolute
-            width = 800.px
+            width = 1000.px
         }
 
         topPX = startPX
@@ -167,12 +167,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     +props.actualPensionAmount
             }
 
-        }
-
-        div {
-
-            topPX = startPX
-            leftPX += leftPadding
+            topPX += padding
             p {
                 css {
                     display = Display.block

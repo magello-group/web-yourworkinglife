@@ -162,7 +162,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                 fontSize = props.selectedStyle.fontMedium.px
                 backgroundColor = NamedColor.transparent
                 fontFamily = FontFamily.cursive
-                width = 800.px
+                width = 1000.px
             }
 
             for ((messageIndex, message) in messageList.withIndex()) {

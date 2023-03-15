@@ -224,7 +224,7 @@ data class Life ( val personId: Int) {
             "family" -> {
                 // Question(1, "Göra samhällsnytta och skillnad", "familj", "family",),
 
-                if (this.employee.currentSalary <= 40000) {
+                if (this.employee.currentSalary <= 45000) {
                     storyId += 1
                     storyList = storyList.plus(
                         Message(
@@ -242,7 +242,7 @@ data class Life ( val personId: Int) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Du vill göra samhällsnytta och skillnad. Kanske inte helt i mål då du inte accepterade en låg lön",
+                            "Du vill göra samhällsnytta och skillnad. Du gick inte helt på ditt kall och accepterade låg lön",
                             "",
                             ""
                         )

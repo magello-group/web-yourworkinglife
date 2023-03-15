@@ -44,7 +44,7 @@ val EventList = FC<EventListProps> { props ->
 
         table {
             css {
-                width = 200.px
+                width = 300.px
                 borderSpacing = 0.px
                 borderCollapse = BorderCollapse.collapse
                 whiteSpace = WhiteSpace.nowrap

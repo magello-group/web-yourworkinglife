@@ -42,7 +42,7 @@ val ActionList = FC<ActionListProps> { props ->
 
         table {
             css {
-                width = 600.px
+                width = 1000.px
                 borderSpacing = 0.px
                 borderCollapse = BorderCollapse.collapse
                 whiteSpace = WhiteSpace.nowrap
