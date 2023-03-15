@@ -1,21 +1,16 @@
-
 import csstype.*
 import react.*
 import kotlinx.coroutines.*
 import emotion.react.css
-import kotlinx.js.import
 import react.dom.html.InputType
-import react.dom.html.ReactHTML
 import react.dom.html.ReactHTML.button
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.h1
 import react.dom.html.ReactHTML.input
-import react.dom.html.ReactHTML.label
 import react.dom.html.ReactHTML.p
 import react.dom.html.ReactHTML.table
 import react.dom.html.ReactHTML.tbody
 import react.dom.html.ReactHTML.td
-import react.dom.html.ReactHTML.textarea
 import react.dom.html.ReactHTML.tr
 
 val mainScope = MainScope()
@@ -133,7 +128,7 @@ val App = FC<Props> {
                             backgroundColor = NamedColor.white
                             fontFamily = FontFamily.cursive
                         }
-                        +"OBS: Ange namn, ålder och pension innan du går till nästa steg!"
+                        +"OBS: Ange namn, ålder och pension!"
                     }
                 }
             }
@@ -161,6 +156,29 @@ val App = FC<Props> {
         // Welcome menu
         when (currentView.viewType) {
             "init" -> {
+                //Show animation
+                ShowInitAnimation {
+                    actualMarginLeft = 30
+                    actualStyle = appStyle
+                }
+
+                //Show notes
+                div {
+                    ShowInput {
+                        actualInputQuestions = inputQuestions
+                        actualName = name
+                        actualAge = age
+                        actualPension = pension
+                        actualStyle = appStyle
+                        actualStartTopPX = appStyle.topPX02
+                    }
+
+                    person.union.isAkassa = true
+                    person.union.isIncomeInsurance = true
+                    person.union.isExtraInsurance = true
+                    person.isHealthInsurance = true
+                }
+
                 div {
                     css {
                         display = Display.block
@@ -184,7 +202,7 @@ val App = FC<Props> {
                         tbody {
                             css {
                                 color = NamedColor.black
-                                backgroundColor = NamedColor.white
+                                backgroundColor = NamedColor.transparent
                                 textAlign = TextAlign.start
                             }
 
@@ -192,9 +210,9 @@ val App = FC<Props> {
                                 tr {
                                     css {
                                         fontSize = appStyle.fontMedium.px
-                                        borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
+                                        borderBottom = Border(0.px, LineStyle.solid, NamedColor.white)
                                         hover {
-                                            backgroundColor = NamedColor.lightgrey
+                                            backgroundColor = NamedColor.transparent
                                         }
                                         maxHeight = 10.px
                                     }
@@ -268,33 +286,28 @@ val App = FC<Props> {
                         }
                     }
                 }
-
-
-                //Show animation
-                ShowInitAnimation {
-                    actualMarginLeft = 30
-                    actualStyle = appStyle
-                }
-
-                //Show notes
-                div {
-                    ShowInput {
-                        actualInputQuestions = inputQuestions
-                        actualName = name
-                        actualAge = age
-                        actualPension = pension
-                        actualStyle = appStyle
-                        actualStartTopPX = appStyle.topPX02
-                    }
-
-                    person.union.isAkassa = true
-                    person.union.isIncomeInsurance = true
-                    person.union.isExtraInsurance = true
-                    person.isHealthInsurance = true
-                }
             }
 
             "action" -> {
+                //Show animation
+                ShowActionAnimation {
+                    if (currentAction == null)
+                        selectedAction = ""
+                    else
+                        selectedAction = currentAction!!.objectType
+                    actualMarginLeft = 26
+                    actualStyle = appStyle
+                }
+
+                ShowInput {
+                    actualInputQuestions = inputQuestions
+                    actualName = name
+                    actualAge = age
+                    actualPension = pension
+                    actualStyle = appStyle
+                    actualStartTopPX = appStyle.topPXInitStatus
+                }
+
                 //Store name, age and pension percentage
                 person.name = name
                 person.age = age.toInt()
@@ -324,27 +337,19 @@ val App = FC<Props> {
                         }
                     }
                 }
-                //Show animation
-                ShowActionAnimation {
-                    if (currentAction == null)
-                        selectedAction = ""
-                    else
-                        selectedAction = currentAction!!.objectType
-                    actualMarginLeft = 26
-                    actualStyle = appStyle
-                }
-
-                ShowInput {
-                    actualInputQuestions = inputQuestions
-                    actualName = name
-                    actualAge = age
-                    actualPension = pension
-                    actualStyle = appStyle
-                    actualStartTopPX = appStyle.topPX02
-                }
             }
 
             "start", "reload" -> {
+
+                //Show animation
+                ShowProfessionAnimation {
+                    actualProfession = currentProfession
+                    actualMarginLeft = 38
+                    actualStyle = appStyle
+                    actualCloudMarginLeftTo = 38
+                    isProfessionList = false
+                }
+
                 div {
                     person.name = name
                     person.age = age.toInt()
@@ -374,17 +379,16 @@ val App = FC<Props> {
                             }
                     }
                 }
-
-                //Show animation
-                ShowProfessionAnimation {
-                    actualProfession = currentProfession
-                    actualMarginLeft = 38
-                    actualStyle = appStyle
-                    actualCloudMarginLeftTo = 38
-                }
             }
 
             "luck", "depressed" -> {
+
+                //Show animation
+                ShowEventAnimation {
+                    actualProfession = currentProfession
+                    actualMarginLeft = 26
+                    actualStyle = appStyle
+                }
 
                 div {
 
@@ -428,16 +432,27 @@ val App = FC<Props> {
                         }
                     }
                 }
-
-                //Show animation
-                ShowEventAnimation {
-                    actualProfession = currentProfession
-                    actualMarginLeft = 26
-                    actualStyle = appStyle
-                }
             }
 
             "profession", "question" -> {
+                //Show animation
+                ShowProfessionAnimation {
+                    actualProfession = currentProfession
+                    actualMarginLeft = 26
+                    actualStyle = appStyle
+                    actualCloudMarginLeftTo = 26
+                    isProfessionList = true
+                }
+
+                ShowInput {
+                    actualInputQuestions = inputQuestions
+                    actualName = currentPerson.name
+                    actualAge = currentPerson.age.toString()
+                    actualPension = (currentPerson.pension * 100).toString()
+                    actualStyle = appStyle
+                    actualStartTopPX = appStyle.topPXProfessionStatus
+                }
+
                 div {
 
                     ProfessionList {
@@ -478,26 +493,16 @@ val App = FC<Props> {
                         }
                     }
                 }
-
-                //Show animation
-                ShowProfessionAnimation {
-                    actualProfession = currentProfession
-                    actualMarginLeft = 26
-                    actualStyle = appStyle
-                    actualCloudMarginLeftTo = 26
-                }
-
-                ShowInput {
-                    actualInputQuestions = inputQuestions
-                    actualName = currentPerson.name
-                    actualAge = currentPerson.age.toString()
-                    actualPension = (currentPerson.pension * 100).toString()
-                    actualStyle = appStyle
-                    actualStartTopPX = appStyle.topPX06
-                }
             }
 
             "pension" -> {
+
+                //Show animation
+                ShowPensionerAnimation {
+                    actualMarginLeft = 26
+                    actualStyle = appStyle
+                }
+
                 div {
 
                     StartPensionLife {
@@ -511,12 +516,6 @@ val App = FC<Props> {
                                 currentLife = newLife
                             }
                     }
-                }
-
-                //Show animation
-                ShowPensionerAnimation {
-                    actualMarginLeft = 26
-                    actualStyle = appStyle
                 }
             }
         }

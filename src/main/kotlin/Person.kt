@@ -431,7 +431,7 @@ data class Person (val id: Int) {
         var storyList = messageList
         var storyId = messageId
         var message: Message
-
+/*
         storyId += 1
         storyList = storyList.plus(
             Message(
@@ -441,12 +441,12 @@ data class Person (val id: Int) {
                 ""
             )
         )
-
+ */
         if (this.house.houseAmount.toInt() > 0) {
             storyId += 1
             message = Message(
                 storyId,
-                "Värde: ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
+                "Värde bostad: ${this.house.houseAmount.toInt().formatDecimalSeparator()} SEK.",
                 "",
                 ""
             )
@@ -458,7 +458,7 @@ data class Person (val id: Int) {
             storyId += 1
             message = Message(
                 storyId,
-                "Lån: ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK.",
+                "Lån bostad: ${this.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()} SEK.",
                 "",
                 ""
             )
@@ -1186,7 +1186,7 @@ data class Person (val id: Int) {
                     ""
                 )
             )
-
+/*
             storyId += 1
             storyList = storyList.plus(
                 Message(
@@ -1196,6 +1196,8 @@ data class Person (val id: Int) {
                     ""
                 )
             )
+
+ */
         }
 
         return storyList

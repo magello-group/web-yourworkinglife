@@ -46,7 +46,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                     selectedTopPX = props.actualStyle.topPXEventStreck
                     selectedImage01 = props.actualStyle.streck
                     selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedImage03 = props.actualStyle.streckStones02
                 }
 
 
@@ -70,7 +70,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                     selectedTopPX = props.actualStyle.topPXEventStreck
                     selectedImage01 = props.actualStyle.streck
                     selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedImage03 = props.actualStyle.streckStones02
                 }
 
                 ShowCloud {
@@ -92,7 +92,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                     selectedTopPX = props.actualStyle.topPXEventStreck
                     selectedImage01 = props.actualStyle.streck
                     selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedImage03 = props.actualStyle.streckStones02
                 }
                 ShowCloud {
                     selectedImage1 = props.actualStyle.streckCloud
@@ -113,7 +113,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                     selectedTopPX = props.actualStyle.topPXEventStreck
                     selectedImage01 = props.actualStyle.streck
                     selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedImage03 = props.actualStyle.streckStones02
                 }
                 ShowCloud {
                     selectedImage1 = props.actualStyle.streckCloud
@@ -134,7 +134,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                     selectedTopPX = props.actualStyle.topPXEventStreck
                     selectedImage01 = props.actualStyle.streck
                     selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedImage03 = props.actualStyle.streckStones02
                 }
                 ShowCloud {
                     selectedImage1 = props.actualStyle.streckCloud
@@ -155,7 +155,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                     selectedTopPX = props.actualStyle.topPXEventStreck
                     selectedImage01 = props.actualStyle.streck
                     selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedImage03 = props.actualStyle.streckStones02
                 }
                 ShowCloud {
                     selectedImage1 = props.actualStyle.streckCloud
@@ -177,7 +177,7 @@ val ShowEventAnimation = FC<ShowEventAnimationProps> { props ->
                     selectedTopPX = props.actualStyle.topPXEventStreck
                     selectedImage01 = props.actualStyle.streck
                     selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedImage03 = props.actualStyle.streckStones02
                 }
                 ShowCloud {
                     selectedImage1 = props.actualStyle.streckCloud

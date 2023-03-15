@@ -40,7 +40,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
     val currentStatus: Status = props.selectedStatus
     var messageId = props.selectedLife.lastMessageId
     var lastDisplayedMessageId = 0
-    val maxMessages = 10
+    val maxMessages = 9
     val isDebugOn = false
     var topPX = 930
 
@@ -160,7 +160,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                 color = NamedColor.green
                 borderColor = NamedColor.white
                 fontSize = props.selectedStyle.fontMedium.px
-                backgroundColor = NamedColor.white
+                backgroundColor = NamedColor.transparent
                 fontFamily = FontFamily.cursive
                 width = 800.px
             }

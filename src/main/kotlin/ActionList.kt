@@ -48,13 +48,12 @@ val ActionList = FC<ActionListProps> { props ->
                 whiteSpace = WhiteSpace.nowrap
                 border = Border(0.px, LineStyle.solid, NamedColor.white)
                 margin = Auto.auto
-
             }
 
             tbody {
                 css {
                     color = NamedColor.black
-                    backgroundColor = NamedColor.white
+                    backgroundColor = NamedColor.transparent
                     textAlign = TextAlign.start
                 }
 
@@ -69,9 +68,9 @@ val ActionList = FC<ActionListProps> { props ->
                     tr {
                         css {
                             fontSize = props.selectedStyle.fontMedium.px
-                            borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
+                            borderBottom = Border(0.px, LineStyle.solid, NamedColor.white)
                             hover {
-                                backgroundColor = NamedColor.white
+                                backgroundColor = NamedColor.transparent
                             }
                         }
 

@@ -52,10 +52,10 @@ external interface ShowPensionRowProps : Props {
 
 val ShowPensionRow = FC<ShowPensionRowProps> { props ->
     var topPX: Int
-    val startPX: Int = props.actualStyle.topPX10
+    val startPX: Int = props.actualStyle.topPXPensionerStatus
     val padding: Int = 40
     var leftPX = props.actualStyle.leftPX01
-    val leftPadding = 300
+    val leftPadding = 450
 
 
     div {
@@ -162,6 +162,58 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                 +"Sista lön: "
                 if (props.actualSalary != "")
                     +props.actualSalary
+            }
+            topPX += padding
+            p {
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = topPX.px
+                    left = leftPX.px
+                    color = NamedColor.black
+                    fontSize = props.actualStyle.fontMedium.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+                +"Lönekonto: "
+                if (props.actualSalaryAmount != "")
+                    +props.actualSalaryAmount
+            }
+
+            if (props.actualNoAkassaAmount != "0") {
+                topPX += padding
+                p {
+                    css {
+                        display = Display.block
+                        position = Position.absolute
+                        top = topPX.px
+                        left = leftPX.px
+                        color = NamedColor.black
+                        fontSize = props.actualStyle.fontMedium.px
+                        backgroundColor = NamedColor.white
+                        fontFamily = FontFamily.cursive
+                    }
+                    +"med A-kassa: "
+                    +props.actualNoAkassaAmount
+                }
+            }
+
+            if (props.actualDepotAmount != "0") {
+                topPX += padding
+                p {
+                    css {
+                        display = Display.block
+                        position = Position.absolute
+                        top = topPX.px
+                        left = leftPX.px
+                        color = NamedColor.black
+                        fontSize = props.actualStyle.fontMedium.px
+                        backgroundColor = NamedColor.white
+                        fontFamily = FontFamily.cursive
+                    }
+                    +"Depå: "
+                    +props.actualDepotAmount
+                }
             }
 
             topPX += padding
@@ -301,59 +353,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
-                +"Lönekonto: "
-                if (props.actualSalaryAmount != "")
-                    +props.actualSalaryAmount
-            }
-
-            if (props.actualNoAkassaAmount != "0") {
-                topPX += padding
-                p {
-                    css {
-                        display = Display.block
-                        position = Position.absolute
-                        top = topPX.px
-                        left = leftPX.px
-                        color = NamedColor.black
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
-                    }
-                    +"med A-kassa: "
-                    +props.actualNoAkassaAmount
-                }
-            }
-
-            if (props.actualDepotAmount != "0") {
-                topPX += padding
-                p {
-                    css {
-                        display = Display.block
-                        position = Position.absolute
-                        top = topPX.px
-                        left = leftPX.px
-                        color = NamedColor.black
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
-                    }
-                    +"Depå: "
-                    +props.actualDepotAmount
-                }
-            }
-
-            topPX += padding
-            p {
-                css {
-                    display = Display.block
-                    position = Position.absolute
-                    top = topPX.px
-                    left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
-                }
                 +"Bostadshyra: "
                 if (props.actualHireAmount != "")
                     +props.actualHireAmount
@@ -426,11 +425,8 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     +props.actualInterestMonthPayment
                 }
             }
-        }
 
-        div {
-            topPX = startPX
-            leftPX += leftPadding
+            topPX += padding
             p {
                 css {
                     display = Display.block

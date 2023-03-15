@@ -7,10 +7,11 @@ external interface ShowProfessionAnimationProps : Props {
     var actualMarginLeft: Int
     var actualStyle: Style
     var actualCloudMarginLeftTo: Int
+    var isProfessionList: Boolean
 }
 
 val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
-
+    val topPXTree = props.actualStyle.topPXProfessionAnimation - 20
     div {
         when (props.actualProfession.professionType) {
             "pilote" -> {
@@ -44,7 +45,7 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                 ShowStreck {
                     selectedImage01 = props.actualStyle.streck
                     selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedImage03 = props.actualStyle.streckStones02
                     selectedTopPX = props.actualStyle.topPXProfessionStreck
                 }
                 ShowCloud {
@@ -66,7 +67,7 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                 ShowStreck {
                     selectedImage01 = props.actualStyle.streck
                     selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedImage03 = props.actualStyle.streckStones02
                     selectedTopPX = props.actualStyle.topPXProfessionStreck
                 }
                 ShowCloud {
@@ -80,17 +81,22 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
             }
 
             "programmer", "solo" -> {
+                ShowTree {
+                    selectedImage01 = props.actualStyle.streckTree01
+                    selectedImage02 = props.actualStyle.streckTree02
+                    if (props.isProfessionList)
+                        selectedImage03 = props.actualStyle.streckTree03
+                    else
+                        selectedImage03 = props.actualStyle.streckTree01
+                    selectedTopPX = topPXTree
+                }
+
                 ShowStreckImage {
                     selectedImage = "streckprogrammer100.jpg"
                     selectTop = props.actualStyle.topPXProfessionAnimation
                     selectMarginLeft = props.actualMarginLeft
                 }
-                ShowStreck {
-                    selectedImage01 = props.actualStyle.streck
-                    selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones03
-                    selectedTopPX = props.actualStyle.topPXProfessionStreck
-                }
+
                 ShowCloud {
                     selectedImage1 = props.actualStyle.streckSol
                     selectedImage2 = props.actualStyle.streckOnlySol
@@ -102,17 +108,28 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
             }
 
             "security", "VD", "ambassador", "chef", "driftchef", "bank", "insurance" -> {
+                if (props.isProfessionList) {
+                    ShowTree {
+                        selectedImage01 = props.actualStyle.streckHouse02
+                        selectedImage02 = props.actualStyle.streckHouse01
+                        selectedImage03 = props.actualStyle.streckHouse01
+                        selectedTopPX = topPXTree + 17
+                    }
+                } else {
+                    ShowStreck {
+                        selectedImage01 = props.actualStyle.streck
+                        selectedImage02 = props.actualStyle.streckStones01
+                        selectedImage03 = props.actualStyle.streckStones02
+                        selectedTopPX = props.actualStyle.topPXProfessionStreck
+                    }
+                }
+
                 ShowStreckImage {
                     selectedImage = props.actualStyle.streckBoss
                     selectTop = props.actualStyle.topPXProfessionAnimation
                     selectMarginLeft = props.actualMarginLeft
                 }
-                ShowStreck {
-                    selectedImage01 = props.actualStyle.streck
-                    selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones03
-                    selectedTopPX = props.actualStyle.topPXProfessionStreck
-                }
+
                 ShowCloud {
                     selectedImage1 = props.actualStyle.streckSol
                     selectedImage2 = props.actualStyle.streckOnlySol
@@ -132,7 +149,7 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                 ShowStreck {
                     selectedImage01 = props.actualStyle.streck
                     selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedImage03 = props.actualStyle.streckStones02
                     selectedTopPX = props.actualStyle.topPXProfessionStreck
                 }
                 ShowCloud {
@@ -154,7 +171,7 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                 ShowStreck {
                     selectedImage01 = props.actualStyle.streck
                     selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedImage03 = props.actualStyle.streckStones02
                     selectedTopPX = props.actualStyle.topPXProfessionStreck
                 }
                 ShowCloud {
@@ -176,7 +193,7 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                 ShowStreck {
                     selectedImage01 = props.actualStyle.streck
                     selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones03
+                    selectedImage03 = props.actualStyle.streckStones02
                     selectedTopPX = props.actualStyle.topPXProfessionStreck
                 }
                 ShowCloud {

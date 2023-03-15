@@ -52,7 +52,7 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
                 color = NamedColor.green
                 borderColor = NamedColor.white
                 fontSize = props.selectedStyle.fontMedium.px
-                backgroundColor = NamedColor.white
+                backgroundColor = NamedColor.transparent
                 fontFamily = FontFamily.cursive
                 width = 800.px
             }

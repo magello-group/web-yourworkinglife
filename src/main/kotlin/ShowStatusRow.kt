@@ -40,7 +40,7 @@ external interface ShowStatusRowProps : Props {
 val ShowStatusRow = FC<ShowStatusRowProps> { props ->
     var topPX: Int
     var leftPX = props.actualStyle.leftPX01
-    val startPX = props.actualStyle.topPX06
+    val startPX = props.actualStyle.topPXProfessionStatus
     val padding = 40
     val leftPadding = 300
 

@@ -58,32 +58,32 @@ data class Profession(
                 0.0F, 67500.0F, 2000.0F, 58, "salary", 30,10, 20, 60,  0.07F, 30
             ),
             Profession(
-                3, "VD", "Verkställande direktör", "Du jobbar som VD på ett spelbolag",
+                3, "programmer", "Programmerare", "Du jobbar som programmerare på ett säkerhetsbolag",
+                0.0F, 58000.0F, 1700.0F, 58, "salary",30,10, 20, 60,  0.07F
+            ),
+            Profession(
+                4, "VD", "VD", "Du jobbar som VD på ett spelbolag",
                 0.0F, 163000.0F, 4500.0F, 58, "salary", 30, 10, 20, 60,  0.07F, 50
             ),
             Profession(
-                4, "ambassador", "Ambassadör", "Du jobbar som ambassadör i Tyskland",
+                5, "ambassador", "Ambassadör", "Du jobbar som ambassadör i Tyskland",
                 0.0F, 100000.0F, 2800.0F, 58, "salary",30,20, 20, 60,  0.07F, 50
             ),
             Profession(
-                5, "chef", "Bankchef", "Du jobbar som chef på en bank",
+                6, "chef", "Bankchef", "Du jobbar som chef på en bank",
                 0.0F, 88000.0F, 2500.0F, 58, "salary",30,40, 20, 60,  0.07F, 30
             ),
             Profession(
-                6, "driftchef", "Driftchef", "Du jobbar som driftchef inom bygg, anläggning och gruva",
+                7, "driftchef", "Driftchef", "Du jobbar som driftchef inom bygg, anläggning och gruva",
                 0.0F, 64000.0F, 2000.0F, 58, "salary",30,40, 20, 60,  0.07F,30
             ),
             Profession(
-                7, "advokat", "Advokat", "Du jobbar som Advokat",
+                8, "advokat", "Advokat", "Du jobbar som Advokat",
                 0.0F, 46400.0F, 1400.0F, 58, "salary",30,10, 20, 60,  0.07F, 30
             ),
             Profession(
-                8, "doctor", "Läkare", "Du jobbar som Läkare",
+                9, "doctor", "Läkare", "Du jobbar som Läkare",
                 0.0F, 58000.0F, 1700.0F, 58, "salary",10,10, 20, 60,  0.07F
-            ),
-            Profession(
-                9, "programmer", "Programmerare", "Du jobbar som programmerare på ett säkerhetsbolag",
-                0.0F, 58000.0F, 1700.0F, 58, "salary",30,10, 20, 60,  0.07F
             ),
 
             //Pension

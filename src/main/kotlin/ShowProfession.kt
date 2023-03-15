@@ -17,8 +17,10 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
 
     val salary =props.actualProfession.salary * props.actualAge.toInt()
     var topPX: Int
+    var leftPX: Int
 
     topPX = props.actualStartTopPX
+    leftPX = props.actualStyle.leftPX01
     div {
 
         //Main title
@@ -48,13 +50,14 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
         }
 
         div {
+
             topPX += 120
             p {
                 css {
                     display = Display.block
                     position = Position.absolute
                     top = topPX.px
-                    left = props.actualStyle.leftPX01.px
+                    left = leftPX.px
                     color = NamedColor.black
                     fontSize = props.actualStyle.fontMedium.px
                     backgroundColor = NamedColor.white
@@ -70,12 +73,13 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
 
         div {
             topPX = props.actualStartTopPX
+            leftPX += 350
             p {
                 css {
                     display = Display.block
                     position = Position.absolute
                     top = topPX.px
-                    left = props.actualStyle.leftPX02.px
+                    left = leftPX.px
                     color = NamedColor.black
                     fontSize = props.actualStyle.fontMedium.px
                     backgroundColor = NamedColor.white
@@ -90,7 +94,7 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
                     display = Display.block
                     position = Position.absolute
                     top = topPX.px
-                    left = props.actualStyle.leftPX02.px
+                    left = leftPX.px
                     color = NamedColor.black
                     fontSize = props.actualStyle.fontMedium.px
                     backgroundColor = NamedColor.white
@@ -105,7 +109,7 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
                     display = Display.block
                     position = Position.absolute
                     top = topPX.px
-                    left = props.actualStyle.leftPX02.px
+                    left = leftPX.px
                     color = NamedColor.black
                     fontSize = props.actualStyle.fontMedium.px
                     backgroundColor = NamedColor.white
@@ -120,7 +124,7 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
                     display = Display.block
                     position = Position.absolute
                     top = topPX.px
-                    left = props.actualStyle.leftPX02.px
+                    left = leftPX.px
                     color = NamedColor.black
                     fontSize = props.actualStyle.fontMedium.px
                     backgroundColor = NamedColor.white
@@ -135,7 +139,7 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
                     display = Display.block
                     position = Position.absolute
                     top = topPX.px
-                    left = props.actualStyle.leftPX02.px
+                    left = leftPX.px
                     color = NamedColor.black
                     fontSize = props.actualStyle.fontMedium.px
                     backgroundColor = NamedColor.white
@@ -150,7 +154,7 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
                     display = Display.block
                     position = Position.absolute
                     top = topPX.px
-                    left = props.actualStyle.leftPX02.px
+                    left = leftPX.px
                     color = NamedColor.black
                     fontSize = props.actualStyle.fontMedium.px
                     backgroundColor = NamedColor.white

@@ -54,13 +54,12 @@ val ProfessionList = FC<ProfessionListProps> { props ->
                 whiteSpace = WhiteSpace.nowrap
                 border = Border(0.px, LineStyle.solid, NamedColor.white)
                 margin = Auto.auto
-
             }
 
             tbody {
                 css {
                     color = NamedColor.black
-                    backgroundColor = NamedColor.white
+                    backgroundColor = NamedColor.transparent
                     textAlign = TextAlign.start
                 }
 
@@ -73,9 +72,9 @@ val ProfessionList = FC<ProfessionListProps> { props ->
                     tr {
                         css {
                             fontSize = props.selectedStyle.fontMedium.px
-                            borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
+                            borderBottom = Border(0.px, LineStyle.solid, NamedColor.white)
                             hover {
-                                backgroundColor = NamedColor.lightgray
+                                backgroundColor = NamedColor.transparent
                             }
                         }
 
@@ -168,7 +167,7 @@ val ProfessionList = FC<ProfessionListProps> { props ->
             actualProfession = selectedProfessions[0]
             actualAge = props.selectedPerson.startWorkingAge.toString()
             actualStyle = props.selectedStyle
-            actualStartTopPX = props.selectedStyle.topPX06
+            actualStartTopPX = props.selectedStyle.topPXProfessionStatus
         }
     }
 }

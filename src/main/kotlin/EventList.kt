@@ -29,7 +29,7 @@ external interface EventListProps : Props {
 }
 
 val EventList = FC<EventListProps> { props ->
-    var actions: List<Question> = props.selectedView.questions
+    val actions: List<Question> = props.selectedView.questions
     var selectedEvents: List<Event> = emptyList()
     var allEvents: List<Event>
 
@@ -56,7 +56,7 @@ val EventList = FC<EventListProps> { props ->
             tbody {
                 css {
                     color = NamedColor.black
-                    backgroundColor = NamedColor.white
+                    backgroundColor = NamedColor.transparent
                     textAlign = TextAlign.start
                 }
 
@@ -73,9 +73,9 @@ val EventList = FC<EventListProps> { props ->
                     tr {
                         css {
                             fontSize = props.selectedStyle.fontMedium.px
-                            borderBottom = Border(1.px, LineStyle.solid, NamedColor.white)
+                            borderBottom = Border(0.px, LineStyle.solid, NamedColor.white)
                             hover {
-                                backgroundColor = NamedColor.lightgray
+                                backgroundColor = NamedColor.transparent
                             }
                         }
 
@@ -170,7 +170,7 @@ val EventList = FC<EventListProps> { props ->
         ShowEvent {
             actualEvent = selectedEvents[0]
             actualStyle = props.selectedStyle
-            actualStartTopPX = props.selectedStyle.topPX10
+            actualStartTopPX = props.selectedStyle.topPXEventStatus
         }
     }
 }

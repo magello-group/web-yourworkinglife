@@ -1,29 +1,18 @@
 
 
 class Style(val styleType: String) {
-    var fontSmall: Int = 18
-    var fontMedium: Int = 24
-    var fontLarge: Int = 28
+    var fontSmall: Int = 20
+    var fontMedium: Int = 26
+    var fontLarge: Int = 30
 
-    var leftPXOBSText00: Int = 220
+    var leftPXOBSText00: Int = 230
     var topPXOBSText00: Int = 6
 
     var leftPX01: Int = 20
     var leftPX02: Int = 260
-    var leftPX03: Int = 550
-    var leftPX04: Int = 790
-    var leftPX05: Int = 1030
 
     var topPX01: Int = 20
     var topPX02: Int = 580
-    var topPX03: Int = 620
-    var topPX04: Int = 660
-    var topPX05: Int = 700
-    var topPX06: Int = 740
-    var topPX07: Int = 780
-    var topPX08: Int = 820
-    var topPX09: Int = 860
-    var topPX10: Int = 900
 
     var topPXTable01: Int = 120
     var leftPXTable01: Int = 20
@@ -45,24 +34,28 @@ class Style(val styleType: String) {
     var widthPXInputPension: Int = 30
 
     //inti
-    var topPXInitAnimation: Int = 356
-    var topPXInitStreck: Int = 543
-    var topPXInitCloud: Int = 205
+    var topPXInitCloud: Int = 209
+    var topPXInitAnimation: Int = 360
+    var topPXInitStreck: Int = 547
+    var topPXInitStatus: Int = 580
 
     //pensioner
     //var topPXPensionerCloud: Int = 357
-    var topPXPensionerAnimation: Int = 700
-    var topPXPensionerStreck: Int = 880 // +180
+    var topPXPensionerAnimation: Int = 710
+    var topPXPensionerStreck: Int = 890 // +180
+    var topPXPensionerStatus: Int = 900
 
     //profession
-    var topPXProfessionCloud: Int = 357
-    var topPXProfessionAnimation: Int = 507 // +151
-    var topPXProfessionStreck: Int = 700 // +187
+    var topPXProfessionCloud: Int = 365
+    var topPXProfessionAnimation: Int = 520 // +151
+    var topPXProfessionStreck: Int = 707 // +187
+    var topPXProfessionStatus: Int = 735
 
     //Event
-    var topPXEventCloud: Int = 507
-    var topPXEventAnimation: Int = 657 // +150
-    var topPXEventStreck: Int = 850 // +193
+    var topPXEventCloud: Int = 520
+    var topPXEventAnimation: Int = 670 // +150
+    var topPXEventStreck: Int = 863 // +193
+    var topPXEventStatus: Int = 900
 
     var streck: String = "streck002.jpg"
     var streckStones01: String = "streck003.jpg"
@@ -74,6 +67,8 @@ class Style(val styleType: String) {
     var streckTree01: String = "strecktree0030.png"
     var streckTree02: String = "strecktree0010.png"
     var streckTree03: String = "strecktree0020.png"
+    var streckHouse01: String = "streckhouse001.jpg"
+    var streckHouse02: String = "streckhouse002.jpg"
 
     var streckSol: String = "sol.png"
     var streckOnlySol: String = "solsol.png"

@@ -82,6 +82,7 @@ data class Account( val accountId: Int, val accountType: String) {
 
                     this.isMessageMiljon1 = false
                 } else {
+                    /*
                     storyId += 1
                     storyList = storyList.plus(
                         Message(
@@ -91,6 +92,8 @@ data class Account( val accountId: Int, val accountType: String) {
                             ""
                         )
                     )
+
+                     */
                     if (this.amount.toInt() < 0.0F) {
                         storyId += 1
                         message = Message(
