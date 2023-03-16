@@ -29,7 +29,7 @@ val ShowStreckImage = FC<ShowStreckImageProps> { props ->
         }
 
         css {
-            animationDuration = 4.s
+            animationDuration = 5.s
             animationName = streckImage
             animationFillMode = AnimationFillMode.both
             display = Display.flex

@@ -9,25 +9,17 @@ external interface ShowActionAnimationProps : Props {
 }
 
 val ShowActionAnimation = FC<ShowActionAnimationProps> { props ->
+    val topPXTree = props.actualStyle.topPXInitAnimation - 20
 
     div {
-        ShowSparkcykel {
-            selectedTopPX = props.actualStyle.topPXInitAnimation
-        }
-        ShowStreck {
-            selectedImage01 = props.actualStyle.streck
-            selectedImage02 = props.actualStyle.streckStones01
-            selectedImage03 = props.actualStyle.streckStones02
-            selectedTopPX = props.actualStyle.topPXInitStreck
-        }
 
         when (props.selectedAction) {
             "adventure" -> {
-                ShowStreck {
-                    selectedImage01 = props.actualStyle.streck
-                    selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones02
-                    selectedTopPX = props.actualStyle.topPXInitStreck
+                ShowTree {
+                    selectedImage01 = props.actualStyle.streckTree01
+                    selectedImage02 = props.actualStyle.streckTree02
+                    selectedImage03 = props.actualStyle.streckTree03
+                    selectedTopPX = topPXTree
                 }
 
                 ShowCloud {
@@ -39,33 +31,33 @@ val ShowActionAnimation = FC<ShowActionAnimationProps> { props ->
                     selectedWidth = props.actualStyle.streckWidth
                 }
 
+                ShowStreckGubbe {
+                    marginLeftFrom = 0
+                    marginLeftTo = props.actualMarginLeft
+                    selectedTopPX = props.actualStyle.topPXInitAnimation + 5
+                    selectedImage01 = "streckgubbe1000.jpg"
+                    selectedImage02 = "streckgubbe1100.jpg"
+                    selectedImage03 = "streckgubbeadventure.jpg"
+                }
+
                 ShowStreckObject {
                     selectedImage = props.actualStyle.streckMyraFromLeft
-                    selectTop = (props.actualStyle.topPXInitStreck - 20)
+                    selectTop = (props.actualStyle.topPXInitStreck - 30)
                     selectMarginFrom = 0
                     selectMarginTo = 23
-                    selectSeconds = 7
-                    selectWidth = 5
-                }
-                /*
-                ShowStreckObject {
-                    selectedImage = props.actualStyle.streckMyraFromLeft
-                    selectTop = (props.actualStyle.topPXInitStreck + 15)
-                    selectMarginFrom = 0
-                    selectMarginTo = 15
-                    selectSeconds = 5
+                    selectSeconds = 10
                     selectWidth = 5
                 }
 
-                 */
                 ShowStreckObject {
                     selectedImage = props.actualStyle.streckMyraFromLeft
-                    selectTop = (props.actualStyle.topPXInitStreck + 30)
+                    selectTop = (props.actualStyle.topPXInitStreck + 25)
                     selectMarginFrom = 0
                     selectMarginTo = 15
                     selectSeconds = 7
                     selectWidth = 5
                 }
+
                 ShowStreckObject {
                     selectedImage = props.actualStyle.streckMyraFromRight
                     selectTop = (props.actualStyle.topPXInitStreck - 30)
@@ -77,46 +69,126 @@ val ShowActionAnimation = FC<ShowActionAnimationProps> { props ->
             }
 
             "family" -> {
-                ShowStreck {
-                    selectedImage01 = props.actualStyle.streck
-                    selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones02
-                    selectedTopPX = props.actualStyle.topPXInitStreck
+
+                ShowTree {
+                    selectedImage01 = props.actualStyle.streckHouse02
+                    selectedImage02 = props.actualStyle.streckHouse01
+                    selectedImage03 = props.actualStyle.streckHouse01
+                    selectedTopPX = topPXTree + 17
+                }
+
+                ShowStreckImage {
+                    selectedImage = props.actualStyle.streckPolis
+                    selectTop = props.actualStyle.topPXInitAnimation
+                    selectMarginLeft = props.actualMarginLeft
                 }
 
                 ShowCloud {
                     selectedImage1 = props.actualStyle.streckSol
-                    selectedImage2 = props.actualStyle.streckSol
+                    selectedImage2 = props.actualStyle.streckOnlySol
                     marginLeftFrom = 0
                     marginLeftTo = props.actualMarginLeft
                     selectedTopPX = props.actualStyle.topPXInitCloud
-                    selectedWidth = props.actualStyle.streckWidth
+                    selectedWidth = props.actualStyle.streckOnlySolWidth
                 }
             }
 
             "vacation" -> {
+                ShowTree {
+                    selectedImage01 = props.actualStyle.streckWater
+                    selectedImage02 = props.actualStyle.streckWater
+                    selectedImage03 = props.actualStyle.streckWater
+                    selectedTopPX = topPXTree - 5
+                }
+
+                ShowStreckImage {
+                    selectedImage = props.actualStyle.streckSurfer
+                    selectTop = props.actualStyle.topPXInitAnimation
+                    selectMarginLeft = props.actualMarginLeft
+                }
+
+                ShowCloud {
+                    selectedImage1 = props.actualStyle.streckOnlySol
+                    selectedImage2 = props.actualStyle.streckOnlySol
+                    marginLeftFrom = 0
+                    marginLeftTo = props.actualMarginLeft
+                    selectedTopPX = props.actualStyle.topPXInitCloud
+                    selectedWidth = props.actualStyle.streckOnlySolWidth
+                }
+            }
+            "chilla" -> {
+                ShowTree {
+                    selectedImage01 = props.actualStyle.streckTree01
+                    selectedImage02 = props.actualStyle.streckTree02
+                    selectedImage03 = props.actualStyle.streckTree03
+                    selectedTopPX = topPXTree
+                }
+
+                ShowStreckImage {
+                    selectedImage = props.actualStyle.streckMusiker
+                    selectTop = props.actualStyle.topPXInitAnimation + 5
+                    selectMarginLeft = props.actualMarginLeft
+                }
+
+                ShowCloud {
+                    selectedImage1 = props.actualStyle.streckOnlySol
+                    selectedImage2 = props.actualStyle.streckOnlySol
+                    marginLeftFrom = 0
+                    marginLeftTo = props.actualMarginLeft
+                    selectedTopPX = props.actualStyle.topPXInitCloud
+                    selectedWidth = props.actualStyle.streckOnlySolWidth
+                }
+            }
+
+            "salary" -> {
+                ShowTree {
+                    selectedImage01 = props.actualStyle.streckHouse02
+                    selectedImage02 = props.actualStyle.streckHouse01
+                    selectedImage03 = props.actualStyle.streckHouse01
+                    selectedTopPX = topPXTree + 17
+                }
+
+                ShowStreckImage {
+                    selectedImage = props.actualStyle.streckBoss
+                    selectTop = props.actualStyle.topPXInitAnimation
+                    selectMarginLeft = props.actualMarginLeft
+                }
+
+                ShowCloud {
+                    selectedImage1 = props.actualStyle.streckSol
+                    selectedImage2 = props.actualStyle.streckOnlySol
+                    marginLeftFrom = 0
+                    marginLeftTo = props.actualMarginLeft
+                    selectedTopPX = props.actualStyle.topPXInitCloud
+                    selectedWidth = props.actualStyle.streckOnlySolWidth
+                }
+            }
+            "pension" -> {
+                ShowStreckPensioner {
+                    selectedTopPX = props.actualStyle.topPXInitAnimation
+                }
                 ShowStreck {
+                    selectedTopPX = props.actualStyle.topPXInitStreck
                     selectedImage01 = props.actualStyle.streck
                     selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones02
-                    selectedTopPX = props.actualStyle.topPXInitStreck
+                    selectedImage03 = props.actualStyle.streckgreen
                 }
 
                 ShowCloud {
                     selectedImage1 = props.actualStyle.streckSol
                     selectedImage2 = props.actualStyle.streckSol
                     marginLeftFrom = 0
-                    marginLeftTo = props.actualMarginLeft
+                    marginLeftTo = props.actualMarginLeft + 10
                     selectedTopPX = props.actualStyle.topPXInitCloud
                     selectedWidth = props.actualStyle.streckWidth
                 }
             }
-            "chilla" -> {
-                ShowStreck {
-                    selectedImage01 = props.actualStyle.streck
-                    selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones02
-                    selectedTopPX = props.actualStyle.topPXInitStreck
+            "fun" -> {
+                ShowTree {
+                    selectedImage01 = props.actualStyle.streckTree01
+                    selectedImage02 = props.actualStyle.streckTree01
+                    selectedImage03 = props.actualStyle.streckTree03
+                    selectedTopPX = topPXTree
                 }
 
                 ShowCloud {
@@ -128,14 +200,24 @@ val ShowActionAnimation = FC<ShowActionAnimationProps> { props ->
                     selectedWidth = props.actualStyle.streckOnlySolWidth
                 }
 
+                ShowStreckGubbe {
+                    marginLeftFrom = 0
+                    marginLeftTo = props.actualMarginLeft
+                    selectedTopPX = props.actualStyle.topPXInitAnimation + 5
+                    selectedImage01 = "streckgubbe1000.jpg"
+                    selectedImage02 = "streckgubbe1100.jpg"
+                    selectedImage03 = "streckgubbeicecream.jpg"
+                }
+
                 ShowStreckObject {
                     selectedImage = props.actualStyle.streckIcecream
-                    selectTop = (props.actualStyle.topPXInitStreck - 125)
+                    selectTop = (props.actualStyle.topPXInitStreck - 120)
                     selectMarginFrom = 50
                     selectMarginTo = 35
                     selectSeconds = 5
                     selectWidth = 3
                 }
+
                 ShowStreckObject {
                     selectedImage = props.actualStyle.streckChair
                     selectTop = (props.actualStyle.topPXInitStreck - 25)
@@ -144,65 +226,19 @@ val ShowActionAnimation = FC<ShowActionAnimationProps> { props ->
                     selectSeconds = 5
                     selectWidth = 5
                 }
-            }
 
-            "salary" -> {
-                ShowStreck {
-                    selectedImage01 = props.actualStyle.streck
-                    selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones02
-                    selectedTopPX = props.actualStyle.topPXInitStreck
-                }
-
-                ShowCloud {
-                    selectedImage1 = props.actualStyle.streckSol
-                    selectedImage2 = props.actualStyle.streckSol
-                    marginLeftFrom = 0
-                    marginLeftTo = props.actualMarginLeft
-                    selectedTopPX = props.actualStyle.topPXInitCloud
-                    selectedWidth = props.actualStyle.streckWidth
-                }
-            }
-            "pension" -> {
-                ShowStreck {
-                    selectedImage01 = props.actualStyle.streck
-                    selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones02
-                    selectedTopPX = props.actualStyle.topPXInitStreck
-                }
-
-                ShowCloud {
-                    selectedImage1 = props.actualStyle.streckSol
-                    selectedImage2 = props.actualStyle.streckSol
-                    marginLeftFrom = 0
-                    marginLeftTo = props.actualMarginLeft
-                    selectedTopPX = props.actualStyle.topPXInitCloud
-                    selectedWidth = props.actualStyle.streckWidth
-                }
-            }
-            "fun" -> {
-                ShowStreck {
-                    selectedImage01 = props.actualStyle.streck
-                    selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones02
-                    selectedTopPX = props.actualStyle.topPXInitStreck
-                }
-
-                ShowCloud {
-                    selectedImage1 = props.actualStyle.streckSol
-                    selectedImage2 = props.actualStyle.streckSol
-                    marginLeftFrom = 0
-                    marginLeftTo = props.actualMarginLeft
-                    selectedTopPX = props.actualStyle.topPXInitCloud
-                    selectedWidth = props.actualStyle.streckWidth
-                }
             }
             else -> {
+
                 ShowStreck {
                     selectedImage01 = props.actualStyle.streck
                     selectedImage02 = props.actualStyle.streckStones01
                     selectedImage03 = props.actualStyle.streckStones02
                     selectedTopPX = props.actualStyle.topPXInitStreck
+                }
+
+                ShowSparkcykel {
+                    selectedTopPX = props.actualStyle.topPXInitAnimation
                 }
 
                 ShowCloud {

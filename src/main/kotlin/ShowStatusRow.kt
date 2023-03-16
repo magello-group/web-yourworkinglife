@@ -162,23 +162,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
-                +"Pensionskonto: "
-                if (props.actualPensionAmount != "")
-                    +props.actualPensionAmount
-            }
-
-            topPX += padding
-            p {
-                css {
-                    display = Display.block
-                    position = Position.absolute
-                    top = topPX.px
-                    left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
-                }
                 +"Lönekonto: "
                 if (props.actualSalaryAmount != "")
                     +props.actualSalaryAmount
@@ -199,6 +182,23 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                 +"Depå: "
                 if (props.actualDepotAmount != "")
                     +props.actualDepotAmount
+            }
+
+            topPX += padding
+            p {
+                css {
+                    display = Display.block
+                    position = Position.absolute
+                    top = topPX.px
+                    left = leftPX.px
+                    color = NamedColor.black
+                    fontSize = props.actualStyle.fontMedium.px
+                    backgroundColor = NamedColor.white
+                    fontFamily = FontFamily.cursive
+                }
+                +"Pensionskonto: "
+                if (props.actualPensionAmount != "")
+                    +props.actualPensionAmount
             }
 
             topPX += padding

@@ -231,19 +231,15 @@ data class Profession(
                 0.0F, 30000.0F, 900.0F, 75, "fun",30,50, 60, 60, 0.0F
             ),
             Profession(
-                74, "musiker", "Musiker", "Du jobbar som musiker",
-            0.0F, 39000.0F, 1000.0F, 60, "fun",30,50, 60, 60, 0.0F
-            ),
-            Profession(
-                75, "riding", "Ridlärare", "Du jobbar som ridlärare",
+                74, "riding", "Ridlärare", "Du jobbar som ridlärare",
                 50000.0F, 33000.0F, 950.0F, 60, "fun",30,50, 60, 10, 0.00F
             ),
             Profession(
-                76, "architect", "Arkitekt", "Du jobbar som landskapsarkitekt",
+                75, "architect", "Arkitekt", "Du jobbar som landskapsarkitekt",
             0.0F, 40000.0F, 1200.0F, 60, "fun",30,40, 60, 10, 0.07F
             ),
             Profession(
-                77, "programmer", "Programmerare", "Du jobbar som programmerare på ett spelbolag",
+                76, "programmer", "Programmerare", "Du jobbar som programmerare på ett spelbolag",
                 0.0F, 58000.0F, 1700.0F, 58, "fun",30,10, 60, 60, 0.07F
             )
         )

@@ -69,6 +69,7 @@ class Style(val styleType: String) {
     var streckTree03: String = "strecktree0020.png"
     var streckHouse01: String = "streckhouse001.jpg"
     var streckHouse02: String = "streckhouse002.jpg"
+    var streckWater: String= "streckwater001.png"
 
     var streckSol: String = "sol.png"
     var streckOnlySol: String = "solsol.png"
@@ -93,6 +94,8 @@ class Style(val styleType: String) {
     var streckHumlaFromRight: String = "bumbelbee002.jpg"
     var streckChair: String = "chair001.jpg"
     var streckIcecream: String = "icescream001.jpg"
+    var streckSurfer: String = "streckvacation001.jpg"
+    var streckMusiker: String = "streckmusiker001.jpg"
 
 
 

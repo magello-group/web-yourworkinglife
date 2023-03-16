@@ -21,8 +21,10 @@ val ShowInitAnimation = FC<ShowInitAnimationProps> { props ->
         ShowStreckGubbe {
             marginLeftFrom = 0
             marginLeftTo = props.actualMarginLeft
-
             selectedTopPX = props.actualStyle.topPXInitAnimation
+            selectedImage01 = "streckgubbe1200.jpg"
+            selectedImage02 = "streckgubbe1300.jpg"
+            selectedImage03 = "streckgubbe1500.jpg"
         }
 
         ShowCloud {
