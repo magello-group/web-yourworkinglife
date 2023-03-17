@@ -59,17 +59,28 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
             }
 
             "police" -> {
+                if (props.isProfessionList) {
+                    ShowTree {
+                        selectedImage01 = props.actualStyle.streckHouse02
+                        selectedImage02 = props.actualStyle.streckHouse01
+                        selectedImage03 = props.actualStyle.streckHouse01
+                        selectedTopPX = topPXTree + 17
+                    }
+                } else {
+                    ShowStreck {
+                        selectedImage01 = props.actualStyle.streck
+                        selectedImage02 = props.actualStyle.streckStones01
+                        selectedImage03 = props.actualStyle.streckStones02
+                        selectedTopPX = props.actualStyle.topPXProfessionStreck
+                    }
+                }
+
                 ShowStreckImage {
                     selectedImage = props.actualStyle.streckPolis
                     selectTop = props.actualStyle.topPXProfessionAnimation
                     selectMarginLeft = props.actualMarginLeft
                 }
-                ShowStreck {
-                    selectedImage01 = props.actualStyle.streck
-                    selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones02
-                    selectedTopPX = props.actualStyle.topPXProfessionStreck
-                }
+
                 ShowCloud {
                     selectedImage1 = props.actualStyle.streckSol
                     selectedImage2 = props.actualStyle.streckOnlySol
@@ -79,7 +90,101 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                     selectedWidth = props.actualStyle.streckOnlySolWidth
                 }
             }
+            "fireman" -> {
+                ShowTree {
+                    selectedImage01 = props.actualStyle.streckSlang01
+                    selectedImage02 = props.actualStyle.streckSlang01
+                    if (props.isProfessionList)
+                        selectedImage03 = props.actualStyle.streckSlang02
+                    else
+                        selectedImage03 = props.actualStyle.streckSlang01
+                    selectedTopPX = topPXTree
+                }
 
+                ShowStreckImage {
+                    selectedImage = props.actualStyle.streckFireman
+                    selectTop = props.actualStyle.topPXProfessionAnimation + 10
+                    selectMarginLeft = props.actualMarginLeft
+                }
+
+                ShowCloud {
+                    selectedImage1 = props.actualStyle.streckSol
+                    selectedImage2 = props.actualStyle.streckOnlySol
+                    marginLeftFrom = 0
+                    marginLeftTo = props.actualCloudMarginLeftTo
+                    selectedTopPX = props.actualStyle.topPXProfessionCloud
+                    selectedWidth = props.actualStyle.streckOnlySolWidth
+                }
+            }
+            "kapten" -> {
+                ShowTree {
+                    selectedImage01 = props.actualStyle.streckWater
+                    selectedImage02 = props.actualStyle.streckWater
+                    selectedImage03 = props.actualStyle.streckWater
+                    selectedTopPX = topPXTree
+                }
+
+                ShowStreckImage {
+                    selectedImage = props.actualStyle.streckKapten
+                    selectTop = props.actualStyle.topPXProfessionAnimation + 5
+                    selectMarginLeft = props.actualMarginLeft - 2
+                }
+
+                ShowCloud {
+                    selectedImage1 = props.actualStyle.streckSol
+                    selectedImage2 = props.actualStyle.streckOnlySol
+                    marginLeftFrom = 0
+                    marginLeftTo = props.actualCloudMarginLeftTo
+                    selectedTopPX = props.actualStyle.topPXProfessionCloud
+                    selectedWidth = props.actualStyle.streckOnlySolWidth
+                }
+            }
+            "rescue" -> {
+                ShowTree {
+                    selectedImage01 = props.actualStyle.streckSnow
+                    selectedImage02 = props.actualStyle.streckSnow
+                    selectedImage03 = props.actualStyle.streckSnow
+                    selectedTopPX = topPXTree
+                }
+
+                ShowStreckImage {
+                    selectedImage = props.actualStyle.streckSlalom
+                    selectTop = props.actualStyle.topPXProfessionAnimation
+                    selectMarginLeft = props.actualMarginLeft + 2
+                }
+
+                ShowCloud {
+                    selectedImage1 = props.actualStyle.streckSol
+                    selectedImage2 = props.actualStyle.streckOnlySol
+                    marginLeftFrom = 0
+                    marginLeftTo = props.actualCloudMarginLeftTo
+                    selectedTopPX = props.actualStyle.topPXProfessionCloud
+                    selectedWidth = props.actualStyle.streckOnlySolWidth
+                }
+            }
+            "travelagent" -> {
+                ShowTree {
+                    selectedImage01 = props.actualStyle.streckMontain
+                    selectedImage02 = props.actualStyle.streckMontain
+                    selectedImage03 = props.actualStyle.streckMontain
+                    selectedTopPX = topPXTree - 5
+                }
+
+                ShowStreckImage {
+                    selectedImage = props.actualStyle.streckTravel
+                    selectTop = props.actualStyle.topPXProfessionAnimation + 5
+                    selectMarginLeft = props.actualMarginLeft
+                }
+
+                ShowCloud {
+                    selectedImage1 = props.actualStyle.streckSol
+                    selectedImage2 = props.actualStyle.streckOnlySol
+                    marginLeftFrom = 0
+                    marginLeftTo = props.actualCloudMarginLeftTo
+                    selectedTopPX = props.actualStyle.topPXProfessionCloud
+                    selectedWidth = props.actualStyle.streckOnlySolWidth
+                }
+            }
             "programmer", "solo" -> {
                 ShowTree {
                     selectedImage01 = props.actualStyle.streckTree01
@@ -92,7 +197,7 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                 }
 
                 ShowStreckImage {
-                    selectedImage = "streckprogrammer100.jpg"
+                    selectedImage = props.actualStyle.streckProgrammer
                     selectTop = props.actualStyle.topPXProfessionAnimation
                     selectMarginLeft = props.actualMarginLeft
                 }
@@ -141,16 +246,25 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
             }
 
             "advokat" -> {
+                if (props.isProfessionList) {
+                    ShowTree {
+                        selectedImage01 = props.actualStyle.streckHouse02
+                        selectedImage02 = props.actualStyle.streckHouse01
+                        selectedImage03 = props.actualStyle.streckHouse01
+                        selectedTopPX = topPXTree + 17
+                    }
+                } else {
+                    ShowStreck {
+                        selectedImage01 = props.actualStyle.streck
+                        selectedImage02 = props.actualStyle.streckStones01
+                        selectedImage03 = props.actualStyle.streckStones02
+                        selectedTopPX = props.actualStyle.topPXProfessionStreck
+                    }
+                }
                 ShowStreckImage {
                     selectedImage = props.actualStyle.streckAdvokat
                     selectTop = props.actualStyle.topPXProfessionAnimation
                     selectMarginLeft = props.actualMarginLeft
-                }
-                ShowStreck {
-                    selectedImage01 = props.actualStyle.streck
-                    selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones02
-                    selectedTopPX = props.actualStyle.topPXProfessionStreck
                 }
                 ShowCloud {
                     selectedImage1 = props.actualStyle.streckSol
@@ -163,16 +277,25 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
             }
 
             "doctor" -> {
+                if (props.isProfessionList) {
+                    ShowTree {
+                        selectedImage01 = props.actualStyle.streckHouse02
+                        selectedImage02 = props.actualStyle.streckHouse01
+                        selectedImage03 = props.actualStyle.streckHouse01
+                        selectedTopPX = topPXTree + 17
+                    }
+                } else {
+                    ShowStreck {
+                        selectedImage01 = props.actualStyle.streck
+                        selectedImage02 = props.actualStyle.streckStones01
+                        selectedImage03 = props.actualStyle.streckStones02
+                        selectedTopPX = props.actualStyle.topPXProfessionStreck
+                    }
+                }
                 ShowStreckImage {
                     selectedImage = props.actualStyle.streckDoctor
                     selectTop = props.actualStyle.topPXProfessionAnimation
                     selectMarginLeft = props.actualMarginLeft
-                }
-                ShowStreck {
-                    selectedImage01 = props.actualStyle.streck
-                    selectedImage02 = props.actualStyle.streckStones01
-                    selectedImage03 = props.actualStyle.streckStones02
-                    selectedTopPX = props.actualStyle.topPXProfessionStreck
                 }
                 ShowCloud {
                     selectedImage1 = props.actualStyle.streckSol
@@ -185,16 +308,16 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
             }
 
             else -> {
-                ShowStreckImage {
-                    selectedImage = props.actualStyle.streckGubbe
-                    selectTop = props.actualStyle.topPXProfessionAnimation
-                    selectMarginLeft = props.actualMarginLeft
-                }
                 ShowStreck {
                     selectedImage01 = props.actualStyle.streck
                     selectedImage02 = props.actualStyle.streckStones01
                     selectedImage03 = props.actualStyle.streckStones02
                     selectedTopPX = props.actualStyle.topPXProfessionStreck
+                }
+                ShowStreckImage {
+                    selectedImage = props.actualStyle.streckGubbe
+                    selectTop = props.actualStyle.topPXProfessionAnimation
+                    selectMarginLeft = props.actualMarginLeft
                 }
                 ShowCloud {
                     selectedImage1 = props.actualStyle.streckSol

@@ -70,6 +70,11 @@ class Style(val styleType: String) {
     var streckHouse01: String = "streckhouse001.jpg"
     var streckHouse02: String = "streckhouse002.jpg"
     var streckWater: String= "streckwater001.png"
+    var streckSnow: String= "strecksnow001.png"
+    var streckMontain: String= "streckmontain001.png"
+    var streckSlang01: String = "streckslang0020.png"
+    var streckSlang02: String = "streckslang0030.png"
+
 
     var streckSol: String = "sol.png"
     var streckOnlySol: String = "solsol.png"
@@ -80,7 +85,11 @@ class Style(val styleType: String) {
     var streckWidth: Int = 13
     var streckOnlySolWidth: Int = 10
 
+    var streckSlalom: String = "streckslalom100.jpg"
+    var streckTravel: String = "strecktraveler1300.jpg"
+    var streckKapten: String = "streckkapten001.jpg"
     var streckPilot: String = "streckpilot1400.jpg"
+    var streckFireman: String = "streckbrandman001.jpg"
     var streckAgent: String = "streckagent1300.jpg"
     var streckPolis: String = "streckpolis1300.jpg"
     var streckProgrammer: String = "streckprogrammer100.jpg"

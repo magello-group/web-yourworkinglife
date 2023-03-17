@@ -40,6 +40,7 @@ val ShowActionAnimation = FC<ShowActionAnimationProps> { props ->
                     selectedImage03 = "streckgubbeadventure.jpg"
                 }
 
+                /*
                 ShowStreckObject {
                     selectedImage = props.actualStyle.streckMyraFromLeft
                     selectTop = (props.actualStyle.topPXInitStreck - 30)
@@ -48,12 +49,13 @@ val ShowActionAnimation = FC<ShowActionAnimationProps> { props ->
                     selectSeconds = 10
                     selectWidth = 5
                 }
+                 */
 
                 ShowStreckObject {
                     selectedImage = props.actualStyle.streckMyraFromLeft
                     selectTop = (props.actualStyle.topPXInitStreck + 25)
                     selectMarginFrom = 0
-                    selectMarginTo = 15
+                    selectMarginTo = 23
                     selectSeconds = 7
                     selectWidth = 5
                 }
@@ -115,6 +117,16 @@ val ShowActionAnimation = FC<ShowActionAnimationProps> { props ->
                     selectedTopPX = props.actualStyle.topPXInitCloud
                     selectedWidth = props.actualStyle.streckOnlySolWidth
                 }
+
+                ShowStreckObject {
+                    selectedImage = props.actualStyle.streckHumlaFromLeft
+                    selectTop = (props.actualStyle.topPXInitCloud + 200)
+                    selectMarginFrom = 0
+                    selectMarginTo = 20
+                    selectSeconds = 10
+                    selectWidth = 5
+                }
+
             }
             "chilla" -> {
                 ShowTree {
@@ -137,6 +149,15 @@ val ShowActionAnimation = FC<ShowActionAnimationProps> { props ->
                     marginLeftTo = props.actualMarginLeft
                     selectedTopPX = props.actualStyle.topPXInitCloud
                     selectedWidth = props.actualStyle.streckOnlySolWidth
+                }
+
+                ShowStreckObject {
+                    selectedImage = props.actualStyle.streckHumlaFromRight
+                    selectTop = (props.actualStyle.topPXInitCloud + 200)
+                    selectMarginFrom = 50
+                    selectMarginTo = 40
+                    selectSeconds = 10
+                    selectWidth = 5
                 }
             }
 
@@ -181,6 +202,24 @@ val ShowActionAnimation = FC<ShowActionAnimationProps> { props ->
                     marginLeftTo = props.actualMarginLeft + 10
                     selectedTopPX = props.actualStyle.topPXInitCloud
                     selectedWidth = props.actualStyle.streckWidth
+                }
+
+                ShowStreckObject {
+                    selectedImage = props.actualStyle.streckHumlaFromLeft
+                    selectTop = (props.actualStyle.topPXInitCloud + 200)
+                    selectMarginFrom = 0
+                    selectMarginTo = 26
+                    selectSeconds = 15
+                    selectWidth = 5
+                }
+
+                ShowStreckObject {
+                    selectedImage = props.actualStyle.streckHumlaFromLeft
+                    selectTop = (props.actualStyle.topPXInitCloud + 250)
+                    selectMarginFrom = 0
+                    selectMarginTo = 20
+                    selectSeconds = 15
+                    selectWidth = 5
                 }
             }
             "fun" -> {
@@ -255,6 +294,15 @@ val ShowActionAnimation = FC<ShowActionAnimationProps> { props ->
                     selectTop = (props.actualStyle.topPXInitCloud + 200)
                     selectMarginFrom = 0
                     selectMarginTo = 20
+                    selectSeconds = 10
+                    selectWidth = 5
+                }
+
+                ShowStreckObject {
+                    selectedImage = props.actualStyle.streckHumlaFromRight
+                    selectTop = (props.actualStyle.topPXInitCloud - 200)
+                    selectMarginFrom = 50
+                    selectMarginTo = 26
                     selectSeconds = 10
                     selectWidth = 5
                 }
