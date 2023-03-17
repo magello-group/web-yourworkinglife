@@ -758,6 +758,7 @@ data class Person (val id: Int) {
     fun noMoneyToShop(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
+        var message: Message
 
         storyId += 1
         storyList = storyList.plus(
@@ -778,6 +779,36 @@ data class Person (val id: Int) {
                 "blinking"
             )
         )
+
+        storyId += 1
+        message = Message(
+            storyId,
+            "Avbetalning lån per månad: 0 SEK.",
+            "",
+            ""
+        )
+        message.status.loanMonthPayment = "0"
+        storyList = storyList.plus(message)
+
+        storyId += 1
+        message = Message(
+            storyId,
+            "Värde hus: 0 SEK.",
+            "hotpink",
+            ""
+        )
+        message.status.houseAmount = "0"
+        storyList = storyList.plus(message)
+
+        storyId += 1
+        message = Message(
+            storyId,
+            "Månadskostnad hus: 0 SEK.",
+            "",
+            ""
+        )
+        message.status.houseHireAmount = "0"
+        storyList = storyList.plus(message)
 
         return storyList
     }
