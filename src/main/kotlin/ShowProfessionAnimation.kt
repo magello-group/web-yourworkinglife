@@ -244,8 +244,42 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                     selectedWidth = props.actualStyle.streckOnlySolWidth
                 }
             }
+            "musiker" -> {
+                ShowTree {
+                    selectedImage01 = props.actualStyle.streckTree01
+                    selectedImage02 = props.actualStyle.streckTree02
+                    if (props.isProfessionList)
+                        selectedImage03 = props.actualStyle.streckTree03
+                    else
+                        selectedImage03 = props.actualStyle.streckTree01
+                    selectedTopPX = topPXTree
+                }
+                ShowStreckImage {
+                    selectedImage = props.actualStyle.streckMusiker
+                    selectTop = props.actualStyle.topPXProfessionAnimation + 5
+                    selectMarginLeft = props.actualMarginLeft - 2
+                }
+                ShowCloud {
+                    selectedImage1 = props.actualStyle.streckOnlySol
+                    selectedImage2 = props.actualStyle.streckOnlySol
+                    marginLeftFrom = 0
+                    marginLeftTo = props.actualMarginLeft
+                    selectedTopPX = props.actualStyle.topPXProfessionCloud
+                    selectedWidth = props.actualStyle.streckOnlySolWidth
+                }
+                if (props.isProfessionList) {
+                    ShowStreckObject {
+                        selectedImage = props.actualStyle.streckHumlaFromRight
+                        selectTop = (props.actualStyle.topPXProfessionCloud + 200)
+                        selectMarginFrom = 50
+                        selectMarginTo = 40
+                        selectSeconds = 10
+                        selectWidth = 5
+                    }
+                }
+            }
 
-            "advokat" -> {
+            "advokat", "teacher", "authority" -> {
                 if (props.isProfessionList) {
                     ShowTree {
                         selectedImage01 = props.actualStyle.streckHouse02
