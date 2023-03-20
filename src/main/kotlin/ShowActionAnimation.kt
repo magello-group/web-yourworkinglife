@@ -40,17 +40,6 @@ val ShowActionAnimation = FC<ShowActionAnimationProps> { props ->
                     selectedImage03 = "streckgubbeadventure.jpg"
                 }
 
-                /*
-                ShowStreckObject {
-                    selectedImage = props.actualStyle.streckMyraFromLeft
-                    selectTop = (props.actualStyle.topPXInitStreck - 30)
-                    selectMarginFrom = 0
-                    selectMarginTo = 23
-                    selectSeconds = 10
-                    selectWidth = 5
-                }
-                 */
-
                 ShowStreckObject {
                     selectedImage = props.actualStyle.streckMyraFromLeft
                     selectTop = (props.actualStyle.topPXInitStreck + 25)

@@ -185,7 +185,7 @@ data class Profession(
 
             //Chilla
             Profession(
-                60, "writer", "Trädgårdsmästare", "Du jobbar som trädgårdsmästare!",
+                60, "gardener", "Trädgårdsmästare", "Du jobbar som trädgårdsmästare!",
                 50000.0F, 0.0F, 800.0F, 75, "chilla",20,50, 50, 10, 0.00F
             ),
             Profession(
