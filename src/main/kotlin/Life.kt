@@ -33,6 +33,8 @@ data class Life ( val personId: Int) {
     var currentAmount: Float = 0.0F
     var currentCost: Float = 0.0F
     var sumPensionMonth: Float = 0.0F
+    var luck: String = ""
+    var luckPoint: Int = 0
 
     fun showPensionLife(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
@@ -428,13 +430,13 @@ data class Life ( val personId: Int) {
         )
 
         //Beräkna antal lyckliga poäng
-        this.countPoint += this.person.countPoints()
+        this.countPoint += this.luckPoint
 
         storyId += 1
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Din sammanlagda lyckopoäng: ${this.countPoint}.",
+                "Din sammanlagda lyckopoäng: ${this.countPoint} varav hobbies: ${this.luckPoint}.",
                 "",
                 "blinking"
             )

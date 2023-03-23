@@ -9,7 +9,6 @@ class Style(val styleType: String) {
     var topPXOBSText00: Int = 6
 
     var leftPX01: Int = 20
-    var leftPX02: Int = 260
 
     var topPX01: Int = 20
     var topPX02: Int = 580
@@ -40,7 +39,6 @@ class Style(val styleType: String) {
     var topPXInitStatus: Int = 580
 
     //pensioner
-    //var topPXPensionerCloud: Int = 357
     var topPXPensionerAnimation: Int = 780
     var topPXPensionerStreck: Int = 960 // +180
     var topPXPensionerStatus: Int = 970

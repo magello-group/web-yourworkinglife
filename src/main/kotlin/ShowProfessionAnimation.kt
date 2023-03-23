@@ -233,7 +233,7 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                 }
             }
 
-            "security", "VD", "ambassador", "chef", "driftchef", "bank", "insurance", "authority", "solo"  -> {
+            "security", "VD", "ambassador", "chef", "driftchef", "bank", "insurance", "authority", "architect"   -> {
                 if (props.isProfessionList) {
                     ShowTree {
                         selectedImage01 = props.actualStyle.streckHouse02
@@ -255,8 +255,8 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                         "security" -> selectedImage = props.actualStyle.streckSecurity
                         "VD" -> selectedImage = props.actualStyle.streckVD
                         "ambassador" -> selectedImage = props.actualStyle.streckAmbassador
-                        "solo" -> selectedImage = props.actualStyle.streckSolo
                         "insurance" -> selectedImage = props.actualStyle.streckVD
+                        "architect" -> selectedImage = props.actualStyle.streckAdvokat
                         else -> selectedImage = props.actualStyle.streckAdvokat
                     }
                     selectTop = props.topPXAnimation
@@ -272,7 +272,7 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                     selectedWidth = props.actualStyle.streckOnlySolWidth
                 }
             }
-            "musiker", "bonde","painter","builder","socialworker", "writer","actor","architect" -> {
+            "musiker", "bonde","painter","builder","socialworker", "writer","actor", "solo"-> {
                 ShowTree {
                     selectedImage01 = props.actualStyle.streckTree01
                     selectedImage02 = props.actualStyle.streckTree02
@@ -291,7 +291,7 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                         "socialworker" -> selectedImage = props.actualStyle.streckSocial
                         "writer" -> selectedImage = props.actualStyle.streckWriter
                         "actor" -> selectedImage = props.actualStyle.streckActress
-                        "architect" -> selectedImage = props.actualStyle.streckAdvokat
+                        "solo" -> selectedImage = props.actualStyle.streckSolo
                         else -> selectedImage = props.actualStyle.streckMusiker
                     }
                     selectTop = props.topPXAnimation + 7

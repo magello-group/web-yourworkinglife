@@ -16,7 +16,7 @@ val ShowEvent = FC<ShowEventProps> { props ->
 
     var hobby = Hobby(props.actualEvent.objectType)
     var topPX: Int
-    var leftPX = props.actualStyle.leftPX01
+    val leftPX = props.actualStyle.leftPX01
 
     hobby = hobby.getHobby(props.actualEvent.objectType)
 

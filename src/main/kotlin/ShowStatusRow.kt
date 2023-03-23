@@ -45,12 +45,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
     val leftPadding = 450
 
     div {
-        css {
-            display = Display.block
-            position = Position.absolute
-            width = 1000.px
-        }
-
         topPX = startPX
         div {
             p {
@@ -323,7 +317,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
-                +"Katter: "
+                +"Poäng katter: "
                 if (props.actualCats != "")
                     +props.actualCats
             }
@@ -345,7 +339,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
-                +"Hundar: "
+                +"Poäng hundar: "
                 if (props.actualDogs != "")
                     +props.actualDogs
             }
@@ -367,7 +361,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
-                +"Hästar: "
+                +"Poäng hästar: "
                 if (props.actualHorses != "")
                     +props.actualHorses
             }
@@ -389,7 +383,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
-                +"Bilar: "
+                +"Poäng bilar: "
                 if (props.actualCars != "")
                     +props.actualCars
             }
@@ -411,7 +405,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
-                +"Motorcyklar: "
+                +"Poäng motorcyklar: "
                 if (props.actualBikes != "")
                     +props.actualBikes
             }
@@ -433,7 +427,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
-                +"Segelbåtar: "
+                +"Poäng segelbåtar: "
                 if (props.actualBoats != "")
                     +props.actualBoats
             }
@@ -455,7 +449,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
-                +"Vänner: "
+                +"Poäng vänner: "
                 if (props.actualFriends != "")
                     +props.actualFriends
             }
@@ -477,7 +471,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
-                +"Fisketurer: "
+                +"Poäng fisketurer: "
                 if (props.actualFishing != "")
                     +props.actualFishing
             }
@@ -499,7 +493,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
-                +"Träning: "
+                +"Poäng träning: "
                 if (props.actualStrong != "")
                     +props.actualStrong
             }
@@ -521,7 +515,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
-                +"Vandringar: "
+                +"Poäng vandringar: "
                 if (props.actualWalking != "")
                     +props.actualWalking
             }
@@ -541,7 +535,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
-                +"Fester: "
+                +"Poäng fester: "
                 if (props.actualParties != "")
                     +props.actualParties
             }
@@ -563,7 +557,7 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     backgroundColor = NamedColor.white
                     fontFamily = FontFamily.cursive
                 }
-                +"Sambos: "
+                +"Poäng sambos: "
                 if (props.actualLoves != "")
                     +props.actualLoves
             }

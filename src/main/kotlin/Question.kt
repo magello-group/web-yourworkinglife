@@ -68,7 +68,7 @@ data class Question (
                     Question(0,"Katter🐱😍", "cat", "luck"),
                     Question(1, "Träning 💪", "strong", "luck",),
                     Question(2, "Vänner 🤗", "friend", "luck"),
-                    Question(3, "Hundar 🦖", "dog", "luck"),
+                    Question(3, "Hundar 🐶", "dog", "luck"),
                     Question(4,"Vandring 🚶", "walk", "luck"),
                     Question(5,"Att fiska 🐬","fish", "luck"),
                     Question(6,"Fester och dans 🤸", "party", "luck"),
