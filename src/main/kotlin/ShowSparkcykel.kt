@@ -8,10 +8,21 @@ import react.dom.html.ReactHTML.p
 
 external interface ShowSparkcykelProps : Props {
     var selectedTopPX: Int // 350
+    var marginLeftFrom: Int // = 0
+    var marginLeftTo: Int   // = 26
+    var selectedImage01: String // streckgubbe1200.jpg
+    var selectedWidth01: Int // 13 eller 10
+    var selectedImage02: String // streckgubbe1300.jpg
+    var selectedWidth02: Int // 13 eller 10
 }
 
 val ShowSparkcykel = FC<ShowSparkcykelProps> { props ->
     var topPX = 350
+    var i = props.marginLeftTo/4
+    var marginLeft20 = props.marginLeftFrom + i
+    var marginLeft40 = marginLeft20 + i
+    var marginLeft60 = marginLeft40 + i
+    var marginLeft80 = marginLeft60 + i
 
     if (props.selectedTopPX > 0) topPX = props.selectedTopPX
 
@@ -19,19 +30,39 @@ val ShowSparkcykel = FC<ShowSparkcykelProps> { props ->
 
         val sparkCykel: AnimationName = keyframes {
             0.pct {
-                backgroundImage = url("streckgubbe1200.jpg")
-                marginLeft = 0.pc
-                width = 6.pc
+                backgroundImage = url(props.selectedImage01)
+                marginLeft = props.marginLeftFrom.pc
+                width = props.selectedWidth01.pc
+            }
+            20.pct {
+                backgroundImage = url(props.selectedImage02)
+                marginLeft = marginLeft20.pc
+                width = props.selectedWidth02.pc
+            }
+            40.pct {
+                backgroundImage = url(props.selectedImage01)
+                marginLeft = marginLeft40.pc
+                width = props.selectedWidth01.pc
+            }
+            60.pct {
+                backgroundImage = url(props.selectedImage02)
+                marginLeft = marginLeft60.pc
+                width = props.selectedWidth02.pc
+            }
+            80.pct {
+                backgroundImage = url(props.selectedImage01)
+                marginLeft = marginLeft80.pc
+                width = props.selectedWidth01.pc
             }
             100.pct {
-                backgroundImage = url("streckgubbe1300.jpg")
-                marginLeft = 26.pc
-                width = 10.pc
+                backgroundImage = url(props.selectedImage02)
+                marginLeft = props.marginLeftTo.pc
+                width = props.selectedWidth02.pc
             }
         }
 
         css {
-            animationDuration = 4.s
+            animationDuration = 2.s
             animationName = sparkCykel
             animationFillMode = AnimationFillMode.both
             display = Display.flex

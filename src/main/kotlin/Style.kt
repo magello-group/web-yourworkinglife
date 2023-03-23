@@ -1,4 +1,4 @@
-
+import csstype.url
 
 class Style(val styleType: String) {
     var fontSmall: Int = 20
@@ -69,11 +69,17 @@ class Style(val styleType: String) {
     var streckTree03: String = "strecktree0020.png"
     var streckHouse01: String = "streckhouse001.jpg"
     var streckHouse02: String = "streckhouse002.jpg"
+    var streckLada: String = "streckhouse003.jpg"
     var streckWater: String= "streckwater001.png"
     var streckSnow: String= "strecksnow001.png"
     var streckMontain: String= "streckmontain001.png"
     var streckSlang01: String = "streckslang0020.png"
     var streckSlang02: String = "streckslang0030.png"
+    var streckSkola: String = "streckskola001.jpg"
+    var streckTraining: String = "strecktraining0030.png"
+    var streckHouse03: String = "streckhouse003.jpg"
+    var streckHospital: String = "streckhospital001.jpg"
+    var streckFabric: String = "streckfabrik001.jpg"
 
 
     var streckSol: String = "sol.png"
@@ -84,6 +90,15 @@ class Style(val styleType: String) {
     var streckCloud: String = "moln.png"
     var streckWidth: Int = 13
     var streckOnlySolWidth: Int = 10
+
+    var streckMyraFromLeft: String = "myra001.jpg"
+    var streckMyraFromRight: String = "myra002.jpg"
+    var streckHumlaFromLeft: String = "bumbelbee001.jpg"
+    var streckHumlaFromRight: String = "bumbelbee002.jpg"
+    var streckChair: String = "chair001.jpg"
+    var streckIcecream: String = "icescream001.jpg"
+    var streckBird: String = "bird001.jpg"
+    var streckMouse: String = "mouse001.jpg"
 
     var streckSlalom: String = "streckslalom100.jpg"
     var streckTravel: String = "strecktraveler1300.jpg"
@@ -97,12 +112,6 @@ class Style(val styleType: String) {
     var streckAdvokat: String = "streckadvokat300.jpg"
     var streckDoctor: String = "streckdoctor300.jpg"
     var streckGubbe: String = "streckgubbe1300.jpg"
-    var streckMyraFromLeft: String = "myra001.jpg"
-    var streckMyraFromRight: String = "myra002.jpg"
-    var streckHumlaFromLeft: String = "bumbelbee001.jpg"
-    var streckHumlaFromRight: String = "bumbelbee002.jpg"
-    var streckChair: String = "chair001.jpg"
-    var streckIcecream: String = "icescream001.jpg"
     var streckSurfer: String = "streckvacation001.jpg"
     var streckMusiker: String = "streckmusiker001.jpg"
     var streckPainter: String = "streckpainter100.jpg"
@@ -113,6 +122,26 @@ class Style(val styleType: String) {
     var streckPT: String = "streckpt100.jpg"
     var streckArtist01: String = "streckgubbe1050.jpg"
     var streckArtist02: String = "streckgubbe1051.jpg"
+    var streckSocial: String = "strecksocial001.jpg"
+    var streckWriter: String = "streckwriter400.jpg"
+    var streckProfessor: String = "streckprofessor300.jpg"
+    var streckRide: String = "streckgubberide1000.jpg"
+    var streckClown: String = "streckgubbeclown.jpg"
+    var streckActress: String = "streckactress001.jpg"
+    var streckGubbe01: String = "streckgubbe1000.jpg"
+    var streckGubbe02: String = "streckgubbe1100.jpg"
+    var streckAdventure: String = "streckgubbeadventure.jpg"
+    var streckGubbeInit01 = "streckgubbe1200.jpg"
+    var streckGubbeInit02 = "streckgubbe1300.jpg"
+    var streckGubbeInit03 = "streckgubbe1500.jpg"
+    var streckGubbeIcecream = "streckgubbeicecream.jpg"
+    var streckSparkcyckel01 = "streckgubbe1200.jpg"
+    var streckSparkcyckel02 = "streckgubbe1300.jpg"
+    var streckSecurity = "strecksecurity300.jpg"
+    var streckSolo = "strecksolo300.jpg"
+    var streckVD = "streckvd300.jpg"
+    var streckAmbassador = "streckambassador300.jpg"
+
 
 
 }

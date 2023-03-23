@@ -348,6 +348,9 @@ val App = FC<Props> {
                     actualStyle = appStyle
                     actualCloudMarginLeftTo = 38
                     isProfessionList = false
+                    topPXCloud = appStyle.topPXProfessionCloud
+                    topPXAnimation = appStyle.topPXProfessionAnimation
+                    topPXStreck = appStyle.topPXProfessionStreck
                 }
 
                 div {
@@ -382,12 +385,16 @@ val App = FC<Props> {
             }
 
             "luck", "depressed" -> {
-
-                //Show animation
-                ShowEventAnimation {
+                ShowProfessionAnimation {
                     actualProfession = currentProfession
                     actualMarginLeft = 26
                     actualStyle = appStyle
+                    actualCloudMarginLeftTo = 26
+                    isProfessionList = true
+                    topPXCloud = appStyle.topPXEventCloud
+                    topPXAnimation = appStyle.topPXEventAnimation
+                    topPXStreck = appStyle.topPXEventStreck
+
                 }
 
                 div {
@@ -442,6 +449,9 @@ val App = FC<Props> {
                     actualStyle = appStyle
                     actualCloudMarginLeftTo = 26
                     isProfessionList = true
+                    topPXCloud = appStyle.topPXProfessionCloud
+                    topPXAnimation = appStyle.topPXProfessionAnimation
+                    topPXStreck = appStyle.topPXProfessionStreck
                 }
 
                 ShowInput {

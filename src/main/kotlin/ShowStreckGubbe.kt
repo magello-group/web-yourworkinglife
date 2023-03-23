@@ -10,8 +10,11 @@ external interface ShowStreckGubbeProps : Props {
     var marginLeftFrom: Int // = 0
     var marginLeftTo: Int   // = 26
     var selectedImage01: String // streckgubbe1200.jpg
+    var selectedWidth01: Int // 13 eller 10
     var selectedImage02: String // streckgubbe1300.jpg
+    var selectedWidth02: Int // 13 eller 10
     var selectedImage03: String // streckgubbe1500.jpg
+    var selectedWidth03: Int // 13 eller 10
 }
 
 val ShowStreckGubbe = FC<ShowStreckGubbeProps> { props ->
@@ -76,17 +79,17 @@ val ShowStreckGubbe = FC<ShowStreckGubbeProps> { props ->
             77.pct {
                 backgroundImage = url(props.selectedImage01)
                 marginLeft = 17.5.pc
-                width = 10.pc
+                width = props.selectedWidth01.pc
             }
             84.pct {
                 backgroundImage = url(props.selectedImage02)
                 marginLeft = 24.pc
-                width = 10.pc
+                width = props.selectedWidth02.pc
             }
             100.pct {
                 backgroundImage = url(props.selectedImage03)
                 marginLeft = props.marginLeftTo.pc
-                width = 10.pc
+                width = props.selectedWidth03.pc
             }
         }
 

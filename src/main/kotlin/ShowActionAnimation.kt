@@ -35,9 +35,12 @@ val ShowActionAnimation = FC<ShowActionAnimationProps> { props ->
                     marginLeftFrom = 0
                     marginLeftTo = props.actualMarginLeft
                     selectedTopPX = props.actualStyle.topPXInitAnimation + 5
-                    selectedImage01 = "streckgubbe1000.jpg"
-                    selectedImage02 = "streckgubbe1100.jpg"
-                    selectedImage03 = "streckgubbeadventure.jpg"
+                    selectedImage01 = props.actualStyle.streckGubbe01
+                    selectedImage02 = props.actualStyle.streckGubbe02
+                    selectedImage03 = props.actualStyle.streckAdventure
+                    selectedWidth01 = 10
+                    selectedWidth02 = 10
+                    selectedWidth03 = 10
                 }
 
                 ShowStreckObject {
@@ -232,9 +235,12 @@ val ShowActionAnimation = FC<ShowActionAnimationProps> { props ->
                     marginLeftFrom = 0
                     marginLeftTo = props.actualMarginLeft
                     selectedTopPX = props.actualStyle.topPXInitAnimation + 5
-                    selectedImage01 = "streckgubbe1000.jpg"
-                    selectedImage02 = "streckgubbe1100.jpg"
-                    selectedImage03 = "streckgubbeicecream.jpg"
+                    selectedImage01 = props.actualStyle.streckGubbe01
+                    selectedImage02 = props.actualStyle.streckGubbe02
+                    selectedImage03 = props.actualStyle.streckGubbeIcecream
+                    selectedWidth01 = 10
+                    selectedWidth02 = 10
+                    selectedWidth03 = 10
                 }
 
                 ShowStreckObject {
@@ -267,6 +273,12 @@ val ShowActionAnimation = FC<ShowActionAnimationProps> { props ->
 
                 ShowSparkcykel {
                     selectedTopPX = props.actualStyle.topPXInitAnimation
+                    marginLeftFrom = 0
+                    marginLeftTo = 26
+                    selectedImage01 = props.actualStyle.streckSparkcyckel01
+                    selectedImage02 = props.actualStyle.streckSparkcyckel02
+                    selectedWidth01 = 10
+                    selectedWidth02 = 10
                 }
 
                 ShowCloud {

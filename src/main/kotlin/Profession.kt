@@ -70,19 +70,11 @@ data class Profession(
                 0.0F, 100000.0F, 2800.0F, 58, "salary",30,20, 20, 60,  0.07F, 50
             ),
             Profession(
-                6, "chef", "Bankchef", "Du jobbar som chef på en bank",
-                0.0F, 88000.0F, 2500.0F, 58, "salary",30,40, 20, 60,  0.07F, 30
-            ),
-            Profession(
-                7, "driftchef", "Driftchef", "Du jobbar som driftchef inom bygg, anläggning och gruva",
-                0.0F, 64000.0F, 2000.0F, 58, "salary",30,40, 20, 60,  0.07F,30
-            ),
-            Profession(
-                8, "advokat", "Advokat", "Du jobbar som Advokat",
+                6, "advokat", "Advokat", "Du jobbar som Advokat",
                 0.0F, 46400.0F, 1400.0F, 58, "salary",30,10, 20, 60,  0.07F, 30
             ),
             Profession(
-                9, "doctor", "Läkare", "Du jobbar som Läkare",
+                7, "doctor", "Läkare", "Du jobbar som Läkare",
                 0.0F, 58000.0F, 1700.0F, 58, "salary",10,10, 20, 60,  0.07F
             ),
 
@@ -182,6 +174,10 @@ data class Profession(
                 54, "socialworker", "Socialassistent", "Du jobbar som socialassistent",
                 50000.0F, 32000.0F, 900.0F, 60, "family",40,20, 40, 10, 0.07F
             ),
+            Profession(
+                55, "architect", "Arkitekt", "Du jobbar som landskapsarkitekt",
+                0.0F, 40000.0F, 1200.0F, 60, "family",30,40, 60, 10, 0.07F
+            ),
 
             //Chilla
             Profession(
@@ -233,10 +229,6 @@ data class Profession(
             Profession(
                 74, "riding", "Ridlärare", "Du jobbar som ridlärare",
                 50000.0F, 33000.0F, 950.0F, 60, "fun",30,50, 60, 10, 0.00F
-            ),
-            Profession(
-                75, "architect", "Arkitekt", "Du jobbar som landskapsarkitekt",
-            0.0F, 40000.0F, 1200.0F, 60, "fun",30,40, 60, 10, 0.07F
             ),
             Profession(
                 76, "programmer", "Programmerare", "Du jobbar som programmerare på ett spelbolag",
