@@ -383,7 +383,7 @@ data class Account( val accountId: Int, val accountType: String) {
                 "Summa kostnader per månad: ${
                     cost.toInt().formatDecimalSeparator()
                 } SEK",
-                "",
+                "orange",
                 ""
             )
         )

@@ -272,7 +272,43 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                     selectedWidth = props.actualStyle.streckOnlySolWidth
                 }
             }
-            "musiker", "bonde","painter","builder","socialworker", "writer","actor", "solo"-> {
+            "writer","actor" -> {
+                ShowTree {
+                    selectedImage01 = props.actualStyle.streckTree01
+                    selectedImage02 = props.actualStyle.streckTree02
+                    if (props.isProfessionList)
+                        selectedImage03 = props.actualStyle.streckTree03
+                    else
+                        selectedImage03 = props.actualStyle.streckTree01
+                    selectedTopPX = topPXTree
+                }
+                ShowStreckImage {
+                    when (props.actualProfession.professionType) {
+                        "writer" -> selectedImage = props.actualStyle.streckWriter
+                        "actor" -> selectedImage = props.actualStyle.streckActress
+                        else -> selectedImage = props.actualStyle.streckMusiker
+                    }
+                    selectTop = props.topPXAnimation + 7
+                    selectMarginLeft = props.actualMarginLeft - 2
+                }
+                ShowCloud {
+                    selectedImage1 = props.actualStyle.streckOnlySol
+                    selectedImage2 = props.actualStyle.streckOnlySol
+                    marginLeftFrom = 0
+                    marginLeftTo = props.actualMarginLeft
+                    selectedTopPX = props.topPXCloud
+                    selectedWidth = props.actualStyle.streckOnlySolWidth
+                }
+                ShowStreckObject {
+                    selectedImage = props.actualStyle.streckBird
+                    selectTop = (props.topPXStreck - 120)
+                    selectMarginFrom = 0
+                    selectMarginTo = 21
+                    selectSeconds = 5
+                    selectWidth = 4
+                }
+            }
+            "musiker", "bonde", "painter", "builder", "socialworker", "solo"-> {
                 ShowTree {
                     selectedImage01 = props.actualStyle.streckTree01
                     selectedImage02 = props.actualStyle.streckTree02
@@ -289,8 +325,6 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                         "painter" -> selectedImage = props.actualStyle.streckPainter
                         "builder" -> selectedImage = props.actualStyle.streckBuilder
                         "socialworker" -> selectedImage = props.actualStyle.streckSocial
-                        "writer" -> selectedImage = props.actualStyle.streckWriter
-                        "actor" -> selectedImage = props.actualStyle.streckActress
                         "solo" -> selectedImage = props.actualStyle.streckSolo
                         else -> selectedImage = props.actualStyle.streckMusiker
                     }

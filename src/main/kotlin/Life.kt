@@ -463,12 +463,22 @@ data class Life ( val personId: Int) {
                     "blinking"
                 )
             )
+        } else if (this.accountSalary.amount < 0.0F){
+            storyId += 1
+            storyList = storyList.plus(
+                Message(
+                    storyId,
+                    "Du behöver nog jobba ett tag till.",
+                    "",
+                    "blinking"
+                )
+            )
         } else {
             storyId += 1
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Du bara jobbade och jobbade.",
+                    "Du har pengar, men blev du lycklig?",
                     "",
                     "blinking"
                 )

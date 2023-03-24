@@ -986,7 +986,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                     messageList = costevent.showEvent(0.0F, messageList, messageId, "", "")
                     messageId = messageList[messageList.size - 1].id
 
-                    if (person.isAccommodation && person.house.houseAmount > 0.0F) {
+                    if (person.isAccommodation && person.house.ownType == "own") {
                         // Säljer det boendet du har
                         person.houses = person.houses.plus(person.house)
 
@@ -1017,13 +1017,8 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                         person.house.houseAmount = 0.0F
                         person.house.houseMonthPayment = 0.0F
 
-                    } else if (person.isAccommodation && (
-                                person.house.houseType == "hire" ||
-                                        person.house.houseType == "hirecity" ||
-                                        person.house.houseType == "hirehouse" ||
-                                        person.house.houseType == "hiredepartment")
-                    ) {
-                        // Du lämnar hyresrätteb
+                    } else if (person.isAccommodation && person.house.ownType == "hire" ) {
+                        // Du lämnar hyresrätten
                         messageList = person.showPersonAccomodationShift(messageList, messageId)
                         messageId = messageList[messageList.size - 1].id
 
@@ -1035,82 +1030,14 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                     person.isAccommodation = true
                     when (costevent.objectType) {
 
-                        "rosehouse" -> {
+                        "rosehouse", "castel", "house", "koja" -> {
                             //Event(0, "Kul! du köper ett hus på landet med doftande rosor.","rosehouse","home"),
-
-                            if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
-                                person.house = House(0, "rosehouse")
-                                person.house.description = "ett hus på landet med doftande rosor"
-
-                                randomValues = List(1) { Random.nextInt(1000000, 5000000) }
-                                person.house.houseAmount = randomValues[0].toFloat()
-
-                                randomValues = List(1) { Random.nextInt(2000, 5000) }
-                                person.house.houseMonthPayment = randomValues[0].toFloat()
-
-                                messageList = person.showPersonHouseBought(messageList, messageId)
-                                messageId = messageList[messageList.size - 1].id
-                            } else {
-                                messageList = person.noMoneyToShop(messageList, messageId)
-                                messageId = messageList[messageList.size - 1].id
-                                person.isAccommodation = false
-                            }
-                        }
-
-                        "castel" -> {
                             //Event(1, "Kul! du köper ett slott med tinar och torn.","castel","home"),
-                            if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
-                                person.house = House(0, "castel")
-                                person.house.description = "ett slott med tinar och torn"
-
-                                randomValues = List(1) { Random.nextInt(5000000, 30000000) }
-                                person.house.houseAmount = randomValues[0].toFloat()
-
-                                randomValues = List(1) { Random.nextInt(2000, 5000) }
-                                person.house.houseMonthPayment = randomValues[0].toFloat()
-
-                                messageList = person.showPersonHouseBought(messageList, messageId)
-                                messageId = messageList[messageList.size - 1].id
-                            } else {
-                                messageList = person.noMoneyToShop(messageList, messageId)
-                                messageId = messageList[messageList.size - 1].id
-                                person.isAccommodation = false
-                            }
-                        }
-
-                        "house" -> {
                             //Event(2, "Kul! du köper ett minimalistiskt hus med raka linjer.","house","home"),
-
-                            if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
-                                person.house = House(0, "house")
-                                person.house.description = "ett minimalistiskt hus med raka linjer"
-
-                                randomValues = List(1) { Random.nextInt(2000000, 10000000) }
-                                person.house.houseAmount = randomValues[0].toFloat()
-
-                                randomValues = List(1) { Random.nextInt(2000, 5000) }
-                                person.house.houseMonthPayment = randomValues[0].toFloat()
-
-                                messageList = person.showPersonHouseBought(messageList, messageId)
-                                messageId = messageList[messageList.size - 1].id
-                            } else {
-                                messageList = person.noMoneyToShop(messageList, messageId)
-                                messageId = messageList[messageList.size - 1].id
-                                person.isAccommodation = false
-                            }
-                        }
-
-                        "koja" -> {
                             //Event(3, "Kul! du köper en koja i skogen.","koja","home"),
+
                             if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
-                                person.house = House(0, "koja")
-                                person.house.description = "en koja i skogen"
-
-                                randomValues = List(1) { Random.nextInt(500000, 1000000) }
-                                person.house.houseAmount = randomValues[0].toFloat()
-
-                                randomValues = List(1) { Random.nextInt(1000, 3000) }
-                                person.house.houseMonthPayment = randomValues[0].toFloat()
+                                person.house = person.house.getHouse(person.id, costevent.objectType)
 
                                 messageList = person.showPersonHouseBought(messageList, messageId)
                                 messageId = messageList[messageList.size - 1].id
@@ -1121,38 +1048,11 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             }
                         }
 
-                        "department" -> {
+                        "department", "departmentcity"  -> {
                             //Event(5, "Kul! du köper ett bostadsrättsradhus i en förort.","department","home"),
-                            if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
-                                person.house = House(0, "department")
-                                person.house.description = "ett bostadsrättsradhus i en förort"
-
-                                randomValues = List(1) { Random.nextInt(1000000, 5000000) }
-                                person.house.houseAmount = randomValues[0].toFloat()
-
-                                randomValues = List(1) { Random.nextInt(1000, 7000) }
-                                person.house.houseMonthPayment = randomValues[0].toFloat()
-
-                                messageList = person.showPersonDepartmentBought(messageList, messageId)
-                                messageId = messageList[messageList.size - 1].id
-                            } else {
-                                messageList = person.noMoneyToShop(messageList, messageId)
-                                messageId = messageList[messageList.size - 1].id
-                                person.isAccommodation = false
-                            }
-                        }
-
-                        "departmentcity" -> {
                             //Event(4, "Kul! du köper en bostadsrätt mitt i staden.","departmentcity","home"),
                             if (accountSalary.amount > 0.0F || accountDepot.amount > 0.0F) {
-                                person.house = House(person.id, "departmentcity")
-                                person.house.description = "en bostadsrätt mitt i staden"
-
-                                randomValues = List(1) { Random.nextInt(5000000, 15000000) }
-                                person.house.houseAmount = randomValues[0].toFloat()
-
-                                randomValues = List(1) { Random.nextInt(1000, 7000) }
-                                person.house.houseMonthPayment = randomValues[0].toFloat()
+                                person.house = person.house.getHouse(person.id, costevent.objectType)
 
                                 messageList = person.showPersonDepartmentBought(messageList, messageId)
                                 messageId = messageList[messageList.size - 1].id
@@ -1163,61 +1063,13 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                             }
                         }
 
-                        "hirecity" -> {
+                        "hirecity", "hire", "hirehouse", "hiredepartment" -> {
                             //Event(6, "Kul! du skaffar dig en hyresrätt mitt i staden.","hirecity","home"),
-
-                            person.house = House(0, "hirecity")
-                            person.house.houseAmount = 0.0F
-                            person.house.description = "en hyresrätt mitt i staden"
-
-                            currentAmount = employee.currentSalary / 2
-                            randomValues = List(1) { Random.nextInt(5000, currentAmount.toInt()) }
-                            person.house.houseMonthPayment = randomValues[0].toFloat()
-
-                            messageList = person.showPersonAccomodationHire(messageList, messageId)
-                            messageId = messageList[messageList.size - 1].id
-                        }
-
-                        "hire" -> {
                             //Event(7, "Kul! du skaffar dig en hyresrätt i en förort.","hire","home"),
-
-                            person.house = House(0, "hire")
-                            person.house.houseAmount = 0.0F
-                            person.house.description = "en hyresrätt i en förort"
-
-                            currentAmount = employee.currentSalary / 2
-                            randomValues = List(1) { Random.nextInt(4000, currentAmount.toInt()) }
-                            person.house.houseMonthPayment = randomValues[0].toFloat()
-
-                            messageList = person.showPersonAccomodationHire(messageList, messageId)
-                            messageId = messageList[messageList.size - 1].id
-                        }
-
-                        "hirehouse" -> {
                             //Event(8, "Kul! du hyr i andra hand ett hus på landet.","hirehouse","home"),
-
-                            person.house = House(0, "hirehouse")
-                            person.house.houseAmount = 0.0F
-                            person.house.description = "hyr i andra hand ett hus på landet"
-
-                            currentAmount = employee.currentSalary / 2
-                            randomValues = List(1) { Random.nextInt(5000, currentAmount.toInt()) }
-                            person.house.houseMonthPayment = randomValues[0].toFloat()
-
-                            messageList = person.showPersonAccomodationHire(messageList, messageId)
-                            messageId = messageList[messageList.size - 1].id
-                        }
-
-                        "hiredepartment" -> {
                             //Event(9, "Kul! du hyr i andra hand ett lägenhet mitt i staden.","hiredepartment","home"),
 
-                            person.house = House(0, "hiredepartment")
-                            person.house.houseAmount = 0.0F
-                            person.house.description = " hyr i andra hand en lägenhet mitt i staden"
-
-                            currentAmount = employee.currentSalary / 2
-                            randomValues = List(1) { Random.nextInt(5000, currentAmount.toInt()) }
-                            person.house.houseMonthPayment = randomValues[0].toFloat()
+                            person.house = person.house.getHouse(person.id, costevent.objectType, employee.currentSalary)
 
                             messageList = person.showPersonAccomodationHire(messageList, messageId)
                             messageId = messageList[messageList.size - 1].id
