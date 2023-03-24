@@ -65,7 +65,7 @@ data class Question (
 
             "luck" -> {
                 questions = listOf(
-                    Question(0,"Katter🐱😍", "cat", "luck"),
+                    Question(0,"Katter🐱", "cat", "luck"),
                     Question(1, "Träning 💪", "strong", "luck",),
                     Question(2, "Vänner 🤗", "friend", "luck"),
                     Question(3, "Hundar 🐶", "dog", "luck"),

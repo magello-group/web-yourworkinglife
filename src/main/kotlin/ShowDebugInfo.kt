@@ -18,16 +18,18 @@ external interface ShowDebugInfoProps : Props {
     var selectedlastDisplayedMessageId: Int
     var selectedMessageIndex: Int
     var selectedMaxMessages: Int
+    var selectedStatus: String
 }
 
 val ShowDebugInfo = FC<ShowDebugInfoProps> { props ->
     when (props.selectedDebugMessage) {
+
         "steg1" -> {
             div {
                 css {
                     display = Display.block
                     position = Position.absolute
-                    top = 450.px
+                    top =  props.selectedTopPX.px
                     left = 50.px
                     color = NamedColor.black
                     fontSize = props.selectedStyle.fontMedium.px
@@ -50,7 +52,7 @@ val ShowDebugInfo = FC<ShowDebugInfoProps> { props ->
                 css {
                     display = Display.block
                     position = Position.absolute
-                    top = 500.px
+                    top =  props.selectedTopPX.px
                     left = 50.px
                     color = NamedColor.black
                     fontSize = props.selectedStyle.fontMedium.px
@@ -73,7 +75,7 @@ val ShowDebugInfo = FC<ShowDebugInfoProps> { props ->
                 css {
                     display = Display.block
                     position = Position.absolute
-                    top = 800.px
+                    top =  props.selectedTopPX.px
                     left = 50.px
                     color = NamedColor.black
                     fontSize = props.selectedStyle.fontMedium.px
@@ -96,7 +98,7 @@ val ShowDebugInfo = FC<ShowDebugInfoProps> { props ->
                 css {
                     display = Display.block
                     position = Position.absolute
-                    top = 850.px
+                    top =  props.selectedTopPX.px
                     left = 50.px
                     color = NamedColor.black
                     fontSize = props.selectedStyle.fontMedium.px
@@ -119,7 +121,7 @@ val ShowDebugInfo = FC<ShowDebugInfoProps> { props ->
                 css {
                     display = Display.block
                     position = Position.absolute
-                    top = 900.px
+                    top = props.selectedTopPX.px
                     left = 50.px
                     color = NamedColor.black
                     fontSize = props.selectedStyle.fontMedium.px
@@ -137,6 +139,8 @@ val ShowDebugInfo = FC<ShowDebugInfoProps> { props ->
                 }
             }
         }
+
+
         "steg6" -> {
             div {
                 css {
@@ -153,13 +157,14 @@ val ShowDebugInfo = FC<ShowDebugInfoProps> { props ->
                 ShowMessage {
                     selectedMessage = Message(
                         6,
-                        "Steg 6 LastmessageId: ${props.selectedlastDisplayedMessageId} index: ${props.selectedMessageIndex}  ",
+                        "Steg 6 LastmessageId: ${props.selectedlastDisplayedMessageId} index: ${props.selectedMessageIndex} status: ${props.selectedStatus}  ",
                         "",
                         ""
                     )
                 }
             }
         }
+
         "steg7" -> {
             div {
                 css {
@@ -201,29 +206,7 @@ val ShowDebugInfo = FC<ShowDebugInfoProps> { props ->
                 }
             }
         }
-        "steg8" -> {
-            div {
-                css {
-                    display = Display.block
-                    position = Position.absolute
-                    top = props.selectedTopPX.px
-                    left = 50.px
-                    color = NamedColor.black
-                    fontSize = props.selectedStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
-                }
 
-                ShowMessage {
-                    selectedMessage = Message(
-                        6,
-                        "steg 8 first message: ${props.selectedMessage.id} >=  ${props.selectedMaxMessages} ",
-                        "",
-                        ""
-                    )
-                }
-            }
-        }
         "steg9" -> {
             div {
                 css {
@@ -240,7 +223,7 @@ val ShowDebugInfo = FC<ShowDebugInfoProps> { props ->
                 ShowMessage {
                     selectedMessage = Message(
                         7,
-                        "Steg 9 backup: ${props.selectedMessageList.size}  historyMessages: ${props.selectedHistoryMessages.size} ",
+                        "Steg 9 backup: ${props.selectedMessageList.size}  historyMessages: ${props.selectedHistoryMessages.size} status: ${props.selectedStatus} ",
                         "",
                         ""
                     )

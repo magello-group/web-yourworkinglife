@@ -60,16 +60,17 @@ data class Life ( val personId: Int) {
         )
 
         if (this.parent.countBabies > 0) {
+            this.countPoint += this.parent.countBabies * 3
+
             storyId += 1
             storyList = storyList.plus(
                 Message(
                     storyId,
-                    "Nu kan du umgås med barn och barnbarn.",
+                    "Nu kan du umgås med barn och barnbarn, lyckopoäng: ${this.countPoint} ",
                     "",
                     ""
                 )
             )
-            this.countPoint += this.parent.countBabies * 3
         }
 
         if (this.person.isLove) {
@@ -231,7 +232,7 @@ data class Life ( val personId: Int) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Du vill göra samhällsnytta och skillnad. Du gick på ditt kall även om lönen var låg: ${
+                            "Du vill göra samhällsnytta och skillnad, du gick på ditt kall även om lönen var låg: ${
                                 this.employee.currentSalary.toInt().formatDecimalSeparator()
                             }",
                             "",
@@ -244,7 +245,7 @@ data class Life ( val personId: Int) {
                     storyList = storyList.plus(
                         Message(
                             storyId,
-                            "Du vill göra samhällsnytta och skillnad. Du gick inte helt på ditt kall och accepterade låg lön",
+                            "Du vill göra samhällsnytta och skillnad, du gick inte helt på ditt kall och accepterade låg lön",
                             "",
                             ""
                         )
@@ -423,7 +424,7 @@ data class Life ( val personId: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Lycka är när pengarna räcker livet ut.",
+                "Lycka är när pengarna räcker livet ut, lyckopoäng: ${this.countPoint}",
                 "",
                 ""
             )
@@ -436,7 +437,7 @@ data class Life ( val personId: Int) {
         storyList = storyList.plus(
             Message(
                 storyId,
-                "Din sammanlagda lyckopoäng: ${this.countPoint} varav hobbies: ${this.luckPoint}.",
+                "Din sammanlagda lyckopoäng: ${this.countPoint}",
                 "",
                 "blinking"
             )

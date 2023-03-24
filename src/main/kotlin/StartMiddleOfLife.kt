@@ -42,7 +42,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
     var lastDisplayedMessageId = 0
     val maxMessages = 9
     val isDebugOn = false
-    var topPX = 930
+    var topPX = 1200
 
     if (life.firstStep || historyMessages.isEmpty()) {
         life.firstStep = false
@@ -64,11 +64,15 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
         messageId = messageList[messageList.size-1].id
 
         if (isDebugOn) {
+            topPX += 100
             ShowDebugInfo {
                 selectedDebugMessage = "steg1"
                 selectedStyle = props.selectedStyle
                 selectedLife = life
                 selectedPerson = person
+                selectedEvent = props.selectedEvent
+                selectedProfession = profession
+                selectedTopPX = topPX
             }
         }
     }
@@ -82,12 +86,15 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
         life.lastMessageId = messageId
 
         if (isDebugOn) {
+            topPX += 100
             ShowDebugInfo {
                 selectedDebugMessage = "steg2"
                 selectedStyle = props.selectedStyle
                 selectedLife = life
                 selectedPerson = person
                 selectedEvent = props.selectedEvent
+                selectedProfession = profession
+                selectedTopPX = topPX
             }
         }
 
@@ -103,6 +110,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
     }
 
     if (isDebugOn) {
+        topPX += 100
         ShowDebugInfo {
             selectedDebugMessage = "steg3"
             selectedStyle = props.selectedStyle
@@ -110,6 +118,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
             selectedPerson = person
             selectedEvent = props.selectedEvent
             selectedProfession = profession
+            selectedTopPX = topPX
         }
     }
 
@@ -117,6 +126,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
         life.person.pensionAge = life.age
     }
     if (isDebugOn) {
+        topPX += 100
         ShowDebugInfo {
             selectedDebugMessage = "steg4"
             selectedStyle = props.selectedStyle
@@ -124,6 +134,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
             selectedPerson = life.person
             selectedEvent = props.selectedEvent
             selectedProfession = profession
+            selectedTopPX = topPX
         }
     }
 
@@ -138,6 +149,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
     //Show story
     if (messageList.isNotEmpty()) {
         if (isDebugOn) {
+            topPX += 100
             ShowDebugInfo {
                 selectedDebugMessage = "steg5"
                 selectedStyle = props.selectedStyle
@@ -146,6 +158,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                 selectedEvent = props.selectedEvent
                 selectedProfession = profession
                 selectedMessage = messageList[0]
+                selectedTopPX = topPX
             }
         }
 
@@ -182,6 +195,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                     lastDisplayedMessageId = message.id
 
                     if (isDebugOn) {
+                        topPX += 100
                         ShowDebugInfo {
                             selectedDebugMessage = "steg6"
                             selectedStyle = props.selectedStyle
@@ -192,8 +206,8 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                             selectedTopPX = topPX
                             selectedlastDisplayedMessageId =  lastDisplayedMessageId
                             selectedMessageIndex = messageIndex
+                            selectedStatus = "${currentStatus.countCats} ${message.status.countCats}"
                         }
-                        topPX += 50
                     }
 
                 } else {
@@ -206,7 +220,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
         } // end div
 
         if (isDebugOn) {
-            topPX += 50
+            topPX += 150
             ShowDebugInfo {
                 selectedDebugMessage = "steg7"
                 selectedStyle = props.selectedStyle
@@ -217,6 +231,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                 selectedTopPX = topPX
                 selectedMessageList = messageList
                 selectedHistoryMessages = historyMessages
+                selectedStatus = currentStatus.countCats
             }
         }
 
@@ -377,7 +392,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                     if (isDebugOn) {
                         topPX += 150
                         ShowDebugInfo {
-                            selectedDebugMessage = "steg8"
+                            selectedDebugMessage = "steg7"
                             selectedStyle = props.selectedStyle
                             selectedLife = life
                             selectedPerson = life.person
@@ -387,6 +402,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                             selectedMessageList = messageList
                             selectedHistoryMessages = historyMessages
                             selectedMaxMessages = maxMessages
+                            selectedStatus = currentStatus.countCats
                         }
                     }
 
@@ -430,7 +446,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                         }
 
                         if (isDebugOn) {
-                            topPX += 50
+                            topPX += 150
                             ShowDebugInfo {
                                 selectedDebugMessage = "steg9"
                                 selectedStyle = props.selectedStyle
@@ -442,6 +458,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                                 selectedMessageList = backupMessages
                                 selectedHistoryMessages = historyMessages
                                 selectedMaxMessages = maxMessages
+                                selectedStatus = currentStatus.countCats
                             }
                         }
                     }
@@ -1795,6 +1812,167 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 fun getStatus(message: Message, inputStatus: Status, person: Person): Status {
     val currentStatus = inputStatus
     var hobby = Hobby()
+
+    if (message.status.countCats != "") {
+        if (currentStatus.countCats == "") currentStatus.countCats = "0"
+        if (currentStatus.countCats.toInt() < message.status.countCats.toInt()) {
+            currentStatus.luck = "${currentStatus.luck}🐱"
+
+            hobby = hobby.getHobby("cat")
+            if (person.findLuck(hobby.hobbyType))
+                currentStatus.luckPoint += hobby.point * 2
+            else
+                currentStatus.luckPoint += hobby.point
+        }
+    }
+    if (message.status.countDogs != "") {
+        if (currentStatus.countDogs == "") currentStatus.countDogs = "0"
+        if (currentStatus.countDogs.toInt() < message.status.countDogs.toInt()) {
+            currentStatus.luck = "${currentStatus.luck}🐶"
+
+            hobby = hobby.getHobby("dog")
+            if (person.findLuck(hobby.hobbyType))
+                currentStatus.luckPoint += hobby.point * 2
+            else
+                currentStatus.luckPoint += hobby.point
+        }
+    }
+    if (message.status.countHorses != "") {
+        if (currentStatus.countHorses == "") currentStatus.countHorses = "0"
+        if (currentStatus.countHorses.toInt() < message.status.countHorses.toInt()) {
+            currentStatus.luck = "${currentStatus.luck}🦄"
+
+            hobby = hobby.getHobby("horse")
+            if (person.findLuck(hobby.hobbyType))
+                currentStatus.luckPoint += hobby.point * 2
+            else
+                currentStatus.luckPoint += hobby.point
+        }
+    }
+    if (message.status.countCars != "") {
+        if (currentStatus.countCars == "") currentStatus.countCars = "0"
+        if (currentStatus.countCars.toInt() < message.status.countCars.toInt()) {
+            currentStatus.luck = "${currentStatus.luck}🚗"
+
+            hobby = hobby.getHobby("car")
+            if (person.findLuck(hobby.hobbyType))
+                currentStatus.luckPoint += hobby.point * 2
+            else
+                currentStatus.luckPoint += hobby.point
+        }
+    }
+    if (message.status.countBikes != "") {
+        if (currentStatus.countBikes == "") currentStatus.countBikes = "0"
+        if (currentStatus.countBikes.toInt() < message.status.countBikes.toInt()) {
+            currentStatus.luck = "${currentStatus.luck}🛵"
+
+            hobby = hobby.getHobby("bike")
+            if (person.findLuck(hobby.hobbyType))
+                currentStatus.luckPoint += hobby.point * 2
+            else
+                currentStatus.luckPoint += hobby.point
+        }
+    }
+    if (message.status.countParties != "") {
+        if (currentStatus.countParties == "") currentStatus.countParties = "0"
+        if (currentStatus.countParties.toInt() < message.status.countParties.toInt()) {
+            currentStatus.luck = "${currentStatus.luck}🤸"
+
+            hobby = hobby.getHobby("party")
+            if (person.findLuck(hobby.hobbyType))
+                currentStatus.luckPoint += hobby.point * 2
+            else
+                currentStatus.luckPoint += hobby.point
+        }
+    }
+
+    if (message.status.countWalking != "") {
+        if (currentStatus.countWalking == "") currentStatus.countWalking = "0"
+        if (currentStatus.countWalking.toInt() < message.status.countWalking.toInt()) {
+            currentStatus.luck = "${currentStatus.luck}🚶"
+
+            hobby = hobby.getHobby("walk")
+            if (person.findLuck(hobby.hobbyType))
+                currentStatus.luckPoint += hobby.point * 2
+            else
+                currentStatus.luckPoint += hobby.point
+        }
+    }
+
+    if (message.status.countFishing != "") {
+        if (currentStatus.countFishing == "") currentStatus.countFishing = "0"
+        if (currentStatus.countFishing.toInt() < message.status.countFishing.toInt()) {
+            currentStatus.luck = "${currentStatus.luck}🐬"
+
+            hobby = hobby.getHobby("fish")
+            if (person.findLuck(hobby.hobbyType))
+                currentStatus.luckPoint += hobby.point * 2
+            else
+                currentStatus.luckPoint += hobby.point
+        }
+    }
+
+    if (message.status.countFriends != "") {
+        if (currentStatus.countFriends == "") currentStatus.countFriends = "0"
+        if (currentStatus.countFriends.toInt() < message.status.countFriends.toInt()) {
+            currentStatus.luck = "${currentStatus.luck}🤗"
+
+            hobby = hobby.getHobby("friend")
+            if (person.findLuck(hobby.hobbyType))
+                currentStatus.luckPoint += hobby.point * 2
+            else
+                currentStatus.luckPoint += hobby.point
+        }
+    }
+
+    if (message.status.countBoats != "") {
+        if (currentStatus.countBoats == "") currentStatus.countBoats = "0"
+        if (currentStatus.countBoats.toInt() < message.status.countBoats.toInt()) {
+            currentStatus.luck = "${currentStatus.luck}⛵"
+
+            hobby = hobby.getHobby("boat")
+            if (person.findLuck(hobby.hobbyType))
+                currentStatus.luckPoint += hobby.point * 2
+            else
+                currentStatus.luckPoint += hobby.point
+        }
+    }
+
+    if (message.status.countStrong != "") {
+        if (currentStatus.countStrong == "") currentStatus.countStrong = "0"
+        if (currentStatus.countStrong.toInt() < message.status.countStrong.toInt()) {
+            currentStatus.luck = "${currentStatus.luck}💪"
+
+            hobby = hobby.getHobby("strong")
+            if (person.findLuck(hobby.hobbyType))
+                currentStatus.luckPoint += hobby.point * 2
+            else
+                currentStatus.luckPoint += hobby.point
+        }
+    }
+
+    if (message.status.countLoves != "") {
+        if (currentStatus.countLoves == "") currentStatus.countLoves = "0"
+        if (currentStatus.countLoves.toInt() < message.status.countLoves.toInt()) {
+            currentStatus.luck = "${currentStatus.luck}💕"
+
+            hobby = hobby.getHobby("love")
+            if (person.findLuck(hobby.hobbyType))
+                currentStatus.luckPoint += hobby.point * 2
+            else
+                currentStatus.luckPoint += hobby.point
+        }
+    }
+
+    if (message.status.countBabies != "") {
+        if (currentStatus.countBabies == "") currentStatus.countBabies = "0"
+        if (currentStatus.countBabies.toInt() < message.status.countBabies.toInt()) {
+            currentStatus.luck = "${currentStatus.luck}👶"
+            currentStatus.luckPoint += 3 //3 poäng för barn
+        }
+    }
+
+    //Update status row
     if (message.status.age != "")
         currentStatus.age = message.status.age
 
@@ -1823,175 +2001,19 @@ fun getStatus(message: Message, inputStatus: Status, person: Person): Status {
         currentStatus.interestMonthPayment = message.status.interestMonthPayment
 
     if (message.status.profession != "") currentStatus.profession = message.status.profession
-
-    if (message.status.countCats != "") {
-        if (currentStatus.countCats.toInt() < message.status.countCats.toInt()) {
-            currentStatus.luck = "${currentStatus.luck}🐱"
-
-            hobby = hobby.getHobby("cat")
-            if (person.findLuck(hobby.hobbyType))
-                currentStatus.countCats = (currentStatus.countCats.toInt() + (hobby.point * 2)).toString()
-            else
-                currentStatus.countCats = (currentStatus.countCats.toInt() + hobby.point).toString()
-
-            currentStatus.luckPoint += currentStatus.countCats.toInt()
-        }
-    }
-    if (message.status.countDogs != "") {
-        if (currentStatus.countDogs.toInt() < message.status.countDogs.toInt()) {
-            currentStatus.luck = "${currentStatus.luck}🐶"
-
-            hobby = hobby.getHobby("dog")
-            if (person.findLuck(hobby.hobbyType))
-                currentStatus.countDogs = (currentStatus.countDogs.toInt() + (hobby.point * 2)).toString()
-            else
-                currentStatus.countDogs = (currentStatus.countDogs.toInt() + hobby.point).toString()
-
-            currentStatus.luckPoint += currentStatus.countDogs.toInt()
-        }
-    }
-    if (message.status.countHorses != "") {
-        if (currentStatus.countHorses.toInt() < message.status.countHorses.toInt()) {
-            currentStatus.luck = "${currentStatus.luck}🦄"
-
-            hobby = hobby.getHobby("horse")
-            if (person.findLuck(hobby.hobbyType))
-                currentStatus.countHorses = (currentStatus.countHorses.toInt() + (hobby.point * 2)).toString()
-            else
-                currentStatus.countHorses = (currentStatus.countHorses.toInt() + hobby.point).toString()
-
-            currentStatus.luckPoint += currentStatus.countHorses.toInt()
-        }
-    }
-    if (message.status.countCars != "") {
-        if (currentStatus.countCars.toInt() < message.status.countCars.toInt()) {
-            currentStatus.luck = "${currentStatus.luck}🚗"
-
-            hobby = hobby.getHobby("car")
-            if (person.findLuck(hobby.hobbyType))
-                currentStatus.countCars = (currentStatus.countCars.toInt() + (hobby.point * 2)).toString()
-            else
-                currentStatus.countCars = (currentStatus.countCars.toInt() + hobby.point).toString()
-
-            currentStatus.luckPoint += currentStatus.countCars.toInt()
-        }
-    }
-    if (message.status.countBikes != "") {
-        if (currentStatus.countBikes.toInt() < message.status.countBikes.toInt()) {
-            currentStatus.luck = "${currentStatus.luck}🛵"
-
-            hobby = hobby.getHobby("bike")
-            if (person.findLuck(hobby.hobbyType))
-                currentStatus.countBikes = (currentStatus.countBikes.toInt() + (hobby.point * 2)).toString()
-            else
-                currentStatus.countBikes = (currentStatus.countBikes.toInt() + hobby.point).toString()
-
-            currentStatus.luckPoint += currentStatus.countBikes.toInt()
-        }
-    }
-    if (message.status.countParties != "") {
-        if (currentStatus.countParties.toInt() < message.status.countParties.toInt()) {
-            currentStatus.luck = "${currentStatus.luck}🤸"
-
-            hobby = hobby.getHobby("party")
-            if (person.findLuck(hobby.hobbyType))
-                currentStatus.countParties = (currentStatus.countParties.toInt() + (hobby.point * 2)).toString()
-            else
-                currentStatus.countParties = (currentStatus.countParties.toInt() + hobby.point).toString()
-
-            currentStatus.luckPoint += currentStatus.countParties.toInt()
-        }
-    }
-
-    if (message.status.countWalking != "") {
-        if (currentStatus.countWalking.toInt() < message.status.countWalking.toInt()) {
-            currentStatus.luck = "${currentStatus.luck}🚶"
-
-            hobby = hobby.getHobby("walk")
-            if (person.findLuck(hobby.hobbyType))
-                currentStatus.countWalking = (currentStatus.countWalking.toInt() + (hobby.point * 2)).toString()
-            else
-                currentStatus.countWalking = (currentStatus.countWalking.toInt() + hobby.point).toString()
-
-            currentStatus.luckPoint += currentStatus.countWalking.toInt()
-        }
-    }
-
-    if (message.status.countFishing != "") {
-        if (currentStatus.countFishing.toInt() < message.status.countFishing.toInt()) {
-            currentStatus.luck = "${currentStatus.luck}🐬"
-
-            hobby = hobby.getHobby("fish")
-            if (person.findLuck(hobby.hobbyType))
-                currentStatus.countFishing = (currentStatus.countFishing.toInt() + (hobby.point * 2)).toString()
-            else
-                currentStatus.countFishing = (currentStatus.countFishing.toInt() + hobby.point).toString()
-
-            currentStatus.luckPoint += currentStatus.countFishing.toInt()
-        }
-    }
-
-    if (message.status.countFriends != "") {
-        if (currentStatus.countFriends.toInt() < message.status.countFriends.toInt()) {
-            currentStatus.luck = "${currentStatus.luck}🤗"
-
-            hobby = hobby.getHobby("friend")
-            if (person.findLuck(hobby.hobbyType))
-                currentStatus.countFriends = (currentStatus.countFriends.toInt() + (hobby.point * 2)).toString()
-            else
-                currentStatus.countFriends = (currentStatus.countFriends.toInt() + hobby.point).toString()
-
-            currentStatus.luckPoint += currentStatus.countFriends.toInt()
-        }
-    }
-
-    if (message.status.countBoats != "") {
-        if (currentStatus.countBoats.toInt() < message.status.countBoats.toInt()) {
-            currentStatus.luck = "${currentStatus.luck}⛵"
-
-            hobby = hobby.getHobby("boat")
-            if (person.findLuck(hobby.hobbyType))
-                currentStatus.countBoats = (currentStatus.countBoats.toInt() + (hobby.point * 2)).toString()
-            else
-                currentStatus.countBoats = (currentStatus.countBoats.toInt() + hobby.point).toString()
-
-            currentStatus.luckPoint += currentStatus.countBoats.toInt()
-        }
-    }
-
-    if (message.status.countStrong != "") {
-        if (currentStatus.countStrong.toInt() < message.status.countStrong.toInt()) {
-            currentStatus.luck = "${currentStatus.luck}💪"
-
-            hobby = hobby.getHobby("strong")
-            if (person.findLuck(hobby.hobbyType))
-                currentStatus.countStrong = (currentStatus.countStrong.toInt() + (hobby.point * 2)).toString()
-            else
-                currentStatus.countStrong = (currentStatus.countStrong.toInt() + hobby.point).toString()
-
-            currentStatus.luckPoint += currentStatus.countStrong.toInt()
-        }
-    }
-
-    if (message.status.countLoves != "") {
-        if (currentStatus.countLoves.toInt() < message.status.countLoves.toInt()) {
-            currentStatus.luck = "${currentStatus.luck}💕"
-
-            hobby = hobby.getHobby("love")
-            if (person.findLuck(hobby.hobbyType))
-                currentStatus.countLoves = (currentStatus.countLoves.toInt() + (hobby.point * 2)).toString()
-            else
-                currentStatus.countLoves = (currentStatus.countLoves.toInt() + hobby.point).toString()
-
-            currentStatus.luckPoint += currentStatus.countLoves.toInt()
-        }
-    }
-
-    if (message.status.countBabies != "") {
-        currentStatus.countBabies = message.status.countBabies
-        if (currentStatus.countFriends.toInt() < message.status.countFriends.toInt())
-            currentStatus.luck = "${currentStatus.luck}🤗"
-    }
+    if (message.status.countCats != "") currentStatus.countCats = message.status.countCats
+    if (message.status.countDogs != "") currentStatus.countDogs = message.status.countDogs
+    if (message.status.countHorses != "") currentStatus.countHorses = message.status.countHorses
+    if (message.status.countCars != "") currentStatus.countCars = message.status.countCars
+    if (message.status.countBikes != "") currentStatus.countBikes = message.status.countBikes
+    if (message.status.countParties != "") currentStatus.countParties = message.status.countParties
+    if (message.status.countWalking != "") currentStatus.countWalking = message.status.countWalking
+    if (message.status.countFishing != "") currentStatus.countFishing = message.status.countFishing
+    if (message.status.countFriends != "") currentStatus.countFriends = message.status.countFriends
+    if (message.status.countBabies != "") currentStatus.countBabies = message.status.countBabies
+    if (message.status.countBoats != "") currentStatus.countBoats = message.status.countBoats
+    if (message.status.countStrong != "") currentStatus.countStrong = message.status.countStrong
+    if (message.status.countLoves != "") currentStatus.countLoves = message.status.countLoves
 
     return currentStatus
 }
