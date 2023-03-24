@@ -45,6 +45,12 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
     val leftPadding = 450
 
     div {
+        css {
+            display = Display.block
+            position = Position.absolute
+            width = 1000.px
+        }
+
         topPX = startPX
         div {
             p {
