@@ -16,6 +16,7 @@ data class View(
         val goalQuestions: List<Question> = question.getQuestionList("goal")
         val luckQuestions: List<Question> = question.getQuestionList("luck")
         val professionQuestions: List<Question> = question.getQuestionList("profession")
+        val houseQuestions: List<Question> = question.getQuestionList("house")
 
         return listOf(
             View(0, "init", emptyList(), "Ditt arbetsliv börjar här ... gör dig redo:","Nästa steg", "action"),
@@ -26,7 +27,8 @@ data class View(
             View(5, "reload", emptyList(),"Mitt i livet", "Traska på", "pension"),
             View(6, "pension", emptyList(),"Nu startar pensionen", "Pensionär", "slut"),
             View(7, "question", professionQuestions,"Vilket yrke väljer du?", "Gå vidare till nya jobbet", "reload"),
-            View(8, "depressed", luckQuestions,"Vad gör dig lycklig?", "Gå vidare lycklig", "reload")
+            View(8, "depressed", luckQuestions,"Vad gör dig lycklig?", "Gå vidare lycklig", "reload"),
+            View(9, "house", houseQuestions,"Var vill du bo?", "Gå vidare", "reload")
         )
     }
     fun getNextView(): View {

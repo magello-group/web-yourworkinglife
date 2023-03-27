@@ -150,7 +150,12 @@ val EventList = FC<EventListProps> { props ->
                 }
 
                 onClick = {
-                    selectedEvents[0].isSelected = true
+
+                    if (selectedEvents[0].eventType == "home")
+                        selectedEvents[0].isCostSelected = true
+                    else
+                        selectedEvents[0].isSelected = true
+
                     props.onSelectEvent(
                         selectedEvents[0],
                         props.selectedView.getNextView(),
@@ -167,10 +172,13 @@ val EventList = FC<EventListProps> { props ->
             }
         }
 
-        ShowEvent {
-            actualEvent = selectedEvents[0]
-            actualStyle = props.selectedStyle
-            actualStartTopPX = props.selectedStyle.topPXEventStatus
+        if (selectedEvents[0].isSelected) {
+
+            ShowEvent {
+                actualEvent = selectedEvents[0]
+                actualStyle = props.selectedStyle
+                actualStartTopPX = props.selectedStyle.topPXEventStatus
+            }
         }
     }
 }

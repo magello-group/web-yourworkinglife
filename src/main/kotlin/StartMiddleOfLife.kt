@@ -41,7 +41,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
     var messageId = props.selectedLife.lastMessageId
     var lastDisplayedMessageId = 0
     val maxMessages = 9
-    val isDebugOn = false
+    val isDebugOn = true
     var topPX = 1200
 
     if (life.firstStep || historyMessages.isEmpty()) {
@@ -180,7 +180,8 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
 
             for ((messageIndex, message) in messageList.withIndex()) {
                 if ((life.isQuestion && message.id > life.questionMessageId) ||
-                    (life.isNewProfession && message.id > life.professionMessageId)
+                    (life.isNewProfession && message.id > life.professionMessageId) ||
+                    (life.isHouseQuestion && message.id > life.houseQuestionMessageId)
                 ) {
                     leftMessages = leftMessages.plus(message)
                 } else if (messageIndex < maxMessages) {
@@ -269,6 +270,45 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                             )
                         }
                         +"Vad svarar du?"
+                        +" ▶"
+                    }
+                }
+            }
+
+        } else if (life.isHouseQuestion && lastDisplayedMessageId >= life.houseQuestionMessageId) {
+            life.isHouseQuestion = false
+            life.houseQuestionMessageId = 0
+            div {
+
+                p {
+                    button {
+
+                        key = messageList[0].id.toString()
+                        css {
+                            display = Display.block
+                            position = Position.absolute
+                            top = props.selectedStyle.topPXbutton01.px
+                            left = props.selectedStyle.leftPXbutton01.px
+
+                            color = NamedColor.green
+                            borderColor = NamedColor.white
+                            fontSize = props.selectedStyle.fontMedium.px
+                            backgroundColor = NamedColor.white
+                            fontFamily = FontFamily.cursive
+                        }
+
+                        onClick = {
+                            props.onSelectMessages(
+                                props.selectedView.getNewView("house"),
+                                leftMessages,
+                                props.selectedProfession,
+                                life.person,
+                                historyMessages,
+                                currentStatus,
+                                life
+                            )
+                        }
+                        +"Vart vill du bo?"
                         +" ▶"
                     }
                 }
@@ -569,7 +609,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
     var randomEventValues: List<Int>
 
     //Get random event in life
-    var costevent = Event(0)
+    var costevent = selectedEvent
     val allCostEvents: List<Event> = costevent.getCostEvents()
     var randomCostEventValues: List<Int>
 
@@ -577,7 +617,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
     var sumCosts: Float
     val maxPension = 599250.0F //Max pensionsgrundad inkomst
 
-    while (age < profession.pensionAge && !currentLife.isQuestion && !currentLife.isNewProfession) {
+    while (age < profession.pensionAge && !currentLife.isQuestion && !currentLife.isNewProfession && !currentLife.isHouseQuestion) {
         //Init count month
         parent.countFamilyMonth = 0
         parent.familySalary = 0.0F
@@ -592,397 +632,411 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
         //Försörjningsstöd
         if (employee.currentSalary == 0.0F) employee.currentSalary = 4180.0F
 
-        if (!event.isSelected) {
-            //randomEventValues = List(1) { Random.nextInt(0, 23) }
-            randomEventValues = List(1) { Random.nextInt(0, allEvents.size) }
-            event = allEvents[randomEventValues[0]]
-        } else {
-            person.luckEvents = person.luckEvents.plus(event)
-        }
-
-        when (event.eventType) {
-
-            "depot" -> {
-                // Event(0, "du får bonus i form av värdepapper 🤑", "depot", "depot"),
-
-                if (lifeChance < profession.randomBonus && person.countWorkMonth >= 12 && employee.currentSalary > 0.0) {
-
-                    //Get value och financial instruments
-                    randomValues = List(1) { Random.nextInt(10000, 50000) }
-
-                    accountDepot.amount += randomValues[0].toFloat()
-
-                    messageList = accountDepot.showDepotAmount(randomValues[0].toFloat(), messageList, messageId)
-                    messageId = messageList[messageList.size - 1].id
-                }
+        if (!event.isCostSelected) {
+            if (!event.isSelected) {
+                //randomEventValues = List(1) { Random.nextInt(0, 23) }
+                randomEventValues = List(1) { Random.nextInt(0, allEvents.size) }
+                event = allEvents[randomEventValues[0]]
             }
 
+            when (event.eventType) {
 
-            "sick" -> {
+                "depot" -> {
+                    // Event(0, "du får bonus i form av värdepapper 🤑", "depot", "depot"),
 
-                if (lifeChance < profession.randomSick ||
-                    (isPandemi && event.objectType == "pandemi")
-                ) {
+                    if (lifeChance < profession.randomBonus && person.countWorkMonth >= 12 && employee.currentSalary > 0.0) {
 
-                    when (event.objectType) {
-                        "pandemi" -> {
-                            //Event(5, "du får en pandemisk sjukdom 😱", "pandemi", "sick"),
+                        //Get value och financial instruments
+                        randomValues = List(1) { Random.nextInt(10000, 50000) }
 
-                            if (isPandemi) {
-                                person.isSick = true
-                                person.isHappy = false
-                                isPandemi = false
+                        accountDepot.amount += randomValues[0].toFloat()
 
-                                //How many months are you sick?
-                                randomValues = List(1) { Random.nextInt(12, 36) }
-                                employee.countSickMonth = randomValues[0]
+                        messageList = accountDepot.showDepotAmount(randomValues[0].toFloat(), messageList, messageId)
+                        messageId = messageList[messageList.size - 1].id
+                    }
+                }
+
+
+                "sick" -> {
+
+                    if (lifeChance < profession.randomSick ||
+                        (isPandemi && event.objectType == "pandemi")
+                    ) {
+
+                        when (event.objectType) {
+                            "pandemi" -> {
+                                //Event(5, "du får en pandemisk sjukdom 😱", "pandemi", "sick"),
+
+                                if (isPandemi) {
+                                    person.isSick = true
+                                    person.isHappy = false
+                                    isPandemi = false
+
+                                    //How many months are you sick?
+                                    randomValues = List(1) { Random.nextInt(12, 36) }
+                                    employee.countSickMonth = randomValues[0]
+                                }
                             }
-                        }
 
-                        "burnedout" -> {
-                            //Event(1, "du blir utbränd 😔", "burnedout", "sick"),
+                            "burnedout" -> {
+                                //Event(1, "du blir utbränd 😔", "burnedout", "sick"),
 
-                            if (!person.isHappy) {
-                                person.isSick = true
-                                currentLife.isQuestion = true
+                                if (!person.isHappy) {
+                                    person.isSick = true
+                                    currentLife.isQuestion = true
 
-                                //How many months are you sick?
-                                randomValues = List(1) { Random.nextInt(12, 36) }
-                                employee.countSickMonth = randomValues[0]
+                                    //How many months are you sick?
+                                    randomValues = List(1) { Random.nextInt(12, 36) }
+                                    employee.countSickMonth = randomValues[0]
+                                }
                             }
-                        }
 
-                        "heartattack" -> {
-                            //Event(2, "du får en hjärtattack 😬", "heartattack", "sick"),
+                            "heartattack" -> {
+                                //Event(2, "du får en hjärtattack 😬", "heartattack", "sick"),
 
-                            if (!person.isHappy) {
+                                if (!person.isHappy) {
+                                    person.isSick = true
+
+                                    //How many months are you sick?
+                                    randomValues = List(1) { Random.nextInt(1, 12) }
+                                    employee.countSickMonth = randomValues[0]
+                                }
+                            }
+
+                            "golf" -> {
+                                //Event(3, "du får en golfboll i huvudet 😨", "golf", "sick"),
+
                                 person.isSick = true
 
                                 //How many months are you sick?
                                 randomValues = List(1) { Random.nextInt(1, 12) }
                                 employee.countSickMonth = randomValues[0]
                             }
-                        }
 
-                        "golf" -> {
-                            //Event(3, "du får en golfboll i huvudet 😨", "golf", "sick"),
+                            "shot" -> {
+                                //Event(4, "du blir skjuten 😱", "shot", "sick"),
 
-                            person.isSick = true
-
-                            //How many months are you sick?
-                            randomValues = List(1) { Random.nextInt(1, 12) }
-                            employee.countSickMonth = randomValues[0]
-                        }
-
-                        "shot" -> {
-                            //Event(4, "du blir skjuten 😱", "shot", "sick"),
-
-                            person.isSick = true
-
-                            //How many months are you sick?
-                            randomValues = List(1) { Random.nextInt(1, 12) }
-                            employee.countSickMonth = randomValues[0]
-                        }
-
-                        "depressed" -> {
-                            //Event(6, "du blir deprimerad.", "depressed", "sick"),
-
-                            if (!person.isHappy) {
                                 person.isSick = true
-                                currentLife.isQuestion = true
 
                                 //How many months are you sick?
-                                randomValues = List(1) { Random.nextInt(12, 24) }
+                                randomValues = List(1) { Random.nextInt(1, 12) }
                                 employee.countSickMonth = randomValues[0]
                             }
-                        }
-                    }
 
-                    if (person.isSick) {
-                        //Save event in story
-                        messageList = event.showEvent(0.0F, messageList, messageId, "Åh nej! ", "")
-                        messageId = messageList[messageList.size - 1].id
+                            "depressed" -> {
+                                //Event(6, "du blir deprimerad.", "depressed", "sick"),
 
-                        if (person.isMagellit)
-                            employee.sickSalary = employee.currentSalary * 0.90F //90% av lönen
-                        else
-                            employee.sickSalary = person.insurance.getIncome(employee.currentSalary)
+                                if (!person.isHappy) {
+                                    person.isSick = true
+                                    currentLife.isQuestion = true
 
-                        messageList = employee.showEmployeeSickSalary(messageList, messageId)
-                        messageId = messageList[messageList.size - 1].id
-
-                        //Get chance to be approved by swedish authority
-                        randomValues = List(1) { Random.nextInt(0, 100) }
-                        if (randomValues[0] < 15) {
-                            //Din sjukskrivning blir avslagen
-                            employee.sickSalary = 0.0F
-
-                            messageList = employee.showEmployeeNoSickSalary(messageList, messageId)
-                            messageId = messageList[messageList.size - 1].id
+                                    //How many months are you sick?
+                                    randomValues = List(1) { Random.nextInt(12, 24) }
+                                    employee.countSickMonth = randomValues[0]
+                                }
+                            }
                         }
 
-                        messageList = employee.showEmployeeCountSickMonth(messageList, messageId)
-                        messageId = messageList[messageList.size - 1].id
-
-                        if (currentLife.isQuestion) {
-                            messageList = person.showTherapist(messageList, messageId)
+                        if (person.isSick) {
+                            //Save event in story
+                            messageList = event.showEvent(0.0F, messageList, messageId, "Åh nej! ", "")
                             messageId = messageList[messageList.size - 1].id
 
-                            currentLife.questionMessageId = messageId
-                        }
-                    }
-                }
-            }
+                            if (person.isMagellit)
+                                employee.sickSalary = employee.currentSalary * 0.90F //90% av lönen
+                            else
+                                employee.sickSalary = person.insurance.getIncome(employee.currentSalary)
 
-            "luck" -> {
+                            messageList = employee.showEmployeeSickSalary(messageList, messageId)
+                            messageId = messageList[messageList.size - 1].id
 
-                if (lifeChance < profession.randomLuck || event.isSelected) {
-                    event.isSelected = false
-                    currentLife.isQuestion = false
-                    person.isHappy = true
-                    when (event.objectType) {
-                        "cat" -> {
-                            //Event(7, "Du skaffar katt och livet känns härligt 🐱😍", "cat", "luck"),
-                            person.cats = person.cats.plus(hobby.getHobby("cat"))
-                        }
-
-                        "strong" -> {
-                            //Event(8, "Du börjar träna och du känner dig stark 💪 och lycklig", "strong", "luck"),
-                            person.countStrong += 1
-                        }
-
-                        "friend" -> {
-                            //Event(9, "Du finner en vän att prata med och livet vänder 🤗", "friend", "luck"),
-                            person.countFriends += 1
-                        }
-
-                        "walk" -> {
-                            //Event(10, "Du drar iväg på en lång vandring själv 🚶 du känner dig fri 😍", "walk", "luck"),
-                            person.countWalking += 1
-                        }
-
-                        "dog" -> {
-                            //Event(11, "Du skaffar hund och du känner dig både lycklig och stark 🦖😍", "dog", "luck"),
-                            person.dogs = person.dogs.plus(hobby.getHobby("dog"))
-                        }
-
-                        "fish" -> {
-                            //Event(12, "Du drar ut och fiskar 🐬 och känner hur du fylls med lycka 😍", "fish", "luck"),
-                            person.countFishing += 1
-                        }
-
-                        "party" -> {
-                            //Event(13, "Du festar järnet och känner hur du fylls med glädje 🤸", "party", "luck"),
-                            person.parties = person.parties.plus(hobby.getHobby("party"))
-                        }
-
-                        "horse" -> {
-                            //Event(14, "Du skaffar häst och du drar iväg i en härlig galopp 🦄", "horse", "luck"),
-                            person.horses = person.horses.plus(hobby.getHobby("horse"))
-                        }
-
-                        "boat" -> {
-                            //Event(15, "Du köper en segelbåt, havet gör dig lycklig ⛵", "boat", "luck"),
-                            person.boats = person.boats.plus(hobby.getHobby("boat"))
-                        }
-
-                        "car" -> {
-                            //Event(16, "Du köper en bil och du känner dig fri 🚗", "car", "luck"),
-                            person.cars = person.cars.plus(hobby.getHobby("car"))
-                        }
-
-                        "bike" -> {
-                            //Event(17, "Du köper en motorcykel och det mullrar när du drar iväg 🛵", "bike", "luck"),
-                            person.bikes = person.bikes.plus(hobby.getHobby("bike"))
-                        }
-
-                        "love" -> {
-                            //Event(18, "Du finner din kärlekspartner 💕💕💕💕💕 love is in the air", "love", "luck"),
-                            person.countLove += 1
-                            person.isLove = true
-                        }
-                    }
-
-                    messageList = person.showPersonLuck(messageList, messageId, event)
-                    messageId = messageList[messageList.size - 1].id
-                }
-
-
-            }
-
-            "unemployed" -> {
-
-                if ((lifeChance < profession.randomUnemployed && !person.isMagellit) || isRecession || event.isSelected) {
-
-
-                    when (event.objectType) {
-                        "unemployed" -> {
-                            //Event(19, "du blir varslad 😢", "unemployed", "unemployed"),
-
-                            union.countUnemployeeMonth = 0
-                            union.unemployedSalaryAmount = 0.0
-                            union.noAkassaSalaryAmount = 0.0
-
-                            //Chans till avgångsvederlag om du jobbat mer än 12 månader
+                            //Get chance to be approved by swedish authority
                             randomValues = List(1) { Random.nextInt(0, 100) }
-                            if (randomValues[0] < profession.randomSeverancePay && person.countWorkMonth >= 12) {
+                            if (randomValues[0] < 15) {
+                                //Din sjukskrivning blir avslagen
+                                employee.sickSalary = 0.0F
 
-                                //Avgångsvederlag! Du får lön i lika många månader som du jobbat år
-                                currentAmount = employee.currentSalary * (person.countWorkMonth / 12).toFloat()
-                                accountSalary.amount += currentAmount
-                                accountNoAkassa.amount += currentAmount
-
-                                messageList = employee.showSeverancePay(currentAmount, messageList, messageId)
+                                messageList = employee.showEmployeeNoSickSalary(messageList, messageId)
                                 messageId = messageList[messageList.size - 1].id
                             }
 
-                            //Hur många dagar är du arbetslös, 22 dagar per månad får man ersättning
-                            randomValues = List(1) { Random.nextInt(22, 300) }
-                            union.countUnemployeeMonth = randomValues[0] / 22
-
-                            //Endast 300 dagar kan man få a-kassa
-
-                            messageList = union.showCountUnemployeeMonth(messageList, messageId)
+                            messageList = employee.showEmployeeCountSickMonth(messageList, messageId)
                             messageId = messageList[messageList.size - 1].id
 
-                            //Vilken försäkring kan du få
-                            if (employee.currentSalary >= 60000.0F) {
-                                //Arbetslöshetssersättning = procent av lönen i 200 dagar
-                                union.isIncomeInsurance = true
-                                union.isExtraInsurance = true
-                            } else if (employee.currentSalary >= union.maxSalaryAkassa100) {
-                                //Arbetslöshetssersättning = procent av lönen max 60000 i lön
-                                union.isIncomeInsurance = true
-                            } else {
-                                union.isAkassa = true
+                            if (currentLife.isQuestion) {
+                                messageList = person.showTherapist(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+
+                                currentLife.questionMessageId = messageId
+                            }
+                        }
+                    }
+                }
+
+                "luck" -> {
+
+                    if (lifeChance < profession.randomLuck || event.isSelected) {
+                        if (event.isSelected) {
+                            person.luckEvents = person.luckEvents.plus(event)
+                        }
+                        event.isSelected = false
+                        currentLife.isQuestion = false
+                        person.isHappy = true
+                        when (event.objectType) {
+                            "cat" -> {
+                                //Event(7, "Du skaffar katt och livet känns härligt 🐱😍", "cat", "luck"),
+                                person.cats = person.cats.plus(hobby.getHobby("cat"))
                             }
 
-                            //För att få akassa behövs 12 månaders arbete
-                            if (union.isIncomeInsurance && person.countWorkMonth >= 12) {
+                            "strong" -> {
+                                //Event(8, "Du börjar träna och du känner dig stark 💪 och lycklig", "strong", "luck"),
+                                person.countStrong += 1
+                            }
 
-                                union.unemployedSalaryAmount =
-                                    union.getIncomeInsurance(employee.currentSalary.toDouble())
-                                messageList =
-                                    union.showIncomeInsurance(messageList, messageId, union.unemployedSalaryAmount)
-                                messageId = messageList[messageList.size - 1].id
+                            "friend" -> {
+                                //Event(9, "Du finner en vän att prata med och livet vänder 🤗", "friend", "luck"),
+                                person.countFriends += 1
+                            }
 
-                                union.noAkassaSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
-                                messageList = union.showNoAkassa(messageList, messageId, union.noAkassaSalaryAmount)
-                                messageId = messageList[messageList.size - 1].id
+                            "walk" -> {
+                                //Event(10, "Du drar iväg på en lång vandring själv 🚶 du känner dig fri 😍", "walk", "luck"),
+                                person.countWalking += 1
+                            }
 
-                            } else if (union.isAkassa && person.countWorkMonth >= 12) {
+                            "dog" -> {
+                                //Event(11, "Du skaffar hund och du känner dig både lycklig och stark 🦖😍", "dog", "luck"),
+                                person.dogs = person.dogs.plus(hobby.getHobby("dog"))
+                            }
 
-                                union.unemployedSalaryAmount = union.getAkassa(employee.currentSalary.toDouble())
-                                messageList = union.showAkassa(messageList, messageId)
-                                messageId = messageList[messageList.size - 1].id
+                            "fish" -> {
+                                //Event(12, "Du drar ut och fiskar 🐬 och känner hur du fylls med lycka 😍", "fish", "luck"),
+                                person.countFishing += 1
+                            }
 
-                                union.noAkassaSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
-                                messageList = union.showNoAkassa(messageList, messageId, union.noAkassaSalaryAmount)
-                                messageId = messageList[messageList.size - 1].id
+                            "party" -> {
+                                //Event(13, "Du festar järnet och känner hur du fylls med glädje 🤸", "party", "luck"),
+                                person.parties = person.parties.plus(hobby.getHobby("party"))
+                            }
 
-                            } else if (person.countWorkMonth >= 12) {
-                                union.unemployedSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
-                                messageList = union.showNoAkassa(messageList, messageId, union.unemployedSalaryAmount)
-                                messageId = messageList[messageList.size - 1].id
+                            "horse" -> {
+                                //Event(14, "Du skaffar häst och du drar iväg i en härlig galopp 🦄", "horse", "luck"),
+                                person.horses = person.horses.plus(hobby.getHobby("horse"))
+                            }
 
-                                union.noAkassaSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
-                            } else {
+                            "boat" -> {
+                                //Event(15, "Du köper en segelbåt, havet gör dig lycklig ⛵", "boat", "luck"),
+                                person.boats = person.boats.plus(hobby.getHobby("boat"))
+                            }
+
+                            "car" -> {
+                                //Event(16, "Du köper en bil och du känner dig fri 🚗", "car", "luck"),
+                                person.cars = person.cars.plus(hobby.getHobby("car"))
+                            }
+
+                            "bike" -> {
+                                //Event(17, "Du köper en motorcykel och det mullrar när du drar iväg 🛵", "bike", "luck"),
+                                person.bikes = person.bikes.plus(hobby.getHobby("bike"))
+                            }
+
+                            "love" -> {
+                                //Event(18, "Du finner din kärlekspartner 💕💕💕💕💕 love is in the air", "love", "luck"),
+                                person.countLove += 1
+                                person.isLove = true
+                            }
+                        }
+
+                        messageList = person.showPersonLuck(messageList, messageId, event)
+                        messageId = messageList[messageList.size - 1].id
+                    }
+
+
+                }
+
+                "unemployed" -> {
+
+                    if ((lifeChance < profession.randomUnemployed && !person.isMagellit) || isRecession || event.isSelected) {
+
+
+                        when (event.objectType) {
+                            "unemployed" -> {
+                                //Event(19, "du blir varslad 😢", "unemployed", "unemployed"),
+
+                                union.countUnemployeeMonth = 0
                                 union.unemployedSalaryAmount = 0.0
                                 union.noAkassaSalaryAmount = 0.0
+
+                                //Chans till avgångsvederlag om du jobbat mer än 12 månader
+                                randomValues = List(1) { Random.nextInt(0, 100) }
+                                if (randomValues[0] < profession.randomSeverancePay && person.countWorkMonth >= 12) {
+
+                                    //Avgångsvederlag! Du får lön i lika många månader som du jobbat år
+                                    currentAmount = employee.currentSalary * (person.countWorkMonth / 12).toFloat()
+                                    accountSalary.amount += currentAmount
+                                    accountNoAkassa.amount += currentAmount
+
+                                    messageList = employee.showSeverancePay(currentAmount, messageList, messageId)
+                                    messageId = messageList[messageList.size - 1].id
+                                }
+
+                                //Hur många dagar är du arbetslös, 22 dagar per månad får man ersättning
+                                randomValues = List(1) { Random.nextInt(22, 300) }
+                                union.countUnemployeeMonth = randomValues[0] / 22
+
+                                //Endast 300 dagar kan man få a-kassa
+
+                                messageList = union.showCountUnemployeeMonth(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+
+                                //Vilken försäkring kan du få
+                                if (employee.currentSalary >= 60000.0F) {
+                                    //Arbetslöshetssersättning = procent av lönen i 200 dagar
+                                    union.isIncomeInsurance = true
+                                    union.isExtraInsurance = true
+                                } else if (employee.currentSalary >= union.maxSalaryAkassa100) {
+                                    //Arbetslöshetssersättning = procent av lönen max 60000 i lön
+                                    union.isIncomeInsurance = true
+                                } else {
+                                    union.isAkassa = true
+                                }
+
+                                //För att få akassa behövs 12 månaders arbete
+                                if (union.isIncomeInsurance && person.countWorkMonth >= 12) {
+
+                                    union.unemployedSalaryAmount =
+                                        union.getIncomeInsurance(employee.currentSalary.toDouble())
+                                    messageList =
+                                        union.showIncomeInsurance(messageList, messageId, union.unemployedSalaryAmount)
+                                    messageId = messageList[messageList.size - 1].id
+
+                                    union.noAkassaSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
+                                    messageList = union.showNoAkassa(messageList, messageId, union.noAkassaSalaryAmount)
+                                    messageId = messageList[messageList.size - 1].id
+
+                                } else if (union.isAkassa && person.countWorkMonth >= 12) {
+
+                                    union.unemployedSalaryAmount = union.getAkassa(employee.currentSalary.toDouble())
+                                    messageList = union.showAkassa(messageList, messageId)
+                                    messageId = messageList[messageList.size - 1].id
+
+                                    union.noAkassaSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
+                                    messageList = union.showNoAkassa(messageList, messageId, union.noAkassaSalaryAmount)
+                                    messageId = messageList[messageList.size - 1].id
+
+                                } else if (person.countWorkMonth >= 12) {
+                                    union.unemployedSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
+                                    messageList =
+                                        union.showNoAkassa(messageList, messageId, union.unemployedSalaryAmount)
+                                    messageId = messageList[messageList.size - 1].id
+
+                                    union.noAkassaSalaryAmount = union.getNoAkassa(employee.currentSalary.toDouble())
+                                } else {
+                                    union.unemployedSalaryAmount = 0.0
+                                    union.noAkassaSalaryAmount = 0.0
+                                }
+
+                                //Dags att byta jobb och spara tidigare jobb
+                                event.isSelected = false
+                                person.professions = person.professions.plus(profession)
+                                person.employees = person.employees.plus(employee)
+
+                                messageList = profession.showSearchProfession(messageList, messageId)
+                                messageId = messageList[messageList.size - 1].id
+
+                                currentLife.isNewProfession = true
+                                currentLife.professionMessageId = messageId
                             }
 
-                            //Dags att byta jobb och spara tidigare jobb
-                            event.isSelected = false
-                            person.professions = person.professions.plus(profession)
-                            person.employees = person.employees.plus(employee)
+                            "employed" -> {
+                                //Event(20, "du byter jobb.", "employed", "unemployed"),
 
-                            messageList = profession.showSearchProfession(messageList, messageId)
-                            messageId = messageList[messageList.size - 1].id
+                                if (event.isSelected) {
 
-                            currentLife.isNewProfession = true
-                            currentLife.professionMessageId = messageId
-                        }
+                                    event.isSelected = false
+                                    currentLife.isNewProfession = false
+                                    currentLife.professionMessageId = 0
 
-                        "employed" -> {
-                            //Event(20, "du byter jobb.", "employed", "unemployed"),
+                                    employeeId += 1
+                                    employee = Employee(employeeId)
+                                    employee.title = profession.title
+                                    employee.firstSalary = profession.salary * person.age
+                                    employee.currentSalary = profession.salary * person.age
+                                    employee.countWorkMonth = 0
 
-                            if (event.isSelected) {
+                                    messageList = profession.showNewProfession(messageList, messageId)
+                                    messageId = messageList[messageList.size - 1].id
 
-                                event.isSelected = false
-                                currentLife.isNewProfession = false
-                                currentLife.professionMessageId = 0
-
-                                employeeId += 1
-                                employee = Employee(employeeId)
-                                employee.title = profession.title
-                                employee.firstSalary = profession.salary * person.age
-                                employee.currentSalary = profession.salary * person.age
-                                employee.countWorkMonth = 0
-
-                                messageList = profession.showNewProfession(messageList, messageId)
-                                messageId = messageList[messageList.size - 1].id
-
-                                messageList = employee.showEmployeeSalary(0.0F, messageList, messageId)
-                                messageId = messageList[messageList.size - 1].id
+                                    messageList = employee.showEmployeeSalary(0.0F, messageList, messageId)
+                                    messageId = messageList[messageList.size - 1].id
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            "magellit" -> {
+                "magellit" -> {
 
-                // Event(21, "du blir träffad av en Magellit.", "magellit", "magellit"),
-                if (lifeChance < 60 && profession.professionType == "programmer") {
-                    person.isMagellit = true
+                    // Event(21, "du blir träffad av en Magellit.", "magellit", "magellit"),
+                    if (lifeChance < 60 && profession.professionType == "programmer") {
+                        person.isMagellit = true
 
-                    messageList = person.showPersonMagellit(messageList, messageId)
-                    messageId = messageList[messageList.size - 1].id
+                        messageList = person.showPersonMagellit(messageList, messageId)
+                        messageId = messageList[messageList.size - 1].id
+                    }
+                }
+
+                "parent" -> {
+                    // Event(22, "du får barn 👶", "parent", "parent"),
+
+                    if (lifeChance < 50 && age <= 50) {
+                        //Babies
+                        parent.countBabies += 1
+                        parent.familySalary = parent.getIncome(employee.currentSalary)
+                        if (person.isMagellit) parent.familySalary += 5000.0F
+
+                        parent.countFamilyMonth += parent.familyMonth
+
+                        messageList = parent.showParent(messageList, messageId)
+                        messageId = messageList[messageList.size - 1].id
+                    }
+                }
+
+                "vab" -> {
+                    // Event(23, "du VAB:ar.", "vab", "vab")
+                    if (parent.countBabies > 0) {
+                        //VAB
+
+                        randomValues = List(1) { Random.nextInt(1, 12) }
+                        parent.countFamilyMonth += randomValues[0]
+                        parent.familySalary = parent.getIncome(employee.currentSalary)
+
+                        if (person.isMagellit)
+                            parent.familySalary += 5000.0F
+
+                        messageList = parent.showVAB(messageList, messageId)
+                        messageId = messageList[messageList.size - 1].id
+                    }
                 }
             }
 
-            "parent" -> {
-                // Event(22, "du får barn 👶", "parent", "parent"),
+            //Get cost event in life
+            randomCostEventValues = List(1) { Random.nextInt(0, allCostEvents.size) }
+            costevent = allCostEvents[randomCostEventValues[0]]
 
-                if (lifeChance < 50 && age <= 50) {
-                    //Babies
-                    parent.countBabies += 1
-                    parent.familySalary = parent.getIncome(employee.currentSalary)
-                    if (person.isMagellit) parent.familySalary += 5000.0F
-
-                    parent.countFamilyMonth += parent.familyMonth
-
-                    messageList = parent.showParent(messageList, messageId)
-                    messageId = messageList[messageList.size - 1].id
-                }
-            }
-
-            "vab" -> {
-                // Event(23, "du VAB:ar.", "vab", "vab")
-                if (parent.countBabies > 0) {
-                    //VAB
-
-                    randomValues = List(1) { Random.nextInt(1, 12) }
-                    parent.countFamilyMonth += randomValues[0]
-                    parent.familySalary = parent.getIncome(employee.currentSalary)
-
-                    if (person.isMagellit)
-                        parent.familySalary += 5000.0F
-
-                    messageList = parent.showVAB(messageList, messageId)
-                    messageId = messageList[messageList.size - 1].id
-                }
-            }
         }
-
-        //Get cost event in life
-        randomCostEventValues = List(1) { Random.nextInt(0, allCostEvents.size) }
-        costevent = allCostEvents[randomCostEventValues[0]]
 
         when (costevent.eventType) {
 
             "home" -> {
-                if (lifeChance < 25 || !person.isAccommodation) {
+                if (!person.isAccommodation && !event.isCostSelected) {
+                    currentLife.isHouseQuestion = true
+
+                    messageList = person.showHouse(messageList, messageId)
+                    messageId = messageList[messageList.size - 1].id
+
+                    currentLife.houseQuestionMessageId = messageId
+                } else if (lifeChance < 15 || event.isCostSelected) {
+                    event.isCostSelected = false
+                    currentLife.isHouseQuestion = false
                     messageList = costevent.showEvent(0.0F, messageList, messageId, "", "")
                     messageId = messageList[messageList.size - 1].id
 

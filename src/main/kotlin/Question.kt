@@ -79,6 +79,21 @@ data class Question (
                     Question(11,"Sambo 💕", "love", "luck")
                 )
             }
+
+            "house" -> {
+                questions = listOf(
+                    Question(0,"Köpa ett hus på landet med doftande rosor.", "rosehouse", "home"),
+                    Question(1,"Köpa ett slott med tinar och torn.", "castel", "home"),
+                    Question(2,"Köpa ett minimalistiskt hus med raka linjer.", "house", "home"),
+                    Question(3,"Köpa en koja i skogen.", "koja", "home"),
+                    Question(4,"Köpa en bostadsrätt mitt i staden.", "departmentcity", "home"),
+                    Question(5,"Köpa ett bostadsrättsradhus i en förort.","department", "home"),
+                    Question(6,"I en hyresrätt mitt i staden.", "hirecity", "home"),
+                    Question(7,"I en hyresrätt i en förort.", "hire", "home"),
+                    Question(8,"Hyra ett hus ia andra hand på landet.", "hirehouse", "home"),
+                    Question(9,"Hyra en lägenhet i andra hand mitt i staden.", "hiredepartment", "home"),
+                )
+            }
         }
         return questions
     }

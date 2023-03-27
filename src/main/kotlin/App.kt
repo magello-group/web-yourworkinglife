@@ -380,7 +380,7 @@ val App = FC<Props> {
                 }
             }
 
-            "luck", "depressed" -> {
+            "luck", "depressed", "house" -> {
                 ShowProfessionAnimation {
                     actualProfession = currentProfession
                     actualMarginLeft = 26

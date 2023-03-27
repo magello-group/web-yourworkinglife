@@ -24,6 +24,8 @@ data class Life ( val personId: Int) {
     var questionMessageId = 0
     var isNewProfession = false
     var professionMessageId = 0
+    var isHouseQuestion = false
+    var houseQuestionMessageId = 0
     var firstSalary: Float = 0.0F
     //var urlPension = "https://www.pensionsmyndigheten.se/forsta-din-pension/sa-fungerar-pensionen/sa-tjanar-du-in-till-din-pension"
     var countPoint: Int = 0

@@ -6,7 +6,8 @@ data class Event (
     val eventText: String = "",
     val objectType: String = "",
     val eventType: String ="",
-    var isSelected: Boolean = false
+    var isSelected: Boolean = false,
+    var isCostSelected: Boolean = false
 )
 {
     fun getEvents(): List<Event> {
@@ -67,8 +68,13 @@ data class Event (
 
     fun getEventList(eventType: String): List<Event> {
 
-        val events: List<Event> = this.getEvents()
+        val events: List<Event>
         var selectedEvents: List<Event> = emptyList()
+
+        if (eventType == "home")
+            events = this.getCostEvents()
+        else
+            events = this.getEvents()
 
         for (event in events) {
             if (event.eventType == eventType) {

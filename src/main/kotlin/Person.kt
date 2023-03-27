@@ -409,6 +409,33 @@ data class Person (val id: Int) {
         return storyList
     }
 
+    fun showHouse(messageList: List<Message>, messageId: Int): List<Message> {
+        var storyList = messageList
+        var storyId = messageId
+
+        storyId += 1
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Du behöver någonstans att bo.",
+                "",
+                "blinkingPink"
+            )
+        )
+
+        storyId += 1
+        storyList = storyList.plus(
+            Message(
+                storyId,
+                "Vart vill du bo?",
+                "",
+                "blinkingPink"
+            )
+        )
+
+        return storyList
+    }
+
     fun showPersonGetHouseLoan(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
