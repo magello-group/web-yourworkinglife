@@ -17,14 +17,11 @@ external interface ShowSparkcykelProps : Props {
 }
 
 val ShowSparkcykel = FC<ShowSparkcykelProps> { props ->
-    var topPX = 350
-    var i = props.marginLeftTo/4
-    var marginLeft20 = props.marginLeftFrom + i
-    var marginLeft40 = marginLeft20 + i
-    var marginLeft60 = marginLeft40 + i
-    var marginLeft80 = marginLeft60 + i
-
-    if (props.selectedTopPX > 0) topPX = props.selectedTopPX
+    val i = props.marginLeftTo/4
+    val marginLeft20 = props.marginLeftFrom + i
+    val marginLeft40 = marginLeft20 + i
+    val marginLeft60 = marginLeft40 + i
+    val marginLeft80 = marginLeft60 + i
 
     p {
 

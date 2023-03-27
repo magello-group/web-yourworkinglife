@@ -96,10 +96,9 @@ data class Event (
     fun showEvent(amount: Float, messageList: List<Message>, messageId: Int, messageStart: String, messageEnd: String): List<Message> {
         var storyList = messageList
         var storyId = messageId
-        val message: Message
 
         storyId += 1
-        message = Message(
+        val message = Message(
             storyId,
             messageStart + this.eventText + messageEnd,
             "",

@@ -20,10 +20,10 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
         when (props.actualProfession.professionType) {
             "pilote","yoga" -> {
                 ShowStreckImage {
-                    when (props.actualProfession.professionType) {
-                        "pilot" -> selectedImage =  props.actualStyle.streckPilot
-                        "yoga" -> selectedImage = props.actualStyle.streckYoga
-                        else -> selectedImage = props.actualStyle.streckPilot
+                    selectedImage = when (props.actualProfession.professionType) {
+                        "pilot" -> props.actualStyle.streckPilot
+                        "yoga" -> props.actualStyle.streckYoga
+                        else -> props.actualStyle.streckPilot
                     }
                     selectTop = props.topPXAnimation
                     selectMarginLeft = props.actualMarginLeft
@@ -119,10 +119,10 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                 }
 
                 ShowStreckImage {
-                    when (props.actualProfession.professionType) {
-                        "fireman" -> selectedImage = props.actualStyle.streckFireman
-                        "gardener" -> selectedImage = props.actualStyle.streckGardener
-                        else -> selectedImage = props.actualStyle.streckFireman
+                    selectedImage = when (props.actualProfession.professionType) {
+                        "fireman" -> props.actualStyle.streckFireman
+                        "gardener" -> props.actualStyle.streckGardener
+                        else -> props.actualStyle.streckFireman
                     }
                     selectTop = props.topPXAnimation + 10
                     selectMarginLeft = props.actualMarginLeft
@@ -251,13 +251,13 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                 }
 
                 ShowStreckImage {
-                    when (props.actualProfession.professionType) {
-                        "security" -> selectedImage = props.actualStyle.streckSecurity
-                        "VD" -> selectedImage = props.actualStyle.streckVD
-                        "ambassador" -> selectedImage = props.actualStyle.streckAmbassador
-                        "insurance" -> selectedImage = props.actualStyle.streckVD
-                        "architect" -> selectedImage = props.actualStyle.streckAdvokat
-                        else -> selectedImage = props.actualStyle.streckAdvokat
+                    selectedImage = when (props.actualProfession.professionType) {
+                        "security" -> props.actualStyle.streckSecurity
+                        "VD" -> props.actualStyle.streckVD
+                        "ambassador" -> props.actualStyle.streckAmbassador
+                        "insurance" -> props.actualStyle.streckVD
+                        "architect" -> props.actualStyle.streckAdvokat
+                        else -> props.actualStyle.streckAdvokat
                     }
                     selectTop = props.topPXAnimation
                     selectMarginLeft = props.actualMarginLeft
@@ -283,10 +283,10 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                     selectedTopPX = topPXTree
                 }
                 ShowStreckImage {
-                    when (props.actualProfession.professionType) {
-                        "writer" -> selectedImage = props.actualStyle.streckWriter
-                        "actor" -> selectedImage = props.actualStyle.streckActress
-                        else -> selectedImage = props.actualStyle.streckMusiker
+                    selectedImage = when (props.actualProfession.professionType) {
+                        "writer" -> props.actualStyle.streckWriter
+                        "actor" -> props.actualStyle.streckActress
+                        else -> props.actualStyle.streckMusiker
                     }
                     selectTop = props.topPXAnimation + 7
                     selectMarginLeft = props.actualMarginLeft - 2
@@ -319,14 +319,14 @@ val ShowProfessionAnimation = FC<ShowProfessionAnimationProps> { props ->
                     selectedTopPX = topPXTree
                 }
                 ShowStreckImage {
-                    when (props.actualProfession.professionType) {
-                        "musiker" -> selectedImage = props.actualStyle.streckMusiker
-                        "bonde" -> selectedImage = props.actualStyle.streckBonde
-                        "painter" -> selectedImage = props.actualStyle.streckPainter
-                        "builder" -> selectedImage = props.actualStyle.streckBuilder
-                        "socialworker" -> selectedImage = props.actualStyle.streckSocial
-                        "solo" -> selectedImage = props.actualStyle.streckSolo
-                        else -> selectedImage = props.actualStyle.streckMusiker
+                    selectedImage = when (props.actualProfession.professionType) {
+                        "musiker" -> props.actualStyle.streckMusiker
+                        "bonde" -> props.actualStyle.streckBonde
+                        "painter" -> props.actualStyle.streckPainter
+                        "builder" -> props.actualStyle.streckBuilder
+                        "socialworker" -> props.actualStyle.streckSocial
+                        "solo" -> props.actualStyle.streckSolo
+                        else -> props.actualStyle.streckMusiker
                     }
                     selectTop = props.topPXAnimation + 7
                     selectMarginLeft = props.actualMarginLeft - 2

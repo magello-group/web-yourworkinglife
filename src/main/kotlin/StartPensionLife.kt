@@ -2,12 +2,7 @@ import csstype.*
 import emotion.react.css
 import react.FC
 import react.Props
-import react.dom.html.ReactHTML.button
 import react.dom.html.ReactHTML.div
-import react.dom.html.ReactHTML.p
-import react.key
-import kotlin.Float
-import kotlin.random.Random
 import kotlin.collections.List
 
 external interface StartPensionLifeProps : Props {
@@ -30,14 +25,14 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
     val maxMessages = 100
 
     // starting your pension life
-        life.messageList = emptyList()
-        life.lastMessageId = 0
+    life.messageList = emptyList()
+    life.lastMessageId = 0
 
-        currentLife = pensionLife(life)
+    currentLife = pensionLife(life)
 
-        //Get what happened in your life
-        life = currentLife
-        messageList = currentLife.messageList
+    //Get what happened in your life
+    life = currentLife
+    messageList = currentLife.messageList
 
     //Show story
     if (messageList.isNotEmpty()) {
@@ -78,11 +73,12 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
             actualProfession = getProfession(life.professionId).title
             firstSalary = life.firstSalary.toInt().formatDecimalSeparator()
             actualSalary = life.employee.currentSalary.toInt().formatDecimalSeparator()
-            actualWorkYear = (life.person.countWorkMonth/12).formatDecimalSeparator()
+            actualWorkYear = (life.person.countWorkMonth / 12).formatDecimalSeparator()
             actualSickMonth = (life.person.countSickMonth).formatDecimalSeparator()
             actualParentMonth = (life.person.countParentMonth).formatDecimalSeparator()
             actualSalaryAmount = life.accountSalary.amount.toInt().formatDecimalSeparator()
-            actualNoAkassaAmount = (life.accountSalary.amount - life.accountNoAkassa.amount).toInt().formatDecimalSeparator()
+            actualNoAkassaAmount =
+                (life.accountSalary.amount - life.accountNoAkassa.amount).toInt().formatDecimalSeparator()
             actualDepotAmount = life.accountDepot.amount.toInt().formatDecimalSeparator()
             actualPensionAmount = life.accountPension.amount.toInt().formatDecimalSeparator()
             actualWorkPensionAmount = life.accountWorkPension.amount.toInt().formatDecimalSeparator()
@@ -90,10 +86,11 @@ val StartPensionLife = FC<StartPensionLifeProps> { props ->
             actualDepotAmount = life.accountDepot.amount.toInt().formatDecimalSeparator()
             actualTaxAmount = life.accountTax.amount.toInt().formatDecimalSeparator()
             actualHireAmount = life.person.house.houseMonthPayment.toInt().formatDecimalSeparator()
-            actualHouseAmount =  life.person.house.houseAmount.toInt().formatDecimalSeparator()
+            actualHouseAmount = life.person.house.houseAmount.toInt().formatDecimalSeparator()
             actualLoanAmount = life.person.house.houseLoan.loanAmount.toInt().formatDecimalSeparator()
             actualLoanMonthPayment = life.person.house.houseLoan.loanMonthPayment.toInt().formatDecimalSeparator()
-            actualInterestMonthPayment = life.person.house.houseLoan.calculateInterest().toInt().formatDecimalSeparator()
+            actualInterestMonthPayment =
+                life.person.house.houseLoan.calculateInterest().toInt().formatDecimalSeparator()
             actualCats = life.person.cats.size.toString()
             actualDogs = life.person.dogs.size.toString()
             actualHorses = life.person.horses.size.toString()

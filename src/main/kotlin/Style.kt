@@ -1,6 +1,5 @@
-import csstype.url
 
-class Style(val styleType: String) {
+class Style {
     var fontSmall: Int = 20
     var fontMedium: Int = 26
     var fontLarge: Int = 30
@@ -59,8 +58,6 @@ class Style(val styleType: String) {
     var streckStones01: String = "streck003.jpg"
     var streckStones02: String = "streck004.jpg"
     var streckLandscape01: String = "streck005.jpg"
-    var streckLandscape02: String = "streck006.jpg"
-    var streckStones03: String = "streck007.jpg"
     var streckgreen: String = "streck008.jpg"
     var streckTree01: String = "strecktree0030.png"
     var streckTree02: String = "strecktree0010.png"
@@ -75,7 +72,6 @@ class Style(val styleType: String) {
     var streckSlang02: String = "streckslang0030.png"
     var streckSkola: String = "streckskola001.jpg"
     var streckTraining: String = "strecktraining0030.png"
-    var streckHouse03: String = "streckhouse003.jpg"
     var streckHospital: String = "streckhospital001.jpg"
     var streckFabric: String = "streckfabrik001.jpg"
 
@@ -83,8 +79,8 @@ class Style(val styleType: String) {
     var streckSol: String = "sol.png"
     var streckOnlySol: String = "solsol.png"
     var streckRegn: String = "regn.png"
-    var streckHeart: String = "heart.png"
-    var streckCloudHeart: String = "molnheart.png"
+    //var streckHeart: String = "heart.png"
+    //var streckCloudHeart: String = "molnheart.png"
     var streckCloud: String = "moln.png"
     var streckWidth: Int = 13
     var streckOnlySolWidth: Int = 10

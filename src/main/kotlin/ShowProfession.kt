@@ -16,11 +16,9 @@ external interface ShowProfessionProps : Props {
 val ShowProfession = FC<ShowProfessionProps> { props ->
 
     val salary =props.actualProfession.salary * props.actualAge.toInt()
-    var topPX: Int
-    var leftPX: Int
 
-    topPX = props.actualStartTopPX
-    leftPX = props.actualStyle.leftPX01
+    var topPX = props.actualStartTopPX
+    var leftPX: Int = props.actualStyle.leftPX01
     div {
 
         //Main title
@@ -47,6 +45,10 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
             display = Display.block
             position = Position.absolute
             width = 800.px
+            color = NamedColor.black
+            fontSize = props.actualStyle.fontMedium.px
+            backgroundColor = NamedColor.white
+            fontFamily = FontFamily.cursive
         }
 
         div {
@@ -58,10 +60,7 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
+
                 }
                 +"Första lön: "
                 if (salary <= 0)
@@ -80,10 +79,6 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Lyckochans: "
                 +"${props.actualProfession.randomLuck}%"
@@ -95,10 +90,6 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Bonuschans: "
                 +"${props.actualProfession.randomBonus}%"
@@ -110,10 +101,6 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Pension jobb: "
                 +"${(props.actualProfession.pension * 100).toInt().formatDecimalSeparator()}%"
@@ -125,10 +112,6 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Varsel risk: "
                 +"${props.actualProfession.randomUnemployed}%"
@@ -140,10 +123,6 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Sjuk risk: "
                 +"${props.actualProfession.randomSick}%"
@@ -155,10 +134,6 @@ val ShowProfession = FC<ShowProfessionProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Avgångsvederlagchans: "
                 +"${(props.actualProfession.randomSeverancePay).formatDecimalSeparator()}%"

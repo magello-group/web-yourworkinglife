@@ -26,31 +26,30 @@ data class Union( val personId: Int ) {
     private val incomeInsurance40: Double = 0.77
     private val incomeInsurance30: Double = 0.80
     var insurancePercentage: Double = 0.0
-    val linkInsurance = "https://www.unionen.se/medlemskapet/inkomstforsakring"
-    val linkAkassa = "https://www.kommunalsakassa.se/om-du-blir-arbetslos/rakna-ut-din-a-kassa.html"
+    //val linkInsurance = "https://www.unionen.se/medlemskapet/inkomstforsakring"
+    //val linkAkassa = "https://www.kommunalsakassa.se/om-du-blir-arbetslos/rakna-ut-din-a-kassa.html"
 
     fun getInsurancePercentage(salary: Double): Double {
-        val insurancePercentage = if (salary <= 30000.0)
-            this.incomeInsurance30
-        else if (salary <= 40000.0)
-            this.incomeInsurance40
-        else if (salary <= 50000.0)
-            this.incomeInsurance50
-        else if (salary <= 60000.0)
-            this.incomeInsurance60
-        else if (salary <= 70000.0)
-            this.incomeInsurance70
-        else if (salary <= 80000.0)
-            this.incomeInsurance80
-        else if (salary <= 90000.0)
-            this.incomeInsurance90
-        else
-            this.incomeInsurance100
 
-        return insurancePercentage
+        return if (salary <= 30000.0)
+            incomeInsurance30
+        else if (salary <= 40000.0)
+            incomeInsurance40
+        else if (salary <= 50000.0)
+            incomeInsurance50
+        else if (salary <= 60000.0)
+            incomeInsurance60
+        else if (salary <= 70000.0)
+            incomeInsurance70
+        else if (salary <= 80000.0)
+            incomeInsurance80
+        else if (salary <= 90000.0)
+            incomeInsurance90
+        else
+            incomeInsurance100
     }
     fun getIncomeInsurance(salary: Double): Double {
-        var sum = 0.0
+        var sum: Double
         val month100: Double = 100.0 / 22.0
         val month150: Double = 150.0 / 22.0
         val month200: Double = 200.0 / 22.0

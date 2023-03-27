@@ -53,7 +53,7 @@ external interface ShowPensionRowProps : Props {
 val ShowPensionRow = FC<ShowPensionRowProps> { props ->
     var topPX: Int
     val startPX: Int = props.actualStyle.topPXPensionerStatus
-    val padding: Int = 40
+    val padding = 40
     var leftPX = props.actualStyle.leftPX01
     val leftPadding = 450
 
@@ -63,6 +63,10 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
             display = Display.block
             position = Position.absolute
             width = 1000.px
+            color = NamedColor.black
+            fontSize = props.actualStyle.fontMedium.px
+            backgroundColor = NamedColor.white
+            fontFamily = FontFamily.cursive
         }
 
         topPX = startPX
@@ -73,10 +77,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Namn: "
                 +props.actualName
@@ -90,10 +90,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Ålder: "
                 +props.actualAge
@@ -106,10 +102,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Pension: "
                 +"${props.actualPension}%"
@@ -122,10 +114,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Första lön: "
                 +props.firstSalary
@@ -138,10 +126,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Yrke: "
                 +props.actualProfession
@@ -154,10 +138,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Sista lön: "
                 if (props.actualSalary != "")
@@ -170,10 +150,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Lönekonto: "
                 if (props.actualSalaryAmount != "")
@@ -188,10 +164,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         position = Position.absolute
                         top = topPX.px
                         left = leftPX.px
-                        color = NamedColor.black
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
                     }
                     +"med A-kassa: "
                     +props.actualNoAkassaAmount
@@ -206,10 +178,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         position = Position.absolute
                         top = topPX.px
                         left = leftPX.px
-                        color = NamedColor.black
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
                     }
                     +"Depå: "
                     +props.actualDepotAmount
@@ -223,10 +191,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Pensionskonto: "
                 if (props.actualPensionAmount != "")
@@ -240,10 +204,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Varav tjänstepension: "
                 if (props.actualWorkPensionAmount != "")
@@ -257,10 +217,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Varav inkomstpension: "
                 if (props.actualTaxPensionAmount != "")
@@ -274,10 +230,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Betald skatt: "
                 if (props.actualTaxAmount != "")
@@ -291,10 +243,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Arbetat år: "
                 if (props.actualWorkYear != "")
@@ -309,10 +257,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         position = Position.absolute
                         top = topPX.px
                         left = leftPX.px
-                        color = NamedColor.black
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
                     }
                     +"Sjukmånader: "
                     +props.actualSickMonth
@@ -327,10 +271,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         position = Position.absolute
                         top = topPX.px
                         left = leftPX.px
-                        color = NamedColor.black
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
                     }
                     +"Föräldrarledig månader: "
                     +props.actualParentMonth
@@ -348,10 +288,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Bostadshyra: "
                 if (props.actualHireAmount != "")
@@ -366,10 +302,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         position = Position.absolute
                         top = topPX.px
                         left = leftPX.px
-                        color = NamedColor.black
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
                     }
                     +"Värde hus: "
                     +props.actualHouseAmount
@@ -384,10 +316,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         position = Position.absolute
                         top = topPX.px
                         left = leftPX.px
-                        color = NamedColor.black
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
                     }
                     +"Lån: "
                     +props.actualLoanAmount
@@ -400,10 +328,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         position = Position.absolute
                         top = topPX.px
                         left = leftPX.px
-                        color = NamedColor.black
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
                     }
                     +"Lån avbetalning: "
                     +props.actualLoanMonthPayment
@@ -416,10 +340,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         position = Position.absolute
                         top = topPX.px
                         left = leftPX.px
-                        color = NamedColor.black
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
                     }
                     +"Räntebelopp: "
                     +props.actualInterestMonthPayment
@@ -433,10 +353,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Barn: "
                 if (props.actualBabies != "")
@@ -456,10 +372,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                             color = NamedColor.hotpink
                         else
                             color = NamedColor.black
-
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
                     }
                     +"Katter: "
                     +props.actualCats
@@ -479,10 +391,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                             color = NamedColor.hotpink
                         else
                             color = NamedColor.black
-
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
                     }
                     +"Hundar: "
                     +props.actualDogs
@@ -502,10 +410,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                             color = NamedColor.hotpink
                         else
                             color = NamedColor.black
-
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
                     }
                     +"Hästar: "
                     +props.actualHorses
@@ -525,10 +429,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                             color = NamedColor.hotpink
                         else
                             color = NamedColor.black
-
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
                     }
                     +"Bilar: "
                     +props.actualCars
@@ -548,10 +448,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                             color = NamedColor.hotpink
                         else
                             color = NamedColor.black
-
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
                     }
                     +"Motorcyklar: "
                     +props.actualBikes
@@ -571,10 +467,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                             color = NamedColor.hotpink
                         else
                             color = NamedColor.black
-
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
                     }
                     +"Segelbåtar: "
                     +props.actualBoats
@@ -594,10 +486,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                             color = NamedColor.hotpink
                         else
                             color = NamedColor.black
-
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
                     }
                     +"Avlidna katter: "
                     +props.actualDeadCats
@@ -617,10 +505,6 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                             color = NamedColor.hotpink
                         else
                             color = NamedColor.black
-
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
                     }
                     +"Avlidna hundar: "
                     +props.actualDeadDogs
@@ -636,14 +520,10 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         top = topPX.px
                         left = leftPX.px
 
-                        if (props.actualPerson.findLuck("horse"))
-                            color = NamedColor.hotpink
+                        color = if (props.actualPerson.findLuck("horse"))
+                            NamedColor.hotpink
                         else
-                            color = NamedColor.black
-
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
+                            NamedColor.black
                     }
                     +"Avlidna hästar: "
                     +props.actualDeadHorses
@@ -659,14 +539,10 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         top = topPX.px
                         left = leftPX.px
 
-                        if (props.actualPerson.findLuck("car"))
-                            color = NamedColor.hotpink
+                        color = if (props.actualPerson.findLuck("car"))
+                            NamedColor.hotpink
                         else
-                            color = NamedColor.black
-
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
+                            NamedColor.black
                     }
                     +"Skrotade bilar: "
                     +props.actualDeadCars
@@ -682,14 +558,10 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         top = topPX.px
                         left = leftPX.px
 
-                        if (props.actualPerson.findLuck("bike"))
-                            color = NamedColor.hotpink
+                        color = if (props.actualPerson.findLuck("bike"))
+                            NamedColor.hotpink
                         else
-                            color = NamedColor.black
-
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
+                            NamedColor.black
                     }
                     +"Skrotade motorcyklar: "
                     +props.actualDeadBikes
@@ -705,14 +577,10 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         top = topPX.px
                         left = leftPX.px
 
-                        if (props.actualPerson.findLuck("boat"))
-                            color = NamedColor.hotpink
+                        color = if (props.actualPerson.findLuck("boat"))
+                            NamedColor.hotpink
                         else
-                            color = NamedColor.black
-
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
+                            NamedColor.black
                     }
                     +"Sjunkna segelbåtar: "
                     +props.actualDeadBoats
@@ -728,14 +596,10 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         top = topPX.px
                         left = leftPX.px
 
-                        if (props.actualPerson.findLuck("friend"))
-                            color = NamedColor.hotpink
+                        color = if (props.actualPerson.findLuck("friend"))
+                            NamedColor.hotpink
                         else
-                            color = NamedColor.black
-
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
+                            NamedColor.black
                     }
                     +"Vänner: "
 
@@ -752,14 +616,10 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         top = topPX.px
                         left = leftPX.px
 
-                        if (props.actualPerson.findLuck("fish"))
-                            color = NamedColor.hotpink
+                        color = if (props.actualPerson.findLuck("fish"))
+                            NamedColor.hotpink
                         else
-                            color = NamedColor.black
-
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
+                            NamedColor.black
                     }
                     +"Fisketurer: "
 
@@ -776,14 +636,10 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         top = topPX.px
                         left = leftPX.px
 
-                        if (props.actualPerson.findLuck("strong"))
-                            color = NamedColor.hotpink
+                        color = if (props.actualPerson.findLuck("strong"))
+                            NamedColor.hotpink
                         else
-                            color = NamedColor.black
-
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
+                            NamedColor.black
                     }
                     +"Träning: "
                     +props.actualStrong
@@ -799,14 +655,10 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         top = topPX.px
                         left = leftPX.px
 
-                        if (props.actualPerson.findLuck("walk"))
-                            color = NamedColor.hotpink
+                        color = if (props.actualPerson.findLuck("walk"))
+                            NamedColor.hotpink
                         else
-                            color = NamedColor.black
-
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
+                            NamedColor.black
                     }
                     +"Vandringar: "
                     +props.actualWalking
@@ -821,13 +673,10 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         position = Position.absolute
                         top = topPX.px
                         left = leftPX.px
-                        if (props.actualPerson.findLuck("party"))
-                            color = NamedColor.hotpink
+                        color = if (props.actualPerson.findLuck("party"))
+                            NamedColor.hotpink
                         else
-                            color = NamedColor.black
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
+                            NamedColor.black
                     }
                     +"Fester: "
 
@@ -844,14 +693,10 @@ val ShowPensionRow = FC<ShowPensionRowProps> { props ->
                         top = topPX.px
                         left = leftPX.px
 
-                        if (props.actualPerson.findLuck("love"))
-                            color = NamedColor.hotpink
+                        color = if (props.actualPerson.findLuck("love"))
+                            NamedColor.hotpink
                         else
-                            color = NamedColor.black
-
-                        fontSize = props.actualStyle.fontMedium.px
-                        backgroundColor = NamedColor.white
-                        fontFamily = FontFamily.cursive
+                            NamedColor.black
                     }
                     +"Sambos: "
                     +props.actualLoves

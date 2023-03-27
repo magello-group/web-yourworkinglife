@@ -2,7 +2,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Parent (val personId: Int) {
-    val link = "https://www.forsakringskassan.se/privatperson/foralder/vard-av-barn-vab"
+    //val link = "https://www.forsakringskassan.se/privatperson/foralder/vard-av-barn-vab"
     val incomePercentage: Float = 0.765F
     val maxSalary: Float = 43750.0F
     val maxIncome: Float = 33480.0F
@@ -12,12 +12,11 @@ data class Parent (val personId: Int) {
     var countFamilyMonth = 0
 
     fun getIncome(salary: Float): Float {
-        val sum = if (salary < maxSalary)
+
+        return if (salary < maxSalary)
             salary * incomePercentage
         else
             maxIncome
-
-        return sum
     }
 
     fun costBabies(): Float {

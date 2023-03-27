@@ -1,5 +1,4 @@
 import kotlinx.serialization.Serializable
-import kotlin.random.Random
 
 @Serializable
 data class Account( val accountId: Int, val accountType: String) {

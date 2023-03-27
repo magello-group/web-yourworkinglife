@@ -94,136 +94,6 @@ data class Person (val id: Int) {
         return cost
     }
 
-    fun countPoints(): Int {
-        var point = 0
-        var hobby = Hobby("")
-        var event = Event(0)
-        var eventList: List<Event>
-
-        if (this.cats.isNotEmpty()) {
-            eventList = event.getEvent("cat")
-            if (eventList.isNotEmpty()) {
-                if (this.luckEvents.contains(eventList[0]))
-                    point += this.cats.size * this.cats[0].point * 2
-                else
-                    point += this.cats.size * this.cats[0].point
-            }
-        }
-
-        if (this.dogs.isNotEmpty()) {
-            eventList = event.getEvent("dog")
-            if (eventList.isNotEmpty()) {
-                if (this.luckEvents.contains(eventList[0]))
-                    point += this.dogs.size * this.dogs[0].point * 2
-                else
-                    point += this.dogs.size * this.dogs[0].point
-            }
-        }
-
-        if (this.horses.isNotEmpty()) {
-            eventList = event.getEvent("horse")
-            if (eventList.isNotEmpty()) {
-                if (this.luckEvents.contains(eventList[0]))
-                    point += this.horses.size * this.horses[0].point * 2
-                else
-                    point += this.horses.size * this.horses[0].point
-            }
-
-        }
-
-        if (this.bikes.isNotEmpty()) {
-            eventList = event.getEvent("bike")
-            if (eventList.isNotEmpty()) {
-                if (this.luckEvents.contains(eventList[0]))
-                    point += this.bikes.size * this.bikes[0].point * 2
-                else
-                    point += this.bikes.size * this.bikes[0].point
-            }
-        }
-
-        if (this.cars.isNotEmpty()) {
-            eventList = event.getEvent("car")
-            if (eventList.isNotEmpty()) {
-                if (this.luckEvents.contains(eventList[0]))
-                    point += this.cars.size * this.cars[0].point * 2
-                else
-                    point += this.cars.size * this.cars[0].point
-            }
-        }
-
-        if (this.boats.isNotEmpty()) {
-            eventList = event.getEvent("boat")
-            if (eventList.isNotEmpty()) {
-                if (this.luckEvents.contains(eventList[0]))
-                    point += this.boats.size * this.boats[0].point * 2
-                else
-                    point += this.boats.size * this.boats[0].point
-            }
-        }
-
-        if (this.parties.isNotEmpty()) {
-            eventList = event.getEvent("party")
-            if (eventList.isNotEmpty()) {
-                if (this.luckEvents.contains(eventList[0]))
-                    point += this.parties.size * this.parties[0].point * 2
-                else
-                    point += this.parties.size * this.parties[0].point
-            }
-        }
-
-        hobby = hobby.getHobby("strong")
-        eventList = event.getEvent(hobby.hobbyType)
-
-        if (eventList.isNotEmpty()) {
-            if (this.luckEvents.contains(eventList[0]))
-                point += this.countStrong * hobby.point * 2
-            else
-                point += this.countStrong * hobby.point
-        }
-
-        hobby = hobby.getHobby("walk")
-        eventList = event.getEvent(hobby.hobbyType)
-
-        if (eventList.isNotEmpty()) {
-            if (this.luckEvents.contains(eventList[0]))
-                point += this.countWalking * hobby.point
-            else
-                point += this.countWalking * hobby.point * 2
-        }
-
-        hobby = hobby.getHobby("fish")
-        eventList = event.getEvent(hobby.hobbyType)
-
-        if (eventList.isNotEmpty()) {
-            if (this.luckEvents.contains(eventList[0]))
-                point += this.countFishing * hobby.point * 2
-            else
-                point += this.countFishing * hobby.point
-        }
-
-        hobby = hobby.getHobby("friend")
-        eventList = event.getEvent(hobby.hobbyType)
-
-        if (eventList.isNotEmpty()) {
-            if (this.luckEvents.contains(eventList[0]))
-                point += this.countFriends * hobby.point * 2
-            else
-                point += this.countFriends * hobby.point
-        }
-
-        hobby = hobby.getHobby("love")
-        eventList = event.getEvent(hobby.hobbyType)
-
-        if (eventList.isNotEmpty()) {
-            if (this.luckEvents.contains(eventList[0]))
-                point += this.countLove * hobby.point * 2
-            else
-                point += this.countLove * hobby.point
-        }
-
-        return point
-    }
-
     fun isHappyPerson(): Boolean {
         var isLuck = false
 
@@ -293,7 +163,7 @@ data class Person (val id: Int) {
         return isLuck
     }
 
-    fun ShowDeadHobbies(messageList: List<Message>, messageId: Int): List<Message> {
+    fun showDeadHobbies(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
         var message: Message
@@ -1092,7 +962,7 @@ data class Person (val id: Int) {
     fun showPersonAccomodationHire(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId
-        var message: Message
+        val message: Message
 
         storyId += 1
         message = Message(
@@ -1140,7 +1010,7 @@ data class Person (val id: Int) {
         storyId += 1
         val message = Message(
             storyId,
-            "----------------------- Du är ${age} år ------------------------",
+            "----------------------- Du är $age år ------------------------",
             "deepskyblue",
             ""
         )

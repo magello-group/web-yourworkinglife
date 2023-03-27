@@ -46,9 +46,11 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
 
     div {
         css {
-            display = Display.block
-            position = Position.absolute
             width = 1000.px
+            color = NamedColor.black
+            fontSize = props.actualStyle.fontMedium.px
+            backgroundColor = NamedColor.white
+            fontFamily = FontFamily.cursive
         }
 
         topPX = startPX
@@ -59,10 +61,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Namn: "
                 +props.actualName
@@ -76,10 +74,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Ålder: "
                 +props.actualAge
@@ -92,10 +86,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Pension: "
                 +"${props.actualPension}%"
@@ -108,13 +98,9 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Första lön: "
-                +"${props.firstSalary}"
+                +props.firstSalary
             }
 
             topPX += padding
@@ -124,10 +110,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Yrke: "
                 +props.actualProfession
@@ -140,10 +122,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Aktuell lön: "
                 if (props.actualSalary != "")
@@ -157,10 +135,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Lönekonto: "
                 if (props.actualSalaryAmount != "")
@@ -174,10 +148,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Depå: "
                 if (props.actualDepotAmount != "")
@@ -191,10 +161,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Pensionskonto: "
                 if (props.actualPensionAmount != "")
@@ -208,10 +174,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Bostadshyra: "
                 if (props.actualHireAmount != "")
@@ -225,10 +187,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Värde hus: "
                 if (props.actualHouseAmount != "")
@@ -242,10 +200,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Lån: "
                 if (props.actualLoanAmount != "")
@@ -259,10 +213,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Lån avbetalning: "
                 if (props.actualLoanMonthPayment != "")
@@ -276,10 +226,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Räntebelopp: "
                 if (props.actualInterestMonthPayment != "")
@@ -296,10 +242,6 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
                 }
                 +"Barn: "
                 if (props.actualBabies != "")
@@ -314,14 +256,10 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     top = topPX.px
                     left = leftPX.px
 
-                    if (props.actualPerson.findLuck("cat"))
-                        color = NamedColor.hotpink
+                    color = if (props.actualPerson.findLuck("cat"))
+                        NamedColor.hotpink
                     else
-                        color = NamedColor.black
-
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
+                        NamedColor.black
                 }
                 +"Katter: "
                 if (props.actualCats != "")
@@ -336,14 +274,10 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     top = topPX.px
                     left = leftPX.px
 
-                    if (props.actualPerson.findLuck("dog"))
-                        color = NamedColor.hotpink
+                    color = if (props.actualPerson.findLuck("dog"))
+                        NamedColor.hotpink
                     else
-                        color = NamedColor.black
-
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
+                        NamedColor.black
                 }
                 +"Hundar: "
                 if (props.actualDogs != "")
@@ -358,14 +292,10 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     top = topPX.px
                     left = leftPX.px
 
-                    if (props.actualPerson.findLuck("horse"))
-                        color = NamedColor.hotpink
+                    color = if (props.actualPerson.findLuck("horse"))
+                        NamedColor.hotpink
                     else
-                        color = NamedColor.black
-
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
+                        NamedColor.black
                 }
                 +"Hästar: "
                 if (props.actualHorses != "")
@@ -380,14 +310,10 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     top = topPX.px
                     left = leftPX.px
 
-                    if (props.actualPerson.findLuck("car"))
-                        color = NamedColor.hotpink
+                    color = if (props.actualPerson.findLuck("car"))
+                        NamedColor.hotpink
                     else
-                        color = NamedColor.black
-
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
+                        NamedColor.black
                 }
                 +"Bilar: "
                 if (props.actualCars != "")
@@ -402,14 +328,10 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     top = topPX.px
                     left = leftPX.px
 
-                    if (props.actualPerson.findLuck("bike"))
-                        color = NamedColor.hotpink
+                    color = if (props.actualPerson.findLuck("bike"))
+                        NamedColor.hotpink
                     else
-                        color = NamedColor.black
-
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
+                        NamedColor.black
                 }
                 +"Motorcyklar: "
                 if (props.actualBikes != "")
@@ -424,14 +346,10 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     top = topPX.px
                     left = leftPX.px
 
-                    if (props.actualPerson.findLuck("boat"))
-                        color = NamedColor.hotpink
+                    color = if (props.actualPerson.findLuck("boat"))
+                        NamedColor.hotpink
                     else
-                        color = NamedColor.black
-
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
+                        NamedColor.black
                 }
                 +"Segelbåtar: "
                 if (props.actualBoats != "")
@@ -446,14 +364,10 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     top = topPX.px
                     left = leftPX.px
 
-                    if (props.actualPerson.findLuck("friend"))
-                        color = NamedColor.hotpink
+                    color = if (props.actualPerson.findLuck("friend"))
+                        NamedColor.hotpink
                     else
-                        color = NamedColor.black
-
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
+                        NamedColor.black
                 }
                 +"Vänner: "
                 if (props.actualFriends != "")
@@ -468,14 +382,10 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     top = topPX.px
                     left = leftPX.px
 
-                    if (props.actualPerson.findLuck("fish"))
-                        color = NamedColor.hotpink
+                    color = if (props.actualPerson.findLuck("fish"))
+                        NamedColor.hotpink
                     else
-                        color = NamedColor.black
-
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
+                        NamedColor.black
                 }
                 +"Fisketurer: "
                 if (props.actualFishing != "")
@@ -490,14 +400,10 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     top = topPX.px
                     left = leftPX.px
 
-                    if (props.actualPerson.findLuck("strong"))
-                        color = NamedColor.hotpink
+                    color = if (props.actualPerson.findLuck("strong"))
+                        NamedColor.hotpink
                     else
-                        color = NamedColor.black
-
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
+                        NamedColor.black
                 }
                 +"Träning: "
                 if (props.actualStrong != "")
@@ -512,14 +418,10 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     top = topPX.px
                     left = leftPX.px
 
-                    if (props.actualPerson.findLuck("walk"))
-                        color = NamedColor.hotpink
+                    color = if (props.actualPerson.findLuck("walk"))
+                        NamedColor.hotpink
                     else
-                        color = NamedColor.black
-
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
+                        NamedColor.black
                 }
                 +"Vandringar: "
                 if (props.actualWalking != "")
@@ -533,13 +435,10 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     position = Position.absolute
                     top = topPX.px
                     left = leftPX.px
-                    if (props.actualPerson.findLuck("party"))
-                        color = NamedColor.hotpink
+                    color = if (props.actualPerson.findLuck("party"))
+                        NamedColor.hotpink
                     else
-                        color = NamedColor.black
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
+                        NamedColor.black
                 }
                 +"Fester: "
                 if (props.actualParties != "")
@@ -554,14 +453,10 @@ val ShowStatusRow = FC<ShowStatusRowProps> { props ->
                     top = topPX.px
                     left = leftPX.px
 
-                    if (props.actualPerson.findLuck("love"))
-                        color = NamedColor.hotpink
+                    color = if (props.actualPerson.findLuck("love"))
+                        NamedColor.hotpink
                     else
-                        color = NamedColor.black
-
-                    fontSize = props.actualStyle.fontMedium.px
-                    backgroundColor = NamedColor.white
-                    fontFamily = FontFamily.cursive
+                        NamedColor.black
                 }
                 +"Sambos: "
                 if (props.actualLoves != "")

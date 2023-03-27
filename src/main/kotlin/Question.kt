@@ -31,7 +31,7 @@ data class Question (
             "goal" -> {
                 questions = listOf(
                     Question(0,"Maxa spänningen", "spänning", "adventure"),
-                    Question(1, "Göra samhällsnytta och skillnad", "familj", "family",),
+                    Question(1, "Göra samhällsnytta och skillnad", "familj", "family"),
                     Question(2, "Maxa semesterdagarna", "semester", "vacation"),
                     Question(3, "Chilla", "chilla", "chilla"),
                     Question(4,"Maxa lönen", "lön", "salary"),
@@ -43,7 +43,7 @@ data class Question (
             "profession" -> {
                 questions = listOf(
                     Question(0,"Egenföretagare", "solo", "salary"),
-                    Question(1, "Säkerhetsspecialist", "security", "salary",),
+                    Question(1, "Säkerhetsspecialist", "security", "salary"),
                     Question(2, "VD", "VD", "salary"),
                     Question(3, "Banktjänsteman", "bank", "pension"),
                     Question(4,"Försäkringsagent", "insurance", "pension"),
@@ -66,7 +66,7 @@ data class Question (
             "luck" -> {
                 questions = listOf(
                     Question(0,"Katter🐱", "cat", "luck"),
-                    Question(1, "Träning 💪", "strong", "luck",),
+                    Question(1, "Träning 💪", "strong", "luck"),
                     Question(2, "Vänner 🤗", "friend", "luck"),
                     Question(3, "Hundar 🐶", "dog", "luck"),
                     Question(4,"Vandring 🚶", "walk", "luck"),

@@ -1,11 +1,9 @@
 import kotlinx.serialization.Serializable
-import kotlin.math.absoluteValue
 
 @Serializable
 data class Life ( val personId: Int) {
     var person = Person(personId)
     var firstStep = true
-    var pensionStep = false
     var age = 0
     var parent = Parent(personId)
     var employee = Employee(1)
@@ -27,8 +25,7 @@ data class Life ( val personId: Int) {
     var isNewProfession = false
     var professionMessageId = 0
     var firstSalary: Float = 0.0F
-    var urlPension =
-        "https://www.pensionsmyndigheten.se/forsta-din-pension/sa-fungerar-pensionen/sa-tjanar-du-in-till-din-pension"
+    //var urlPension = "https://www.pensionsmyndigheten.se/forsta-din-pension/sa-fungerar-pensionen/sa-tjanar-du-in-till-din-pension"
     var countPoint: Int = 0
     var currentAmount: Float = 0.0F
     var currentCost: Float = 0.0F
@@ -339,10 +336,10 @@ data class Life ( val personId: Int) {
         currentAmount += this.accountPension.amount - (this.accountPension.amount * 0.30F)
 
         //Summa kostnader per månad + kostnad mat
-        if (this.person.isLove)
-            currentCost = (this.person.house.houseMonthPayment / 2) + (person.costHobbies() / 12) + 3000
+        currentCost = if (this.person.isLove)
+            (this.person.house.houseMonthPayment / 2) + (person.costHobbies() / 12) + 3000
         else
-            currentCost = this.person.house.houseMonthPayment + (person.costHobbies() / 12) + 3000
+            this.person.house.houseMonthPayment + (person.costHobbies() / 12) + 3000
 
         sumPensionMonth = currentAmount / currentCost
 

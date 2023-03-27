@@ -240,9 +240,9 @@ data class Profession(
     fun showNewProfession(messageList: List<Message>, messageId: Int): List<Message> {
         var storyList = messageList
         var storyId = messageId + 1
-        var message: Message
+        val message: Message
 
-        storyId = storyId + 1
+        storyId += 1
         message = Message(
             storyId,
             "Dags att börja ditt nya jobb!",

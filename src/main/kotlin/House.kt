@@ -20,7 +20,7 @@ data class House(val personId: Int, val houseType: String)
     fun getHouse(personId: Int, type: String, salary: Float = 0.0F): House {
         val house: House
         var randomValues: List<Int>
-        var currentAmount: Float
+        val currentAmount: Float
         
         when (type) {
             "rosehouse" -> {

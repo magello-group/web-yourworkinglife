@@ -11,8 +11,8 @@ data class View(
 ) {
 
     fun getViewList(): List<View> {
-        val question: Question = Question(0)
-        val unionQuestions: List<Question> = question.getQuestionList("union")
+        val question = Question(0)
+        //val unionQuestions: List<Question> = question.getQuestionList("union")
         val goalQuestions: List<Question> = question.getQuestionList("goal")
         val luckQuestions: List<Question> = question.getQuestionList("luck")
         val professionQuestions: List<Question> = question.getQuestionList("profession")
@@ -30,7 +30,7 @@ data class View(
         )
     }
     fun getNextView(): View {
-        var view: View = View(0)
+        var view = View(0)
         val allViews = view.getViewList()
 
         for (next in allViews) {
@@ -42,7 +42,7 @@ data class View(
     }
 
     fun getNewView(viewType: String): View {
-        var view: View = View(0)
+        var view = View(0)
         val allViews = view.getViewList()
 
         for (next in allViews) {
@@ -51,31 +51,5 @@ data class View(
         }
 
         return view
-    }
-
-    fun getQuestions(objectType: String): List<Question> {
-        var questionList: List<Question> = emptyList()
-
-        for (question in this.questions) {
-            if (question.objectType == objectType) {
-                questionList = questionList.plus(question)
-            }
-        }
-
-        return questionList
-    }
-
-    fun registerView()
-    {
-        //Insert in database
-    }
-
-    fun updateView()
-    {
-        //Update in database
-    }
-
-    fun getView(){
-        //Select person status
     }
 }

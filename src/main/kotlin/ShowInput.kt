@@ -15,10 +15,9 @@ external interface ShowInputProps : Props {
 }
 
 val ShowInput = FC<ShowInputProps> { props ->
-    var topPX: Int
     val leftPX = props.actualStyle.leftPX01
 
-    topPX = props.actualStartTopPX
+    var topPX: Int = props.actualStartTopPX
     div {
         css {
             display = Display.block

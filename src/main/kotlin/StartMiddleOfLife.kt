@@ -575,7 +575,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
     var currentAmount: Float
     var sumCosts: Float
-    var maxPension = 599250.0F //Max pensionsgrundad inkomst
+    val maxPension = 599250.0F //Max pensionsgrundad inkomst
 
     while (age < profession.pensionAge && !currentLife.isQuestion && !currentLife.isNewProfession) {
         //Init count month
@@ -1632,7 +1632,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
 
         //Djur, fordon och fester dör ut, så också lyckan
 
-        messageList = person.ShowDeadHobbies(messageList, messageId)
+        messageList = person.showDeadHobbies(messageList, messageId)
         messageId = messageList[messageList.size - 1].id
 
         person.isHappy = person.isHappyPerson()

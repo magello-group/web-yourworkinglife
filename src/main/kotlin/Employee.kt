@@ -13,9 +13,8 @@ data class Employee( val employeeId: Int )
     var countSickMonth: Int = 0
 
     fun raiseTheSalary(isBoom: Boolean, age: Int): Float {
-        val randomValues: List<Int>
 
-        randomValues = if (isBoom) {
+        val randomValues: List<Int> = if (isBoom) {
             List(1) { Random.nextInt(30, 50) }
         } else if ( age <= 50 ) {
             List(1) { Random.nextInt(10, 30) }

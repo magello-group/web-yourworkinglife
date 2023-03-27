@@ -17,12 +17,12 @@ val mainScope = MainScope()
 
 val App = FC<Props> {
 
-    val appStyle = Style("standard")
+    val appStyle = Style()
     val question = Question(0)
     val view = View(0)
 
     val inputQuestions: List<Question> = question.getQuestionList("input")
-    val unionQuestions: List<Question> = question.getQuestionList("union")
+    //val unionQuestions: List<Question> = question.getQuestionList("union")
 
     // Initiera selected items
     val onSelectView: (View) -> Unit
@@ -45,7 +45,6 @@ val App = FC<Props> {
     var currentLife: Life by useState(Life(0))
     var currentStatus: Status by useState(Status(0))
 
-    var unSelectedQuestions: List<Question> by useState(emptyList())
     var selectedQuestions: List<Question> by useState(emptyList())
     var checkInt: Int?
     var checkDouble: Double?
@@ -55,7 +54,6 @@ val App = FC<Props> {
 
     useEffectOnce {
         mainScope.launch {
-            unSelectedQuestions = unionQuestions
             selectedQuestions = emptyList()
         }
     }
@@ -63,8 +61,6 @@ val App = FC<Props> {
     //Initiate view
     onSelectView = { newView ->
         currentView = newView
-
-        unSelectedQuestions = newView.questions
         currentLife.firstStep = true
     }
 
