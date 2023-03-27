@@ -41,7 +41,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
     var messageId = props.selectedLife.lastMessageId
     var lastDisplayedMessageId = 0
     val maxMessages = 9
-    val isDebugOn = true
+    val isDebugOn = false
     var topPX = 1200
 
     if (life.firstStep || historyMessages.isEmpty()) {

@@ -90,7 +90,7 @@ data class Question (
                     Question(5,"Köpa ett bostadsrättsradhus i en förort.","department", "home"),
                     Question(6,"I en hyresrätt mitt i staden.", "hirecity", "home"),
                     Question(7,"I en hyresrätt i en förort.", "hire", "home"),
-                    Question(8,"Hyra ett hus ia andra hand på landet.", "hirehouse", "home"),
+                    Question(8,"Hyra ett hus i andra hand på landet.", "hirehouse", "home"),
                     Question(9,"Hyra en lägenhet i andra hand mitt i staden.", "hiredepartment", "home"),
                 )
             }
