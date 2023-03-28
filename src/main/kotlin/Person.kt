@@ -1114,18 +1114,6 @@ data class Person (val id: Int) {
                     ""
                 )
             )
-/*
-            storyId += 1
-            storyList = storyList.plus(
-                Message(
-                    storyId,
-                    "------------------------------------------------------------------------",
-                    "deepskyblue",
-                    ""
-                )
-            )
-
- */
         }
 
         return storyList

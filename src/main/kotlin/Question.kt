@@ -16,7 +16,7 @@ data class Question (
                 questions = listOf(
                     Question(0,"Vad heter du?", "Namn", "name"),
                     Question(1,"I vilken ålder börjar du jobba?", "Ålder","age"),
-                    Question(2,"Hur mycket sparar du till pension?", "Pension","pension")
+                    Question(2,"Hur mycket sparar du privat?", "Sparande","pension")
                 )
             }
             "union" -> {

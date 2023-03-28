@@ -45,7 +45,7 @@ val App = FC<Props> {
     var currentLife: Life by useState(Life(0))
     var currentStatus: Status by useState(Status(0))
 
-    var selectedQuestions: List<Question> by useState(emptyList())
+    //var selectedQuestions: List<Question> by useState(emptyList())
     var checkInt: Int?
     var checkDouble: Double?
 
@@ -54,7 +54,7 @@ val App = FC<Props> {
 
     useEffectOnce {
         mainScope.launch {
-            selectedQuestions = emptyList()
+            //selectedQuestions = emptyList()
         }
     }
 
@@ -124,7 +124,7 @@ val App = FC<Props> {
                             backgroundColor = NamedColor.white
                             fontFamily = FontFamily.cursive
                         }
-                        +"OBS: Ange namn, ålder och pension!"
+                        +"OBS: Ange namn, ålder och sparande!"
                     }
                 }
             }

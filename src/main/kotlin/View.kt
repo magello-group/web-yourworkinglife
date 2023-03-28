@@ -19,7 +19,7 @@ data class View(
         val houseQuestions: List<Question> = question.getQuestionList("house")
 
         return listOf(
-            View(0, "init", emptyList(), "Ditt arbetsliv börjar här ... gör dig redo:","Nästa steg", "action"),
+            View(0, "init", emptyList(), "Ditt arbetsliv börjar här:","Nästa steg", "action"),
             View(1, "action", goalQuestions,"Vilket mål har du med arbetslivet?", "Välj yrke", "profession"),
             View(2, "start", emptyList(),"Ditt arbetsliv har startat!", "Gå vidare i arbetslivet", "reload"),
             View(3, "luck", luckQuestions,"Vad gör dig lycklig?", "Starta", "start"),

@@ -308,7 +308,7 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                                 life
                             )
                         }
-                        +"Vart vill du bo?"
+                        +"Välj boende"
                         +" ▶"
                     }
                 }
@@ -987,7 +987,7 @@ fun middleOfLife(life: Life, selectedEvent: Event): Life {
                 "parent" -> {
                     // Event(22, "du får barn 👶", "parent", "parent"),
 
-                    if (lifeChance < 50 && age <= 50) {
+                    if (age <= 50) {
                         //Babies
                         parent.countBabies += 1
                         parent.familySalary = parent.getIncome(employee.currentSalary)
