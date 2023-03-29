@@ -41,7 +41,6 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
     var messageId = props.selectedLife.lastMessageId
     var lastDisplayedMessageId = 0
     val maxMessages = 9
-    val isDebugOn = false
     var topPX = 1200
 
     if (life.firstStep || historyMessages.isEmpty()) {
@@ -62,19 +61,6 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
 
         messageList = person.showWorkingLife(life.age, messageList, messageId)
         messageId = messageList[messageList.size-1].id
-
-        if (isDebugOn) {
-            topPX += 100
-            ShowDebugInfo {
-                selectedDebugMessage = "steg1"
-                selectedStyle = props.selectedStyle
-                selectedLife = life
-                selectedPerson = person
-                selectedEvent = props.selectedEvent
-                selectedProfession = profession
-                selectedTopPX = topPX
-            }
-        }
     }
 
     if (life.age >= person.age && life.age <= profession.pensionAge) {
@@ -84,19 +70,6 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
         life.professionId = profession.id
         life.messageList = messageList
         life.lastMessageId = messageId
-
-        if (isDebugOn) {
-            topPX += 100
-            ShowDebugInfo {
-                selectedDebugMessage = "steg2"
-                selectedStyle = props.selectedStyle
-                selectedLife = life
-                selectedPerson = person
-                selectedEvent = props.selectedEvent
-                selectedProfession = profession
-                selectedTopPX = topPX
-            }
-        }
 
         //Loop middleOfLife until question
         currentLife = middleOfLife(life, props.selectedEvent)
@@ -109,33 +82,8 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
 
     }
 
-    if (isDebugOn) {
-        topPX += 100
-        ShowDebugInfo {
-            selectedDebugMessage = "steg3"
-            selectedStyle = props.selectedStyle
-            selectedLife = life
-            selectedPerson = person
-            selectedEvent = props.selectedEvent
-            selectedProfession = profession
-            selectedTopPX = topPX
-        }
-    }
-
     if (life.age >= profession.pensionAge) {
         life.person.pensionAge = life.age
-    }
-    if (isDebugOn) {
-        topPX += 100
-        ShowDebugInfo {
-            selectedDebugMessage = "steg4"
-            selectedStyle = props.selectedStyle
-            selectedLife = life
-            selectedPerson = life.person
-            selectedEvent = props.selectedEvent
-            selectedProfession = profession
-            selectedTopPX = topPX
-        }
     }
 
     if (historyMessages.isEmpty()) {
@@ -148,19 +96,6 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
 
     //Show story
     if (messageList.isNotEmpty()) {
-        if (isDebugOn) {
-            topPX += 100
-            ShowDebugInfo {
-                selectedDebugMessage = "steg5"
-                selectedStyle = props.selectedStyle
-                selectedLife = life
-                selectedPerson = life.person
-                selectedEvent = props.selectedEvent
-                selectedProfession = profession
-                selectedMessage = messageList[0]
-                selectedTopPX = topPX
-            }
-        }
 
         //Display story
         div {
@@ -195,22 +130,6 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
 
                     lastDisplayedMessageId = message.id
 
-                    if (isDebugOn) {
-                        topPX += 100
-                        ShowDebugInfo {
-                            selectedDebugMessage = "steg6"
-                            selectedStyle = props.selectedStyle
-                            selectedLife = life
-                            selectedPerson = life.person
-                            selectedEvent = props.selectedEvent
-                            selectedProfession = profession
-                            selectedTopPX = topPX
-                            selectedlastDisplayedMessageId =  lastDisplayedMessageId
-                            selectedMessageIndex = messageIndex
-                            selectedStatus = "${currentStatus.countCats} ${message.status.countCats}"
-                        }
-                    }
-
                 } else {
                     leftMessages = leftMessages.plus(message)
                 }
@@ -219,22 +138,6 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                     historyMessages = historyMessages.plus(message)
             } // end for
         } // end div
-
-        if (isDebugOn) {
-            topPX += 150
-            ShowDebugInfo {
-                selectedDebugMessage = "steg7"
-                selectedStyle = props.selectedStyle
-                selectedLife = life
-                selectedPerson = life.person
-                selectedEvent = props.selectedEvent
-                selectedProfession = profession
-                selectedTopPX = topPX
-                selectedMessageList = messageList
-                selectedHistoryMessages = historyMessages
-                selectedStatus = currentStatus.countCats
-            }
-        }
 
         if (life.isQuestion && lastDisplayedMessageId >= life.questionMessageId) {
             life.isQuestion = false
@@ -429,23 +332,6 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
 
                 if (messageList.isNotEmpty()) {
 
-                    if (isDebugOn) {
-                        topPX += 150
-                        ShowDebugInfo {
-                            selectedDebugMessage = "steg7"
-                            selectedStyle = props.selectedStyle
-                            selectedLife = life
-                            selectedPerson = life.person
-                            selectedEvent = props.selectedEvent
-                            selectedProfession = profession
-                            selectedTopPX = topPX
-                            selectedMessageList = messageList
-                            selectedHistoryMessages = historyMessages
-                            selectedMaxMessages = maxMessages
-                            selectedStatus = currentStatus.countCats
-                        }
-                    }
-
                     if (historyMessages.isNotEmpty() && messageList[0].id >= maxMessages) {
                         messageId = messageList[0].id - maxMessages
 
@@ -483,23 +369,6 @@ val StartMiddleOfLife = FC<StartMiddleOfLifeProps> { props ->
                                 )
                             }
                             +"◀ "
-                        }
-
-                        if (isDebugOn) {
-                            topPX += 150
-                            ShowDebugInfo {
-                                selectedDebugMessage = "steg9"
-                                selectedStyle = props.selectedStyle
-                                selectedLife = life
-                                selectedPerson = life.person
-                                selectedEvent = props.selectedEvent
-                                selectedProfession = profession
-                                selectedTopPX = topPX
-                                selectedMessageList = backupMessages
-                                selectedHistoryMessages = historyMessages
-                                selectedMaxMessages = maxMessages
-                                selectedStatus = currentStatus.countCats
-                            }
                         }
                     }
                 }
